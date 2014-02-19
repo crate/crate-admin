@@ -4,9 +4,14 @@ require.config({
     paths: {
 
         // Libraries
-        jquery: './bower_components/jquery/dist/jquery',
-        underscore: 'libs/underscore',
-        backbone: 'libs/backbone',
+        backbone: 'bower_components/backbone/backbone',
+        bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
+        jquery: 'bower_components/jquery/dist/jquery',
+        underscore: 'bower_components/underscore/underscore',
+
+        // App
+        app: 'js/app'
+
     },
 
     shim: {
@@ -26,12 +31,12 @@ require.config({
 });
 
 define([
-    'jquery'], function ($) {
+    'jquery', 'app'], function ($, app) {
 
     // Treat the jQuery ready function as the entry point to the application.
     // Inside this function, kick-off all initialization, everything up to this
     // point should be definitions.
     $(function () {
-        debugger;
+        app.start();
     });
 });
