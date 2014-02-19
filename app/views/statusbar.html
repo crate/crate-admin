@@ -2,20 +2,20 @@
 <div ng-controller="StatusBarController">
   <ul class="nav navbar-nav navbar-right navbar-user">
     <li>
-      Cluster: <span class="label label-cluster">{{cluster_name}}</span>
+      Cluster: <span class="label label-cluster">{{ cluster_name }}</span>
     </li>
     <li>
-      Health: <span class="label {{cluster_color_label}}">{{cluster_state}}</span>
+      Health: <span class="label {{ cluster_color_label }}">{{ cluster_state }}</span>
     </li>
     <li>
       Load:
-      <span class="label label-load1">{{load1}}</span>/
-      <span class="label label-load5">{{load5}}</span>/
-      <span class="label label-load15">{{load15}}</span>
+      <span class="label label-load1">{{ load[0] }}</span>/
+      <span class="label label-load5">{{ load[1] }}</span>/
+      <span class="label label-load15">{{ load[2] }}</span>
     </li>
     <li class="divider"></li>
     <li>
-      <a href="{{docs_url}}" target="_blank"><i class="fa fa-question-circle"></i></a>
+      <a href="/_plugin/docs" target="_blank"><i class="fa fa-question-circle"></i></a>
     </li>
   </ul>
 </div>
