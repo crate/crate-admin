@@ -11,7 +11,8 @@ require.config({
         underscore: 'bower_components/underscore/underscore',
 
         // App
-        app: 'js/app'
+        app: 'js/app',
+        StatusBar: 'js/statusbar'
 
     },
 
