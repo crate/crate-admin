@@ -1,17 +1,31 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'backbone',
+    'StatusBar'
+], function ($, _, Backbone, StatusBar) {
+
+    // Underscore template settings
+    // `{{ variable }}` for escaped text
+    // `{< variable >}` for raw html interpolations
+    // `{% expression %}` for javascript evaluations
+    _.templateSettings = {
+          evaluate : /\{%([\s\S]+?)%\}/g,
+          escape : /\{\{([\s\S]+?)\}\}/g,
+          interpolate : /\{<([\s\S]+?)>\}/g
+    };
 
     var app = _.extend({
 
         root: '/_plugin/ca',
 
         start: function () {
+            var sb;
             // Setup
             app.router = new Router();
             app.initializeRouter();
+            sb = new StatusBar.StatusBarView();
+            sb.render();
         },
 
         initializeRouter: function () {
