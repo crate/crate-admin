@@ -1,0 +1,17 @@
+{
+  "name": "crateAdmin",
+  "version": "0.0.0",
+  "dependencies": {  
+    "requirejs": "~2.1.11",
+    "jquery": "~2.1.0",
+    "underscore": "~1.6.0",
+    "backbone": "~1.1.1",
+    "bootstrap": "~3.0.3",
+    "font-awesome": "~4.0.3",
+    "morris.js": "~0.4.3",
+    "flot": "~0.8.2",
+    "ladda-bootstrap": "~0.1.0"
+  },
+  "devDependencies": {
+  }
+}
