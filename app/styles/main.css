@@ -7830,6 +7830,15 @@ h2 {
   background-color: #ff5151;
   display: inline;
 }
+.clusterstatus-critical {
+  background-color: #ff5151;
+}
+.clusterstatus-warning {
+  background-color: #ffc600;
+}
+.clusterstatus-good {
+  background-color: #00c561;
+}
 form {
   margin-top: 30px;
 }
