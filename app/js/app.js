@@ -14,7 +14,9 @@ define([
             // Setup
             app.router = new Router();
             app.initializeRouter();
-            sb = new Status.StatusView();
+            app.status = new Status.ClusterStatus();
+            app.status.fetch();
+            sb = new Status.StatusView({model: app.status});
             sb.render();
         },
 
