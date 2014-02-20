@@ -16,11 +16,11 @@ define(['jquery',
             cluster_state: '',
             cluster_color_label: 'label-default',
             load: ['-.-', '-.-', '-.-'],
-            replicated_data: '--',
-            available_data: '--',
-            records_total: '--',
-            records_underreplicated: '--',
-            records_unavailable: '--'
+            replicated_data: 0,
+            available_data: 0,
+            records_total: 0,
+            records_underreplicated: 0,
+            records_unavailable: 0
         },
 
         _normalizeClusterLoad: function (nodes) {
@@ -129,9 +129,9 @@ define(['jquery',
             self.set({
                 'records_total': records_total,
                 'records_underreplicated': records_not_replicated.toFixed(0),
-                'replicated_data': (100-((records_not_replicated/records_total)*100)).toFixed(0) + '%',
+                'replicated_data': Math.floor(100-((records_not_replicated/records_total)*100)),
                 'records_unavailable': records_unavailable.toFixed(0),
-                'available_data': (100-((records_unavailable/records_total)*100)).toFixed(0) + '%'
+                'available_data': Math.floor(100-((records_unavailable/records_total)*100))
             });
         },
 

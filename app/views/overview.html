@@ -15,9 +15,9 @@
   </div>
 
   <div class="col-md-4 col-sm-5">
-    <div class="panel" ng-class="--'panel-warning': replicated_data<100}">
+    <div class="panel {{this.replicatedStatusClass()}}"   ng-class="--'panel-warning': replicated_data<100}">
       <div class="panel-heading">
-        <p class="announcement-heading">{{ replicated_data}}</p>
+        <p class="announcement-heading">{{replicated_data}}</p>
         <p class="announcement-text">Full replicated Data</p>
       </div>
     </div>

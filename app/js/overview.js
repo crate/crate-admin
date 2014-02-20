@@ -17,6 +17,13 @@ define(['jquery',
             this.listenTo(this.model, 'change', this.render);
         },
 
+        replicatedStatusClass: function () {
+            if (this.model.get('records_underreplicated') > 0){
+                return "panel-warning";
+            }
+            return "";
+        },
+
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
