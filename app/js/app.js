@@ -2,20 +2,25 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'StatusBar'
-], function ($, _, Backbone, StatusBar) {
+    'StatusBar',
+    'Overview'
+], function ($, _, Backbone, StatusBar, Overview) {
 
     var app = _.extend({
 
         root: '/_plugin/ca',
 
         start: function () {
-            var sb;
+            var sb, ov;
             // Setup
             app.router = new Router();
             app.initializeRouter();
             sb = new StatusBar.StatusBarView();
             sb.render();
+            ov = new Overview.OverviewView();
+            ov.render();
+
+
         },
 
         initializeRouter: function () {
