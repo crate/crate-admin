@@ -6,19 +6,22 @@ define(['jquery',
         'bootstrap'
     ], function ($, _, Backbone, base, OverviewTemplate) {
 
-    var Overview = {
+    var Overview = {};
 
-        OverviewView: base.CrateView.extend({
+    Overview.OverviewView = base.CrateView.extend({
 
-            el: '#page-wrapper',
-            template: _.template(OverviewTemplate),
+        el: '#page-wrapper',
+        template: _.template(OverviewTemplate),
 
-            render: function () {
-                this.$el.html(this.template());
-                return this;
-            }
-        })
-    };
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
+
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
 
     return Overview;
 });

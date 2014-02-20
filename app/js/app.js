@@ -19,7 +19,7 @@ define([
             app.status.fetch();
             sb = new Status.StatusView({model: app.status});
             sb.render();
-            ov = new Overview.OverviewView();
+            ov = new Overview.OverviewView({model: app.status});
             ov.render();
 
 
