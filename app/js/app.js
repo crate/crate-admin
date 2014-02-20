@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'Status',
-    'Overview'
-], function ($, _, Backbone, Status, Overview) {
+    'Overview',
+    'Console'
+], function ($, _, Backbone, Status, Overview, Console) {
 
     var app = _.extend({
 
@@ -13,15 +14,14 @@ define([
         start: function () {
             var sb, ov;
             // Setup
-            app.router = new Router();
-            app.initializeRouter();
             app.status = new Status.ClusterStatus();
             app.status.fetch();
             sb = new Status.StatusView({model: app.status});
             sb.render();
-            ov = new Overview.OverviewView({model: app.status});
-            ov.render();
-
+            // ov = new Overview.OverviewView({model: app.status});
+            // ov.render();
+            app.router = new Router();
+            app.initializeRouter();
 
         },
 
@@ -56,11 +56,27 @@ define([
 
         routes: {
             '': 'home',
+            console: 'console'
         },
 
         home: function () {
-        }
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            app.currentView = new Overview.OverviewView({model: app.status});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
+        },
 
+        console: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            app.currentView = new Console.ConsoleView({model: app.status});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
+            var v;
+        }
     });
 
     return app;

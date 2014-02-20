@@ -10,7 +10,7 @@ define(['jquery',
 
     Overview.OverviewView = base.CrateView.extend({
 
-        el: '#page-wrapper',
+        id: 'page-wrapper',
         template: _.template(OverviewTemplate),
 
         initialize: function () {

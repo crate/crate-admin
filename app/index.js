@@ -15,8 +15,8 @@ require.config({
         base: 'js/base',
         Overview: 'js/overview',
         SQL: 'js/sql',
-        Status: 'js/status'
-
+        Status: 'js/status',
+        Console: 'js/console'
     },
 
     shim: {
