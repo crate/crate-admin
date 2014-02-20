@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'StatusBar'
+    'StatusBar',
 ], function ($, _, Backbone, StatusBar) {
 
     var app = _.extend({

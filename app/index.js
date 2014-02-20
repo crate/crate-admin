@@ -13,6 +13,7 @@ require.config({
         // App
         app: 'js/app',
         base: 'js/base',
+        SQL: 'js/sql',
         StatusBar: 'js/statusbar'
 
     },

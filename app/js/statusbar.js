@@ -2,9 +2,10 @@ define(['jquery',
         'underscore',
         'backbone',
         'base',
+        'SQL',
         'text!views/statusbar.html',
         'bootstrap'
-    ], function ($, _, Backbone, base, StatusBarTemplate) {
+    ], function ($, _, Backbone, base, SQL, StatusBarTemplate) {
 
     var StatusBar = {
 
@@ -43,6 +44,13 @@ define(['jquery',
                 return load;
             },
 
+            updateHealth: function () {
+                var sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables")
+                sq.execute().done(function (res) {
+                }).fail(function (err) {
+                });
+            },
+
             update: function () {
                 var self = this,
                     load;
@@ -59,8 +67,8 @@ define(['jquery',
                     .error(function() {
                         delete self.data;
                     });
-
-                setTimeout(function () { self.update(); }, 1000);
+                this.updateHealth();
+                setTimeout(function () { self.update(); }, 5000);
             },
 
             render: function () {
