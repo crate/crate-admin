@@ -15,7 +15,7 @@
   </div>
 
   <div class="col-md-4 col-sm-5">
-    <div class="panel {{this.replicatedStatusClass()}}"   ng-class="--'panel-warning': replicated_data<100}">
+    <div class="panel {{this.replicatedStatusClass()}}">
       <div class="panel-heading">
         <p class="announcement-heading">{{replicated_data}}</p>
         <p class="announcement-text">Full replicated Data</p>
@@ -43,10 +43,10 @@
   </div>
 
   <div class="col-md-4 col-sm-5">
-    <div class="panel" ng-class="-'panel-warning': records_underreplicated>0}">
+    <div class="panel  {{this.replicatedStatusClass()}}">
       <div class="panel-heading">
         <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="--records_underreplicated | number:0}}"> {{ records_underreplicated }}
-        <!--records_underreplicated | roundWithUnit:1}}--></p>
+        </p>
         <p class="announcement-text">Underreplicated Records</p>
       </div>
     </div>
