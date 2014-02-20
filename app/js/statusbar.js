@@ -45,10 +45,40 @@ define(['jquery',
             },
 
             updateHealth: function () {
-                var sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables")
+                var self = this,
+                    sq;
+
+                sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables")
                 sq.execute().done(function (res) {
-                }).fail(function (err) {
-                });
+                    var configuredShards = 0;
+                    if (res.rowcount > 0) {
+                        configuredShards = res.rows[0][0];
+                    }
+
+                    sq = new SQL.Query('select count(*), "primary", state from stats.shards group by "primary", state');
+                    sq.execute().done(function (res) {
+                        var activePrimaryShards = 0;
+                        var unassignedShards = 0;
+                        for (var row in res.rows) {
+                            if (res.rows[row][1] == true && res.rows[row][2] in {'STARTED':'', 'RELOCATING':''} ) {
+                                activePrimaryShards = res.rows[row][0];
+                            } else if (res.rows[row][2] == 'UNASSIGNED') {
+                                unassignedShards = res.rows[row][0];
+                            }
+                        }
+                        if (activePrimaryShards < configuredShards) {
+                            self.data.cluster_state = 'red';
+                            self.data.cluster_color_label = 'label-error';
+
+                        } else if (unassignedShards > 0) {
+                            self.data.cluster_state = 'yellow';
+                            self.data.cluster_color_label = 'label-warning';
+                        } else {
+                            self.data.cluster_state = 'green';
+                            self.data.cluster_color_label = 'label-success';
+                        }
+                    });
+                }).fail(function (err) {});
             },
 
             update: function () {
@@ -56,12 +86,9 @@ define(['jquery',
                     load;
                 $.get('/_nodes/stats?all=true')
                     .done(function (data) {
-                        self.data = {
-                            cluster_name: data.cluster_name,
-                            load: self.clusterLoad(data.nodes),
-                            cluster_color_label: '',
-                            cluster_state: ''
-                        };
+                        self.data = self.data || self.default_data;
+                        self.data.cluster_name = data.cluster_name,
+                        self.data.load = self.clusterLoad(data.nodes),
                         self.render();
                     })
                     .error(function() {
