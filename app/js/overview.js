@@ -24,6 +24,15 @@ define(['jquery',
             return "";
         },
 
+        availableDataClass: function () {
+            if (this.model.get('records_unavailable') > 0){
+                return "panel-danger";
+            }
+            return "";
+        },
+
+
+
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             return this;

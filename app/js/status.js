@@ -14,7 +14,6 @@ define(['jquery',
         defaults: {
             cluster_name: '',
             cluster_state: '',
-            cluster_color_label: 'label-default',
             load: ['-.-', '-.-', '-.-'],
             replicated_data: 0,
             available_data: 0,
@@ -63,19 +62,16 @@ define(['jquery',
                     }
                     if (activePrimaryShards < configuredShards) {
                         self.set({
-                            cluster_state: 'red',
-                            cluster_color_label: 'label-error'
+                            cluster_state: 'critical',
                         });
 
                     } else if (unassignedShards > 0) {
                         self.set({
-                            cluster_state: 'yellow',
-                            cluster_color_label:'label-warning'
+                            cluster_state: 'warning',
                         });
                     } else {
                         self.set({
-                            cluster_state: 'green',
-                            cluster_color_label: 'label-success'
+                            cluster_state: 'good',
                         });
                     }
                 });
