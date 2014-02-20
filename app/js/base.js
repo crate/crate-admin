@@ -2,7 +2,8 @@ define([
     'underscore',
     'backbone',
     'jquery',
-    ], function (_, Backbone) {
+    'text!views/error.html'
+    ], function (_, Backbone, $, ErrorTemplate) {
 
     // Underscore template settings
     // `{{ variable }}` for escaped text
@@ -46,5 +47,12 @@ define([
     });
 
     exports.CrateView.extend = Backbone.View.extend;
+
+    exports.ErrorFactory = function (msg) {
+        var html = _.template(ErrorTemplate);
+        return $(html({msg: msg}));
+    };
+
+
     return exports;
 });

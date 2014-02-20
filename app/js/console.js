@@ -30,6 +30,8 @@ define(['jquery',
             sq = new SQL.Query(stmt);
             sq.execute().done(function (res) {
             }).error(function (err) {
+                var alrt = base.ErrorFactory(err.responseJSON.error.message);
+                self.$('#errors').append(alrt);
             });
         },
 
