@@ -45,9 +45,10 @@ define(['jquery',
 
         render: function () {
             this.$el.html(this.template({headers: this.collection.headers}));
-            _.each(this.collection.models, function (row) {
+            _.each(this.collection.models, function (row, i) {
                 var v = new Console.RowView({model: row});
                 this.$('tbody').append(v.render().$el);
+                this.addView(i.toString(), v);
             }, this);
             return this;
         }
@@ -77,6 +78,7 @@ define(['jquery',
                 var table = new Console.Table(res.rows, {headers: res.cols});
                 var tableView = new Console.TableView({collection: table});
                 self.$('#table-container').html(tableView.render().$el);
+                self.addView('table', tableView);
             }).error(function (err) {
                 var alrt = base.ErrorFactory(err.responseJSON.error.message);
                 self.$('#errors').append(alrt);
