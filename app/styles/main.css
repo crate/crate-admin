@@ -7582,11 +7582,6 @@ h2 {
     padding-top: 15px;
   }
 }
-@media (min-width: 768px) {
-  #statusbar .navbar {
-    margin-left: 149px;
-  }
-}
 .navbar-brand {
   background-image: url("../images/logo.png");
   background-repeat: no-repeat;
@@ -7697,10 +7692,6 @@ h2 {
     margin: 0;
     padding-left: 0;
     padding: 10px;
-  }
-  .side-nav .fa-question-circle {
-    float: right;
-    color: #fff;
   }
   .navbar-inverse .alert-danger {
     background-color: #252525;

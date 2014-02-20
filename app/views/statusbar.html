@@ -5,24 +5,19 @@
       <li><a href="#/console"><i class="fa fa-code"></i>Console</a></li>
       <li><a href="#/tables"><i class="fa fa-table"></i>Tables</a></li>
       <li><a href="#/cluster"><i class="fa fa-sitemap"></i>Cluster</a></li>
+      <li><a href="#/docs"><i class="fa fa-book"></i><div>Docs</div></a></li>
       <li><a class="navbar-brand" href="index.html"></a></li>
     </ul>
   </div>
-</nav>
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <ul class="nav navbar-nav navbar-right navbar-user">
     <li>Cluster: <span class="label label-cluster">{{ cluster_name }}</span></li>
     <li>Health: <span class="label {{ cluster_color_label }}">{{ cluster_state }}</span></li>
-    <li>
+    <li class="hidden-xs">
       Load:
       <span class="label label-load1">{{ load[0] }}</span>/
       <span class="label label-load5">{{ load[1] }}</span>/
       <span class="label label-load15">{{ load[2] }}</span>
-    </li>
-    <li class="divider"></li>
-    <li>
-      <a href="/_plugin/docs" target="_blank"><i class="fa fa-question-circle"></i></a>
     </li>
   </ul>
 </nav>
