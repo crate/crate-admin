@@ -2,12 +2,13 @@ define(['jquery',
         'underscore',
         'backbone',
         'base',
+        'ladda',
         'SQL',
         'text!views/console.html',
         'text!views/table.html',
         'text!views/row.html',
-        'bootstrap'
-    ], function ($, _, Backbone, base, SQL, ConsoleTemplate, TableTemplate, RowTemplate) {
+        'bootstrap',
+    ], function ($, _, Backbone, base, Ladda, SQL, ConsoleTemplate, TableTemplate, RowTemplate) {
 
     var Console = {};
 
@@ -70,7 +71,7 @@ define(['jquery',
 
             ev.preventDefault();
             ev.stopPropagation();
-
+            this.loadingIndicator.start();
             sq = new SQL.Query(stmt);
             sq.execute().done(function (res) {
                 var table = new Console.Table(res.rows, {headers: res.cols});
@@ -79,12 +80,14 @@ define(['jquery',
             }).error(function (err) {
                 var alrt = base.ErrorFactory(err.responseJSON.error.message);
                 self.$('#errors').append(alrt);
+            }).always(function () {
+                self.loadingIndicator.stop();
             });
         },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$('.alert').hide();
+            this.loadingIndicator = Ladda.create(this.$('button').get(0));
             return this;
         }
     });

@@ -9,6 +9,8 @@ require.config({
         jquery: 'bower_components/jquery/dist/jquery',
         text: 'bower_components/requirejs-text/text',
         underscore: 'bower_components/underscore/underscore',
+        spin: 'bower_components/ladda-bootstrap/dist/spin',
+        ladda: 'bower_components/ladda-bootstrap/dist/ladda',
 
         // App
         app: 'js/app',
