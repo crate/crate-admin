@@ -1,17 +1,28 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'backbone',
+    'Status',
+    'Overview'
+], function ($, _, Backbone, Status, Overview) {
 
     var app = _.extend({
 
         root: '/_plugin/ca',
 
         start: function () {
+            var sb, ov;
             // Setup
             app.router = new Router();
             app.initializeRouter();
+            app.status = new Status.ClusterStatus();
+            app.status.fetch();
+            sb = new Status.StatusView({model: app.status});
+            sb.render();
+            ov = new Overview.OverviewView();
+            ov.render();
+
+
         },
 
         initializeRouter: function () {

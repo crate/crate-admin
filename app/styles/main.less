@@ -1,4 +1,14 @@
+
+// By importing the Bootstrap variables and mixins first, we can actually override them
+// before rendering bootstrap files. 
+// This works because less makes sure to only render each file once.
+@import "../bower_components/bootstrap/less/variables.less";
+// @import "../bower_components/bootstrap/less/mixins.less";
+
+// Now we can freely add our own overrides
 @import "variables";
+//@import "mixins.less";
+
 @import "../bower_components/bootstrap/less/bootstrap.less";
 @import "../bower_components/font-awesome/less/font-awesome";
 @import "../bower_components/ladda-bootstrap/dist/ladda.css";

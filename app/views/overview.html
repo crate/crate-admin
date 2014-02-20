@@ -1,66 +1,78 @@
-<div ng-controller="OverviewController">
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header"><h1>Cluster overview</h1></div>
+    </div>
+</div><!-- /.row -->
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header"><h1>Cluster overview</h1></div>
-        </div>
-    </div><!-- /.row -->
-
-    <div class="row">
-      <div class="col-md-4 col-sm-5">
-        <div class="panel {{cluster_color_class}}">
-          <div class="panel-heading">
-            <p class="announcement-heading">{{cluster_state | capitalize}}</p>
-            <p class="announcement-text">Health</p>
-          </div>
-        </div>
+<div class="row">
+  <div class="col-md-4 col-sm-5">
+    <div class="panel --cluster_color_class}}">
+      <div class="panel-heading">
+        <p class="announcement-heading"><!--cluster_state | capitalize}}-->Cluster state OK</p>
+        <p class="announcement-text">Health</p>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-sm-5">
-        <div class="panel" ng-class="{'panel-warning': replicated_data<100}">
-          <div class="panel-heading">
-            <p class="announcement-heading">{{replicated_data}}</p>
-            <p class="announcement-text">Full replicated Data</p>
-          </div>
-        </div>
+  <div class="col-md-4 col-sm-5">
+    <div class="panel" ng-class="--'panel-warning': replicated_data<100}">
+      <div class="panel-heading">
+        <p class="announcement-heading">50% <!--replicated_data}}--></p>
+        <p class="announcement-text">Full replicated Data</p>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-sm-5">
-        <div class="panel" ng-class="{'panel-danger': available_data<100}">
-          <div class="panel-heading">
-            <p class="announcement-heading">{{available_data}}</p>
-            <p class="announcement-text">Available Data</p>
-          </div>
-        </div>
+  <div class="col-md-4 col-sm-5">
+    <div class="panel" ng-class="--'panel-danger': available_data<100}">
+      <div class="panel-heading">
+        <p class="announcement-heading"><!--available_data}}-->50%</p>
+        <p class="announcement-text">Available Data</p>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-sm-5">
-        <div class="panel">
-          <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_total | number:0}}">{{records_total | roundWithUnit:1}}</p>
-            <p class="announcement-text">Records total</p>
-          </div>
-        </div>
+  <div class="col-md-4 col-sm-5">
+    <div class="panel">
+      <div class="panel-heading">
+        <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="--records_total | number:0}}"><!--records_total | roundWithUnit:1}}-->23232</p>
+        <p class="announcement-text">Records total</p>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-sm-5">
-        <div class="panel" ng-class="{'panel-warning': records_underreplicated>0}">
-          <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_underreplicated | number:0}}">{{records_underreplicated | roundWithUnit:1}}</p>
-            <p class="announcement-text">Underreplicated Records</p>
-          </div>
-        </div>
+  <div class="col-md-4 col-sm-5">
+    <div class="panel" ng-class="-'panel-warning': records_underreplicated>0}">
+      <div class="panel-heading">
+        <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="--records_underreplicated | number:0}}"><!--records_underreplicated | roundWithUnit:1}}-->14</p>
+        <p class="announcement-text">Underreplicated Records</p>
       </div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-sm-5">
-        <div class="panel" ng-class="{'panel-danger': records_unavailable>0}">
-          <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_unavailable | number:0}}">{{records_unavailable | roundWithUnit:1}}</p>
-            <p class="announcement-text">Unavailable Records</p>
-          </div>
-        </div>
+  <div class="col-md-4 col-sm-5">
+    <div class="panel" ng-class="-'panel-danger': records_unavailable>0}">
+      <div class="panel-heading">
+        <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="--records_unavailable | number:0}}">99<!--records_unavailable | roundWithUnit:1}}--></p>
+        <p class="announcement-text">Unavailable Records</p>
       </div>
+    </div>
+  </div>
+</div><!-- /.row -->
 
-    </div><!-- /.row -->
+<div class="row">
+  <div class="col-sm-2" style="padding: 5px">
+    <div id="flot-chart-1" style="width:400px;height:300px;background-color: #bbb;">Let's put a flot chart here</div>
+  </div>
+  <div class="col-sm-2">
+    <div id="flot-chart-2" style="width:400px;height:300px;background-color: #bbb;">
+        Let's put a flot chart here
+    <div>
+  </div>
+</div><!-- /.row -->
 
-</div>
+
+
+
+
+
