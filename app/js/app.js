@@ -2,9 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'StatusBar',
+    'Status',
     'Overview'
-], function ($, _, Backbone, StatusBar, Overview) {
+], function ($, _, Backbone, Status, Overview) {
 
     var app = _.extend({
 
@@ -15,7 +15,9 @@ define([
             // Setup
             app.router = new Router();
             app.initializeRouter();
-            sb = new StatusBar.StatusBarView();
+            app.status = new Status.ClusterStatus();
+            app.status.fetch();
+            sb = new Status.StatusView({model: app.status});
             sb.render();
             ov = new Overview.OverviewView();
             ov.render();
