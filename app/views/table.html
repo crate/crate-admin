@@ -1,0 +1,17 @@
+<div>
+  <p></p>
+  <h2>Result from query</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover tablesorter">
+      <thead>
+        <tr>
+        {% _.each(headers, function (header) { %}
+          <th class="header">{{ header }}</th>
+        {% }); %}
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
