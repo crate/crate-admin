@@ -2,8 +2,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'StatusBar',
-], function ($, _, Backbone, StatusBar) {
+    'Status',
+], function ($, _, Backbone, Status) {
 
     var app = _.extend({
 
@@ -14,7 +14,7 @@ define([
             // Setup
             app.router = new Router();
             app.initializeRouter();
-            sb = new StatusBar.StatusBarView();
+            sb = new Status.StatusView();
             sb.render();
         },
 

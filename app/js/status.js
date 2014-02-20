@@ -7,9 +7,9 @@ define(['jquery',
         'bootstrap'
     ], function ($, _, Backbone, base, SQL, StatusBarTemplate) {
 
-    var StatusBar = {
+    var Status = {
 
-        StatusBarView: base.CrateView.extend({
+        StatusView: base.CrateView.extend({
 
             el: '#statusbar',
             template: _.template(StatusBarTemplate),
@@ -105,5 +105,5 @@ define(['jquery',
         })
     };
 
-    return StatusBar;
+    return Status;
 });
