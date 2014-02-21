@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-11 col-md-11">
         <div class="page-header">
-          <h1>table.name}}</h1>
+          <h1>table.name</h1>
           <div id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default">
             <i class="icon-reorder"></i>
           </div>
@@ -15,7 +15,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right table.health_panel_class">
           <div class="panel-heading">
-            <p class="announcement-heading">table.health.substring(0,1).toUpperCase()+table.health.substring(1)}}</p>
+            <p class="announcement-heading">table.health.substring(0,1) .toUpperCase()+ table.health.substring(1)}}</p>
             <p class="announcement-text">Health</p>
           </div>
         </div>
@@ -24,7 +24,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right">
           <div class="panel-heading">
-            <p class="announcement-heading">table.replicas_configured}}</p>
+            <p class="announcement-heading">table. replicas_configured</p>
             <p class="announcement-text">Configured Replicas</p>
           </div>
         </div>
@@ -33,25 +33,25 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right">
           <div class="panel-heading">
-            <p class="announcement-heading">table.shards_configured}}</p>
+            <p class="announcement-heading">table. shards_configured</p>
             <p class="announcement-text">Configured Shards</p>
           </div>
         </div>
       </div>
 
       <div class="col-md-4 col-sm-5">
-        <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_started < table.shards_configured}">
+        <div class="panel panel-info text-right" ng-class="'panel-danger': table.shards_started < table.shards_configured">
           <div class="panel-heading">
-            <p class="announcement-heading">table.shards_started}}</p>
+            <p class="announcement-heading">table. shards_started</p>
             <p class="announcement-text">Started Shards</p>
           </div>
         </div>
       </div>
 
       <div class="col-md-4 col-sm-5">
-        <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_missing > 0}">
+        <div class="panel panel-info text-right" ng-class="'panel-danger': table.shards_missing > 0">
           <div class="panel-heading">
-            <p class="announcement-heading">table.shards_missing}}</p>
+            <p class="announcement-heading">table.shards_missing</p>
             <p class="announcement-text">Missing Shards</p>
           </div>
         </div>
@@ -60,7 +60,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.shards_underreplicated > 0}">
           <div class="panel-heading">
-            <p class="announcement-heading">table.shards_underreplicated}}</p>
+            <p class="announcement-heading">table.shards_underreplicated</p>
             <p class="announcement-text">Underreplicated Shards</p>
           </div>
         </div>
@@ -69,7 +69,12 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="table.records_total | number:0}}">table.records_total | roundWithUnit:1</p>
+            <p class="announcement-heading inline-block" 
+                data-toggle="tooltip" 
+                rel="tooltip" 
+                data-original-title="table.records_total | number:0">
+                    table.records_total | roundWithUnit:1
+                  </p>
             <p class="announcement-text">Total Records</p>
           </div>
         </div>
@@ -78,7 +83,12 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">{{table.records_unavailable | roundWithUnit:1}}</p>
+            <p class="announcement-heading inline-block" 
+                data-toggle="tooltip" 
+                rel="tooltip" 
+                data-original-title="table.records_unavailable | number:0">
+                  table.records_unavailable | roundWithUnit:1
+                </p>
             <p class="announcement-text">Unavailable Records</p>
           </div>
         </div>
@@ -87,7 +97,12 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.records_underreplicated > 0}">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">table.records_underreplicated | roundWithUnit:1</p>
+            <p class="announcement-heading inline-block" 
+                data-toggle="tooltip" 
+                rel="tooltip" 
+                data-original-title="table.records_underreplicated | number:0">
+                  table.records_underreplicated | roundWithUnit:1
+                </p>
             <p class="announcement-text">Underreplicated Records</p>
           </div>
         </div>
@@ -96,7 +111,10 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel panel-info text-right">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.size | number:0}}">table.size | bytes</p>
+            <p class="announcement-heading inline-block" 
+                data-toggle="tooltip" 
+                rel="tooltip" 
+                data-original-title="table.size | number:0">table.size | bytes</p>
             <p class="announcement-text">Size</p>
           </div>
         </div>
