@@ -123,8 +123,7 @@
 
     <div class="row" ng-show="renderSchema">
       <div class="col-lg-11 col-md-11">
-        <div class="page-header"></div>
-        <h2>Schema</h2>
+        <div class="page-header"><h2>Schema</h2></div>
         <div class="table-responsive">
           <table class="table table-hover table-bordered tablesorter">
             <thead>
@@ -134,7 +133,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="row in schemaRows">
+              <tr ng-repeat="row in schemaRows">
               <td ng-repeat="column in row track by $index"> column</td>
             </tr>
             </tbody>
