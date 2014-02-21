@@ -13,29 +13,35 @@ define(['jquery',
     Tables.TableList = Backbone.Collection.extend({
 
         fetch: function () {
-            var sqInfo, sqShards, dInfo, dShards, d;
+            var sqInfo, sqShardInfo, dInfo, dShardInfo, d;
             d = $.Deferred();
             sqInfo = new SQL.Query(
                 'select table_name, sum(number_of_shards), sum(number_of_replicas) ' +
                 'from information_schema.tables ' +
                 'group by table_name');
 
-            sqShards = new SQL.Query(
+            sqShardInfo = new SQL.Query(
                 'select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
                 'from stats.shards group by table_name, "primary", state ' +
                 'order by table_name, "primary"');
             dInfo = sqInfo.execute();
-            dShards = sqShards.execute();
+            dShardInfo = sqShardInfo.execute();
 
-            $.when(dInfo, dShards).then(function (info, shards) {
-                info = _.map(info[0].rows, function (row) {
+            $.when(dInfo, dShardInfo).then(function (info, shardInfo) {
+                // Collect and assemble list of tables as objects
+                var tables = _.map(info[0].rows, function (row) {
                     return _.object(['name', 'shards_configured', 'replicas_configured'], row);
                 });
 
-                shards = _.map(shards[0].rows, function (row) {
+                shardInfo = _.map(shardInfo[0].rows, function (row) {
                     return _.object(['name', 'records_total', 'primary', 'avg_docs', 'shards_active', 'state', 'size'], row);
                 });
-                d.resolve();
+
+                tables = _.map(tables, function (table) {
+                    table.shardInfo = _.filter(shardInfo, function (si) { return si.name === table.name } );
+                    return table;
+                });
+                d.resolve(tables);
             }, d.reject);
             return d.promise();
         }
