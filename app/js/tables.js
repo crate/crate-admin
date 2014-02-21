@@ -6,14 +6,22 @@ define(['jquery',
         'text!views/tablelist.html',
         'text!views/tableinfo.html',
         'bootstrap',
-    ], function ($, _, Backbone, base, SQL, TableTemplate, RowTemplate) {
+    ], function ($, _, Backbone, base, SQL, TableListTemplate, TableInfoTemplate) {
 
     var Tables = {};
 
+    Tables.TableInfo = Backbone.Model.extend({
+
+    });
+
     Tables.TableList = Backbone.Collection.extend({
 
+        model: Tables.TableInfo,
+
         fetch: function () {
-            var sqInfo, sqShardInfo, dInfo, dShardInfo, d;
+            var self = this,
+                sqInfo, sqShardInfo, dInfo, dShardInfo, d;
+
             d = $.Deferred();
             sqInfo = new SQL.Query(
                 'select table_name, sum(number_of_shards), sum(number_of_replicas) ' +
@@ -41,6 +49,7 @@ define(['jquery',
                     table.shardInfo = _.filter(shardInfo, function (si) { return si.name === table.name } );
                     return table;
                 });
+                self.reset(tables);
                 d.resolve(tables);
             }, d.reject);
             return d.promise();
@@ -48,15 +57,28 @@ define(['jquery',
 
     });
 
-    Tables.TableInfo = Backbone.Model.extend({
-
-    });
-
     Tables.TableListView = base.CrateView.extend({
 
+        initialize: function () {
+            this.listenTo(this.collection, 'reset', this.render);
+        },
+
+        template: _.template(TableListTemplate),
+
+        render: function () {
+            this.$el.html(this.template());
+            return this;
+        }
     });
 
     Tables.TableInfoView = base.CrateView.extend({
+
+        template: _.template(TableInfoTemplate),
+
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
 
     });
 
