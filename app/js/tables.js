@@ -4,9 +4,10 @@ define(['jquery',
         'base',
         'SQL',
         'text!views/tablelist.html',
+        'text!views/tablelistitem.html',
         'text!views/tableinfo.html',
         'bootstrap',
-    ], function ($, _, Backbone, base, SQL, TableListTemplate, TableInfoTemplate) {
+    ], function ($, _, Backbone, base, SQL, TableListTemplate, TableListItemTemplate, TableInfoTemplate) {
 
     var Tables = {};
 
@@ -66,7 +67,32 @@ define(['jquery',
         template: _.template(TableListTemplate),
 
         render: function () {
+            var self = this;
+
             this.$el.html(this.template());
+            _.each(this.collection.models, function (table) {
+                var v = new Tables.TableListItemView({model: table});
+                self.$('ul').append(v.render().$el);
+                self.addView(table.name, v);
+            });
+            return this;
+        }
+    });
+
+    Tables.TableListItemView = base.CrateView.extend({
+
+        template: _.template(TableListItemTemplate),
+
+        summary: function () {
+            return '';
+        },
+
+        healthLabel: function () {
+            return '';
+        },
+
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
         }
     });
