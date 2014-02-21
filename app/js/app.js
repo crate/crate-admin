@@ -4,8 +4,9 @@ define([
     'backbone',
     'Status',
     'Overview',
-    'Console'
-], function ($, _, Backbone, Status, Overview, Console) {
+    'Console',
+    'Tables'
+], function ($, _, Backbone, Status, Overview, Console, Tables) {
 
     var app = _.extend({
 
@@ -54,7 +55,8 @@ define([
 
         routes: {
             '': 'home',
-            console: 'console'
+            console: 'console',
+            tables: 'tables'
         },
 
         home: function () {
@@ -73,7 +75,15 @@ define([
             app.currentView = new Console.ConsoleView({model: app.status});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
-            var v;
+        },
+
+        tables: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            app.currentView = new Tables.TableListView({model: app.status});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
         }
     });
 
