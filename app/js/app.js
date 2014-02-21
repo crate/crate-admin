@@ -54,7 +54,7 @@ define([
     var Router = Backbone.Router.extend({
 
         routes: {
-            '': 'home',
+            '': 'tables',
             console: 'console',
             tables: 'tables'
         },
@@ -81,7 +81,9 @@ define([
             if (app.currentView) {
                 app.currentView.dispose();
             }
-            app.currentView = new Tables.TableListView({model: app.status});
+            var tableList = new Tables.TableList();
+            tableList.fetch();
+            app.currentView = new Tables.TableListView({collection: tableList});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
         }
