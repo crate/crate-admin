@@ -1,6 +1,4 @@
 import os
-import re
-import ConfigParser
 from setuptools import setup, find_packages
 import json
 
@@ -27,7 +25,7 @@ test_requires = requires + [
     bowerJson.get('devDependencies').keys()
 ]
 
-setup(name='lovely.pyrest',
+setup(name='crate-admin',
       version=version,
       description='Crate Data Admin UI',
       long_description='Crate Data Admin UI',
