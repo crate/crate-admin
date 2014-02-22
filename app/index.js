@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: '/_plugin/ca',
+    baseUrl: '/_plugin/crate-admin',
 
     paths: {
 
