@@ -4,8 +4,9 @@ define([
     'backbone',
     'Status',
     'Overview',
-    'Console'
-], function ($, _, Backbone, Status, Overview, Console) {
+    'Console',
+    'Tutorial'
+], function ($, _, Backbone, Status, Overview, Console, Tutorial) {
 
     var app = _.extend({
 
@@ -54,7 +55,8 @@ define([
 
         routes: {
             '': 'home',
-            console: 'console'
+            console: 'console',
+            tutorial: 'tutorial'
         },
 
         home: function () {
@@ -73,6 +75,17 @@ define([
             app.currentView = new Console.ConsoleView({model: app.status});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
+            var v;
+        },
+
+        tutorial: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            app.currentView = new Tutorial.TutorialView({model: app.status});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
+            app.currentView.updateBtn();
             var v;
         }
     });
