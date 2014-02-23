@@ -5,6 +5,8 @@ Changes for Crate Data
 Unreleased
 ==========
 
+ - fixed status bar
+
  - bugfix in ./devtools/create_tag.sh
 
 2014/02/23 0.0.2
