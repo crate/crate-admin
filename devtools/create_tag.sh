@@ -61,7 +61,7 @@ fi
 ./bin/buildout -N
 ./bin/bower install
 # get the version
-VERSION=`less bower.json | grep "\"version\":" | cut -d : -f 2 | tr -d '"' | tr -d ','`
+VERSION=`less bower.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`
 echo found version $VERSION in bower.json
 
 # check if tag to create has already been created
