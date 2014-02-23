@@ -50,7 +50,7 @@ Or if you haven't used ``buildout`` and installed ``bower`` globally::
 Creating the plugin
 ===================
 
-Create a Crate Data plugin is easy.
+Creating a Crate Data plugin is easy.
 
 Simply run following command::
 
