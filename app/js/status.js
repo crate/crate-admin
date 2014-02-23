@@ -42,14 +42,14 @@ define(['jquery',
             var self = this,
                 sq;
 
-            sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables")
+            sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables where schema_name = 'doc'");
             sq.execute().done(function (res) {
                 var configuredShards = 0;
                 if (res.rowcount > 0) {
                     configuredShards = res.rows[0][0];
                 }
 
-                sq = new SQL.Query('select count(*), "primary", state from stats.shards group by "primary", state');
+                sq = new SQL.Query('select count(*), "primary", state from sys.shards group by "primary", state');
                 sq.execute().done(function (res) {
                     var activePrimaryShards = 0;
                     var unassignedShards = 0;
@@ -137,7 +137,7 @@ define(['jquery',
 
             sqRecords = new SQL.Query(
                 'select table_name, sum(num_docs), "primary", relocating_node, avg(num_docs), count(*), state '+
-                'from stats.shards group by table_name, "primary", relocating_node, state ' +
+                'from sys.shards group by table_name, "primary", relocating_node, state ' +
                 'order by table_name, "primary"');
             sqTables = new SQL.Query(
                 'select table_name, sum(number_of_shards) from information_schema.tables ' +
