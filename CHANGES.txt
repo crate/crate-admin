@@ -1,0 +1,13 @@
+======================
+Changes for Crate Data
+======================
+
+Unreleased
+==========
+
+ - bugfix in ./devtools/create_tag.sh
+
+2014/02/23 0.0.2
+================
+
+ - initial project setup.
