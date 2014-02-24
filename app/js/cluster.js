@@ -65,10 +65,14 @@ define(['jquery',
 
         template: _.template(NodeListItemTemplate),
 
-        selectNode: function (ev) {},
-
         events: {
             'click ': 'selectNode'
+        },
+
+        selectNode: function (ev) {},
+
+        httpLink: function () {
+            return 'http://' + this.model.get('hostname') + ':' + this.model.get('port').http;
         },
 
         render: function () {
