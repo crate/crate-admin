@@ -41,7 +41,7 @@
           <div class="panel panel-info text-right">
           <!-- make this red if failing -->
             <div class="panel-heading">
-              <p class="announcement-heading">{{this.startedShards()}}</p>
+              <p class="announcement-heading">{{ startedShards }}</p>
               <p class="announcement-text">Started Shards</p>
             </div>
           </div>
@@ -51,7 +51,7 @@
           <div class="panel panel-info text-right">
             <!-- make this red if shards are missing -->
             <div class="panel-heading">
-              <p class="announcement-heading">{{this.missingShards()}}</p>
+              <p class="announcement-heading">{{ missingShards }}</p>
               <p class="announcement-text">Missing Shards</p>
             </div>
           </div>
@@ -71,7 +71,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block">
-                      {{this.totalRecords()}}
+                      {{ totalRecords }}
                     </p>
               <p class="announcement-text">Total Records</p>
             </div>
@@ -81,9 +81,9 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" 
-                  data-toggle="tooltip" 
-                  rel="tooltip" 
+              <p class="announcement-heading inline-block"
+                  data-toggle="tooltip"
+                  rel="tooltip"
                   data-original-title="table.records_unavailable | number:0">
                     <!-- table.records_unavailable | roundWithUnit:1 --> -
                   </p>
@@ -94,11 +94,11 @@
 
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
-            <!-- make yellow if underreplicated --> 
+            <!-- make yellow if underreplicated -->
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" 
-                  data-toggle="tooltip" 
-                  rel="tooltip" 
+              <p class="announcement-heading inline-block"
+                  data-toggle="tooltip"
+                  rel="tooltip"
                   data-original-title="table.records_underreplicated | number:0">
                     <!-- table.records_underreplicated | roundWithUnit:1 --> -
                   </p>
@@ -110,7 +110,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block">{{this.tableSize()}}</p>
+              <p class="announcement-heading inline-block">{{ tableSize }}</p>
               <p class="announcement-text">Size</p>
             </div>
           </div>

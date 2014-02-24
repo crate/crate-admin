@@ -12,7 +12,28 @@ define(['jquery',
     var Tables = {};
 
     Tables.TableInfo = Backbone.Model.extend({
-        idAttribute: 'name'
+        idAttribute: 'name',
+
+        primaryTable: function () {
+            return _.find(this.get('shardInfo'), function (node) {
+                return node.primary;
+            });
+        },
+
+        missingShards: function () {
+            var shards = _.filter(this.get('shardInfo'), function (node) {
+                return node.state == 'UNASSIGNED';
+            });
+            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+        },
+
+        startedShards: function () {
+            var shards = _.filter(this.get('shardInfo'), function (node) {
+                return node.state == 'STARTED';
+            });
+            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+        },
+
     });
 
     Tables.TableList = Backbone.Collection.extend({
@@ -121,9 +142,8 @@ define(['jquery',
 
         summary: function () {
             // Show in the summary the size of the "primary" node
-            var primary = _.find(this.model.attributes.shardInfo, function (node) {
-                return node.primary;
-            });
+            var primary = this.model.primaryTable();
+
             if (primary === undefined) {
                 return '';
             }
@@ -143,53 +163,17 @@ define(['jquery',
         template: _.template(TableInfoTemplate),
 
 
-        primaryTable:function () {
-            p =  _.filter(this.model.attributes.shardInfo, function (node) {
-                return node.primary;
-            });
-            return p[0];
-        },
-
-        missingShards: function () {
-            shards = _.filter(this.model.attributes.shardInfo, function (node) {
-                return node.state == 'UNASSIGNED';
-            });
-            return _.reduce(shards, function(memo, num) {return num.shards_active + memo; }, 0);
-        },
-
-        startedShards: function () {
-            shards = _.filter(this.model.attributes.shardInfo, function (node) { 
-                return node.state == 'STARTED';
-            });
-            return _.reduce(shards, function(memo, num) {return num.shards_active + memo; }, 0);
-        },
-
-        activeShards: function () {
-            return 0;
-        },
-
-        underreplicatedShards: function () {
-            return 0;
-        },
-
-        totalRecords: function () {
-            return this.primaryTable().records_total;
-        },
-
-        replicatedRecords: function () {
-            return 0;
-        },
-
-        underreplicatedRecords: function () {
-            return 0;
-        },
-
-        tableSize: function () {
-            return this.primaryTable().size;
-        },
-
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.missingShards = this.model.missingShards();
+            data.startedShards = this.model.startedShards();
+            data.tableSize = this.model.primaryTable().size;
+            data.activeShards = 0;
+            data.totalRecords = this.model.primaryTable().records_total;
+            data.underreplicatedShards = 0;
+            data.replicatedRecords = 0;
+            data.underreplicatedRecords = 0;
+            this.$el.html(this.template(data));
             return this;
         }
 
