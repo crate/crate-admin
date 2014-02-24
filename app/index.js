@@ -19,7 +19,8 @@ require.config({
         SQL: 'js/sql',
         Status: 'js/status',
         Console: 'js/console',
-        Tables: 'js/tables'
+        Tables: 'js/tables',
+        Cluster: 'js/cluster'
     },
 
     shim: {

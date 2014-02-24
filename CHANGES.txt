@@ -7,6 +7,9 @@ unreleased
 
  - Introduced Tables view
 
+ - Introduced Cluster view
+
+
 2014/02/24 0.0.4
 ================
 
