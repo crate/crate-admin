@@ -70,11 +70,8 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" 
-                  data-toggle="tooltip" 
-                  rel="tooltip" 
-                  data-original-title="">
-                      -
+              <p class="announcement-heading inline-block">
+                      {{this.totalRecords()}}
                     </p>
               <p class="announcement-text">Total Records</p>
             </div>
@@ -113,10 +110,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" 
-                  data-toggle="tooltip" 
-                  rel="tooltip" 
-                  data-original-title="table.size | number:0"><!-- table.size | bytes --> -</p>
+              <p class="announcement-heading inline-block">{{this.tableSize()}}</p>
               <p class="announcement-text">Size</p>
             </div>
           </div>

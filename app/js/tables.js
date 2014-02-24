@@ -112,6 +112,11 @@ define(['jquery',
             this.parentView.deactivateAll();
             this.$el.addClass('active');
             this.parentView.showDetails(this.model.get('name'));
+
+        },
+
+        healthLabel: function () {
+            return '';
         },
 
         summary: function () {
@@ -126,9 +131,6 @@ define(['jquery',
             return base.humanReadableSize(primary.size);
         },
 
-        healthLabel: function () {
-            return '';
-        },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
@@ -139,6 +141,42 @@ define(['jquery',
     Tables.TableInfoView = base.CrateView.extend({
 
         template: _.template(TableInfoTemplate),
+
+
+        primaryTable:function () {
+            p =  _.filter(this.model.attributes.shardInfo, function (node) {
+                return node.primary;
+            });
+            return p[0];
+        },
+
+        missingShards: function () {
+            return 0;
+        },
+
+        activeShards: function () {
+            return 0;
+        },
+
+        underreplicatedShards: function () {
+            return 0;
+        },
+
+        totalRecords: function () {
+            return this.primaryTable().records_total;
+        },
+
+        replicatedRecords: function () {
+            return 0;
+        },
+
+        underreplicatedRecords: function () {
+            return 0;
+        },
+
+        tableSize: function () {
+            return this.primaryTable().size;
+        },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
