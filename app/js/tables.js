@@ -12,7 +12,7 @@ define(['jquery',
     var Tables = {};
 
     Tables.TableInfo = Backbone.Model.extend({
-
+        idAttribute: 'name'
     });
 
     Tables.TableList = Backbone.Collection.extend({
@@ -66,6 +66,16 @@ define(['jquery',
 
         template: _.template(TableListTemplate),
 
+        deactivateAll: function () {
+            this.$('li').removeClass('active');
+        },
+
+        showDetails: function (name) {
+            var t = this.collection.get(name),
+                v = new Tables.TableInfoView({model: t});
+            this.$('#table-info').html(v.render().$el);
+        },
+
         render: function () {
             var self = this;
 
@@ -84,6 +94,18 @@ define(['jquery',
         tagName: 'li',
 
         template: _.template(TableListItemTemplate),
+
+        events: {
+            'click ': 'selectTable'
+        },
+
+        selectTable: function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            this.parentView.deactivateAll();
+            this.$el.addClass('active');
+            this.parentView.showDetails(this.model.get('name'));
+        },
 
         summary: function () {
             return '';
