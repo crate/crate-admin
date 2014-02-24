@@ -62,7 +62,16 @@ fi
 ./bin/bower install
 # get the version
 VERSION=`less bower.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`
-echo found version $VERSION in bower.json
+PKG_VERSION=`less package.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`
+echo "found version $VERSION in bower.json"
+echo "found version $PKG_VERSION in package.json"
+if [ $VERSION != $PKG_VERSION ]
+then
+   echo "Found different versions in bower.json and package.json."
+   echo  "Please sync both versions."
+   echo "Aborting."
+   exit -1
+fi
 
 # check if tag to create has already been created
 EXISTS=`git tag | grep $VERSION`
