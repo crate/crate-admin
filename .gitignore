@@ -1,1 +1,10 @@
 bower_components
+/bin/
+/develop-eggs/
+.installed.cfg
+*.pyc
+*.pyo
+/parts/
+*.DS_Store
+/node_modules/
+*.egg-info
