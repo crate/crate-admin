@@ -9,7 +9,7 @@ define([
 
     var app = _.extend({
 
-        root: '/_plugin/ca',
+        root: '/_plugin/crate-admin',
 
         start: function () {
             var sb, ov;
