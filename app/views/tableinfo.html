@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-lg-11 col-md-11">
           <div class="page-header">
-            <h1>Table name</h1>
+            <h1>{{name}}</h1>
           </div>
         </div>
       </div><!-- /.row -->
@@ -13,7 +13,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading"><!--table.health.substring(0,1) .toUpperCase()+ table.health.substring(1)}}--></p>
+              <p class="announcement-heading"><!--table.health.substring(0,1) .toUpperCase()+ table.health.substring(1)}}-->----</p>
               <p class="announcement-text">Health</p>
             </div>
           </div>
@@ -22,7 +22,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading"><!--table. replicas_configured--> X%</p>
+              <p class="announcement-heading">{{replicas_configured}}</p>
               <p class="announcement-text">Configured Replicas</p>
             </div>
           </div>
@@ -31,7 +31,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table. shards_configured--> x</p>
+              <p class="announcement-heading">{{shards_configured}}</p>
               <p class="announcement-text">Configured Shards</p>
             </div>
           </div>
@@ -41,7 +41,7 @@
           <div class="panel panel-info text-right">
           <!-- make this red if failing -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table. shards_started--> x</p>
+              <p class="announcement-heading"><!-- table. shards_started--> -</p>
               <p class="announcement-text">Started Shards</p>
             </div>
           </div>
@@ -51,7 +51,7 @@
           <div class="panel panel-info text-right">
             <!-- make this red if shards are missing -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table.shards_missing--> 0x</p>
+              <p class="announcement-heading"><!-- table.shards_missing--> -</p>
               <p class="announcement-text">Missing Shards</p>
             </div>
           </div>
@@ -61,7 +61,7 @@
           <div class="panel panel-info text-right" >
             <!-- make this yellow is shards are underreplicated -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table.shards_underreplicated --> 0</p>
+              <p class="announcement-heading"><!-- table.shards_underreplicated --> -</p>
               <p class="announcement-text">Underreplicated Shards</p>
             </div>
           </div>
@@ -73,9 +73,8 @@
               <p class="announcement-heading inline-block" 
                   data-toggle="tooltip" 
                   rel="tooltip" 
-                  data-original-title="table.records_total | number:0">
-                      <!-- table.records_total | roundWithUnit:1 --> X 
-
+                  data-original-title="">
+                      -
                     </p>
               <p class="announcement-text">Total Records</p>
             </div>
@@ -89,7 +88,7 @@
                   data-toggle="tooltip" 
                   rel="tooltip" 
                   data-original-title="table.records_unavailable | number:0">
-                    <!-- table.records_unavailable | roundWithUnit:1 --> x
+                    <!-- table.records_unavailable | roundWithUnit:1 --> -
                   </p>
               <p class="announcement-text">Unavailable Records</p>
             </div>
@@ -104,7 +103,7 @@
                   data-toggle="tooltip" 
                   rel="tooltip" 
                   data-original-title="table.records_underreplicated | number:0">
-                    <!-- table.records_underreplicated | roundWithUnit:1 --> x
+                    <!-- table.records_underreplicated | roundWithUnit:1 --> -
                   </p>
               <p class="announcement-text">Underreplicated Records</p>
             </div>
@@ -117,7 +116,7 @@
               <p class="announcement-heading inline-block" 
                   data-toggle="tooltip" 
                   rel="tooltip" 
-                  data-original-title="table.size | number:0"><!-- table.size | bytes --> X Kbytes</p>
+                  data-original-title="table.size | number:0"><!-- table.size | bytes --> -</p>
               <p class="announcement-text">Size</p>
             </div>
           </div>
