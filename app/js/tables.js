@@ -50,6 +50,12 @@ define(['jquery',
                     table.shardInfo = _.filter(shardInfo, function (si) { return si.name === table.name; } );
                     return table;
                 });
+
+                // Reject system tables
+                tables = _.reject(tables, function (table) {
+                    return _.contains(['tables', 'shards', 'columns', 'cluster', 'nodes'], table.name);
+                });
+
                 self.reset(tables);
                 d.resolve(tables);
             }, d.reject);
