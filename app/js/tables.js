@@ -47,7 +47,7 @@ define(['jquery',
                 });
 
                 tables = _.map(tables, function (table) {
-                    table.shardInfo = _.filter(shardInfo, function (si) { return si.name === table.name } );
+                    table.shardInfo = _.filter(shardInfo, function (si) { return si.name === table.name; } );
                     return table;
                 });
                 self.reset(tables);
@@ -73,13 +73,15 @@ define(['jquery',
             _.each(this.collection.models, function (table) {
                 var v = new Tables.TableListItemView({model: table});
                 self.$('ul').append(v.render().$el);
-                self.addView(table.name, v);
+                self.addView(table.get('name'), v);
             });
             return this;
         }
     });
 
     Tables.TableListItemView = base.CrateView.extend({
+
+        tagName: 'li',
 
         template: _.template(TableListItemTemplate),
 

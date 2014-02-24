@@ -54,7 +54,7 @@ define([
     var Router = Backbone.Router.extend({
 
         routes: {
-            '': '',
+            '': 'tables',
             console: 'console',
             tables: 'tables'
         },
