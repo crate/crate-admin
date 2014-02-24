@@ -30,6 +30,7 @@ define(['jquery',
                 var nodes = _.map(res.rows, function (row) {
                     return _.object(['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs'], row);
                 });
+                self.reset(nodes);
             });
 
             return d.promise();
@@ -63,6 +64,8 @@ define(['jquery',
         tagName: 'li',
 
         template: _.template(NodeListItemTemplate),
+
+        selectNode: function (ev) {},
 
         events: {
             'click ': 'selectNode'
