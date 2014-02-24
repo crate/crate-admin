@@ -7,7 +7,7 @@ define(['jquery',
         'bootstrap'
     ], function ($, _, Backbone, base, SQL, StatusBarTemplate) {
 
-    var Status = {}
+    var Status = {};
 
     Status.ClusterStatus = Backbone.Model.extend({
 
@@ -42,19 +42,19 @@ define(['jquery',
             var self = this,
                 sq;
 
-            sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables")
+            sq = new SQL.Query("select sum(number_of_shards) from information_schema.tables where schema_name = 'doc'");
             sq.execute().done(function (res) {
                 var configuredShards = 0;
                 if (res.rowcount > 0) {
                     configuredShards = res.rows[0][0];
                 }
 
-                sq = new SQL.Query('select count(*), "primary", state from stats.shards group by "primary", state');
+                sq = new SQL.Query('select count(*), "primary", state from sys.shards group by "primary", state');
                 sq.execute().done(function (res) {
                     var activePrimaryShards = 0;
                     var unassignedShards = 0;
                     for (var row in res.rows) {
-                        if (res.rows[row][1] == true && res.rows[row][2] in {'STARTED':'', 'RELOCATING':''} ) {
+                        if (res.rows[row][1] === true && res.rows[row][2] in {'STARTED':'', 'RELOCATING':''} ) {
                             activePrimaryShards = res.rows[row][0];
                         } else if (res.rows[row][2] == 'UNASSIGNED') {
                             unassignedShards = res.rows[row][0];
@@ -64,7 +64,6 @@ define(['jquery',
                         self.set({
                             cluster_state: 'critical',
                         });
-
                     } else if (unassignedShards > 0) {
                         self.set({
                             cluster_state: 'warning',
@@ -89,9 +88,9 @@ define(['jquery',
             for (var row in resTables.rows) {
                 var current_row = resTables.rows[row];
                 if (table_state[current_row[0]] === undefined) {
-                    table_state[current_row[0]] = {'total':0, 'replicated': -1, 'avg_docs': 0, 'active_shards': 0}
+                    table_state[current_row[0]] = {'total':0, 'replicated': -1, 'avg_docs': 0, 'active_shards': 0};
                 }
-                if (current_row[2] == true) {
+                if (current_row[2] === true) {
                     table_state[current_row[0]]['total'] = current_row[1];
                     table_state[current_row[0]]['avg_docs'] += current_row[4];
                     table_state[current_row[0]]['active_shards'] += current_row[5];
@@ -103,8 +102,8 @@ define(['jquery',
             if (resRecords !== undefined) {
                 for (var row in resRecords.rows) {
                     var current_row = resRecords.rows[row];
-                    if (table_state[current_row[0]] == undefined) {
-                        table_state[current_row[0]] = {'total_shards':0}
+                    if (table_state[current_row[0]] === undefined) {
+                        table_state[current_row[0]] = {'total_shards':0};
                     }
                     table_state[current_row[0]]['total_shards'] = current_row[1];
                 }
@@ -138,7 +137,7 @@ define(['jquery',
 
             sqRecords = new SQL.Query(
                 'select table_name, sum(num_docs), "primary", relocating_node, avg(num_docs), count(*), state '+
-                'from stats.shards group by table_name, "primary", relocating_node, state ' +
+                'from sys.shards group by table_name, "primary", relocating_node, state ' +
                 'order by table_name, "primary"');
             sqTables = new SQL.Query(
                 'select table_name, sum(number_of_shards) from information_schema.tables ' +
@@ -150,7 +149,7 @@ define(['jquery',
                     self._updateTableData(resTables, resRecords);
                 }).fail(function () {
                     self._updateTableData(resTables);
-                })
+                });
             });
 
         },
