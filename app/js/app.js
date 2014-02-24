@@ -5,8 +5,9 @@ define([
     'Status',
     'Overview',
     'Console',
+    'Tables',
     'Cluster'
-], function ($, _, Backbone, Status, Overview, Console, Cluster) {
+], function ($, _, Backbone, Status, Overview, Console, Tables, Cluster) {
 
     var app = _.extend({
 
@@ -56,6 +57,7 @@ define([
         routes: {
             '': 'home',
             console: 'console',
+            tables: 'tables',
             cluster: 'cluster'
         },
 
@@ -77,6 +79,17 @@ define([
             $('#wrapper').html(app.currentView.$el);
         },
 
+        tables: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            var tableList = new Tables.TableList();
+            tableList.fetch();
+            app.currentView = new Tables.TableListView({collection: tableList});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
+        },
+
         cluster: function () {
             if (app.currentView) {
                 app.currentView.dispose();
@@ -84,8 +97,8 @@ define([
             var cluster = new Cluster.Cluster();
             cluster.fetch();
             app.currentView = new Cluster.ClusterView({collection: cluster});
-            app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
+
         }
     });
 
