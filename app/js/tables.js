@@ -52,6 +52,7 @@ define(['jquery',
                 });
 
                 // Reject system tables
+                // select table_name from information_schema.tables where schema_name='doc'
                 tables = _.reject(tables, function (table) {
                     return _.contains(['tables', 'shards', 'columns', 'cluster', 'nodes'], table.name);
                 });
@@ -114,7 +115,15 @@ define(['jquery',
         },
 
         summary: function () {
-            return '';
+            // Show in the summary the size of the "primary" node
+            var primary = _.find(this.model.attributes.shardInfo, function (node) {
+                return node.primary;
+            });
+            if (primary === undefined) {
+                return '';
+            }
+
+            return base.humanReadableSize(primary.size);
         },
 
         healthLabel: function () {
