@@ -23,10 +23,13 @@ define(['jquery',
                 sqInfo, sqShardInfo, dInfo, dShardInfo, d;
 
             d = $.Deferred();
-            sqCluster = new SQL.Query('select id, name, hostname, port, load, mem, fs from sys.nodes');
-            dCluster = sqCluster.execute();
+            sqNodes = new SQL.Query('select id, name, hostname, port, load, mem, fs from sys.nodes');
+            dNodes = sqNodes.execute();
 
-            dCluster.done(function (res) {
+            dNodes.done(function (res) {
+                var nodes = _.map(res.rows, function (row) {
+                    return _.object(['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs'], row);
+                });
             });
 
             return d.promise();
