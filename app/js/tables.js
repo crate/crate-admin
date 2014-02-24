@@ -31,7 +31,7 @@ define(['jquery',
 
             sqShardInfo = new SQL.Query(
                 'select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
-                'from stats.shards group by table_name, "primary", state ' +
+                'from sys.shards group by table_name, "primary", state ' +
                 'order by table_name, "primary"');
             dInfo = sqInfo.execute();
             dShardInfo = sqShardInfo.execute();
