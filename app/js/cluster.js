@@ -12,6 +12,15 @@ define(['jquery',
     var Cluster = {};
 
     Cluster.Node = Backbone.Model.extend({
+
+        health: function () {
+            return _.max([this.get('fs').used_percent, this.get('mem').used_percent]);
+        },
+
+        httpLink: function () {
+            return 'http://' + this.get('hostname') + ':' + this.get('port').http;
+        }
+
     });
 
     Cluster.Cluster = Backbone.Collection.extend({
@@ -71,12 +80,21 @@ define(['jquery',
 
         selectNode: function (ev) {},
 
-        httpLink: function () {
-            return 'http://' + this.model.get('hostname') + ':' + this.model.get('port').http;
+        healthLabel: function () {
+            var health = this.model.health();
+            if (health>98) {
+                return 'clusterstatus-critical';
+            } else if (health>90) {
+                return 'clusterstatus-warning';
+            }
+            return 'clusterstatus-good';
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.httpLink = this.model.httpLink();
+            data.healthLabel = this.healthLabel();
+            this.$el.html(this.template(data));
             return this;
         }
     });

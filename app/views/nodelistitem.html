@@ -1,7 +1,7 @@
 <a href="" data-toggle="tab">
   <div class="row">
     <div class="col-md-8 col-sm-8">
-      <h3><span class="">{{ name }}</span></h3>
+      <h3><span class="{{ healthLabel }}">{{ name }}</span></h3>
     </div>
     <div class="col-md-4 col-sm-4">
       <span class="pull-right">{{hostname}}</span>
@@ -12,7 +12,7 @@
       <span class="">Summary</span>
     </div>
     <div class="col-md-4 col-sm-4">
-      <span class="pull-right">{{ this.httpLink() }}</span>
+      <span class="pull-right">{{ httpLink }}</span>
     </div>
   </div>
 </a>
