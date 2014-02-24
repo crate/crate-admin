@@ -2,10 +2,21 @@
 Changes for Crate Data
 ======================
 
-Unreleased
+unreleased
 ==========
 
  - Introduced Tables view
+
+2014/02/24 0.0.4
+================
+
+ - bugfix in release management: create_tag.sh now checks for
+   versions in both, package.json and bower.json.
+
+2014/02/24 0.0.3
+================
+
+ - fix for overview
 
  - fixed status bar
 
