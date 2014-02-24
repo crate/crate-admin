@@ -53,6 +53,15 @@ define([
         return $(html({msg: msg}));
     };
 
+    exports.humanReadableSize = function (bytes) {
+        var i, sizes = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+
+        if (bytes === 0) {
+            return '0';
+        }
+        i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    };
 
     return exports;
 });
