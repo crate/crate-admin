@@ -2,8 +2,10 @@
 Changes for Crate Data
 ======================
 
-Unreleased
-==========
+2014/02/23 0.0.3
+================
+
+ - fix for overview
 
  - fixed status bar
 
