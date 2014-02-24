@@ -5,10 +5,12 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/02/24 0.0.5
+================
+
  - Introduced Tables view
 
  - Introduced Cluster view
-
 
 2014/02/24 0.0.4
 ================
