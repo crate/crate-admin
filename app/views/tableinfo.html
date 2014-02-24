@@ -41,7 +41,7 @@
           <div class="panel panel-info text-right">
           <!-- make this red if failing -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table. shards_started--> -</p>
+              <p class="announcement-heading">{{this.startedShards()}}</p>
               <p class="announcement-text">Started Shards</p>
             </div>
           </div>
@@ -51,7 +51,7 @@
           <div class="panel panel-info text-right">
             <!-- make this red if shards are missing -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table.shards_missing--> -</p>
+              <p class="announcement-heading">{{this.missingShards()}}</p>
               <p class="announcement-text">Missing Shards</p>
             </div>
           </div>

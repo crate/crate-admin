@@ -151,7 +151,17 @@ define(['jquery',
         },
 
         missingShards: function () {
-            return 0;
+            shards = _.filter(this.model.attributes.shardInfo, function (node) {
+                return node.state == 'UNASSIGNED';
+            });
+            return _.reduce(shards, function(memo, num){return num.shards_active + memo}, 0);
+        },
+
+        startedShards: function () {
+            shards = _.filter(this.model.attributes.shardInfo, function (node) {
+                return node.state == 'STARTED';
+            });
+            return _.reduce(shards, function(memo, num){return num.shards_active + memo}, 0);
         },
 
         activeShards: function () {
