@@ -4,8 +4,9 @@ define([
     'backbone',
     'Status',
     'Overview',
-    'Console'
-], function ($, _, Backbone, Status, Overview, Console) {
+    'Console',
+    'Cluster'
+], function ($, _, Backbone, Status, Overview, Console, Cluster) {
 
     var app = _.extend({
 
@@ -54,7 +55,8 @@ define([
 
         routes: {
             '': 'home',
-            console: 'console'
+            console: 'console',
+            cluster: 'cluster'
         },
 
         home: function () {
@@ -73,7 +75,17 @@ define([
             app.currentView = new Console.ConsoleView({model: app.status});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
-            var v;
+        },
+
+        cluster: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            var cluster = new Cluster.Cluster();
+            cluster.fetch();
+            app.currentView = new Cluster.ClusterView({collection: cluster});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
         }
     });
 
