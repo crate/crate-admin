@@ -7762,7 +7762,7 @@ h2 {
     margin-left: 350px;
   }
   #table-info {
-    margin-left: 350px;
+    /* margin-left: 350px; */
   }
 }
 .label {
