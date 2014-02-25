@@ -12,6 +12,7 @@ define([
     var app = _.extend({
 
         root: '/_plugin/crate-admin',
+        refreshTimeout: null,
 
         start: function () {
             var sb, ov;
@@ -64,6 +65,7 @@ define([
         home: function () {
             if (app.currentView) {
                 app.currentView.dispose();
+                clearTimeout(app.refreshTimeout);
             }
             app.currentView = new Overview.OverviewView({model: app.status});
             app.currentView.render();
@@ -73,6 +75,7 @@ define([
         console: function () {
             if (app.currentView) {
                 app.currentView.dispose();
+                clearTimeout(app.refreshTimeout);
             }
             app.currentView = new Console.ConsoleView({model: app.status});
             app.currentView.render();
@@ -82,9 +85,11 @@ define([
         tables: function () {
             if (app.currentView) {
                 app.currentView.dispose();
+                clearTimeout(app.refreshTimeout);
             }
             var tableList = new Tables.TableList();
             tableList.fetch();
+            app.refreshTimeout = setTimeout(function () { tableList.fetch(); }, 5000);
             app.currentView = new Tables.TableListView({collection: tableList});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
@@ -93,9 +98,11 @@ define([
         cluster: function () {
             if (app.currentView) {
                 app.currentView.dispose();
+                clearTimeout(app.refreshTimeout);
             }
             var cluster = new Cluster.Cluster();
             cluster.fetch();
+            app.refreshTimeout = setTimeout(function () { cluster.fetch(); }, 5000);
             app.currentView = new Cluster.ClusterView({collection: cluster});
             $('#wrapper').html(app.currentView.$el);
 

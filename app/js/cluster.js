@@ -77,7 +77,6 @@ define(['jquery',
 
         render: function () {
             var self = this;
-
             this.$el.html(this.template());
             _.each(this.collection.models, function (node) {
                 var v = new Cluster.NodeListItemView({model: node});
