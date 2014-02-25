@@ -22,7 +22,14 @@ define(['jquery',
 
         missingShards: function () {
             var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'UNASSIGNED';
+                return node.state == 'UNASSIGNED' && node.primary;
+            });
+            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+        },
+
+        underreplicatedShards: function () {
+            var shards = _.filter(this.get('shardInfo'), function (node) {
+                return node.state == 'UNASSIGNED' && !node.primary;
             });
             return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
         },
@@ -187,7 +194,7 @@ define(['jquery',
             data.tableSize = this.model.primaryTable().size;
             data.activeShards = 0;
             data.totalRecords = this.model.primaryTable().records_total;
-            data.underreplicatedShards = 0;
+            data.underreplicatedShards = this.model.underreplicatedShards();
             data.replicatedRecords = 0;
             data.underreplicatedRecords = 0;
             this.$el.html(this.template(data));
