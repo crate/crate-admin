@@ -17,6 +17,16 @@ define(['jquery',
             return _.max([this.get('fs').used_percent, this.get('mem').used_percent]);
         },
 
+        healthStatus: function () {
+            var health = this.health();
+            if (health>98) {
+                return 'critical';
+            } else if (health>90) {
+                return 'warning';
+            }
+            return 'good';
+        },
+
         httpLink: function () {
             return 'http://' + this.get('hostname') + ':' + this.get('port').http;
         }
@@ -55,6 +65,16 @@ define(['jquery',
 
         template: _.template(ClusterTemplate),
 
+        deactivateAll: function () {
+            this.$('li').removeClass('active');
+        },
+
+        showDetails: function (name) {
+            var n = this.collection.get(name),
+            v = new Cluster.NodeInfoView({model: n});
+            this.$('#node-info').html(v.render().$el);
+        },
+
         render: function () {
             var self = this;
 
@@ -78,22 +98,18 @@ define(['jquery',
             'click ': 'selectNode'
         },
 
-        selectNode: function (ev) {},
-
-        healthLabel: function () {
-            var health = this.model.health();
-            if (health>98) {
-                return 'clusterstatus-critical';
-            } else if (health>90) {
-                return 'clusterstatus-warning';
-            }
-            return 'clusterstatus-good';
+        selectNode: function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            this.parentView.deactivateAll();
+            this.$el.addClass('active');
+            this.parentView.showDetails(this.model.id);
         },
 
         render: function () {
             var data = this.model.toJSON();
             data.httpLink = this.model.httpLink();
-            data.healthLabel = this.healthLabel();
+            data.health = this.model.healthStatus();
             this.$el.html(this.template(data));
             return this;
         }
@@ -104,7 +120,11 @@ define(['jquery',
         template: _.template(NodeInfoTemplate),
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.memUsed = base.humanReadableSize(data.mem.used);
+            data.fsUsed = base.humanReadableSize(data.fs.used);
+            data.httpLink = this.model.httpLink();
+            this.$el.html(this.template(data));
             return this;
         }
 

@@ -5,6 +5,7 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Complete cluster view
 
 2014/02/25 0.0.6
 ================
