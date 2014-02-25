@@ -129,8 +129,12 @@
               </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="row in schemaRows">
-                <td ng-repeat="column in row track by $index"> column</td>
+                {% _.each(columns, function (col) { %}
+                  <tr>
+                    <td> {{ col.column_name }} </td>
+                    <td> {{ col.data_type }} </td>
+                  </tr>
+                {% }); %}
               </tr>
               </tbody>
             </table>
