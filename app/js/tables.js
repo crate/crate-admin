@@ -33,24 +33,24 @@ define(['jquery',
         },
 
         missingShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'UNASSIGNED' && node.primary;
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'UNASSIGNED' && shard.primary;
             });
-            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
 
         underreplicatedShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'UNASSIGNED' && !node.primary;
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'UNASSIGNED' && !shard.primary;
             });
-            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
 
         startedShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'STARTED';
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'STARTED';
             });
-            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
 
         underreplicatedRecords: function () {
@@ -58,6 +58,17 @@ define(['jquery',
                 return 0;
             }
             return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
+        },
+
+        unavailableRecords: function () {
+            if (this.missingShards() === 0) {
+                return 0;
+            }
+
+            var shard = _.find(this.get('shardInfo'), function (shard) {
+                return shard.state === 'STARTED';
+            });
+            return shard.avg_docs * this.missingShards();
         }
 
     });
@@ -205,11 +216,10 @@ define(['jquery',
             data.missingShards = this.model.missingShards();
             data.startedShards = this.model.startedShards();
             data.tableSize = base.humanReadableSize(this.model.size());
-            data.activeShards = 0;
             data.totalRecords = this.model.totalRecords();
             data.underreplicatedShards = this.model.underreplicatedShards();
-            data.replicatedRecords = 0;
             data.underreplicatedRecords = this.model.underreplicatedRecords();
+            data.unavailableRecords = this.model.unavailableRecords();
             this.$el.html(this.template(data));
             return this;
         }
