@@ -72,6 +72,9 @@ define(['jquery',
         },
 
         health: function () {
+            if (this.primaryShards().length == 0) {
+                return 'critical';
+            }
             if (this.missingShards() > 0) {
                 return 'critical';
             }
