@@ -14,10 +14,22 @@ define(['jquery',
     Tables.TableInfo = Backbone.Model.extend({
         idAttribute: 'name',
 
-        primaryTable: function () {
-            return _.find(this.get('shardInfo'), function (node) {
+        primaryShards: function () {
+            return _.filter(this.get('shardInfo'), function (node) {
                 return node.primary;
             });
+        },
+
+        size: function () {
+            return _.reduce(this.primaryShards(), function (memo, shard) {
+                return memo + shard.size;
+            }, 0);
+        },
+
+        totalRecords: function () {
+            return _.reduce(this.primaryShards(), function (memo, shard) {
+                return memo + shard.records_total;
+            }, 0);
         },
 
         missingShards: function () {
@@ -40,6 +52,13 @@ define(['jquery',
             });
             return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
         },
+
+        underreplicatedRecords: function () {
+            if (this.underreplicatedShards() === 0) {
+                return 0;
+            }
+
+        }
 
     });
 
@@ -165,14 +184,8 @@ define(['jquery',
         },
 
         summary: function () {
-            // Show in the summary the size of the "primary" node
-            var primary = this.model.primaryTable();
-
-            if (primary === undefined) {
-                return '';
-            }
-
-            return base.humanReadableSize(primary.size);
+            // Show in the summary the size of the "primary" shards
+            return base.humanReadableSize(this.model.size());
         },
 
 
@@ -191,9 +204,9 @@ define(['jquery',
             var data = this.model.toJSON();
             data.missingShards = this.model.missingShards();
             data.startedShards = this.model.startedShards();
-            data.tableSize = this.model.primaryTable().size;
+            data.tableSize = base.humanReadableSize(this.model.size());
             data.activeShards = 0;
-            data.totalRecords = this.model.primaryTable().records_total;
+            data.totalRecords = this.model.totalRecords();
             data.underreplicatedShards = this.model.underreplicatedShards();
             data.replicatedRecords = 0;
             data.underreplicatedRecords = 0;
