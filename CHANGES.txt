@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Completed table info view
+
  - Complete cluster view
 
  - fixed error console not reseting on a new query
