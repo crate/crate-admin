@@ -65,6 +65,16 @@ define(['jquery',
 
         template: _.template(ClusterTemplate),
 
+        deactivateAll: function () {
+            this.$('li').removeClass('active');
+        },
+
+        showDetails: function (name) {
+            var n = this.collection.get(name),
+            v = new Cluster.NodeInfoView({model: n});
+            this.$('#node-info').html(v.render().$el);
+        },
+
         render: function () {
             var self = this;
 
@@ -88,7 +98,13 @@ define(['jquery',
             'click ': 'selectNode'
         },
 
-        selectNode: function (ev) {},
+        selectNode: function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            this.parentView.deactivateAll();
+            this.$el.addClass('active');
+            this.parentView.showDetails(this.model.id);
+        },
 
         render: function () {
             var data = this.model.toJSON();
