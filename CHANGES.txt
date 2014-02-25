@@ -5,6 +5,7 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - fixed error console not reseting on a new query
 
 2014/02/25 0.0.6
 ================
