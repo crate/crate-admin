@@ -72,6 +72,8 @@ define(['jquery',
 
             ev.preventDefault();
             ev.stopPropagation();
+            this.$('#errors').html('');
+
             this.loadingIndicator.start();
             sq = new SQL.Query(stmt);
             sq.execute().done(function (res) {
