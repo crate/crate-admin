@@ -17,6 +17,16 @@ define(['jquery',
             return _.max([this.get('fs').used_percent, this.get('mem').used_percent]);
         },
 
+        healthStatus: function () {
+            var health = this.health();
+            if (health>98) {
+                return 'critical';
+            } else if (health>90) {
+                return 'warning';
+            }
+            return 'good';
+        },
+
         httpLink: function () {
             return 'http://' + this.get('hostname') + ':' + this.get('port').http;
         }
@@ -80,20 +90,10 @@ define(['jquery',
 
         selectNode: function (ev) {},
 
-        healthLabel: function () {
-            var health = this.model.health();
-            if (health>98) {
-                return 'clusterstatus-critical';
-            } else if (health>90) {
-                return 'clusterstatus-warning';
-            }
-            return 'clusterstatus-good';
-        },
-
         render: function () {
             var data = this.model.toJSON();
             data.httpLink = this.model.httpLink();
-            data.healthLabel = this.healthLabel();
+            data.health = this.model.healthStatus();
             this.$el.html(this.template(data));
             return this;
         }
