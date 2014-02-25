@@ -121,7 +121,6 @@ define(['jquery',
 
         render: function () {
             var data = this.model.toJSON();
-            debugger;
             data.httpLink = this.model.httpLink();
             this.$el.html(this.template(data));
             return this;
