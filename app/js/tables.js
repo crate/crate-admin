@@ -57,7 +57,7 @@ define(['jquery',
             if (this.underreplicatedShards() === 0) {
                 return 0;
             }
-
+            return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
         }
 
     });
@@ -209,7 +209,7 @@ define(['jquery',
             data.totalRecords = this.model.totalRecords();
             data.underreplicatedShards = this.model.underreplicatedShards();
             data.replicatedRecords = 0;
-            data.underreplicatedRecords = 0;
+            data.underreplicatedRecords = this.model.underreplicatedRecords();
             this.$el.html(this.template(data));
             return this;
         }
