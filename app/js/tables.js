@@ -57,6 +57,9 @@ define(['jquery',
             if (this.underreplicatedShards() === 0) {
                 return 0;
             }
+            if (this.primaryShards().length === 0) {
+                return '--';
+            }
             return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
         },
 
@@ -72,7 +75,7 @@ define(['jquery',
         },
 
         health: function () {
-            if (this.primaryShards().length == 0) {
+            if (this.primaryShards().length === 0) {
                 return 'critical';
             }
             if (this.missingShards() > 0) {
