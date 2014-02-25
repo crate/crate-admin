@@ -121,6 +121,8 @@ define(['jquery',
 
         render: function () {
             var data = this.model.toJSON();
+            data.memUsed = base.humanReadableSize(data.mem.used);
+            data.fsUsed = base.humanReadableSize(data.fs.used);
             data.httpLink = this.model.httpLink();
             this.$el.html(this.template(data));
             return this;
