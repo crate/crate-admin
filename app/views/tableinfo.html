@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container margin-left-350">
   <div class="row">
     <div class="col-lg-9 col-md-9">
       <div class="row">
@@ -13,7 +13,9 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading"><!--table.health.substring(0,1) .toUpperCase()+ table.health.substring(1)}}-->----</p>
+              <p class="announcement-heading">
+                <span class="tablestatus-{{health}}">{{ health }}</span>
+              </p>
               <p class="announcement-text">Health</p>
             </div>
           </div>
@@ -61,7 +63,7 @@
           <div class="panel panel-info text-right" >
             <!-- make this yellow is shards are underreplicated -->
             <div class="panel-heading">
-              <p class="announcement-heading"><!-- table.shards_underreplicated --> -</p>
+              <p class="announcement-heading">{{ underreplicatedShards }}</p>
               <p class="announcement-text">Underreplicated Shards</p>
             </div>
           </div>
@@ -81,12 +83,7 @@
         <div class="col-md-4 col-sm-5">
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block"
-                  data-toggle="tooltip"
-                  rel="tooltip"
-                  data-original-title="table.records_unavailable | number:0">
-                    <!-- table.records_unavailable | roundWithUnit:1 --> -
-                  </p>
+              <p class="announcement-heading inline-block">{{ unavailableRecords}}</p>
               <p class="announcement-text">Unavailable Records</p>
             </div>
           </div>
@@ -96,12 +93,7 @@
           <div class="panel panel-info text-right">
             <!-- make yellow if underreplicated -->
             <div class="panel-heading">
-              <p class="announcement-heading inline-block"
-                  data-toggle="tooltip"
-                  rel="tooltip"
-                  data-original-title="table.records_underreplicated | number:0">
-                    <!-- table.records_underreplicated | roundWithUnit:1 --> -
-                  </p>
+              <p class="announcement-heading inline-block"> {{ underreplicatedRecords }} </p>
               <p class="announcement-text">Underreplicated Records</p>
             </div>
           </div>
@@ -129,8 +121,12 @@
               </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="row in schemaRows">
-                <td ng-repeat="column in row track by $index"> column</td>
+                {% _.each(columns, function (col) { %}
+                  <tr>
+                    <td> {{ col.column_name }} </td>
+                    <td> {{ col.data_type }} </td>
+                  </tr>
+                {% }); %}
               </tr>
               </tbody>
             </table>

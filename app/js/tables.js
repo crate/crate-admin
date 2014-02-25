@@ -14,25 +14,78 @@ define(['jquery',
     Tables.TableInfo = Backbone.Model.extend({
         idAttribute: 'name',
 
-        primaryTable: function () {
-            return _.find(this.get('shardInfo'), function (node) {
+        primaryShards: function () {
+            return _.filter(this.get('shardInfo'), function (node) {
                 return node.primary;
             });
         },
 
+        size: function () {
+            return _.reduce(this.primaryShards(), function (memo, shard) {
+                return memo + shard.size;
+            }, 0);
+        },
+
+        totalRecords: function () {
+            return _.reduce(this.primaryShards(), function (memo, shard) {
+                return memo + shard.records_total;
+            }, 0);
+        },
+
         missingShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'UNASSIGNED';
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'UNASSIGNED' && shard.primary;
             });
-            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
+        },
+
+        underreplicatedShards: function () {
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'UNASSIGNED' && !shard.primary;
+            });
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
 
         startedShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (node) {
-                return node.state == 'STARTED';
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'STARTED';
             });
-            return _.reduce(shards, function(memo, node) {return node.shards_active + memo; }, 0);
+            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
+
+        underreplicatedRecords: function () {
+            if (this.underreplicatedShards() === 0) {
+                return 0;
+            }
+            if (this.primaryShards().length === 0) {
+                return '--';
+            }
+            return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
+        },
+
+        unavailableRecords: function () {
+            if (this.missingShards() === 0) {
+                return 0;
+            }
+
+            var shard = _.find(this.get('shardInfo'), function (shard) {
+                return shard.state === 'STARTED';
+            });
+            return shard.avg_docs * this.missingShards();
+        },
+
+        health: function () {
+            if (this.primaryShards().length === 0) {
+                return 'critical';
+            }
+            if (this.missingShards() > 0) {
+                return 'critical';
+            }
+            if (this.underreplicatedShards() > 0) {
+                return 'warning';
+            }
+            return 'good';
+        }
 
     });
 
@@ -42,7 +95,7 @@ define(['jquery',
 
         fetch: function () {
             var self = this,
-                sqInfo, sqShardInfo, dInfo, dShardInfo, d;
+                sqInfo, sqShardInfo, sqColumns, dInfo, dShardInfo, dColumns, d;
 
             d = $.Deferred();
             sqInfo = new SQL.Query(
@@ -54,10 +107,17 @@ define(['jquery',
                 'select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
                 'from sys.shards group by table_name, "primary", state ' +
                 'order by table_name, "primary"');
+
+            sqColumns = new SQL.Query(
+                'select table_name, column_name, data_type ' +
+                'from information_schema.columns order by ordinal_position'
+            );
+
             dInfo = sqInfo.execute();
             dShardInfo = sqShardInfo.execute();
+            dColumns = sqColumns.execute();
 
-            $.when(dInfo, dShardInfo).then(function (info, shardInfo) {
+            $.when(dInfo, dShardInfo, dColumns).then(function (info, shardInfo, columns) {
                 // Collect and assemble list of tables as objects
                 var tables = _.map(info[0].rows, function (row) {
                     return _.object(['name', 'shards_configured', 'replicas_configured'], row);
@@ -72,10 +132,20 @@ define(['jquery',
                     return table;
                 });
 
+                columns = _.map(columns[0].rows, function (row) {
+                    return _.object(['table_name', 'column_name', 'data_type'], row);
+                });
+
+                columns = _.groupBy(columns, function (column) { return column.table_name; });
+
                 // Reject system tables
                 // select table_name from information_schema.tables where schema_name='doc'
                 tables = _.reject(tables, function (table) {
                     return _.contains(['tables', 'shards', 'columns', 'cluster', 'nodes'], table.name);
+                });
+
+                _.each(tables, function (table) {
+                    table.columns = columns[table.name];
                 });
 
                 self.reset(tables);
@@ -136,24 +206,16 @@ define(['jquery',
 
         },
 
-        healthLabel: function () {
-            return '';
-        },
-
         summary: function () {
-            // Show in the summary the size of the "primary" node
-            var primary = this.model.primaryTable();
-
-            if (primary === undefined) {
-                return '';
-            }
-
-            return base.humanReadableSize(primary.size);
+            // Show in the summary the size of the "primary" shards
+            return base.humanReadableSize(this.model.size());
         },
 
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.health = this.model.health();
+            this.$el.html(this.template(data));
             return this;
         }
     });
@@ -167,12 +229,12 @@ define(['jquery',
             var data = this.model.toJSON();
             data.missingShards = this.model.missingShards();
             data.startedShards = this.model.startedShards();
-            data.tableSize = this.model.primaryTable().size;
-            data.activeShards = 0;
-            data.totalRecords = this.model.primaryTable().records_total;
-            data.underreplicatedShards = 0;
-            data.replicatedRecords = 0;
-            data.underreplicatedRecords = 0;
+            data.tableSize = base.humanReadableSize(this.model.size());
+            data.totalRecords = this.model.totalRecords();
+            data.underreplicatedShards = this.model.underreplicatedShards();
+            data.underreplicatedRecords = this.model.underreplicatedRecords();
+            data.unavailableRecords = this.model.unavailableRecords();
+            data.health = this.model.health();
             this.$el.html(this.template(data));
             return this;
         }

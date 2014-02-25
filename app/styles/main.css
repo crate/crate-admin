@@ -7762,7 +7762,7 @@ h2 {
     margin-left: 350px;
   }
   #table-info {
-    margin-left: 350px;
+    /* margin-left: 350px; */
   }
 }
 .label {
@@ -7833,10 +7833,12 @@ h2 {
   background-color: #ff5151;
   display: inline;
 }
-.clusterstatus-critical {
+.clusterstatus-critical,
+.tablestatus-critical {
   background-color: #ff5151;
 }
-.clusterstatus-warning {
+.clusterstatus-warning,
+.tablestatus-warning {
   background-color: #ffc600;
 }
 .clusterstatus-good {
