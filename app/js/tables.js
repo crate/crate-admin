@@ -42,7 +42,7 @@ define(['jquery',
 
         fetch: function () {
             var self = this,
-                sqInfo, sqShardInfo, dInfo, dShardInfo, d;
+                sqInfo, sqShardInfo, sqColumns, dInfo, dShardInfo, dColumns, d;
 
             d = $.Deferred();
             sqInfo = new SQL.Query(
@@ -54,10 +54,17 @@ define(['jquery',
                 'select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
                 'from sys.shards group by table_name, "primary", state ' +
                 'order by table_name, "primary"');
+
+            sqColumns = new SQL.Query(
+                'select table_name, column_name, data_type ' +
+                'from information_schema.columns order by ordinal_position'
+            );
+
             dInfo = sqInfo.execute();
             dShardInfo = sqShardInfo.execute();
+            dColumns = sqColumns.execute();
 
-            $.when(dInfo, dShardInfo).then(function (info, shardInfo) {
+            $.when(dInfo, dShardInfo, dColumns).then(function (info, shardInfo, columns) {
                 // Collect and assemble list of tables as objects
                 var tables = _.map(info[0].rows, function (row) {
                     return _.object(['name', 'shards_configured', 'replicas_configured'], row);
@@ -72,10 +79,20 @@ define(['jquery',
                     return table;
                 });
 
+                columns = _.map(columns[0].rows, function (row) {
+                    return _.object(['table_name', 'column_name', 'data_type'], row);
+                });
+
+                columns = _.groupBy(columns, function (column) { return column.table_name; });
+
                 // Reject system tables
                 // select table_name from information_schema.tables where schema_name='doc'
                 tables = _.reject(tables, function (table) {
                     return _.contains(['tables', 'shards', 'columns', 'cluster', 'nodes'], table.name);
+                });
+
+                _.each(tables, function (table) {
+                    table.columns = columns[table.name];
                 });
 
                 self.reset(tables);
