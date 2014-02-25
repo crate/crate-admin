@@ -69,6 +69,16 @@ define(['jquery',
                 return shard.state === 'STARTED';
             });
             return shard.avg_docs * this.missingShards();
+        },
+
+        health: function () {
+            if (this.missingShards() > 0) {
+                return 'critical';
+            }
+            if (this.underreplicatedShards() > 0) {
+                return 'warning';
+            }
+            return 'good';
         }
 
     });
@@ -190,10 +200,6 @@ define(['jquery',
 
         },
 
-        healthLabel: function () {
-            return '';
-        },
-
         summary: function () {
             // Show in the summary the size of the "primary" shards
             return base.humanReadableSize(this.model.size());
@@ -201,7 +207,9 @@ define(['jquery',
 
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.health = this.model.health();
+            this.$el.html(this.template(data));
             return this;
         }
     });
@@ -220,6 +228,7 @@ define(['jquery',
             data.underreplicatedShards = this.model.underreplicatedShards();
             data.underreplicatedRecords = this.model.underreplicatedRecords();
             data.unavailableRecords = this.model.unavailableRecords();
+            data.health = this.model.health();
             this.$el.html(this.template(data));
             return this;
         }
