@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - fixed visual bug causing table info to not display properly.
+
 2014/02/24 0.0.5
 ================
 
