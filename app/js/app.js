@@ -101,8 +101,14 @@ define([
                 clearTimeout(app.refreshTimeout);
             }
             var cluster = new Cluster.Cluster();
-            cluster.fetch();
-            app.refreshTimeout = setTimeout(function () { cluster.fetch(); }, 5000);
+            cluster.fetch({reset: true});
+            var refreshCluster = function () {
+                cluster.fetch();
+                app.refreshTimeout = setTimeout(refreshCluster, 5000);
+
+            };
+            app.refreshTimeout = setTimeout(refreshCluster, 5000);
+
             app.currentView = new Cluster.ClusterView({collection: cluster});
             $('#wrapper').html(app.currentView.$el);
 
