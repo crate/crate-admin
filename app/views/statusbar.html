@@ -5,14 +5,14 @@
       <li><a href="tables" id="nav-tables"><i class="fa fa-table"></i>Tables</a></li>
       <li><a href="cluster" id="nav-cluster"><i class="fa fa-sitemap"></i>Cluster</a></li>
       <li><a href="/_plugin/docs"  id="nav-docs" data-bypass="" target="_blank"><i class="fa fa-book"></i><div>Docs</div></a></li>
-      <li><a class="navbar-brand" href="index.html"></a></li>
+      <li><a class="navbar-brand" href="https://crate.io" target="_blank" title="Visit the Crate website"></a></li>
     </ul>
 
   <div class="collapse navbar-collapse clusterstatus-{{cluster_state}}">
   <ul class="nav navbar-nav navbar-right navbar-user">
     <li>Cluster: <span class="label label-cluster">{{ cluster_name }}</span></li>
     <li>Health: <span class="label clusterstatus-{{cluster_state}}">{{ cluster_state }}</span></li>
-    <li class="hidden-xs">
+    <li>
       Load:
       <span class="label label-load1">{{ load[0] }}</span>/
       <span class="label label-load5">{{ load[1] }}</span>/
