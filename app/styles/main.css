@@ -7842,6 +7842,9 @@ h2 {
 .clusterstatus-good {
   background-color: #00c561;
 }
+#node-info {
+  padding-left: 30px;
+}
 form {
   margin-top: 30px;
 }
