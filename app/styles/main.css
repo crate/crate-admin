@@ -7842,7 +7842,8 @@ h2 {
 .clusterstatus-good {
   background-color: #00c561;
 }
-#node-info {
+#node-info,
+#table-info {
   padding-left: 30px;
 }
 form {
