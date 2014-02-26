@@ -5,8 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
- - Refresh Tables & Cluster views
-
+ - Refresh Table & Cluster views
+ - Auto select first item in Table and Cluster views
 
 2014/02/25 0.0.7
 ================
