@@ -37,7 +37,7 @@ define(['jquery',
 
         model: Cluster.Node,
 
-        fetch: function () {
+        fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, dInfo, dShardInfo, d;
 
@@ -49,7 +49,11 @@ define(['jquery',
                 var nodes = _.map(res.rows, function (row) {
                     return _.object(['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs'], row);
                 });
-                self.reset(nodes);
+                if (options && options.reset) {
+                    self.reset(nodes);
+                } else {
+                    self.set(nodes);
+                }
             });
 
             return d.promise();
@@ -97,6 +101,10 @@ define(['jquery',
             'click ': 'selectNode'
         },
 
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
+
         selectNode: function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
@@ -117,6 +125,10 @@ define(['jquery',
     Cluster.NodeInfoView = base.CrateView.extend({
 
         template: _.template(NodeInfoTemplate),
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
 
         render: function () {
             var data = this.model.toJSON();
