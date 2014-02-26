@@ -6,6 +6,7 @@ unreleased
 ==========
 
  - Refresh Tables & Cluster views
+ - Display json objects on sql results
 
 
 2014/02/25 0.0.7

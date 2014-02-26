@@ -16,7 +16,20 @@ define(['jquery',
         constructor: function (args) {
             this.attributes = {};
             this.set({values: args});
+        },
+
+        // Override to JSON and prettyprint any objects we might have into values.
+        toJSON: function () {
+            var json = Backbone.Model.prototype.toJSON.call(this);
+            json.values = _.map(json.values, function (val) {
+                if (_.isObject(val)) {
+                    val = JSON.stringify(val, null, '\t');
+                }
+                return val;
+            });
+            return json;
         }
+
     });
 
     Console.RowView = base.CrateView.extend({
