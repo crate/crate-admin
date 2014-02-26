@@ -6,12 +6,14 @@ unreleased
 ==========
 
  - Update logo
- - Refactor top and left navbars 
+ - Refactor top and left navbars
  - Cluster list: Stop highlighting node names
  - Improved responsive behaviour
- - Repaired visual style glitches 
+ - Repaired visual style glitches
  - Refresh Table & Cluster views
  - Auto select first item in Table and Cluster views
+ - Refresh Tables & Cluster views
+
 
 2014/02/25 0.0.7
 ================
