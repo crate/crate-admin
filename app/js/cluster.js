@@ -65,6 +65,8 @@ define(['jquery',
 
         template: _.template(ClusterTemplate),
 
+        selectedItem: null,
+
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
@@ -85,6 +87,7 @@ define(['jquery',
             var n = this.collection.get(name),
             v = new Cluster.NodeInfoView({model: n});
             this.$('#node-info').html(v.render().$el);
+            this.selectedItem = name;
         },
 
         render: function () {
@@ -95,6 +98,9 @@ define(['jquery',
                 self.$('ul').append(v.render().$el);
                 self.addView(node.get('name'), v);
             });
+            if (!this.selectedItem && this.collection.length) {
+                this.showDetails(this.collection.first().id);
+            }
             return this;
         },
 
