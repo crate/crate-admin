@@ -181,7 +181,7 @@ define(['jquery',
 
     Status.StatusView = base.CrateView.extend({
 
-        el: '#statusbar',
+        el: '#topstatusbar',
         template: _.template(StatusBarTemplate),
         model: Status.ClusterStatus,
 

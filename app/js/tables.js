@@ -201,6 +201,7 @@ define(['jquery',
             });
             if (!this.selectedItem && this.collection.length) {
                 this.showDetails(this.collection.first().id);
+                this.$('#sidebar-wrapper ul').children().first().addClass('active');
             }
             return this;
         },

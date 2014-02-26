@@ -5,6 +5,20 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Update logo
+
+ - Refactor top and left navbars
+
+ - Cluster list: Stop highlighting node names
+
+ - Improved responsive behaviour
+
+ - Repaired visual style glitches
+
+ - Refresh Table & Cluster views
+
+ - Auto select first item in Table and Cluster views
+
  - Refresh Tables & Cluster views
  - Display json objects on sql results
 
