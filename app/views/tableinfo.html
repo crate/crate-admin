@@ -1,4 +1,4 @@
-<div class="container margin-left-350">
+<div class="margin-left-350">
   <div class="row">
     <div class="col-lg-9 col-md-9">
       <div class="row">
@@ -6,11 +6,11 @@
           <div class="page-header">
             <h1>{{name}}</h1>
           </div>
-        </div>
-      </div><!-- /.row -->
+      </div>
+    </div><!-- /.row -->
 
       <div class="row">
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{replicas_configured}}</p>
@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{shards_configured}}</p>
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
           <!-- make this red if failing -->
             <div class="panel-heading">
@@ -49,7 +49,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <!-- make this red if shards are missing -->
             <div class="panel-heading">
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right" >
             <!-- make this yellow is shards are underreplicated -->
             <div class="panel-heading">
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block">
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
             <div class="panel-heading">
               <p class="announcement-heading inline-block">{{ unavailableRecords}}</p>
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <!-- make yellow if underreplicated -->
             <div class="panel-heading">
@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-md-4 col-sm-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block">{{ tableSize }}</p>
