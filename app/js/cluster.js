@@ -37,7 +37,7 @@ define(['jquery',
 
         model: Cluster.Node,
 
-        fetch: function () {
+        fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, dInfo, dShardInfo, d;
 
@@ -49,7 +49,11 @@ define(['jquery',
                 var nodes = _.map(res.rows, function (row) {
                     return _.object(['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs'], row);
                 });
-                self.reset(nodes);
+                if (options && options.reset) {
+                    self.reset(nodes);
+                } else {
+                    self.set(nodes);
+                }
             });
 
             return d.promise();
@@ -59,11 +63,19 @@ define(['jquery',
 
     Cluster.ClusterView = base.CrateView.extend({
 
+        template: _.template(ClusterTemplate),
+
         initialize: function () {
+            var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
-        template: _.template(ClusterTemplate),
+        refresh: function () {
+            var self = this;
+            this.collection.fetch();
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+        },
 
         deactivateAll: function () {
             this.$('li').removeClass('active');
@@ -77,7 +89,6 @@ define(['jquery',
 
         render: function () {
             var self = this;
-
             this.$el.html(this.template());
             _.each(this.collection.models, function (node) {
                 var v = new Cluster.NodeListItemView({model: node});
@@ -85,7 +96,13 @@ define(['jquery',
                 self.addView(node.get('name'), v);
             });
             return this;
+        },
+
+        dispose: function () {
+            clearTimeout(this.refreshTimeout);
+            base.CrateView.prototype.dispose.call(this);
         }
+
     });
 
     Cluster.NodeListItemView = base.CrateView.extend({
@@ -96,6 +113,10 @@ define(['jquery',
 
         events: {
             'click ': 'selectNode'
+        },
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
         },
 
         selectNode: function (ev) {
@@ -118,6 +139,10 @@ define(['jquery',
     Cluster.NodeInfoView = base.CrateView.extend({
 
         template: _.template(NodeInfoTemplate),
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
 
         render: function () {
             var data = this.model.toJSON();

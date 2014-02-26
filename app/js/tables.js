@@ -93,7 +93,7 @@ define(['jquery',
 
         model: Tables.TableInfo,
 
-        fetch: function () {
+        fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, sqColumns, dInfo, dShardInfo, dColumns, d;
 
@@ -148,7 +148,12 @@ define(['jquery',
                     table.columns = columns[table.name];
                 });
 
-                self.reset(tables);
+                if (options && options.reset) {
+                    self.reset(tables);
+                } else {
+                    self.set(tables);
+                }
+
                 d.resolve(tables);
             }, d.reject);
             return d.promise();
@@ -158,11 +163,19 @@ define(['jquery',
 
     Tables.TableListView = base.CrateView.extend({
 
+        template: _.template(TableListTemplate),
+
         initialize: function () {
+            var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
-        template: _.template(TableListTemplate),
+        refresh: function () {
+            var self = this;
+            this.collection.fetch();
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+        },
 
         deactivateAll: function () {
             this.$('li').removeClass('active');
@@ -184,7 +197,13 @@ define(['jquery',
                 self.addView(table.get('name'), v);
             });
             return this;
+        },
+
+        dispose: function () {
+            clearTimeout(this.refreshTimeout);
+            base.CrateView.prototype.dispose.call(this);
         }
+
     });
 
     Tables.TableListItemView = base.CrateView.extend({
@@ -195,6 +214,10 @@ define(['jquery',
 
         events: {
             'click ': 'selectTable'
+        },
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
         },
 
         selectTable: function (ev) {
@@ -224,6 +247,9 @@ define(['jquery',
 
         template: _.template(TableInfoTemplate),
 
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
 
         render: function () {
             var data = this.model.toJSON();

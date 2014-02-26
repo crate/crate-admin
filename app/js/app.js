@@ -12,6 +12,7 @@ define([
     var app = _.extend({
 
         root: '/_plugin/crate-admin',
+        refreshTimeout: null,
 
         start: function () {
             var sb, ov;
@@ -84,7 +85,7 @@ define([
                 app.currentView.dispose();
             }
             var tableList = new Tables.TableList();
-            tableList.fetch();
+            tableList.fetch({reset: true});
             app.currentView = new Tables.TableListView({collection: tableList});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
@@ -95,7 +96,7 @@ define([
                 app.currentView.dispose();
             }
             var cluster = new Cluster.Cluster();
-            cluster.fetch();
+            cluster.fetch({reset: true});
             app.currentView = new Cluster.ClusterView({collection: cluster});
             $('#wrapper').html(app.currentView.$el);
 

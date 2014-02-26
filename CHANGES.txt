@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Refresh Tables & Cluster views
+
 
 2014/02/25 0.0.7
 ================
