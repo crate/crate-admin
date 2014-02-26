@@ -7759,6 +7759,9 @@ h2 {
   #table-info {
     /* margin-left: 350px; */
   }
+  .navbar-nav.navbar-right:last-child {
+    margin-right: 0px;
+  }
 }
 .label {
   padding: 1px 4px 1px;
