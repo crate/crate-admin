@@ -93,7 +93,7 @@ define(['jquery',
 
         model: Tables.TableInfo,
 
-        fetch: function () {
+        fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, sqColumns, dInfo, dShardInfo, dColumns, d;
 
@@ -148,7 +148,12 @@ define(['jquery',
                     table.columns = columns[table.name];
                 });
 
-                self.reset(tables);
+                if (options && options.reset) {
+                    self.reset(tables);
+                } else {
+                    self.set(tables);
+                }
+
                 d.resolve(tables);
             }, d.reject);
             return d.promise();
@@ -158,11 +163,11 @@ define(['jquery',
 
     Tables.TableListView = base.CrateView.extend({
 
+        template: _.template(TableListTemplate),
+
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },
-
-        template: _.template(TableListTemplate),
 
         deactivateAll: function () {
             this.$('li').removeClass('active');

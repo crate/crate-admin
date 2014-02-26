@@ -63,6 +63,8 @@ define(['jquery',
 
     Cluster.ClusterView = base.CrateView.extend({
 
+        template: _.template(ClusterTemplate),
+
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
@@ -74,8 +76,6 @@ define(['jquery',
             this.collection.fetch();
             this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
-
-        template: _.template(ClusterTemplate),
 
         deactivateAll: function () {
             this.$('li').removeClass('active');
