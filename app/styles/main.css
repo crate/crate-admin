@@ -7612,6 +7612,8 @@ h2 {
   top: 0px;
   padding-top: 24px;
   color: #676767;
+  background-color: #222222;
+  overflow: hidden;
 }
 .side-nav li > a {
   padding: 18px 40px;
@@ -7698,6 +7700,7 @@ h2 {
 @media (max-width: 768px) {
   .side-nav {
     width: 100%;
+    margin-right: -15px;
   }
   .side-nav li > a {
     float: left;
