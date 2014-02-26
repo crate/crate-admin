@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+
+2014/02/26 0.0.8
+================
+
  - Update logo
 
  - Refactor top and left navbars
@@ -20,6 +24,7 @@ unreleased
  - Auto select first item in Table and Cluster views
 
  - Refresh Tables & Cluster views
+
  - Display json objects on sql results
 
 

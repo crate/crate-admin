@@ -1,6 +1,6 @@
 {
   "name": "crateAdmin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "dependencies": {
     "requirejs": "~2.1.11",
     "requirejs-text": "~2.0.10",
