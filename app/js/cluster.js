@@ -64,7 +64,15 @@ define(['jquery',
     Cluster.ClusterView = base.CrateView.extend({
 
         initialize: function () {
+            var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+        },
+
+        refresh: function () {
+            var self = this;
+            this.collection.fetch();
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
         template: _.template(ClusterTemplate),
@@ -88,7 +96,13 @@ define(['jquery',
                 self.addView(node.get('name'), v);
             });
             return this;
+        },
+
+        dispose: function () {
+            clearTimeout(this.refreshTimeout);
+            base.CrateView.prototype.dispose.call(this);
         }
+
     });
 
     Cluster.NodeListItemView = base.CrateView.extend({
