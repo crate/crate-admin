@@ -18,6 +18,7 @@ require.config({
         Overview: 'js/overview',
         SQL: 'js/sql',
         Status: 'js/status',
+        NavBar: 'js/navbar',
         Console: 'js/console',
         Tables: 'js/tables',
         Cluster: 'js/cluster'

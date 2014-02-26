@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'Status',
+    'NavBar',
     'Overview',
     'Console',
     'Tables',
     'Cluster'
-], function ($, _, Backbone, Status, Overview, Console, Tables, Cluster) {
+], function ($, _, Backbone, Status, NavBar, Overview, Console, Tables, Cluster) {
 
     var app = _.extend({
 
@@ -21,6 +22,8 @@ define([
             app.status.fetch();
             sb = new Status.StatusView({model: app.status});
             sb.render();
+            nav = new NavBar.NavBarView();
+            nav.render();
             app.router = new Router();
             app.initializeRouter();
 
