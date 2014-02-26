@@ -173,7 +173,7 @@ define(['jquery',
                 });
             this._updateHealth();
             this._updateTableStatus();
-            setTimeout(function () { self.fetch(); }, 500000);
+            setTimeout(function () { self.fetch(); }, 5000);
         },
 
     });
