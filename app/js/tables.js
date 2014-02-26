@@ -166,7 +166,15 @@ define(['jquery',
         template: _.template(TableListTemplate),
 
         initialize: function () {
+            var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+        },
+
+        refresh: function () {
+            var self = this;
+            this.collection.fetch();
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
         deactivateAll: function () {
@@ -189,7 +197,13 @@ define(['jquery',
                 self.addView(table.get('name'), v);
             });
             return this;
+        },
+
+        dispose: function () {
+            clearTimeout(this.refreshTimeout);
+            base.CrateView.prototype.dispose.call(this);
         }
+
     });
 
     Tables.TableListItemView = base.CrateView.extend({
@@ -200,6 +214,10 @@ define(['jquery',
 
         events: {
             'click ': 'selectTable'
+        },
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
         },
 
         selectTable: function (ev) {
@@ -229,6 +247,9 @@ define(['jquery',
 
         template: _.template(TableInfoTemplate),
 
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+        },
 
         render: function () {
             var data = this.model.toJSON();
