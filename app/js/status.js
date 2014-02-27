@@ -24,7 +24,6 @@ define(['jquery',
         }
     };
 
-
     Status.ClusterStatus = Backbone.Model.extend({
 
         defaults: {
@@ -50,7 +49,6 @@ define(['jquery',
             }
             for (i=0; i<3; i++) {
                 load[i] = load[i]/nodes_count;
-                load[i] = load[i].toFixed(2);
             }
             return load;
         },
@@ -176,15 +174,18 @@ define(['jquery',
 
         fetch: function () {
             var self = this,
-                load;
+                load, i;
             $.get('/_nodes/stats?all=true')
                 .done(function (data) {
                     var load = self._normalizeClusterLoad(data.nodes);
+                    Status.updateLoadHistory(load);
+                    for (i=0 ; i<3 ; i++) {
+                        load[i] = load[i].toFixed(2);
+                    }
                     self.set({
                         cluster_name: data.cluster_name,
                         load: load
                     });
-                    Status.updateLoadHistory(load);
                 })
                 .error(function() {
                     delete self.data;
