@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+
+2014/02/26 0.0.9
+================
+
  - Fix visual glitches for different devices and screen widths
 
  - Show graph of load over time on Overview view.
