@@ -7,7 +7,7 @@ unreleased
 
  - Use URL fragments for navigation, disable pushState
 
- - Sort tables and cluster nodes alphabetically
+ - Sort tables and cluster nodes by health then alphabetically
 
 
 2014/02/26 0.0.8
