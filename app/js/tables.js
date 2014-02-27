@@ -187,6 +187,7 @@ define(['jquery',
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
             this.listenTo(this.collection, 'add', this.addTable);
+            this.listenTo(this.collection, 'remove', this.removeTable);
             this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
@@ -212,7 +213,13 @@ define(['jquery',
         addTable: function (table) {
             var v = new Tables.TableListItemView({model: table});
             this.$('ul').append(v.render().$el);
-            this.addView(table.get('name'), v);
+            this.addView(table.id, v);
+        },
+
+        removeTable: function (table) {
+            if (_.has(this.subviews, table.id)) {
+                this.subviews[table.id].dispose();
+            }
         },
 
         render: function () {
