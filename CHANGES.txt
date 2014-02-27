@@ -5,7 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
- - Handle add/remove events of nodes on the cluster view
+ - Handle add/remove events of nodes on the Cluster view
+
+ - Handle add/remove events of tables on the TableList view
 
  - Use URL fragments for navigation, disable pushState
 
