@@ -30,8 +30,8 @@ define([
         },
 
         initializeRouter: function () {
-            // Trigger the initial route and enable HTML5 History API support
-            Backbone.history.start({ pushState: true, root: app.root});
+            // Disable browser pushState, use hash changes to navigate
+            Backbone.history.start({ pushState: false, root: app.root});
 
             // All navigation that is relative should be passed through the navigate
             // method, to be processed by the router.  If the link has a data-bypass
