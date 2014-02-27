@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Use URL fragments for navigation, disable pushState
+
 
 2014/02/26 0.0.8
 ================
