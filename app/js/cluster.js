@@ -37,6 +37,8 @@ define(['jquery',
 
         model: Cluster.Node,
 
+        comparator: 'name',
+
         fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, dInfo, dShardInfo, d;

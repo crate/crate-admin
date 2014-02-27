@@ -93,6 +93,8 @@ define(['jquery',
 
         model: Tables.TableInfo,
 
+        comparator: 'name',
+
         fetch: function (options) {
             var self = this,
                 sqInfo, sqShardInfo, sqColumns, dInfo, dShardInfo, dColumns, d;
