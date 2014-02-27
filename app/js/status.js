@@ -4,12 +4,26 @@ define(['jquery',
         'base',
         'SQL',
         'text!views/statusbar.html',
-        'bootstrap'
+        'bootstrap',
+        'flot'
     ], function ($, _, Backbone, base, SQL, StatusBarTemplate) {
 
     var Status = {};
 
     Status._refreshTimeout = 5000;
+
+    Status._loadHistoryLen = 100;
+
+    Status.loadHistory = [[], [], []];
+
+    Status.updateLoadHistory = function (load) {
+        var i;
+        for (i=0; i<3; i++) {
+            Status.loadHistory[i].push(load[i]);
+            Status.loadHistory[i] = Status.loadHistory[i].splice(-Status._loadHistoryLen, Status._loadHistoryLen);
+        }
+    };
+
 
     Status.ClusterStatus = Backbone.Model.extend({
 
@@ -165,10 +179,12 @@ define(['jquery',
                 load;
             $.get('/_nodes/stats?all=true')
                 .done(function (data) {
+                    var load = self._normalizeClusterLoad(data.nodes);
                     self.set({
                         cluster_name: data.cluster_name,
-                        load: self._normalizeClusterLoad(data.nodes)
+                        load: load
                     });
+                    Status.updateLoadHistory(load);
                 })
                 .error(function() {
                     delete self.data;
