@@ -95,6 +95,7 @@ define(['jquery',
 
         comparator: function (item) {
             var health = item.health();
+
             switch (health) {
                 case 'critical':
                     health = '0';
@@ -106,6 +107,7 @@ define(['jquery',
                     health = '2';
                     break;
             }
+
             return health + item.get('name');
         },
 
