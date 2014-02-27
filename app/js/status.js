@@ -10,7 +10,7 @@ define(['jquery',
 
     var Status = {};
 
-    Status._refreshTimeout = 500;
+    Status._refreshTimeout = 5000;
 
     Status._loadHistoryLen = 100;
 

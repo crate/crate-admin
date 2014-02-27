@@ -42,7 +42,7 @@ define(['jquery',
 
             lh = this.model.get('loadHistory')[0];
             for (i=0; i<lh.length; i++) {
-                data.push([100-i, lh[i]]);
+                data.push([i, lh[i]]);
             }
 
            $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data}], {
