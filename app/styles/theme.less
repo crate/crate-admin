@@ -68,9 +68,25 @@ h2 {
 // Navleft
 
 #topstatusbar{
-  padding-left: 149px;
   background-color: transparent;
 }
+
+#clusterstatus-bar .navbar-nav > li {
+  float: left;
+}
+
+#clusterstatus-bar .navbar-nav.navbar-right{
+  float:right;
+}
+
+#clusterstatus-bar .navbar-nav.navbar-right:last-child{
+  margin-right: 0;
+}
+
+#clusterstatus-bar .navbar-nav{
+  margin : 0;
+}
+
 
 .side-nav {
   font-weight: bold;
@@ -100,6 +116,9 @@ h2 {
       font-size: 2em;
     }
 }
+
+
+
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -188,15 +207,24 @@ h2 {
         margin: 0;
         padding-left:0;
         padding: 10px;
-
       }
-
+  }
+  #leftnavbar .side-nav {
+    text-align : center;
   }
 
+  #leftnavbar .side-nav li a {
+    width: 100px
+  }
 
   #leftnavbar li a{
     color: #676767;
+  }
 
+
+
+  #leftnavbar .navbar-nav {
+    margin : 0;
   }
 
   .navbar-inverse .alert-danger {
@@ -212,7 +240,7 @@ h2 {
     background-color: #252525;
   }
 
-  .navbar-inverse .navbar-brand {
+  #leftnavbar .navbar-brand {
     color: #676767;
     display: none;
   }
@@ -221,10 +249,19 @@ h2 {
     background-color: #252525;
   }
 
-  .navbar-inverse .navbar-brand > li {
+  #leftnavbar .navbar-brand > li {
     display: none;
   }
 }
+
+#leftnavbar li.active > a,
+#leftnavbar li > a:hover
+{
+  color: #fff;
+  background-color: transparent;
+}
+
+
 
 // Second vertical Navigation
 
@@ -261,6 +298,10 @@ h2 {
 }
 
 @media (min-width:767px) {
+
+  #topstatusbar{
+    padding-left: 149px;
+  }
 
   #sidebar-wrapper {
     left: 399px;
@@ -375,6 +416,9 @@ h2 {
   display: inline;
 }
 
+#clusterstatus-bar{
+  background-color : #676767;
+}
 
 .clusterstatus-critical, .tablestatus-critical{
   background-color: @brand-danger;
@@ -384,16 +428,14 @@ h2 {
     background-color: @brand-warning;
 }
 
-.clusterstatus-good{
-    background-color: @brand-success;
+#clusterstatus-bar span.clusterstatus-good{
+   background-color: @brand-success;
 }
 
-.tablestatus-good{
-
-}
 
 #node-info, #table-info{
   padding-left: 30px;
+  margin-right: 30px;
 }
 
 

@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix visual glitches for different devices and screen widths
+
  - Show graph of load over time on Overview view.
 
  - Handle add/remove events of nodes on the Cluster view
