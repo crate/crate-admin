@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix visual glitches for different devices and screen widths
+
  - Use URL fragments for navigation, disable pushState
 
  - Sort tables and cluster nodes by health then alphabetically
