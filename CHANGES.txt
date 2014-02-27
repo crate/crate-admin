@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Handle add/remove events of nodes on the cluster view
+
  - Use URL fragments for navigation, disable pushState
 
  - Sort tables and cluster nodes by health then alphabetically
