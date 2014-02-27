@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Use URL fragments for navigation, disable pushState
+
+ - Sort tables and cluster nodes alphabetically
+
 
 2014/02/26 0.0.8
 ================
