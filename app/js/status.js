@@ -10,7 +10,7 @@ define(['jquery',
 
     var Status = {};
 
-    Status._refreshTimeout = 5000;
+    Status._refreshTimeout = 500;
 
     Status._loadHistoryLen = 100;
 
@@ -170,7 +170,8 @@ define(['jquery',
                 lh[i].push(load[i]);
                 lh[i] = lh[i].splice(-Status._loadHistoryLen, Status._loadHistoryLen);
             }
-            this.set('loadHistory', lh, {silent: true});
+            this.set('loadHistory', lh);
+            this.trigger('change:loadHistory', lh);
         },
 
         fetch: function () {
