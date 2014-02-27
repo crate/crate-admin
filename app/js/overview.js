@@ -45,7 +45,7 @@ define(['jquery',
                 data.push([i, lh[i]]);
             }
 
-           $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data, color: '#676767'}], {
+            $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data, color: '#676767'}], {
 
                 series: {
                     shadowSize: 0,

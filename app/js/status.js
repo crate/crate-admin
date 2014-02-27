@@ -10,9 +10,9 @@ define(['jquery',
 
     var Status = {};
 
-    Status._refreshTimeout = 5000;
+    Status._refreshTimeout = 5000; // msec
 
-    Status._loadHistoryLen = 100;
+    Status._loadHistoryLen = 100; // 100 points of 5sec
 
     Status.ClusterStatus = Backbone.Model.extend({
 
