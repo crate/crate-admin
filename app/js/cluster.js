@@ -73,6 +73,7 @@ define(['jquery',
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
             this.listenTo(this.collection, 'add', this.addNode);
+            this.listenTo(this.collection, 'remove', this.removeNode);
             this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
@@ -96,8 +97,14 @@ define(['jquery',
         addNode: function (node) {
             var v = new Cluster.NodeListItemView({model: node});
             this.$('ul').append(v.render().$el);
-            this.addView(node.get('name'), v);
+            this.addView(node.id, v);
 
+        },
+
+        removeNode: function (node) {
+            if (_.has(this.subviews, node.id)) {
+                this.subviews[node.id].dispose();
+            }
         },
 
         render: function () {
