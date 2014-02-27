@@ -45,10 +45,11 @@ define(['jquery',
                 data.push([i, lh[i]]);
             }
 
-           $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data}], {
+           $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data, color: '#676767'}], {
 
                 series: {
-                    shadowSize: 0   // Drawing is faster without shadows
+                    shadowSize: 0,
+                    points: { show: true }
                 },
                 lines: { show: true, fill: true },
                 yaxis: {
@@ -58,7 +59,7 @@ define(['jquery',
                     min: 0,
                     max: 100,
                     show: false
-                }
+                },
             }).draw();
 
             return this;
