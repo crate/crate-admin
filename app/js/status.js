@@ -14,16 +14,6 @@ define(['jquery',
 
     Status._loadHistoryLen = 100;
 
-    Status.loadHistory = [[], [], []];
-
-    Status.updateLoadHistory = function (load) {
-        var i;
-        for (i=0; i<3; i++) {
-            Status.loadHistory[i].push(load[i]);
-            Status.loadHistory[i] = Status.loadHistory[i].splice(-Status._loadHistoryLen, Status._loadHistoryLen);
-        }
-    };
-
     Status.ClusterStatus = Backbone.Model.extend({
 
         defaults: {
@@ -34,7 +24,8 @@ define(['jquery',
             available_data: 0,
             records_total: 0,
             records_underreplicated: 0,
-            records_unavailable: 0
+            records_unavailable: 0,
+            loadHistory: [[], [], []]
         },
 
         _normalizeClusterLoad: function (nodes) {
@@ -172,13 +163,23 @@ define(['jquery',
 
         },
 
+        _updateLoadHistory: function (load) {
+            var lh = this.get('loadHistory'), i;
+
+            for (i=0; i<3; i++) {
+                lh[i].push(load[i]);
+                lh[i] = lh[i].splice(-Status._loadHistoryLen, Status._loadHistoryLen);
+            }
+            this.set('loadHistory', lh, {silent: true});
+        },
+
         fetch: function () {
             var self = this,
                 load, i;
             $.get('/_nodes/stats?all=true')
                 .done(function (data) {
                     var load = self._normalizeClusterLoad(data.nodes);
-                    Status.updateLoadHistory(load);
+                    self._updateLoadHistory(load);
                     for (i=0 ; i<3 ; i++) {
                         load[i] = load[i].toFixed(2);
                     }
