@@ -7752,6 +7752,11 @@ h2 {
     display: none;
   }
 }
+#leftnavbar li.active > a,
+#leftnavbar li > a:hover {
+  color: #fff;
+  background-color: transparent;
+}
 #sidebar-wrapper {
   background: #e2e2e2;
   top: 24px;
