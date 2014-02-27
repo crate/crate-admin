@@ -37,7 +37,22 @@ define(['jquery',
 
         model: Cluster.Node,
 
-        comparator: 'name',
+        comparator: function (item) {
+            var health = item.healthStatus();
+
+            switch (health) {
+                case 'critical':
+                    health = '0';
+                    break;
+                case 'warning':
+                    health = '1';
+                    break;
+                case 'good':
+                    health = '2';
+                    break;
+            }
+            return health + item.get('name');
+        },
 
         fetch: function (options) {
             var self = this,
