@@ -7876,6 +7876,9 @@ h2 {
   background-color: #ff5151;
   display: inline;
 }
+#clusterstatus-bar {
+  background-color: #676767;
+}
 .clusterstatus-critical,
 .tablestatus-critical {
   background-color: #ff5151;
@@ -7884,7 +7887,7 @@ h2 {
 .tablestatus-warning {
   background-color: #ffc600;
 }
-.clusterstatus-good {
+#clusterstatus-bar span.clusterstatus-good {
   background-color: #00c561;
 }
 #node-info,

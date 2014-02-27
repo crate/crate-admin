@@ -423,7 +423,7 @@ h2 {
 }
 
 #clusterstatus-bar{
-
+  background-color : #676767;
 }
 
 .clusterstatus-critical, .tablestatus-critical{
@@ -434,8 +434,12 @@ h2 {
     background-color: @brand-warning;
 }
 
-.clusterstatus-good{
-    background-color: @brand-success;
+#clusterstatus-bar span.clusterstatus-good{
+   background-color: @brand-success;
+}
+
+#clusterstatus-bar.clusterstatus-good{
+
 }
 
 .tablestatus-good{
