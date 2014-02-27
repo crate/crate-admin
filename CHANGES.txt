@@ -7,6 +7,12 @@ unreleased
 
  - Fix visual glitches for different devices and screen widths
 
+ - Show graph of load over time on Overview view.
+
+ - Handle add/remove events of nodes on the Cluster view
+
+ - Handle add/remove events of tables on the TableList view
+
  - Use URL fragments for navigation, disable pushState
 
  - Sort tables and cluster nodes by health then alphabetically

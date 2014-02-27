@@ -11,6 +11,8 @@ define(['jquery',
 
     var Tables = {};
 
+    Tables._refreshTimeout = 5000;
+
     Tables.TableInfo = Backbone.Model.extend({
         idAttribute: 'name',
 
@@ -186,7 +188,9 @@ define(['jquery',
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.listenTo(this.collection, 'add', this.addTable);
+            this.listenTo(this.collection, 'remove', this.removeTable);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
         },
 
         selectedItem: null,
@@ -194,7 +198,7 @@ define(['jquery',
         refresh: function () {
             var self = this;
             this.collection.fetch();
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
         },
 
         deactivateAll: function () {
@@ -208,14 +212,24 @@ define(['jquery',
             this.selectedItem = name;
         },
 
+        addTable: function (table) {
+            var v = new Tables.TableListItemView({model: table});
+            this.$('ul').append(v.render().$el);
+            this.addView(table.id, v);
+        },
+
+        removeTable: function (table) {
+            if (_.has(this.subviews, table.id)) {
+                this.subviews[table.id].dispose();
+            }
+        },
+
         render: function () {
             var self = this;
 
             this.$el.html(this.template());
             _.each(this.collection.models, function (table) {
-                var v = new Tables.TableListItemView({model: table});
-                self.$('ul').append(v.render().$el);
-                self.addView(table.get('name'), v);
+                self.addTable(table);
             });
             if (!this.selectedItem && this.collection.length) {
                 this.showDetails(this.collection.first().id);
