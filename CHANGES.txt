@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Show graph of load over time on Overview view.
+
  - Handle add/remove events of nodes on the Cluster view
 
  - Handle add/remove events of tables on the TableList view
