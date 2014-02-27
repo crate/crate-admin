@@ -7601,8 +7601,19 @@ h2 {
   border: 0px;
 }
 #topstatusbar {
-  padding-left: 149px;
   background-color: transparent;
+}
+#clusterstatus-bar .navbar-nav > li {
+  float: left;
+}
+#clusterstatus-bar .navbar-nav.navbar-right {
+  float: right;
+}
+#clusterstatus-bar .navbar-nav.navbar-right:last-child {
+  margin-right: 0;
+}
+#clusterstatus-bar .navbar-nav {
+  margin: 0;
 }
 .side-nav {
   font-weight: bold;
@@ -7759,6 +7770,9 @@ h2 {
   margin-bottom: 3px;
 }
 @media (min-width: 767px) {
+  #topstatusbar {
+    padding-left: 149px;
+  }
   #sidebar-wrapper {
     left: 399px;
   }

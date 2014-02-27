@@ -68,9 +68,32 @@ h2 {
 // Navleft
 
 #topstatusbar{
-  padding-left: 149px;
   background-color: transparent;
 }
+
+
+#clusterstatus-bar .navbar-nav > li {
+  float: left;
+}
+
+#clusterstatus-bar .navbar-nav.navbar-right{
+  float:right;
+}
+
+#clusterstatus-bar .navbar-nav.navbar-right:last-child{
+  margin-right: 0;
+}
+
+#clusterstatus-bar .navbar-nav{
+  margin : 0;
+}
+
+@media(max-width: 766px){
+  #clusterstatus-bar{
+
+  }
+}
+
 
 .side-nav {
   font-weight: bold;
@@ -179,6 +202,10 @@ h2 {
 
 @media (max-width: 768px) {
 
+
+
+
+
   .side-nav {
     width: 100%;
     margin-right: -15px;
@@ -261,6 +288,10 @@ h2 {
 }
 
 @media (min-width:767px) {
+
+  #topstatusbar{
+    padding-left: 149px;
+  }
 
   #sidebar-wrapper {
     left: 399px;
@@ -375,6 +406,9 @@ h2 {
   display: inline;
 }
 
+#clusterstatus-bar{
+
+}
 
 .clusterstatus-critical, .tablestatus-critical{
   background-color: @brand-danger;
