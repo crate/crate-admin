@@ -186,6 +186,7 @@ define(['jquery',
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'add', this.addTable);
             this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
@@ -208,14 +209,18 @@ define(['jquery',
             this.selectedItem = name;
         },
 
+        addTable: function (table) {
+            var v = new Tables.TableListItemView({model: table});
+            this.$('ul').append(v.render().$el);
+            this.addView(table.get('name'), v);
+        },
+
         render: function () {
             var self = this;
 
             this.$el.html(this.template());
             _.each(this.collection.models, function (table) {
-                var v = new Tables.TableListItemView({model: table});
-                self.$('ul').append(v.render().$el);
-                self.addView(table.get('name'), v);
+                self.addTable(table);
             });
             if (!this.selectedItem && this.collection.length) {
                 this.showDetails(this.collection.first().id);
