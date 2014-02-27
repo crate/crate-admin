@@ -7719,8 +7719,17 @@ h2 {
     padding-left: 0;
     padding: 10px;
   }
+  #leftnavbar .side-nav {
+    text-align: center;
+  }
+  #leftnavbar .side-nav li a {
+    width: 100px;
+  }
   #leftnavbar li a {
     color: #676767;
+  }
+  #leftnavbar .navbar-nav {
+    margin: 0;
   }
   .navbar-inverse .alert-danger {
     background-color: #252525;
@@ -7732,14 +7741,14 @@ h2 {
   .navbar-inverse .alert-danger {
     background-color: #252525;
   }
-  .navbar-inverse .navbar-brand {
+  #leftnavbar .navbar-brand {
     color: #676767;
     display: none;
   }
   .navbar-fixed-top {
     background-color: #252525;
   }
-  .navbar-inverse .navbar-brand > li {
+  #leftnavbar .navbar-brand > li {
     display: none;
   }
 }
