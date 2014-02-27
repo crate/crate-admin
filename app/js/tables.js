@@ -11,6 +11,8 @@ define(['jquery',
 
     var Tables = {};
 
+    Tables._refreshTimeout = 5000;
+
     Tables.TableInfo = Backbone.Model.extend({
         idAttribute: 'name',
 
@@ -186,7 +188,7 @@ define(['jquery',
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
         },
 
         selectedItem: null,
@@ -194,7 +196,7 @@ define(['jquery',
         refresh: function () {
             var self = this;
             this.collection.fetch();
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
         },
 
         deactivateAll: function () {

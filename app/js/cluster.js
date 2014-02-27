@@ -11,6 +11,8 @@ define(['jquery',
 
     var Cluster = {};
 
+    Cluster._refreshTimeout = 5000;
+
     Cluster.Node = Backbone.Model.extend({
 
         health: function () {
@@ -87,13 +89,13 @@ define(['jquery',
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Cluster._refreshTimeout);
         },
 
         refresh: function () {
             var self = this;
             this.collection.fetch();
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
+            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Cluster._refreshTimeout);
         },
 
         deactivateAll: function () {
