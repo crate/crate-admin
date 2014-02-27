@@ -72,6 +72,7 @@ define(['jquery',
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'add', this.addNode);
             this.refreshTimeout = setTimeout(function () { self.refresh(); }, 5000);
         },
 
@@ -92,13 +93,18 @@ define(['jquery',
             this.selectedItem = name;
         },
 
+        addNode: function (node) {
+            var v = new Cluster.NodeListItemView({model: node});
+            this.$('ul').append(v.render().$el);
+            this.addView(node.get('name'), v);
+
+        },
+
         render: function () {
             var self = this;
             this.$el.html(this.template());
             _.each(this.collection.models, function (node) {
-                var v = new Cluster.NodeListItemView({model: node});
-                self.$('ul').append(v.render().$el);
-                self.addView(node.get('name'), v);
+                self.addNode(node);
             });
             if (!this.selectedItem && this.collection.length) {
                 this.showDetails(this.collection.first().id);
