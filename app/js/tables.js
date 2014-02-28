@@ -216,6 +216,7 @@ define(['jquery',
             var v = new Tables.TableListItemView({model: table});
             this.$('ul').append(v.render().$el);
             this.addView(table.id, v);
+            this.$('#no-tables').addClass('hidden');
         },
 
         removeTable: function (table) {
