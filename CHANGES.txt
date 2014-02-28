@@ -5,6 +5,7 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Handle edge case where there are no tables in overview, table view.
 
 2014/02/26 0.0.9
 ================
