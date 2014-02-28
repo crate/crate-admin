@@ -206,9 +206,14 @@ define(['jquery',
         },
 
         showDetails: function (name) {
+            if (_.has(this.subviews, 'infoview')) {
+                this.subviews.infoview.dispose();
+            }
+
             var t = this.collection.get(name),
                 v = new Tables.TableInfoView({model: t});
             this.$('#table-info').html(v.render().$el);
+            this.addView('infoview', v);
             this.selectedItem = name;
         },
 
@@ -216,11 +221,25 @@ define(['jquery',
             var v = new Tables.TableListItemView({model: table});
             this.$('ul').append(v.render().$el);
             this.addView(table.id, v);
+            this.$('#no-tables').addClass('hidden');
+
+            if (!this.selectedItem ) {
+                this.showDetails(table.id);
+                this.$('#sidebar-wrapper ul').children().first().addClass('active');
+            }
+
         },
 
         removeTable: function (table) {
             if (_.has(this.subviews, table.id)) {
                 this.subviews[table.id].dispose();
+            }
+            if (this.subviews.infoview && this.subviews.infoview.model.id === table.id) {
+                this.subviews.infoview.dispose();
+                this.selectedItem = null;
+            }
+            if (this.collection.length===0) {
+                this.render();
             }
         },
 
@@ -231,10 +250,6 @@ define(['jquery',
             _.each(this.collection.models, function (table) {
                 self.addTable(table);
             });
-            if (!this.selectedItem && this.collection.length) {
-                this.showDetails(this.collection.first().id);
-                this.$('#sidebar-wrapper ul').children().first().addClass('active');
-            }
 
             if(this.collection.length===0) {
                 this.$('#no-tables').removeClass('hidden');
@@ -245,6 +260,9 @@ define(['jquery',
 
         dispose: function () {
             clearTimeout(this.refreshTimeout);
+            if (this.subviews.infoview) {
+                this.subviews.infoview.dispose();
+            }
             base.CrateView.prototype.dispose.call(this);
         }
 
