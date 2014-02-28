@@ -12,9 +12,12 @@ h2 {
 // Structure
 // -------------------------
 
-#page-wrapper {
+#page-wrapper,
+#graph-wrapper {
+  width: 100%;
   padding-top:30px;
   padding-left: 42px;
+  padding-right: 20px;
 }
 
 .page-header {
@@ -420,11 +423,11 @@ h2 {
   background-color : #676767;
 }
 
-.clusterstatus-critical, .tablestatus-critical{
+#clusterstatus-bar.clusterstatus-critical, .tablestatus-critical{
   background-color: @brand-danger;
 }
 
-.clusterstatus-warning, .tablestatus-warning{
+#clusterstatus-bar.clusterstatus-warning, .tablestatus-warning{
     background-color: @brand-warning;
 }
 
@@ -438,6 +441,10 @@ h2 {
   margin-right: 30px;
 }
 
+#load-graph{
+  width: 80%;
+  height:250px;
+}
 
 
 // Form

@@ -1,7 +1,7 @@
 {
   "name": "crate-admin",
   "description": "Bootstrap for Crate Data Admin UI.",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "Team",
   "homepage": "http://crate.io/",
   "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",

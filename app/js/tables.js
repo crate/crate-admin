@@ -235,6 +235,11 @@ define(['jquery',
                 this.showDetails(this.collection.first().id);
                 this.$('#sidebar-wrapper ul').children().first().addClass('active');
             }
+
+            if(this.collection.length===0) {
+                this.$('#no-tables').removeClass('hidden');
+            }
+
             return this;
         },
 

@@ -3,8 +3,9 @@ define(['jquery',
         'backbone',
         'base',
         'text!views/overview.html',
+        'text!views/graphview.html',
         'bootstrap'
-    ], function ($, _, Backbone, base, OverviewTemplate) {
+    ], function ($, _, Backbone, base, OverviewTemplate, GraphViewTemplate) {
 
     var Overview = {};
 
@@ -14,7 +15,6 @@ define(['jquery',
         template: _.template(OverviewTemplate),
 
         initialize: function () {
-            this.listenTo(this.model, 'change:loadHistory', this.updateLoadGraph);
             this.listenTo(this.model, 'change', this.render);
         },
 
@@ -32,13 +32,23 @@ define(['jquery',
             return "";
         },
 
-        updateLoadGraph: function (loadHistory) {
+        render: function () {
+            var self = this;
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
+
+    Overview.GraphView = base.CrateView.extend({
+
+        id: 'graph-wrapper',
+
+        initialize: function () {
+            this.listenTo(this.model, 'change:loadHistory', this.setupLoadGraph);
         },
 
-        render: function () {
+        setupLoadGraph: function (loadHistory) {
             var i, lh, data=[];
-
-            this.$el.html(this.template(this.model.toJSON()));
 
             lh = this.model.get('loadHistory')[0];
             for (i=0; i<lh.length; i++) {
@@ -61,9 +71,15 @@ define(['jquery',
                     show: false
                 },
             }).draw();
+        },
 
+        render: function () {
+            var self = this;
+            this.$el.html(GraphViewTemplate);
+            _.defer(function () { self.setupLoadGraph(); });
             return this;
         }
+
     });
 
     return Overview;
