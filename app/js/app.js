@@ -15,6 +15,8 @@ define([
         root: '/_plugin/crate-admin',
         refreshTimeout: null,
 
+        currentViews: [],
+
         start: function () {
             var sb, ov;
             // Setup
@@ -54,6 +56,15 @@ define([
                 }
             });
         },
+
+        disposeViews: function () {
+            var v;
+            while (app.currentViews.length>0) {
+                v = app.currentViews.pop();
+                v.dispose();
+            }
+        }
+
     }, Backbone.Events);
 
     var Router = Backbone.Router.extend({
@@ -66,47 +77,52 @@ define([
         },
 
         home: function () {
-            if (app.currentView) {
-                app.currentView.dispose();
-            }
-            app.currentView = new Overview.OverviewView({model: app.status});
-            app.currentView.render();
-            $('#wrapper').html(app.currentView.$el);
+            var v, gv;
+            app.disposeViews();
+
+            v = new Overview.OverviewView({model: app.status}).render();
+            app.currentViews.push(v);
+            $('#wrapper').html(v.$el);
             app.navbar.selectActive('overview');
-            var gv = new Overview.GraphView({model: app.status}).render();
+            gv = new Overview.GraphView({model: app.status}).render();
+            app.currentViews.push(gv);
             $('#wrapper').append(gv.$el);
+
         },
 
         console: function () {
-            if (app.currentView) {
-                app.currentView.dispose();
-            }
-            app.currentView = new Console.ConsoleView({model: app.status});
-            app.currentView.render();
-            $('#wrapper').html(app.currentView.$el);
+            var v;
+            app.disposeViews();
+
+            v = new Console.ConsoleView({model: app.status});
+            v.render();
+            $('#wrapper').html(v.$el);
             app.navbar.selectActive('console');
         },
 
         tables: function () {
-            if (app.currentView) {
-                app.currentView.dispose();
-            }
-            var tableList = new Tables.TableList();
+            var v, tableList;
+            app.disposeViews();
+
+            tableList = new Tables.TableList();
             tableList.fetch({reset: true});
-            app.currentView = new Tables.TableListView({collection: tableList});
-            app.currentView.render();
-            $('#wrapper').html(app.currentView.$el);
+
+            v = new Tables.TableListView({collection: tableList}).render()
+            app.currentViews.push(v);
+            $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
         },
 
         cluster: function () {
-            if (app.currentView) {
-                app.currentView.dispose();
-            }
-            var cluster = new Cluster.Cluster();
+            var v, cluster;
+            app.disposeViews();
+
+            cluster = new Cluster.Cluster();
             cluster.fetch({reset: true});
-            app.currentView = new Cluster.ClusterView({collection: cluster});
-            $('#wrapper').html(app.currentView.$el);
+
+            v = new Cluster.ClusterView({collection: cluster});
+            app.currentViews.push(v);
+            $('#wrapper').html(v.$el);
             app.navbar.selectActive('cluster');
         }
     });
