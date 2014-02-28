@@ -14,7 +14,7 @@ define(['jquery',
         template: _.template(OverviewTemplate),
 
         initialize: function () {
-            this.listenTo(this.model, 'change:loadHistory', this.updateLoadGraph);
+            // this.listenTo(this.model, 'change:loadHistory', this.updateLoadGraph);
             this.listenTo(this.model, 'change', this.render);
         },
 
@@ -33,12 +33,7 @@ define(['jquery',
         },
 
         updateLoadGraph: function (loadHistory) {
-        },
-
-        render: function () {
             var i, lh, data=[];
-
-            this.$el.html(this.template(this.model.toJSON()));
 
             lh = this.model.get('loadHistory')[0];
             for (i=0; i<lh.length; i++) {
@@ -61,6 +56,12 @@ define(['jquery',
                     show: false
                 },
             }).draw();
+        },
+
+        render: function () {
+            var self = this;
+            this.$el.html(this.template(this.model.toJSON()));
+            _.defer(function () { self.updateLoadGraph(); });
 
             return this;
         }
