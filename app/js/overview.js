@@ -3,8 +3,9 @@ define(['jquery',
         'backbone',
         'base',
         'text!views/overview.html',
+        'text!views/graphview.html',
         'bootstrap'
-    ], function ($, _, Backbone, base, OverviewTemplate) {
+    ], function ($, _, Backbone, base, OverviewTemplate, GraphViewTemplate) {
 
     var Overview = {};
 
@@ -53,7 +54,7 @@ define(['jquery',
                 data.push([i, lh[i]]);
             }
 
-            $.plot(this.$el, [{label: 'cluster load', data: data, color: '#676767'}], {
+            $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data, color: '#676767'}], {
 
                 series: {
                     shadowSize: 0,
@@ -71,10 +72,9 @@ define(['jquery',
             }).draw();
         },
 
-
         render: function () {
             var self = this;
-            this.$el.attr('id', 'load-graph').css('width', '80%').css('height', '250px').add;
+            this.$el.html(GraphViewTemplate);
             _.defer(function () { self.setupLoadGraph(); });
             return this;
         }
