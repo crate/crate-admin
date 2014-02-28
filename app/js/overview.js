@@ -32,7 +32,20 @@ define(['jquery',
             return "";
         },
 
-        updateLoadGraph: function (loadHistory) {
+        render: function () {
+            var self = this;
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
+
+    Overview.GraphView = base.CrateView.extend({
+
+        initialize: function () {
+            this.listenTo(this.model, 'change:loadHistory', this.setupLoadGraph);
+        },
+
+        setupLoadGraph: function (loadHistory) {
             var i, lh, data=[];
 
             lh = this.model.get('loadHistory')[0];
@@ -40,7 +53,7 @@ define(['jquery',
                 data.push([i, lh[i]]);
             }
 
-            $.plot(this.$('#load-graph'), [{label: 'cluster load', data: data, color: '#676767'}], {
+            $.plot(this.$el, [{label: 'cluster load', data: data, color: '#676767'}], {
 
                 series: {
                     shadowSize: 0,
@@ -58,13 +71,14 @@ define(['jquery',
             }).draw();
         },
 
+
         render: function () {
             var self = this;
-            this.$el.html(this.template(this.model.toJSON()));
-            _.defer(function () { self.updateLoadGraph(); });
-
+            this.$el.attr('id', 'load-graph').css('width', '80%').css('height', '250px').add;
+            _.defer(function () { self.setupLoadGraph(); });
             return this;
         }
+
     });
 
     return Overview;

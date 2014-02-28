@@ -73,6 +73,8 @@ define([
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
             app.navbar.selectActive('overview');
+            var gv = new Overview.GraphView({model: app.status}).render();
+            $('#wrapper').append(gv.$el);
         },
 
         console: function () {
