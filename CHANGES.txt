@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+
+2014/02/27 0.1.1
+================
+
  - Fix TableInfoView when a displayed table is removed. Show/hide properly
    "No tables available" when a table is removed
 
