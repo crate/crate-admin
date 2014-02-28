@@ -7879,11 +7879,11 @@ h2 {
 #clusterstatus-bar {
   background-color: #676767;
 }
-.clusterstatus-critical,
+#clusterstatus-bar.clusterstatus-critical,
 .tablestatus-critical {
   background-color: #ff5151;
 }
-.clusterstatus-warning,
+#clusterstatus-bar.clusterstatus-warning,
 .tablestatus-warning {
   background-color: #ffc600;
 }
