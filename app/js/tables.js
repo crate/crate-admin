@@ -234,7 +234,7 @@ define(['jquery',
             if (_.has(this.subviews, table.id)) {
                 this.subviews[table.id].dispose();
             }
-            if (this.subviews.infoview && this.subviews.infoview.model.id == table.id) {
+            if (this.subviews.infoview && this.subviews.infoview.model.id === table.id) {
                 this.subviews.infoview.dispose();
                 this.selectedItem = null;
             }
