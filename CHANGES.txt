@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+
+2014/02/27 0.1.0
+================
+
  - Handle edge case where there are no tables in overview, table view
 
  - Fix load graph to behave with bootstrap/jQuery
