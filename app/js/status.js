@@ -130,13 +130,24 @@ define(['jquery',
                 }
             }
 
-            self.set({
-                'records_total': records_total,
-                'records_underreplicated': records_not_replicated.toFixed(0),
-                'replicated_data': Math.floor(100-((records_not_replicated/records_total)*100)),
-                'records_unavailable': records_unavailable.toFixed(0),
-                'available_data': Math.floor(100-((records_unavailable/records_total)*100))
-            });
+            if (records_total===0) {
+                self.set({
+                    'records_total': 0,
+                    'records_underreplicated': 0,
+                    'replicated_data': 100,
+                    'records_unavailable': 0,
+                    'available_data': 100
+                });
+            } else {
+                self.set({
+                    'records_total': records_total,
+                    'records_underreplicated': records_not_replicated.toFixed(0),
+                    'replicated_data': Math.floor(100-((records_not_replicated/records_total)*100)),
+                    'records_unavailable': records_unavailable.toFixed(0),
+                    'available_data': Math.floor(100-((records_unavailable/records_total)*100))
+                });
+            }
+
         },
 
         _updateTableStatus: function () {
