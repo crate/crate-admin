@@ -222,6 +222,12 @@ define(['jquery',
             this.$('ul').append(v.render().$el);
             this.addView(table.id, v);
             this.$('#no-tables').addClass('hidden');
+
+            if (!this.selectedItem ) {
+                this.showDetails(table.id);
+                this.$('#sidebar-wrapper ul').children().first().addClass('active');
+            }
+
         },
 
         removeTable: function (table) {
@@ -244,10 +250,6 @@ define(['jquery',
             _.each(this.collection.models, function (table) {
                 self.addTable(table);
             });
-            if (!this.selectedItem && this.collection.length) {
-                this.showDetails(this.collection.first().id);
-                this.$('#sidebar-wrapper ul').children().first().addClass('active');
-            }
 
             if(this.collection.length===0) {
                 this.$('#no-tables').removeClass('hidden');
