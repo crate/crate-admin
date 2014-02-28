@@ -206,9 +206,14 @@ define(['jquery',
         },
 
         showDetails: function (name) {
+            if (_.has(this.subviews, 'infoview')) {
+                this.subviews['infoview'].dispose();
+            }
+
             var t = this.collection.get(name),
                 v = new Tables.TableInfoView({model: t});
             this.$('#table-info').html(v.render().$el);
+            this.addView('infoview', v);
             this.selectedItem = name;
         },
 
