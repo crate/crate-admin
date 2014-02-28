@@ -33,7 +33,7 @@ Distributing
 
 Before creating a new distribution, a new version and tag should be created:
 
- - Add a new version to the ``bower.json``.
+ - Add a new version to ``bower.json`` and ``package.json``.
 
  - Add a note for the new version at the ``CHANGES.txt`` file.
 

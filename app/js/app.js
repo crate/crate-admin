@@ -3,14 +3,18 @@ define([
     'underscore',
     'backbone',
     'Status',
+    'NavBar',
     'Overview',
     'Console',
+    'Tables',
+    'Cluster',
     'Tutorial'
-], function ($, _, Backbone, Status, Overview, Console, Tutorial) {
+], function ($, _, Backbone, Status, NavBar, Overview, Console, Tables, Cluster, Tutorial) {
 
     var app = _.extend({
 
-        root: '/_plugin/ca',
+        root: '/_plugin/crate-admin',
+        refreshTimeout: null,
 
         start: function () {
             var sb, ov;
@@ -19,14 +23,16 @@ define([
             app.status.fetch();
             sb = new Status.StatusView({model: app.status});
             sb.render();
+            app.navbar = new NavBar.NavBarView();
+            app.navbar.render();
             app.router = new Router();
             app.initializeRouter();
 
         },
 
         initializeRouter: function () {
-            // Trigger the initial route and enable HTML5 History API support
-            Backbone.history.start({ pushState: true, root: app.root});
+            // Disable browser pushState, use hash changes to navigate
+            Backbone.history.start({ pushState: false, root: app.root});
 
             // All navigation that is relative should be passed through the navigate
             // method, to be processed by the router.  If the link has a data-bypass
@@ -56,6 +62,8 @@ define([
         routes: {
             '': 'home',
             console: 'console',
+            tables: 'tables',
+            cluster: 'cluster',
             tutorial: 'tutorial'
         },
 
@@ -66,6 +74,7 @@ define([
             app.currentView = new Overview.OverviewView({model: app.status});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
+            app.navbar.selectActive('overview');
         },
 
         console: function () {
@@ -75,7 +84,30 @@ define([
             app.currentView = new Console.ConsoleView({model: app.status});
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
-            var v;
+            app.navbar.selectActive('console');
+        },
+
+        tables: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            var tableList = new Tables.TableList();
+            tableList.fetch({reset: true});
+            app.currentView = new Tables.TableListView({collection: tableList});
+            app.currentView.render();
+            $('#wrapper').html(app.currentView.$el);
+            app.navbar.selectActive('tables');
+        },
+
+        cluster: function () {
+            if (app.currentView) {
+                app.currentView.dispose();
+            }
+            var cluster = new Cluster.Cluster();
+            cluster.fetch({reset: true});
+            app.currentView = new Cluster.ClusterView({collection: cluster});
+            $('#wrapper').html(app.currentView.$el);
+            app.navbar.selectActive('cluster');
         },
 
         tutorial: function () {
@@ -86,7 +118,7 @@ define([
             app.currentView.render();
             $('#wrapper').html(app.currentView.$el);
             app.currentView.updateBtn();
-            var v;
+            app.navbar.selectActive('tutorial');
         }
     });
 

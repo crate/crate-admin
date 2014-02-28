@@ -11,6 +11,7 @@ require.config({
         underscore: 'bower_components/underscore/underscore',
         spin: 'bower_components/ladda-bootstrap/dist/spin',
         ladda: 'bower_components/ladda-bootstrap/dist/ladda',
+        flot: 'bower_components/flot/jquery.flot',
 
         // App
         app: 'js/app',
@@ -19,7 +20,12 @@ require.config({
         SQL: 'js/sql',
         Status: 'js/status',
         Console: 'js/console',
+        NavBar: 'js/navbar',
+        Console: 'js/console',
+        Tables: 'js/tables',
+        Cluster: 'js/cluster',
         Tutorial: 'js/tutorial'
+
     },
 
     shim: {
@@ -34,6 +40,10 @@ require.config({
 
         underscore: {
             exports: '_'
+        },
+
+        flot: {
+            deps: ['jquery']
         }
     }
 });

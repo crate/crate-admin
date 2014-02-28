@@ -1,0 +1,96 @@
+Crate Data Admin Interface
+Copyright 2013-2014 CRATE Technology GmbH
+
+Third party dependencies:
+
+=========================================================================
+
+Font: Blender Pro
+http://binnenland.ch
+Published by Die Gestalten Verlag GmbH & Co. KG, 2008
+Copyright © by Binnenland and re-p.org, 2008.
+Licensed to CRATE Technology GmbH under an "Extended Business End User
+Licence Agreement and Webfont End User Licence Agreement" solely for use
+in the Crate Administration User Interface
+
+=========================================================================
+
+Font: Source Code Pro
+http://www.adobe.com
+Copyright 2010, 2012 Adobe Systems Incorporated
+Font License: SIL OFL, Version 1.1. (http://scripts.sil.org/OFL)
+
+=========================================================================
+
+Buildout
+http://www.buildout.org
+Copyright (c) 2006 Zope Foundation and Contributors.
+License: Zope Public License, Version 2.1 (ZPL)
+
+=========================================================================
+
+RequireJS
+http://requirejs.org
+Copyright (c) 2010-2014, The Dojo Foundation
+License: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
+
+=========================================================================
+
+jQuery
+http://jquery.com/
+Copyright 2014 jQuery Foundation and other contributors
+License: MIT (http://opensource.org/licenses/MIT)
+
+=========================================================================
+
+Underscore.js
+http://underscorejs.org
+Copyright (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+License: MIT (http://opensource.org/licenses/MIT)
+
+=========================================================================
+
+Backbone.js
+http://backbonejs.org
+Copyright (c) 2010-2014 Jeremy Ashkenas, DocumentCloud
+License: MIT (http://opensource.org/licenses/MIT)
+
+=========================================================================
+
+Bootstrap
+http://getbootstrap.com
+Copyright (c) 2011-2014 Twitter, Inc
+License: MIT (http://opensource.org/licenses/MIT)
+Documentation License: Attribution 3.0 Unported (https://creativecommons.org/licenses/by/3.0/)
+
+=========================================================================
+
+Font Awesome
+http://fontawesome.io
+Copyright Dave Gandy
+License: MIT (http://opensource.org/licenses/MIT)
+Font License: SIL OFL 1.1 (URL: http://scripts.sil.org/OFL)
+Documentation License: CC BY 3.0 (URL: http://creativecommons.org/licenses/by/3.0/)
+
+=========================================================================
+
+morris.js
+http://www.oesmith.co.uk/morris.js
+Copyright (c) 2013, Olly Smith
+License: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
+
+=========================================================================
+
+Flot
+http://www.flotcharts.org
+Copyright (c) 2007-2013 IOLA and Ole Laursen
+License: MIT (http://opensource.org/licenses/MIT)
+
+=========================================================================
+
+Ladda
+http://lab.hakim.se/ladda/
+Copyright (C) 2013 Hakim El Hattab, http://hakim.se
+License: MIT (http://opensource.org/licenses/MIT)
+
+=========================================================================

@@ -2,8 +2,81 @@
 Changes for Crate Data
 ======================
 
-Unreleased
+unreleased
 ==========
+
+
+2014/02/26 0.0.9
+================
+
+ - Fix visual glitches for different devices and screen widths
+
+ - Show graph of load over time on Overview view.
+
+ - Handle add/remove events of nodes on the Cluster view
+
+ - Handle add/remove events of tables on the TableList view
+
+ - Use URL fragments for navigation, disable pushState
+
+ - Sort tables and cluster nodes by health then alphabetically
+
+
+2014/02/26 0.0.8
+================
+
+ - Update logo
+
+ - Refactor top and left navbars
+
+ - Cluster list: Stop highlighting node names
+
+ - Improved responsive behaviour
+
+ - Repaired visual style glitches
+
+ - Refresh Table & Cluster views
+
+ - Auto select first item in Table and Cluster views
+
+ - Refresh Tables & Cluster views
+
+ - Display json objects on sql results
+
+
+2014/02/25 0.0.7
+================
+
+ - Completed table info view
+
+ - Complete cluster view
+
+ - fixed error console not reseting on a new query
+
+2014/02/25 0.0.6
+================
+
+ - fixed visual bug causing table info to not display properly.
+
+2014/02/24 0.0.5
+================
+
+ - Introduced Tables view
+
+ - Introduced Cluster view
+
+2014/02/24 0.0.4
+================
+
+ - bugfix in release management: create_tag.sh now checks for
+   versions in both, package.json and bower.json.
+
+2014/02/24 0.0.3
+================
+
+ - fix for overview
+
+ - fixed status bar
 
  - bugfix in ./devtools/create_tag.sh
 
