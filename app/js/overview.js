@@ -42,6 +42,8 @@ define(['jquery',
 
     Overview.GraphView = base.CrateView.extend({
 
+        id: 'graph-wrapper',
+
         initialize: function () {
             this.listenTo(this.model, 'change:loadHistory', this.setupLoadGraph);
         },
