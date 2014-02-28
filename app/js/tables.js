@@ -207,7 +207,7 @@ define(['jquery',
 
         showDetails: function (name) {
             if (_.has(this.subviews, 'infoview')) {
-                this.subviews['infoview'].dispose();
+                this.subviews.infoview.dispose();
             }
 
             var t = this.collection.get(name),
@@ -227,6 +227,13 @@ define(['jquery',
         removeTable: function (table) {
             if (_.has(this.subviews, table.id)) {
                 this.subviews[table.id].dispose();
+            }
+            if (this.subviews.infoview && this.subviews.infoview.model.id == table.id) {
+                this.subviews.infoview.dispose();
+                this.selectedItem = null;
+            }
+            if (this.collection.length===0) {
+                this.render();
             }
         },
 
@@ -251,6 +258,9 @@ define(['jquery',
 
         dispose: function () {
             clearTimeout(this.refreshTimeout);
+            if (this.subviews.infoview) {
+                this.subviews.infoview.dispose();
+            }
             base.CrateView.prototype.dispose.call(this);
         }
 
