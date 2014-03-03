@@ -19,27 +19,18 @@ define(['jquery',
     var Twitter = function () {
         this.oReq = new XMLHttpRequest();
         this.tweets = 0;
-        this.store_tweet = function(tweet) {
-            var http = new XMLHttpRequest();
-            var self = this;
-            http.open("POST", crate_url + "_sql");
-            http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            http.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200){
-                    // increase the tweets count if everything is ok
-                    self.tweets += 1;
-                }
-            };
+        this.storeTweet = function(tweet) {
+            var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)',
+                sq = new SQL.Query(stmt);
 
-            // store the tweet
-            http.send(JSON.stringify({stmt: "insert into tweets values (\$1, \$2, \$3, \$4, \$5, \$6)",
-                                      args: [tweet.created_at,
-                                             tweet.id,
-                                             tweet.retweeted,
-                                             tweet.source,
-                                             tweet.text,
-                                             tweet.user]
-                                     }));
+            return sq.execute([
+                tweet.created_at,
+                tweet.id,
+                tweet.retweeted,
+                tweet.source,
+                tweet.text,
+                tweet.user]);
+
         };
 
         this.createTable = function() {
@@ -86,7 +77,7 @@ define(['jquery',
                 lines = new_response.split("\n");
                 for (var i=0; i < lines.length - 1; i++) {
                     var tweet = JSON.parse( lines[i] );
-                    self.store_tweet(tweet);
+                    self.storeTweet(tweet);
                     // update tweets per second
                     var twps = (1000 * self.tweets) / (new Date().getTime() - self.started);
                     $('#tweets').text('Tweets / s: ' + twps.toFixed(2));
