@@ -98,6 +98,7 @@ define(['jquery',
                 window.location = base_url + "/auth?origin="+host;
             })
             .done(function () {
+                self.start();
                 console.log('timeout');
             });
 
