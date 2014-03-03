@@ -218,16 +218,21 @@ define(['jquery',
         },
 
         addTable: function (table) {
-            var v = new Tables.TableListItemView({model: table});
-            this.$('ul').append(v.render().$el);
-            this.addView(table.id, v);
-            this.$('#no-tables').addClass('hidden');
+            var prevIndex = this.collection.indexOf(table) - 1,
+                v = new Tables.TableListItemView({model: table});
 
+            if (prevIndex >= 0) {
+                v.render().$el.insertAfter('#table-' + this.collection.at(prevIndex).id);
+            } else {
+                this.$('ul').append(v.render().$el);
+            }
+            this.$('#no-tables').addClass('hidden');
             if (!this.selectedItem ) {
                 this.showDetails(table.id);
                 this.$('#sidebar-wrapper ul').children().first().addClass('active');
             }
 
+            this.addView(table.id, v);
         },
 
         removeTable: function (table) {
