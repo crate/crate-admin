@@ -19,6 +19,7 @@ define(['jquery',
     var Twitter = function () {
         this.oReq = new XMLHttpRequest();
         this.tweets = 0;
+
         this.storeTweet = function(tweet) {
             var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)',
                 sq = new SQL.Query(stmt);
@@ -58,34 +59,48 @@ define(['jquery',
         };
 
         this.start = function() {
+
+            var self = this,
+                currentResponseText='',
+                tweets;
+
             this.createTable();
-            this.tweets = 0;
-            this.started = new Date().getTime();
-            this.stop();
-            this.oReq.previous_text = '';
-            this.oReq.withCredentials = true;
-            var self = this;
-            this.oReq.onreadystatechange = function() {
-                if (this.status == 401){
-                    // If authorization fails redirect the user to the
-                    // authentication endpoint
-                    window.location = base_url + "/auth?origin="+host;
-                    return;
+
+            // This is a long polling request.
+            // We do not expect this to ever complete, except on timeout and just parse the
+            // continously updating response for new tweets to insert.
+            $.ajax(base_url + "/sample?origin="+host, {
+                type: 'GET',
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.addEventListener("progress", function(evt) {
+                        tweets = evt.target.responseText.substring(currentResponseText.length);
+                        tweets = tweets.split('\n');
+                        tweets = _.map(tweets, function (tweet) {
+                            try {
+                                return JSON.parse(tweet);
+                            } catch (e) {}
+                        });
+                        tweets = _.reject(tweets, function (tweet) { return tweet===undefined; });
+                        _.each(tweets, function (tweet) {
+                            self.storeTweet(tweet);
+                        });
+                        currentResponseText = evt.target.responseText;
+                    });
+                    return xhr;
                 }
-                var new_response = this.responseText.substring(this.previous_text.length);
-                // Split the response. Each line contains a tweet in json format
-                lines = new_response.split("\n");
-                for (var i=0; i < lines.length - 1; i++) {
-                    var tweet = JSON.parse( lines[i] );
-                    self.storeTweet(tweet);
-                    // update tweets per second
-                    var twps = (1000 * self.tweets) / (new Date().getTime() - self.started);
-                    $('#tweets').text('Tweets / s: ' + twps.toFixed(2));
-                    this.previous_text += lines[i] + '\n';
-                }
-          };
-          this.oReq.open("get", base_url + "/sample?origin="+host, true);
-          this.oReq.send();
+            })
+            .fail(function () {
+                window.location = base_url + "/auth?origin="+host;
+            })
+            .done(function () {
+                console.log('timeout');
+            });
+
       };
 
       this.running = function() {
