@@ -10,15 +10,12 @@ define(['jquery',
     var Tutorial = {};
 
     var base_url = "https://twitter.crate.io/api/v1";
-    var crate_url = "http://localhost:4200/";
     var host = location.href;
     if (!host) {
-      host = "http://localhost:4200/admin";
+      host = "http://localhost:4200/crate-admin";
     }
 
     var Twitter = function () {
-        this.oReq = new XMLHttpRequest();
-        this.tweets = 0;
 
         this.storeTweet = function(tweet) {
             var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)',
@@ -69,7 +66,7 @@ define(['jquery',
             // This is a long polling request.
             // We do not expect this to ever complete, except on timeout and just parse the
             // continously updating response for new tweets to insert.
-            $.ajax(base_url + "/sample?origin="+host, {
+            this.request = $.ajax(base_url + "/sample?origin="+host, {
                 type: 'GET',
                 xhrFields: {
                     withCredentials: true
@@ -99,58 +96,59 @@ define(['jquery',
             })
             .done(function () {
                 self.start();
-                console.log('timeout');
             });
-
       };
 
       this.running = function() {
-            return this.oReq.readyState !== 0 && this.oReq.readyState != 4;
+            if (this.request && this.request.state() === 'pending') {
+                return true;
+            } else {
+                return false;
+            }
       };
 
       this.stop = function() {
-          this.oReq.abort();
-          this.tweets = 0;
+          this.request.abort();
       };
     };
 
     twitter = new Twitter();
+
     // The authentication callback sets the start_twitter parameter after
-    // a successfull login
-    // so the user doesn't have to click the button again
+    // a successfull login so the user doesn't have to click the button again
     if (location.search.split('start_twitter=')[1] == 'true'){
       twitter.start();
     }
 
     Tutorial.TutorialView = base.CrateView.extend({
+
         template: _.template(TutorialTemplate),
+
         events: {
             'submit form': 'start'
-        },
-
-        updateBtn: function(){
-            if(!twitter.running()){
-                $('button').text('Give me some Tweets');
-                $('#tweets').hide();
-            } else {
-                $('button').text('Stop indexing Tweets');
-                $('#tweets').show();
-            }
         },
 
         start: function(ev){
             if (twitter.running()){
                 twitter.stop();
-            }else {
+            } else {
                 twitter.start();
             }
-            this.updateBtn();
+
             ev.preventDefault();
             ev.stopPropagation();
+            this.render();
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template());
+            if(!twitter.running()){
+                this.$('button').text('Give me some Tweets');
+                this.$('#tweets').hide();
+            } else {
+                this.$('button').text('Stop indexing Tweets');
+                this.$('#tweets').show();
+            }
             return this;
         }
 

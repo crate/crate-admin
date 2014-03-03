@@ -109,7 +109,7 @@ define([
             tableList = new Tables.TableList();
             tableList.fetch({reset: true});
 
-            v = new Tables.TableListView({collection: tableList}).render()
+            v = new Tables.TableListView({collection: tableList}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
@@ -129,13 +129,12 @@ define([
         },
 
         tutorial: function () {
-            if (app.currentView) {
-                app.currentView.dispose();
-            }
-            app.currentView = new Tutorial.TutorialView({model: app.status});
-            app.currentView.render();
-            $('#wrapper').html(app.currentView.$el);
-            app.currentView.updateBtn();
+            var v;
+            app.disposeViews();
+
+            v = new Tutorial.TutorialView({model: app.status}).render();
+            app.currentViews.push(v);
+            $('#wrapper').html(v.$el);
             app.navbar.selectActive('tutorial');
         }
     });
