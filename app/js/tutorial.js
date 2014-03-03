@@ -3,8 +3,9 @@
 define(['jquery',
         'underscore',
         'base',
+        'SQL',
         'text!views/tutorial.html'
-       ],function ($, _, base, TutorialTemplate) {
+       ],function ($, _, base, SQL, TutorialTemplate) {
 
     var Tutorial = {};
 
@@ -41,8 +42,9 @@ define(['jquery',
                                      }));
         };
 
-        this.create_table = function(){
-            var statement = ' create table tweets ( \
+        this.createTable = function() {
+
+            var stmt = ' create table tweets ( \
                     id string primary key, \
                     created_at timestamp, \
                     text string INDEX using fulltext, \
@@ -57,18 +59,15 @@ define(['jquery',
                         description string INDEX using fulltext, \
                         friends_count integer, \
                         location string INDEX using fulltext \
-                    ) )';
-            var http = new XMLHttpRequest();
-            http.open("POST", crate_url + "_sql");
-            http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            // TODO: Check if table already exists
-            http.onreadystatechange = function() {console.log("Created Table");};
-            http.send(JSON.stringify({stmt: statement}));
+                    ) )',
+                sq = new SQL.Query(stmt),
+                promise = sq.execute();
 
+            return promise;
         };
 
         this.start = function() {
-            this.create_table();
+            this.createTable();
             this.tweets = 0;
             this.started = new Date().getTime();
             this.stop();
