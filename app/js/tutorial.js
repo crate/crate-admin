@@ -1,30 +1,35 @@
+/*jshint multistr: true */
+
 define(['jquery',
         'underscore',
         'base',
         'text!views/tutorial.html'
        ],function ($, _, base, TutorialTemplate) {
 
-    base_url = "https://twitter.crate.io/api/v1"
-    crate_url = "http://localhost:4200/"
-    host = location.href;
+    var Tutorial = {};
+
+    var base_url = "https://twitter.crate.io/api/v1";
+    var crate_url = "http://localhost:4200/";
+    var host = location.href;
     if (!host) {
       host = "http://localhost:4200/admin";
     }
 
-    function Twitter() {
+    var Twitter = function () {
         this.oReq = new XMLHttpRequest();
         this.tweets = 0;
         this.store_tweet = function(tweet) {
             var http = new XMLHttpRequest();
             var self = this;
-            http.open("POST", crate_url + "_sql")
+            http.open("POST", crate_url + "_sql");
             http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             http.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200){
                     // increase the tweets count if everything is ok
                     self.tweets += 1;
                 }
-            }
+            };
+
             // store the tweet
             http.send(JSON.stringify({stmt: "insert into tweets values (\$1, \$2, \$3, \$4, \$5, \$6)",
                                       args: [tweet.created_at,
@@ -34,7 +39,7 @@ define(['jquery',
                                              tweet.text,
                                              tweet.user]
                                      }));
-        }
+        };
 
         this.create_table = function(){
             var statement = ' create table tweets ( \
@@ -52,16 +57,15 @@ define(['jquery',
                         description string INDEX using fulltext, \
                         friends_count integer, \
                         location string INDEX using fulltext \
-                    ) \
-                )';
+                    ) )';
             var http = new XMLHttpRequest();
-            http.open("POST", crate_url + "_sql")
+            http.open("POST", crate_url + "_sql");
             http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             // TODO: Check if table already exists
-            http.onreadystatechange = function() {console.log("Created Table");}
+            http.onreadystatechange = function() {console.log("Created Table");};
             http.send(JSON.stringify({stmt: statement}));
 
-        }
+        };
 
         this.start = function() {
             this.create_table();
@@ -77,7 +81,7 @@ define(['jquery',
                     // authentication endpoint
                     window.location = base_url + "/auth?origin="+host;
                     return;
-                } 
+                }
                 var new_response = this.responseText.substring(this.previous_text.length);
                 // Split the response. Each line contains a tweet in json format
                 lines = new_response.split("\n");
@@ -89,20 +93,20 @@ define(['jquery',
                     $('#tweets').text('Tweets / s: ' + twps.toFixed(2));
                     this.previous_text += lines[i] + '\n';
                 }
-          }
+          };
           this.oReq.open("get", base_url + "/sample?origin="+host, true);
           this.oReq.send();
-      }
+      };
 
       this.running = function() {
-            return this.oReq.readyState != 0 && this.oReq.readyState != 4;
-      }
+            return this.oReq.readyState !== 0 && this.oReq.readyState != 4;
+      };
 
       this.stop = function() {
           this.oReq.abort();
           this.tweets = 0;
-      }
-    }
+      };
+    };
 
     twitter = new Twitter();
     // The authentication callback sets the start_twitter parameter after
@@ -112,7 +116,6 @@ define(['jquery',
       twitter.start();
     }
 
-    var Tutorial = {};
     Tutorial.TutorialView = base.CrateView.extend({
         template: _.template(TutorialTemplate),
         events: {
@@ -146,5 +149,6 @@ define(['jquery',
         }
 
     });
+
     return Tutorial;
 });
