@@ -280,6 +280,7 @@ define(['jquery',
 
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
+            this.$el.attr('id', 'table-' + this.model.id);
         },
 
         selectTable: function (ev) {
