@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/04 0.1.2
+================
+
  - Insert new TableInfoView items in alphabetic order
 
 
