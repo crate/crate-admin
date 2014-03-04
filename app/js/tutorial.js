@@ -92,8 +92,12 @@ define(['jquery',
                         return xhr;
                     }
                 })
-                .fail(function () {
-                    window.location = base_url + "/auth?origin="+host;
+                .fail(function (err) {
+                    // If this is an authorization failure, redirect to get
+                    // permission
+                    if (err.status === 401) {
+                        window.location = base_url + "/auth?origin="+host;
+                    }
                 })
                 .done(function () {
                     self.start();
