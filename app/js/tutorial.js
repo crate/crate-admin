@@ -125,7 +125,8 @@ define(['jquery',
         template: _.template(TutorialTemplate),
         id: 'page-wrapper',
         events: {
-            'click button': 'start'
+            'click #start-import': 'startImport',
+            'click #stop-import': 'stopImport'
         },
 
         startImport: function(ev){
