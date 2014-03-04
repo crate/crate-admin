@@ -28,7 +28,6 @@ define(['jquery',
                 tweet.source,
                 tweet.text,
                 tweet.user]);
-
         };
 
         this.createTable = function() {
@@ -59,43 +58,46 @@ define(['jquery',
 
             var self = this,
                 currentResponseText='',
-                tweets;
+                tweets,
+                ctd;
 
-            this.createTable();
+            ctd = this.createTable();
 
-            // This is a long polling request.
-            // We do not expect this to ever complete, except on timeout and just parse the
-            // continously updating response for new tweets to insert.
-            this.request = $.ajax(base_url + "/sample?origin="+host, {
-                type: 'GET',
-                xhrFields: {
-                    withCredentials: true
-                },
-                crossDomain: true,
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.addEventListener("progress", function(evt) {
-                        tweets = evt.target.responseText.substring(currentResponseText.length);
-                        tweets = tweets.split('\n');
-                        tweets = _.map(tweets, function (tweet) {
-                            try {
-                                return JSON.parse(tweet);
-                            } catch (e) {}
+            ctd.always(function () {
+                // This is a long polling request.
+                // We do not expect this to ever complete, except on timeout and just parse the
+                // continously updating response for new tweets to insert.
+                self.request = $.ajax(base_url + "/sample?origin="+host, {
+                    type: 'GET',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.addEventListener("progress", function(evt) {
+                            tweets = evt.target.responseText.substring(currentResponseText.length);
+                            tweets = tweets.split('\n');
+                            tweets = _.map(tweets, function (tweet) {
+                                try {
+                                    return JSON.parse(tweet);
+                                } catch (e) {}
+                            });
+                            tweets = _.reject(tweets, function (tweet) { return tweet===undefined; });
+                            _.each(tweets, function (tweet) {
+                                self.storeTweet(tweet);
+                            });
+                            currentResponseText = evt.target.responseText;
                         });
-                        tweets = _.reject(tweets, function (tweet) { return tweet===undefined; });
-                        _.each(tweets, function (tweet) {
-                            self.storeTweet(tweet);
-                        });
-                        currentResponseText = evt.target.responseText;
-                    });
-                    return xhr;
-                }
-            })
-            .fail(function () {
-                window.location = base_url + "/auth?origin="+host;
-            })
-            .done(function () {
-                self.start();
+                        return xhr;
+                    }
+                })
+                .fail(function () {
+                    window.location = base_url + "/auth?origin="+host;
+                })
+                .done(function () {
+                    self.start();
+                });
             });
       };
 
@@ -122,8 +124,10 @@ define(['jquery',
 
     Tutorial.TutorialView = base.CrateView.extend({
 
-        template: _.template(TutorialTemplate),
         id: 'page-wrapper',
+
+        template: _.template(TutorialTemplate),
+
         events: {
             'click #start-import': 'startImport',
             'click #stop-import': 'stopImport'
