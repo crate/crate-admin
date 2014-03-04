@@ -130,8 +130,8 @@ define(['jquery',
     twitter = new Twitter();
     // The authentication callback sets the start_twitter parameter after
     // a successfull login so the user doesn't have to click the button again
-    if (document.cookie.search('start_twitter=') > -1){
-        document.cookie = '';
+    if (document.cookie.search('start_twitter=true') > -1){
+        document.cookie = 'start_twitter=false; path=/';
         twitter.start();
     }
 
