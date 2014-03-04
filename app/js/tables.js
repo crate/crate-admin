@@ -121,6 +121,7 @@ define(['jquery',
             sqInfo = new SQL.Query(
                 'select table_name, sum(number_of_shards), sum(number_of_replicas) ' +
                 'from information_schema.tables ' +
+                'where schema_name = \'doc\'' +
                 'group by table_name');
 
             sqShardInfo = new SQL.Query(
@@ -161,7 +162,7 @@ define(['jquery',
                 // Reject system tables
                 // select table_name from information_schema.tables where schema_name='doc'
                 tables = _.reject(tables, function (table) {
-                    return _.contains(['tables', 'shards', 'columns', 'cluster', 'nodes'], table.name);
+                    return _.contains([], table.name);
                 });
 
                 _.each(tables, function (table) {
