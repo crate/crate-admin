@@ -5,19 +5,17 @@
     </div>
   </div>
 </div>
-<p class="row">Sometimes it helps just to test with something real. We have added a Twitter importer to quickly let you test your new Crate instance with real data. Press the button, and watch your cluster quickly fill up with real time Twitter streams. You can always delete them later.</p>
+<p class="row">Sometimes it helps just to test with something real. We have added a Twitter importer to quickly let you test your new Crate instance with real data. Press the button, and watch your cluster quickly fill up in real time with live Tweets. You can always delete them later.</p>
+<div class="row">
+  <ul>
+    <li>Your imported tweets will be stored in a table called <b>tweets</b>.</li>
+    <li>Click <b>TABLES</b> on the left to see the table and its stats. </li>
+    <li>Click <b>CONSOLE</b> to query the table directly with SQL. For starters, you can try: <code>SELECT text FROM tweets LIMIT 100</code></li>
+  </ul>
+</div>
+
 <p class="row"><button type="submit" class="btn btn-default pull-left ladda-button" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> Import some tweets</button>
 </p>
 <p class="row">
   <div>Currently importing <strong id="tweets"></strong>tweets per second</div>
 </p>
-<div class="row">
-  <ul>
-    <li>Your imported tweets will be stored in a table called <b>tweets</b>.</li>
-    <li>Click <b>tables</b> on the left to see the table and its stats. </li>
-    <li>Click <b>console</b> to query the table directly with SQL.</li>
-  </ul>
-</div>
-<div class="row">
-  <p>try this: <code>SELECT text FROM tweets LIMIT 100</code> in the console.</p>
-</div>
