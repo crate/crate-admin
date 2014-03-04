@@ -125,7 +125,7 @@ define(['jquery',
         template: _.template(TutorialTemplate),
         id: 'page-wrapper',
         events: {
-            'submit form': 'start'
+            'click button': 'start'
         },
 
         start: function(ev){
