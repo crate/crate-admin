@@ -82,10 +82,10 @@ define([
             var v, gv;
 
             // Check if we just got redirected.
-            if (Backbone.history.location.search.indexOf('start_twitter') > -1) {
-                this.navigate('#tutorial', {trigger: true, replace: true});
-                return;
-            }
+            // if (Backbone.history.location.search.indexOf('start_twitter') > -1) {
+            //     this.navigate('#tutorial', {trigger: true, replace: true});
+            //     return;
+            // }
 
             app.disposeViews();
 
@@ -138,7 +138,6 @@ define([
         tutorial: function () {
             var v;
             app.disposeViews();
-
             v = new Tutorial.TutorialView({model: app.status}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
