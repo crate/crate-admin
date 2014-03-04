@@ -19,6 +19,8 @@ define(['jquery',
 
         _.extend(this, Backbone.Events);
 
+        this.count = 0;
+
         this.storeTweet = function(tweet) {
             var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)',
                 sq = new SQL.Query(stmt);
@@ -89,6 +91,8 @@ define(['jquery',
                             _.each(tweets, function (tweet) {
                                 self.storeTweet(tweet);
                             });
+                            self.count += tweets.length;
+                            self.trigger('change', self.count);
                             currentResponseText = evt.target.responseText;
                         });
                         return xhr;
@@ -144,6 +148,7 @@ define(['jquery',
         initialize: function () {
             this.listenTo(twitter, 'started', this.render);
             this.listenTo(twitter, 'stopped', this.render);
+            this.listenTo(twitter, 'change', this.render);
         },
 
         startImport: function(ev){
@@ -164,7 +169,9 @@ define(['jquery',
         },
 
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(this.template({
+                count: twitter.count
+            }));
             if(!twitter.running()){
                 this.$('#import-button').show();
                 this.$('#stop-button').hide();
