@@ -17,6 +17,8 @@ define(['jquery',
 
     var Twitter = function () {
 
+        _.extend(this, Backbone.Events);
+
         this.storeTweet = function(tweet) {
             var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)',
                 sq = new SQL.Query(stmt);
@@ -102,24 +104,26 @@ define(['jquery',
                 .done(function () {
                     self.start();
                 });
-            });
-      };
 
-      this.running = function() {
+                self.trigger('started');
+            });
+        };
+
+        this.running = function() {
             if (this.request && this.request.state() === 'pending') {
                 return true;
             } else {
                 return false;
             }
-      };
+        };
 
-      this.stop = function() {
-          this.request.abort();
-      };
+        this.stop = function() {
+            this.request.abort();
+            this.trigger('stopped');
+        };
     };
 
     twitter = new Twitter();
-
     // The authentication callback sets the start_twitter parameter after
     // a successfull login so the user doesn't have to click the button again
     if (location.search.split('start_twitter=')[1] == 'true'){
