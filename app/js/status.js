@@ -130,6 +130,10 @@ define(['jquery',
                 }
             }
 
+            if (records_not_replicated < 0) {
+                records_not_replicated = 0;
+            }
+
             if (records_total===0) {
                 self.set({
                     'records_total': 0,

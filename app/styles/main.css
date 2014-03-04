@@ -7864,6 +7864,14 @@ h2 {
   padding: 0;
   margin-right: 10px;
 }
+#console-results {
+  margin-bottom: 18.75px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  border: 1px solid #dddddd;
+  -webkit-overflow-scrolling: touch;
+}
 .announcement-heading {
   font-size: 35px;
 }
