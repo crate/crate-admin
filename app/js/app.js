@@ -84,8 +84,7 @@ define([
             // Check if we just got redirected.
             if (Backbone.history.location.search.indexOf('start_twitter') > -1) {
                 document.cookie = 'start_twitter=true; path=/';
-                this.navigate('#tutorial', {replace: true});
-                window.location.search = '';
+                window.location.href = window.location.origin + window.location.pathname  + '#tutorial';
                 return;
             }
 
