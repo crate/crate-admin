@@ -12,7 +12,7 @@ define(['jquery',
     var base_url = "https://twitter.crate.io/api/v1";
     var host = location.href;
     if (!host) {
-      host = "http://localhost:4200/crate-admin";
+      host = "http://localhost:4200/_plugin/crate-admin";
     }
 
     var Twitter = function () {
