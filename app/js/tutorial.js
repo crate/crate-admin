@@ -130,8 +130,9 @@ define(['jquery',
     twitter = new Twitter();
     // The authentication callback sets the start_twitter parameter after
     // a successfull login so the user doesn't have to click the button again
-    if (location.search.split('start_twitter=')[1] == 'true'){
-      twitter.start();
+    if (document.cookie.search('start_twitter=') > -1){
+        document.cookie = '';
+        twitter.start();
     }
 
     Tutorial.TutorialView = base.CrateView.extend({
