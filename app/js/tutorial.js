@@ -140,14 +140,15 @@ define(['jquery',
             this.render();
         },
 
+
         render: function () {
             this.$el.html(this.template());
             if(!twitter.running()){
-                this.$('button').text('Give me some Tweets');
-                this.$('#tweets').hide();
+                this.$('#import-button').show();
+                this.$('#stop-button').hide();
             } else {
-                this.$('button').text('Stop indexing Tweets');
-                this.$('#tweets').show();
+                this.$('#import-button').hide();
+                this.$('#stop-button').show();
             }
             return this;
         }
