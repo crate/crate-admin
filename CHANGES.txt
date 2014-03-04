@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/04 0.2.2
+================
+
  - Filter system tables differently.
 
 2014/03/04 0.2.1
