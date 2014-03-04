@@ -107,7 +107,7 @@ define([
             tableList = new Tables.TableList();
             tableList.fetch({reset: true});
 
-            v = new Tables.TableListView({collection: tableList}).render()
+            v = new Tables.TableListView({collection: tableList}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
