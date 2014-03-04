@@ -7,6 +7,9 @@ unreleased
 
  - Add a "Get started" section that imports tweets
 
+ - Fix table ordering
+
+
 2014/03/04 0.1.2
 ================
 

@@ -224,7 +224,7 @@ define(['jquery',
             if (prevIndex >= 0) {
                 v.render().$el.insertAfter('#table-' + this.collection.at(prevIndex).id);
             } else {
-                this.$('ul').append(v.render().$el);
+                this.$('ul').prepend(v.render().$el);
             }
             this.$('#no-tables').addClass('hidden');
             if (!this.selectedItem ) {
