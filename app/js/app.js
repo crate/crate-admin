@@ -7,8 +7,9 @@ define([
     'Overview',
     'Console',
     'Tables',
-    'Cluster'
-], function ($, _, Backbone, Status, NavBar, Overview, Console, Tables, Cluster) {
+    'Cluster',
+    'Tutorial'
+], function ($, _, Backbone, Status, NavBar, Overview, Console, Tables, Cluster, Tutorial) {
 
     var app = _.extend({
 
@@ -73,11 +74,20 @@ define([
             '': 'home',
             console: 'console',
             tables: 'tables',
-            cluster: 'cluster'
+            cluster: 'cluster',
+            tutorial: 'tutorial'
         },
 
         home: function () {
             var v, gv;
+
+            // Check if we just got redirected.
+            if (Backbone.history.location.search.indexOf('start_twitter') > -1) {
+                document.cookie = 'start_twitter=true; path=/';
+                window.location.href = window.location.origin + window.location.pathname  + '#tutorial';
+                return;
+            }
+
             app.disposeViews();
 
             v = new Overview.OverviewView({model: app.status}).render();
@@ -124,6 +134,15 @@ define([
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('cluster');
+        },
+
+        tutorial: function () {
+            var v;
+            app.disposeViews();
+            v = new Tutorial.TutorialView({model: app.status}).render();
+            app.currentViews.push(v);
+            $('#wrapper').html(v.$el);
+            app.navbar.selectActive('tutorial');
         }
     });
 

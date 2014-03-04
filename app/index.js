@@ -19,10 +19,13 @@ require.config({
         Overview: 'js/overview',
         SQL: 'js/sql',
         Status: 'js/status',
+        Console: 'js/console',
         NavBar: 'js/navbar',
         Console: 'js/console',
         Tables: 'js/tables',
-        Cluster: 'js/cluster'
+        Cluster: 'js/cluster',
+        Tutorial: 'js/tutorial'
+
     },
 
     shim: {

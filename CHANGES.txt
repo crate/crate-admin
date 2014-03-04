@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Add a "Get started" section that imports tweets
+
  - Fix table ordering
 
 
