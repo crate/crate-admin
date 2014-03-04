@@ -5,6 +5,7 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix display issues
 
 2014/03/04 0.2.0
 ================
