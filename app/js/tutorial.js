@@ -141,13 +141,17 @@ define(['jquery',
             'click #stop-import': 'stopImport'
         },
 
+        initialize: function () {
+            this.listenTo(twitter, 'started', this.render);
+            this.listenTo(twitter, 'stopped', this.render);
+        },
+
         startImport: function(ev){
             if (!twitter.running()){
                 twitter.start();
             }
             ev.preventDefault();
             ev.stopPropagation();
-            this.render();
         },
 
 
@@ -157,7 +161,6 @@ define(['jquery',
             }
             ev.preventDefault();
             ev.stopPropagation();
-            this.render();
         },
 
         render: function () {
