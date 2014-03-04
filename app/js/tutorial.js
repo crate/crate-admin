@@ -123,7 +123,7 @@ define(['jquery',
     Tutorial.TutorialView = base.CrateView.extend({
 
         template: _.template(TutorialTemplate),
-
+        id: 'page-wrapper',
         events: {
             'submit form': 'start'
         },
