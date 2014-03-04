@@ -128,18 +128,24 @@ define(['jquery',
             'click button': 'start'
         },
 
-        start: function(ev){
-            if (twitter.running()){
-                twitter.stop();
-            } else {
+        startImport: function(ev){
+            if (!twitter.running()){
                 twitter.start();
             }
-
             ev.preventDefault();
             ev.stopPropagation();
             this.render();
         },
 
+
+        stopImport: function(ev){
+            if (twitter.running()){
+                twitter.stop();
+            }
+            ev.preventDefault();
+            ev.stopPropagation();
+            this.render();
+        },
 
         render: function () {
             this.$el.html(this.template());
