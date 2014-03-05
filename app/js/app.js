@@ -23,6 +23,9 @@ define([
             // Setup
             app.status = new Status.ClusterStatus();
             app.status.fetch();
+            app.Tables = new Tables.TableList();
+            app.Tables.fetch({reset: true});
+
             sb = new Status.StatusView({model: app.status});
             sb.render();
             app.navbar = new NavBar.NavBarView();
@@ -114,10 +117,7 @@ define([
             var v, tableList;
             app.disposeViews();
 
-            tableList = new Tables.TableList();
-            tableList.fetch({reset: true});
-
-            v = new Tables.TableListView({collection: tableList}).render();
+            v = new Tables.TableListView({collection: app.Tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
