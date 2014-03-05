@@ -159,12 +159,6 @@ define(['jquery',
 
                 columns = _.groupBy(columns, function (column) { return column.table_name; });
 
-                // Reject system tables
-                // select table_name from information_schema.tables where schema_name='doc'
-                tables = _.reject(tables, function (table) {
-                    return _.contains([], table.name);
-                });
-
                 _.each(tables, function (table) {
                     table.columns = columns[table.name];
                 });
