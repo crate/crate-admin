@@ -14,19 +14,22 @@ define(['jquery',
         id: 'page-wrapper',
         template: _.template(OverviewTemplate),
 
-        initialize: function () {
-            this.listenTo(this.model, 'change', this.render);
+        initialize: function (options) {
+            this.status = options.status;
+            this.tables = options.tables;
+            this.listenTo(this.status, 'change', this.render);
+            this.listenTo(this.tables, 'change', this.render);
         },
 
         replicatedStatusClass: function () {
-            if (this.model.get('records_underreplicated') > 0){
+            if (this.status.get('records_underreplicated') > 0){
                 return "panel-warning";
             }
             return "";
         },
 
         availableDataClass: function () {
-            if (this.model.get('records_unavailable') > 0){
+            if (this.status.get('records_unavailable') > 0){
                 return "panel-danger";
             }
             return "";
@@ -34,7 +37,7 @@ define(['jquery',
 
         render: function () {
             var self = this;
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.status.toJSON()));
             return this;
         }
     });

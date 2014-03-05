@@ -23,8 +23,8 @@ define([
             // Setup
             app.status = new Status.ClusterStatus();
             app.status.fetch();
-            app.Tables = new Tables.TableList();
-            app.Tables.fetch({reset: true});
+            app.tables = new Tables.TableList();
+            app.tables.fetch({reset: true});
 
             sb = new Status.StatusView({model: app.status});
             sb.render();
@@ -93,7 +93,7 @@ define([
 
             app.disposeViews();
 
-            v = new Overview.OverviewView({model: app.status}).render();
+            v = new Overview.OverviewView({status: app.status, tables: app.tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('overview');
@@ -117,7 +117,7 @@ define([
             var v, tableList;
             app.disposeViews();
 
-            v = new Tables.TableListView({collection: app.Tables}).render();
+            v = new Tables.TableListView({collection: app.tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
