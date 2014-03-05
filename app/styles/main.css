@@ -7891,10 +7891,14 @@ h2 {
   background-color: #676767;
 }
 #clusterstatus-bar.clusterstatus-critical,
+.announcement-heading span.clusterstatus-critical,
+.critical-records-critical,
 .tablestatus-critical {
   background-color: #ff5151;
 }
 #clusterstatus-bar.clusterstatus-warning,
+.announcement-heading span.clusterstatus-warning,
+.warning-records-warning,
 .tablestatus-warning {
   background-color: #ffc600;
 }

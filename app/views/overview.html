@@ -46,7 +46,7 @@
     <div class="col-md-4 col-sm-5">
       <div class="panel  {{this.replicatedStatusClass()}}">
         <div class="panel-heading">
-          <p class="announcement-heading inline-block"> {{ records_underreplicated }}
+          <p class="announcement-heading inline-block warning-records-{{ cluster_state }}"> {{ records_underreplicated }}
           </p>
           <p class="announcement-text">Underreplicated Records</p>
         </div>
@@ -56,7 +56,7 @@
     <div class="col-md-4 col-sm-5">
       <div class="panel {{this.availableDataClass()}}">
         <div class="panel-heading">
-          <p class="announcement-heading inline-block"> {{ records_unavailable }}</p>
+          <p class="announcement-heading inline-block critical-records-{{ cluster_state }}"> {{ records_unavailable }}</p>
           <p class="announcement-text">Unavailable Records</p>
         </div>
       </div>
