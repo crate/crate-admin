@@ -19,6 +19,7 @@ define(['jquery',
             this.tables = options.tables;
             this.listenTo(this.status, 'change', this.render);
             this.listenTo(this.tables, 'change', this.render);
+            this.listenTo(this.tables, 'reset', this.render);
         },
 
         replicatedStatusClass: function () {
@@ -41,6 +42,14 @@ define(['jquery',
             json.records_total = this.tables.totalRecords();
             json.records_underreplicated = this.tables.underreplicatedRecords();
             json.records_unavailable = this.tables.unavailableRecords();
+            if (json.records_total) {
+                json.records_replicated_percent = ((json.records_total -json.records_underreplicated)/json.records_total * 100).toFixed(0);
+                json.records_available_percent = ((json.records_total -json.records_unavailable)/json.records_total * 100).toFixed(0);
+            } else {
+                json.records_replicated_percent = 100;
+                json.records_available_percent = 100;
+            }
+
             this.$el.html(this.template(json));
             return this;
         }
