@@ -39,6 +39,7 @@ define(['jquery',
             var self = this,
             json = this.status.toJSON();
             json.records_total = this.tables.totalRecords();
+            json.records_underreplicated = this.tables.underreplicatedRecords();
             this.$el.html(this.template(json));
             return this;
         }

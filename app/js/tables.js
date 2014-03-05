@@ -60,7 +60,7 @@ define(['jquery',
                 return 0;
             }
             if (this.primaryShards().length === 0) {
-                return '--';
+                return 0;
             }
             return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
         },
@@ -101,6 +101,11 @@ define(['jquery',
             }, 0);
         },
 
+        underreplicatedRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.underreplicatedRecords();
+            }, 0);
+        },
 
         comparator: function (item) {
             var health = item.health();
