@@ -26,7 +26,7 @@ define([
             app.tables = new Tables.TableCollection();
             app.tables.fetch({reset: true});
 
-            sb = new Status.StatusView({model: app.status});
+            sb = new Status.StatusView({model: app.status, tables: app.tables});
             sb.render();
             app.navbar = new NavBar.NavBarView();
             app.navbar.render();

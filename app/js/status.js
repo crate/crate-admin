@@ -83,12 +83,16 @@ define(['jquery',
         template: _.template(StatusBarTemplate),
         model: Status.ClusterStatus,
 
-        initialize: function () {
+        initialize: function (options) {
+            this.tables = options.tables;
             this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.tables, 'change', this.render);
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var json = this.model.toJSON();
+            json.cluster_state = this.tables.health();
+            this.$el.html(this.template(json));
             return this;
         }
     });
