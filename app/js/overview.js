@@ -36,8 +36,10 @@ define(['jquery',
         },
 
         render: function () {
-            var self = this;
-            this.$el.html(this.template(this.status.toJSON()));
+            var self = this,
+            json = this.status.toJSON();
+            json.records_total = this.tables.totalRecords();
+            this.$el.html(this.template(json));
             return this;
         }
     });

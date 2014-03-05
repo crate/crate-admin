@@ -23,7 +23,7 @@ define([
             // Setup
             app.status = new Status.ClusterStatus();
             app.status.fetch();
-            app.tables = new Tables.TableList();
+            app.tables = new Tables.TableCollection();
             app.tables.fetch({reset: true});
 
             sb = new Status.StatusView({model: app.status});
@@ -117,7 +117,7 @@ define([
             var v, tableList;
             app.disposeViews();
 
-            v = new Tables.TableListView({collection: app.tables}).render();
+            v = new Tables.TableCollectionView({collection: app.tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');

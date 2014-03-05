@@ -7,7 +7,7 @@ define(['jquery',
         'text!views/tablelistitem.html',
         'text!views/tableinfo.html',
         'bootstrap',
-    ], function ($, _, Backbone, base, SQL, TableListTemplate, TableListItemTemplate, TableInfoTemplate) {
+    ], function ($, _, Backbone, base, SQL, TableCollectionTemplate, TableCollectionItemTemplate, TableInfoTemplate) {
 
     var Tables = {};
 
@@ -91,9 +91,16 @@ define(['jquery',
 
     });
 
-    Tables.TableList = Backbone.Collection.extend({
+    Tables.TableCollection = Backbone.Collection.extend({
 
         model: Tables.TableInfo,
+
+        totalRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.totalRecords();
+            }, 0);
+        },
+
 
         comparator: function (item) {
             var health = item.health();
@@ -179,9 +186,9 @@ define(['jquery',
 
     });
 
-    Tables.TableListView = base.CrateView.extend({
+    Tables.TableCollectionView = base.CrateView.extend({
 
-        template: _.template(TableListTemplate),
+        template: _.template(TableCollectionTemplate),
 
         initialize: function () {
             var self = this;
@@ -210,7 +217,7 @@ define(['jquery',
 
         addTable: function (table) {
             var prevIndex = this.collection.indexOf(table) - 1,
-                v = new Tables.TableListItemView({model: table});
+                v = new Tables.TableCollectionItemView({model: table});
 
             if (prevIndex >= 0) {
                 v.render().$el.insertAfter('#table-' + this.collection.at(prevIndex).id);
@@ -263,11 +270,11 @@ define(['jquery',
 
     });
 
-    Tables.TableListItemView = base.CrateView.extend({
+    Tables.TableCollectionItemView = base.CrateView.extend({
 
         tagName: 'li',
 
-        template: _.template(TableListItemTemplate),
+        template: _.template(TableCollectionItemTemplate),
 
         events: {
             'click ': 'selectTable'
