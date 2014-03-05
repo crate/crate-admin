@@ -50,6 +50,7 @@ define(['jquery',
                 json.records_available_percent = 100;
             }
 
+            json.cluster_state = this.tables.health();
             this.$el.html(this.template(json));
             return this;
         }

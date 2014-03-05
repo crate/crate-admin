@@ -113,6 +113,17 @@ define(['jquery',
             }, 0);
         },
 
+        health: function () {
+            healths = _.uniq(_.map(this.models, function (table) { return table.health(); }));
+            if (_.contains(healths, 'critical')) {
+                return 'critical';
+            }
+            if (_.contains(healths, 'warning')) {
+                return 'warning';
+            }
+            return 'good';
+        },
+
         comparator: function (item) {
             var health = item.health();
 
