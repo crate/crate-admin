@@ -40,6 +40,7 @@ define(['jquery',
             json = this.status.toJSON();
             json.records_total = this.tables.totalRecords();
             json.records_underreplicated = this.tables.underreplicatedRecords();
+            json.records_unavailable = this.tables.unavailableRecords();
             this.$el.html(this.template(json));
             return this;
         }

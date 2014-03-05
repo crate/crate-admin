@@ -22,8 +22,6 @@ define(['jquery',
             load: ['-.-', '-.-', '-.-'],
             replicated_data: 0,
             available_data: 0,
-            records_total: 0,
-            records_underreplicated: 0,
             records_unavailable: 0,
             loadHistory: [[], [], []]
         },

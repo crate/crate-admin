@@ -107,6 +107,12 @@ define(['jquery',
             }, 0);
         },
 
+        unavailableRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.unavailableRecords();
+            }, 0);
+        },
+
         comparator: function (item) {
             var health = item.health();
 
