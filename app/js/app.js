@@ -107,8 +107,8 @@ define([
             var v;
             app.disposeViews();
 
-            v = new Console.ConsoleView({model: app.status});
-            v.render();
+            v = new Console.ConsoleView({model: app.status}).render();
+            app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('console');
         },
