@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/06 0.2.3
+================
+
  - Remove obsolete code and refactor ClusterStatus, Overview.
 
 
