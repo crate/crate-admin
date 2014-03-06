@@ -242,7 +242,7 @@ define(['jquery',
                 v = new Tables.TableCollectionItemView({model: table});
 
             if (prevIndex >= 0) {
-                v.render().$el.insertAfter('#table-' + this.collection.at(prevIndex).id);
+                this.$('#table-'+ this.collection.at(prevIndex).id).after(v.render().$el);
             } else {
                 this.$('ul').prepend(v.render().$el);
             }
@@ -251,7 +251,6 @@ define(['jquery',
                 this.showDetails(table.id);
                 this.$('#sidebar-wrapper ul').children().first().addClass('active');
             }
-
             this.addView(table.id, v);
         },
 
