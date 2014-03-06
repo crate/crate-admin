@@ -7,7 +7,7 @@ define(['jquery',
         'text!views/tablelistitem.html',
         'text!views/tableinfo.html',
         'bootstrap',
-    ], function ($, _, Backbone, base, SQL, TableListTemplate, TableListItemTemplate, TableInfoTemplate) {
+    ], function ($, _, Backbone, base, SQL, TableCollectionTemplate, TableCollectionItemTemplate, TableInfoTemplate) {
 
     var Tables = {};
 
@@ -60,7 +60,7 @@ define(['jquery',
                 return 0;
             }
             if (this.primaryShards().length === 0) {
-                return '--';
+                return 0;
             }
             return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
         },
@@ -91,9 +91,38 @@ define(['jquery',
 
     });
 
-    Tables.TableList = Backbone.Collection.extend({
+    Tables.TableCollection = Backbone.Collection.extend({
 
         model: Tables.TableInfo,
+
+        totalRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.totalRecords();
+            }, 0);
+        },
+
+        underreplicatedRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.underreplicatedRecords();
+            }, 0);
+        },
+
+        unavailableRecords: function () {
+            return _.reduce(this.models, function (memo, table) {
+                return memo + table.unavailableRecords();
+            }, 0);
+        },
+
+        health: function () {
+            healths = _.uniq(_.map(this.models, function (table) { return table.health(); }));
+            if (_.contains(healths, 'critical')) {
+                return 'critical';
+            }
+            if (_.contains(healths, 'warning')) {
+                return 'warning';
+            }
+            return 'good';
+        },
 
         comparator: function (item) {
             var health = item.health();
@@ -170,31 +199,27 @@ define(['jquery',
                 }
 
                 d.resolve(tables);
+
+                // Refresh self after timeout
+                setTimeout(function () { self.fetch(); }, Tables._refreshTimeout);
             }, d.reject);
             return d.promise();
         }
 
     });
 
-    Tables.TableListView = base.CrateView.extend({
+    Tables.TableCollectionView = base.CrateView.extend({
 
-        template: _.template(TableListTemplate),
+        template: _.template(TableCollectionTemplate),
 
         initialize: function () {
             var self = this;
             this.listenTo(this.collection, 'reset', this.render);
             this.listenTo(this.collection, 'add', this.addTable);
             this.listenTo(this.collection, 'remove', this.removeTable);
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
         },
 
         selectedItem: null,
-
-        refresh: function () {
-            var self = this;
-            this.collection.fetch();
-            this.refreshTimeout = setTimeout(function () { self.refresh(); }, Tables._refreshTimeout);
-        },
 
         deactivateAll: function () {
             this.$('li').removeClass('active');
@@ -214,10 +239,10 @@ define(['jquery',
 
         addTable: function (table) {
             var prevIndex = this.collection.indexOf(table) - 1,
-                v = new Tables.TableListItemView({model: table});
+                v = new Tables.TableCollectionItemView({model: table});
 
             if (prevIndex >= 0) {
-                v.render().$el.insertAfter('#table-' + this.collection.at(prevIndex).id);
+                this.$('#table-'+ this.collection.at(prevIndex).id).after(v.render().$el);
             } else {
                 this.$('ul').prepend(v.render().$el);
             }
@@ -226,7 +251,6 @@ define(['jquery',
                 this.showDetails(table.id);
                 this.$('#sidebar-wrapper ul').children().first().addClass('active');
             }
-
             this.addView(table.id, v);
         },
 
@@ -259,7 +283,6 @@ define(['jquery',
         },
 
         dispose: function () {
-            clearTimeout(this.refreshTimeout);
             if (this.subviews.infoview) {
                 this.subviews.infoview.dispose();
             }
@@ -268,11 +291,11 @@ define(['jquery',
 
     });
 
-    Tables.TableListItemView = base.CrateView.extend({
+    Tables.TableCollectionItemView = base.CrateView.extend({
 
         tagName: 'li',
 
-        template: _.template(TableListItemTemplate),
+        template: _.template(TableCollectionItemTemplate),
 
         events: {
             'click ': 'selectTable'

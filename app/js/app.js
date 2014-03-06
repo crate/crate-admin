@@ -23,7 +23,10 @@ define([
             // Setup
             app.status = new Status.ClusterStatus();
             app.status.fetch();
-            sb = new Status.StatusView({model: app.status});
+            app.tables = new Tables.TableCollection();
+            app.tables.fetch({reset: true});
+
+            sb = new Status.StatusView({model: app.status, tables: app.tables});
             sb.render();
             app.navbar = new NavBar.NavBarView();
             app.navbar.render();
@@ -90,7 +93,7 @@ define([
 
             app.disposeViews();
 
-            v = new Overview.OverviewView({model: app.status}).render();
+            v = new Overview.OverviewView({status: app.status, tables: app.tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('overview');
@@ -104,8 +107,8 @@ define([
             var v;
             app.disposeViews();
 
-            v = new Console.ConsoleView({model: app.status});
-            v.render();
+            v = new Console.ConsoleView({model: app.status}).render();
+            app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('console');
         },
@@ -114,10 +117,7 @@ define([
             var v, tableList;
             app.disposeViews();
 
-            tableList = new Tables.TableList();
-            tableList.fetch({reset: true});
-
-            v = new Tables.TableListView({collection: tableList}).render();
+            v = new Tables.TableCollectionView({collection: app.tables}).render();
             app.currentViews.push(v);
             $('#wrapper').html(v.$el);
             app.navbar.selectActive('tables');
