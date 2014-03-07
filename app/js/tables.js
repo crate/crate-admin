@@ -167,7 +167,7 @@ define(['jquery',
             dShardInfo = sqShardInfo.execute();
             dColumns = sqColumns.execute();
 
-            $.when(dInfo, dShardInfo, dColumns).then(function (info, shardInfo, columns) {
+            $.when(dInfo, dShardInfo, dColumns).done(function (info, shardInfo, columns) {
                 // Collect and assemble list of tables as objects
                 var tables = _.map(info[0].rows, function (row) {
                     return _.object(['name', 'shards_configured', 'replicas_configured'], row);
@@ -199,10 +199,12 @@ define(['jquery',
                 }
 
                 d.resolve(tables);
-
                 // Refresh self after timeout
                 setTimeout(function () { self.fetch(); }, Tables._refreshTimeout);
-            }, d.reject);
+            }).fail(function () {
+                setTimeout(function () { self.fetch(); }, Tables._refreshTimeout);
+                d.reject();
+            });
             return d.promise();
         }
 

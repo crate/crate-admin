@@ -6,6 +6,7 @@ unreleased
 ==========
 
  - Fix FF bug related to mixed-content on the tutorial view.
+ - Do not abort table info fetching when a node goes down and /_sql does not respond.
 
 
 2014/03/06 0.2.3
