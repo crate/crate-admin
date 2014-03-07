@@ -5,6 +5,7 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix FF bug related to mixed-content on the tutorial view.
  - Do not abort table info fetching when a node goes down and /_sql does not respond.
 
 

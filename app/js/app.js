@@ -2,6 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'SQL',
     'Status',
     'NavBar',
     'Overview',
@@ -9,10 +10,11 @@ define([
     'Tables',
     'Cluster',
     'Tutorial'
-], function ($, _, Backbone, Status, NavBar, Overview, Console, Tables, Cluster, Tutorial) {
+], function ($, _, Backbone, SQL, Status, NavBar, Overview, Console, Tables, Cluster, Tutorial) {
 
     var app = _.extend({
 
+        host: null,
         root: '/_plugin/crate-admin',
         refreshTimeout: null,
 
@@ -20,8 +22,12 @@ define([
 
         start: function () {
             var sb, ov;
+
             // Setup
-            app.status = new Status.ClusterStatus();
+            app.host = location.protocol + '//' + location.host;
+
+            SQL.host = app.host;
+            app.status = new Status.ClusterStatus({host: app.host});
             app.status.fetch();
             app.tables = new Tables.TableCollection();
             app.tables.fetch({reset: true});
