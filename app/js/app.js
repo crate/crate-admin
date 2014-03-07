@@ -22,7 +22,12 @@ define([
 
         start: function () {
             var sb, ov;
+
             // Setup
+            if (location.protocol.indexOf('http') !== -1) {
+                app.host = location.protocol + '//' + location.host;
+            }
+
             SQL.host = app.host;
             app.status = new Status.ClusterStatus({host: app.host});
             app.status.fetch();
