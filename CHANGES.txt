@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix FF bug related to mixed-content on the tutorial view.
+
+
 2014/03/06 0.2.3
 ================
 

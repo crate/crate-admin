@@ -26,6 +26,11 @@ define(['jquery',
             loadHistory: [[], [], []]
         },
 
+        initialize: function (options) {
+            options = options || {};
+            this.host = options.host || '';
+        },
+
         _normalizeClusterLoad: function (nodes) {
             var i, node;
             var nodes_count = 0;
@@ -56,7 +61,7 @@ define(['jquery',
         fetch: function () {
             var self = this,
                 load, i;
-            $.get('/_nodes/stats?all=true')
+            $.get(this.host + '/_nodes/stats?all=true')
                 .done(function (data) {
                     var load = self._normalizeClusterLoad(data.nodes);
                     self._updateLoadHistory(load);
