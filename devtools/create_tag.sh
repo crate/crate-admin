@@ -57,9 +57,6 @@ then
    exit -1
 fi
 
-# install locally so we can get the version
-./bin/buildout -N
-./bin/bower install
 # get the version
 VERSION=`less bower.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`
 PKG_VERSION=`less package.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`

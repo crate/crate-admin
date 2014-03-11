@@ -148,10 +148,9 @@ define(['jquery',
 
             d = $.Deferred();
             sqInfo = new SQL.Query(
-                'select table_name, sum(number_of_shards), sum(number_of_replicas) ' +
+                'select table_name, number_of_shards, number_of_replicas ' +
                 'from information_schema.tables ' +
-                'where schema_name = \'doc\'' +
-                'group by table_name');
+                'where schema_name = \'doc\'');
 
             sqShardInfo = new SQL.Query(
                 'select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
