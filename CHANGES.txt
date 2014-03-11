@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Changed query to fetch table information. Group by wasn't necessary and sum
+   on number_of_replicas won't work in the next crate version as it is changed
+   to a string.
 
 2014/03/07 0.2.4
 ================
