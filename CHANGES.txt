@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - Fix Safari font rendering
+
 2014/03/11 0.2.5
 ================
 
