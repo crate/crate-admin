@@ -5,6 +5,9 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/11 0.2.6
+================
+
  - Fix Safari font rendering
 
 2014/03/11 0.2.5
@@ -18,14 +21,13 @@ unreleased
 ================
 
  - Fix FF bug related to mixed-content on the tutorial view.
- - Do not abort table info fetching when a node goes down and /_sql does not respond.
 
+ - Do not abort table info fetching when a node goes down and /_sql does not respond.
 
 2014/03/06 0.2.3
 ================
 
  - Remove obsolete code and refactor ClusterStatus, Overview.
-
 
 2014/03/04 0.2.2
 ================
@@ -44,19 +46,16 @@ unreleased
 
  - Fix table ordering
 
-
 2014/03/04 0.1.2
 ================
 
  - Insert new TableInfoView items in alphabetic order
-
 
 2014/02/27 0.1.1
 ================
 
  - Fix TableInfoView when a displayed table is removed. Show/hide properly
    "No tables available" when a table is removed
-
 
 2014/02/27 0.1.0
 ================
@@ -66,7 +65,6 @@ unreleased
  - Fix load graph to behave with bootstrap/jQuery
 
  - Allow for multiple views in the content area
-
 
 2014/02/26 0.0.9
 ================
@@ -82,7 +80,6 @@ unreleased
  - Use URL fragments for navigation, disable pushState
 
  - Sort tables and cluster nodes by health then alphabetically
-
 
 2014/02/26 0.0.8
 ================
@@ -104,7 +101,6 @@ unreleased
  - Refresh Tables & Cluster views
 
  - Display json objects on sql results
-
 
 2014/02/25 0.0.7
 ================
