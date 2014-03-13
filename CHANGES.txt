@@ -5,6 +5,11 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/13 0.2.9
+================
+
+ - removed note about yellow warning state in "get started"
+
 2014/03/13 0.2.8
 ================
 
