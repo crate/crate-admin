@@ -5,6 +5,11 @@ Changes for Crate Data
 unreleased
 ==========
 
+2014/03/13 0.2.7
+================
+
+ - Changed docs link to open in the same frame.
+
 2014/03/11 0.2.6
 ================
 
