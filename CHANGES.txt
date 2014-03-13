@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - use '0-all' replicas in the twitter getting started tutorial
+
 2014/03/13 0.2.7
 ================
 
