@@ -51,7 +51,7 @@ define(['jquery',
                         description string INDEX using fulltext, \
                         friends_count integer, \
                         location string INDEX using fulltext \
-                    ) )',
+                    ) ) with (number_of_replicas = \'0-all\')',
                 sq = new SQL.Query(stmt),
                 promise = sq.execute();
 
