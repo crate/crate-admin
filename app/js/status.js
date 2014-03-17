@@ -31,22 +31,6 @@ define(['jquery',
             this.host = options.host || '';
         },
 
-        _normalizeClusterLoad: function (nodes) {
-            var i, node;
-            var nodes_count = 0;
-            var load = [0.0, 0.0, 0.0];
-            for (node in nodes) {
-                nodes_count++;
-                for (i=0; i<3; i++) {
-                    load[i] = load[i]+nodes[node].os.load_average[i];
-                }
-            }
-            for (i=0; i<3; i++) {
-                load[i] = load[i]/nodes_count;
-            }
-            return load;
-        },
-
         _updateLoadHistory: function (load) {
             var lh = this.get('loadHistory'), i;
 
@@ -59,23 +43,35 @@ define(['jquery',
         },
 
         fetch: function () {
-            var self = this,
-                load, i;
-            $.get(this.host + '/_nodes/stats?all=true')
-                .done(function (data) {
-                    var load = self._normalizeClusterLoad(data.nodes);
-                    self._updateLoadHistory(load);
-                    for (i=0 ; i<3 ; i++) {
-                        load[i] = load[i].toFixed(2);
-                    }
-                    self.set({
-                        cluster_name: data.cluster_name,
-                        load: load
-                    });
-                })
-                .error(function() {
-                    delete self.data;
+            var self = this, load, sqNodes, i;
+
+            sqNodes = new SQL.Query(
+                    'select ' +
+                    '   sys.cluster.name, ' +
+                    '   sum(load[\'1\']), ' +
+                    '   sum(load[\'5\']), ' +
+                    '   sum(load[\'15\']), ' +
+                    '   count(*) ' +
+                    'from sys.nodes group by sys.cluster.name');
+            sqNodes = sqNodes.execute();
+            $.when(sqNodes).done(function (nodes) {
+                var row = nodes.rows[0];
+                var numNodes = row[4];
+                var load = [0.0, 0.0, 0.0];
+                for (i = 0; i < 3; i++) {
+                    load[i] = row[i + 1] / numNodes;
+                }
+                self._updateLoadHistory(load);
+                for (i=0 ; i<3 ; i++) {
+                    load[i] = load[i].toFixed(2);
+                }
+                self.set({
+                    cluster_name: row[0],
+                    load: load
                 });
+            }).fail(function () {
+                delete self.data;
+            });
             setTimeout(function () { self.fetch(); }, Status._refreshTimeout);
         },
 

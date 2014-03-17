@@ -5,6 +5,8 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - use sql to query clustername and nodes load
+
 2014/03/13 0.2.9
 ================
 
