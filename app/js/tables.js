@@ -35,15 +35,20 @@ define(['jquery',
         },
 
         missingShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (shard) {
-                return shard.state == 'UNASSIGNED' && shard.primary;
+            var activePrimaryShards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state in {'STARTED':'', 'RELOCATING':''} && shard.primary;
             });
-            return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
+            var numActivePrimaryShards = _.reduce(
+                activePrimaryShards,
+                function(memo, shard) { return shard.shards_active + memo },
+                0
+            );
+            return this.get('shards_configured') - numActivePrimaryShards;
         },
 
-        underreplicatedShards: function () {
+        unassignedShards: function () {
             var shards = _.filter(this.get('shardInfo'), function (shard) {
-                return shard.state == 'UNASSIGNED' && !shard.primary;
+                return shard.state == 'UNASSIGNED';
             });
             return _.reduce(shards, function(memo, shard) {return shard.shards_active + memo; }, 0);
         },
@@ -56,13 +61,13 @@ define(['jquery',
         },
 
         underreplicatedRecords: function () {
-            if (this.underreplicatedShards() === 0) {
+            if (this.unassignedShards() === 0) {
                 return 0;
             }
             if (this.primaryShards().length === 0) {
                 return 0;
             }
-            return this.underreplicatedShards() * _.first(this.primaryShards()).avg_docs;
+            return this.unassignedShards() * _.first(this.primaryShards()).avg_docs;
         },
 
         unavailableRecords: function () {
@@ -83,7 +88,7 @@ define(['jquery',
             if (this.missingShards() > 0) {
                 return 'critical';
             }
-            if (this.underreplicatedShards() > 0) {
+            if (this.unassignedShards() > 0) {
                 return 'warning';
             }
             return 'good';
@@ -344,7 +349,7 @@ define(['jquery',
             data.startedShards = this.model.startedShards();
             data.tableSize = base.humanReadableSize(this.model.size());
             data.totalRecords = this.model.totalRecords();
-            data.underreplicatedShards = this.model.underreplicatedShards();
+            data.underreplicatedShards = this.model.unassignedShards();
             data.underreplicatedRecords = this.model.underreplicatedRecords();
             data.unavailableRecords = this.model.unavailableRecords();
             data.health = this.model.health();

@@ -88,6 +88,9 @@ define(['jquery',
             this.tables = options.tables;
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.tables, 'change', this.render);
+            this.listenTo(this.tables, 'reset', this.render);
+            this.listenTo(this.tables, 'add', this.render);
+            this.listenTo(this.tables, 'remove', this.render);
         },
 
         render: function () {

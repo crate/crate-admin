@@ -21,7 +21,7 @@ define([
         currentViews: [],
 
         start: function () {
-            var sb, ov;
+            var sb;
 
             // Setup
             app.host = location.protocol + '//' + location.host;
@@ -31,7 +31,6 @@ define([
             app.status.fetch();
             app.tables = new Tables.TableCollection();
             app.tables.fetch({reset: true});
-
             sb = new Status.StatusView({model: app.status, tables: app.tables});
             sb.render();
             app.navbar = new NavBar.NavBarView();

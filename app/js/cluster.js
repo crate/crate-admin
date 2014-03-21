@@ -58,7 +58,7 @@ define(['jquery',
 
         fetch: function (options) {
             var self = this,
-                sqInfo, sqShardInfo, dInfo, dShardInfo, d;
+                d;
 
             d = $.Deferred();
             sqNodes = new SQL.Query('select id, name, hostname, port, load, mem, fs from sys.nodes');
