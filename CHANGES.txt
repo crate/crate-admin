@@ -5,6 +5,10 @@ Changes for Crate Data
 unreleased
 ==========
 
+ - show correct cluster status immediately after starting the admin
+
+ - compute correct numbers of missing primary shards and unassigned shards
+
 2014/03/17 0.3.0
 ================
 
