@@ -6,7 +6,7 @@ define(['jquery',
         'text!views/tablelist.html',
         'text!views/tablelistitem.html',
         'text!views/tableinfo.html',
-        'bootstrap',
+        'bootstrap'
     ], function ($, _, Backbone, base, SQL, TableCollectionTemplate, TableCollectionItemTemplate, TableInfoTemplate) {
 
     var Tables = {};
@@ -40,11 +40,27 @@ define(['jquery',
             });
             var numActivePrimaryShards = _.reduce(
                 activePrimaryShards,
-                function(memo, shard) { return shard.shards_active + memo },
+                function(memo, shard) { return shard.shards_active + memo; },
                 0
             );
             return this.get('shards_configured') - numActivePrimaryShards;
         },
+
+	underreplicatedShards: function () {
+	    var numReplicas = this.get('replicas_configured');
+	    var numConfigured = this.get('shards_configured');
+	    if (!isNaN(numReplicas)) {
+		numReplicas = parseInt(numReplicas);
+	    } else if (typeof numReplicas === "string" && numReplicas.match(/(\d)\-.+/)) {
+		numReplicas = parseInt(numReplicas.substr(0, numReplicas.indexOf("-")));
+	    } else {
+		numReplicas = 0;
+	    };
+	    if (numReplicas === 0) return 0;
+	    var shardInfo = this.get('shardInfo');
+	    var numMissing = this.unassignedShards();
+	    return numReplicas * (numConfigured-numMissing);
+	},
 
         unassignedShards: function () {
             var shards = _.filter(this.get('shardInfo'), function (shard) {
@@ -61,13 +77,15 @@ define(['jquery',
         },
 
         underreplicatedRecords: function () {
-            if (this.unassignedShards() === 0) {
+	    var unassigned = this.unassignedShards();
+	    var primary = this.primaryShards();
+            if (unassigned === 0) {
                 return 0;
             }
-            if (this.primaryShards().length === 0) {
+            if (primary.length === 0) {
                 return 0;
             }
-            return this.unassignedShards() * _.first(this.primaryShards()).avg_docs;
+            return unassigned * _.first(primary).avg_docs;
         },
 
         unavailableRecords: function () {
@@ -119,7 +137,7 @@ define(['jquery',
         },
 
         health: function () {
-            healths = _.uniq(_.map(this.models, function (table) { return table.health(); }));
+            var healths = _.uniq(_.map(this.models, function (table) { return table.health(); }));
             if (_.contains(healths, 'critical')) {
                 return 'critical';
             }
@@ -349,7 +367,7 @@ define(['jquery',
             data.startedShards = this.model.startedShards();
             data.tableSize = base.humanReadableSize(this.model.size());
             data.totalRecords = this.model.totalRecords();
-            data.underreplicatedShards = this.model.unassignedShards();
+            data.underreplicatedShards = this.model.underreplicatedShards();
             data.underreplicatedRecords = this.model.underreplicatedRecords();
             data.unavailableRecords = this.model.unavailableRecords();
             data.health = this.model.health();
