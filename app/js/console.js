@@ -7,7 +7,7 @@ define(['jquery',
         'text!views/console.html',
         'text!views/table.html',
         'text!views/row.html',
-        'bootstrap',
+        'bootstrap'
     ], function ($, _, Backbone, base, Ladda, SQL, ConsoleTemplate, TableTemplate, RowTemplate) {
 
     var Console = {};
@@ -82,6 +82,9 @@ define(['jquery',
             var sq,
                 self = this,
                 stmt = this.$('#query').val();
+            if (stmt === "") return;
+            stmt = stmt.replace(/([^;]);+$/, "$1");
+            if (!stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
 
             ev.preventDefault();
             ev.stopPropagation();
@@ -94,6 +97,7 @@ define(['jquery',
                 var tableView = new Console.TableView({collection: table});
                 self.$('#table-container').html(tableView.render().$el);
                 self.addView('table', tableView);
+                self.$('#query').val(stmt+";");
             }).error(function (err) {
                 var alrt = base.ErrorFactory(err.responseJSON.error.message);
                 self.$('#errors').append(alrt);
