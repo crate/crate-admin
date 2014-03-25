@@ -97,7 +97,7 @@ define(['jquery',
                 var tableView = new Console.TableView({collection: table});
                 self.$('#table-container').html(tableView.render().$el);
                 self.addView('table', tableView);
-		self.$('#query').val(stmt+";");
+                self.$('#query').val(stmt+";");
             }).error(function (err) {
                 var alrt = base.ErrorFactory(err.responseJSON.error.message);
                 self.$('#errors').append(alrt);
