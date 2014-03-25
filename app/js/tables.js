@@ -47,10 +47,7 @@ define(['jquery',
         },
 
 	underreplicatedShards: function () {
-            var shards = _.filter(this.get('shardInfo'), function (shard) {
-                return shard.state == 'UNASSIGNED' && shard.primary === false;
-            });
-            return _.reduce(shards, function(memo, shard) { return shard.shards_active + memo; }, 0);
+	    return this.unassignedShards() - this.missingShards();
 	},
 
         unassignedShards: function () {
