@@ -65,7 +65,7 @@ define(['jquery',
         },
 
         underreplicatedRecords: function () {
-	    var primary = this.primaryShards();
+            var primary = this.primaryShards();
             if (primary.length === 0) {
                 return 0;
             }
