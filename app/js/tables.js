@@ -47,19 +47,10 @@ define(['jquery',
         },
 
 	underreplicatedShards: function () {
-	    var numReplicas = this.get('replicas_configured');
-	    var numConfigured = this.get('shards_configured');
-	    if (!isNaN(numReplicas)) {
-		numReplicas = parseInt(numReplicas);
-	    } else if (typeof numReplicas === "string" && numReplicas.match(/(\d)\-.+/)) {
-		numReplicas = parseInt(numReplicas.substr(0, numReplicas.indexOf("-")));
-	    } else {
-		numReplicas = 0;
-	    };
-	    if (numReplicas === 0) return 0;
-	    var shardInfo = this.get('shardInfo');
-	    var numMissing = this.unassignedShards();
-	    return numReplicas * (numConfigured-numMissing);
+            var shards = _.filter(this.get('shardInfo'), function (shard) {
+                return shard.state == 'UNASSIGNED' && shard.primary === false;
+            });
+            return _.reduce(shards, function(memo, shard) { return shard.shards_active + memo; }, 0);
 	},
 
         unassignedShards: function () {
@@ -77,15 +68,11 @@ define(['jquery',
         },
 
         underreplicatedRecords: function () {
-	    var unassigned = this.unassignedShards();
 	    var primary = this.primaryShards();
-            if (unassigned === 0) {
-                return 0;
-            }
             if (primary.length === 0) {
                 return 0;
             }
-            return unassigned * _.first(primary).avg_docs;
+            return this.underreplicatedShards() * _.first(primary).avg_docs;
         },
 
         unavailableRecords: function () {

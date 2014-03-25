@@ -80,12 +80,11 @@ define(['jquery',
         execute: function (ev) {
 
             var sq,
-                self = this;
-
-            var stmt = this.$('#query').val();
-	    if (stmt === "") return;
-	    stmt = stmt.replace(/([^;]);+$/, "$1");
-	    if (!stmt.match(/limit \d+/ig)) stmt += " limit 100";
+                self = this,
+                stmt = this.$('#query').val();
+            if (stmt === "") return;
+            stmt = stmt.replace(/([^;]);+$/, "$1");
+            if (!stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
 
             ev.preventDefault();
             ev.stopPropagation();
