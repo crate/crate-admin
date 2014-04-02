@@ -1,12 +1,17 @@
 {
-  "name": "crateAdmin",
-  "version": "0.3.1",
+  "name": "crate-admin",
+  "description": "Crate Data Admin UI",
+  "version": "0.4.0",
+  "author": "Crate Team",
+  "homepage": "http://crate.io/",
+  "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",
   "dependencies": {
-    "requirejs": "~2.1.11",
-    "requirejs-text": "~2.0.10",
-    "jquery": "~2.1.0",
-    "underscore": "~1.6.0",
-    "backbone": "~1.1.1",
+    "angular": "~1.2.4",
+    "angular-route": "~1.2.4",
+    "json3": "~3.2.4",
+    "jquery": "~1.9.1",
+    "jquery.cookie": "~1.4.0",
+    "es5-shim": "~2.0.8",
     "bootstrap": "~3.0.3",
     "font-awesome": "~4.0.3",
     "morris.js": "~0.4.3",
@@ -14,5 +19,7 @@
     "ladda-bootstrap": "~0.1.0"
   },
   "devDependencies": {
+    "angular-mocks": "~1.0.7",
+    "angular-scenario": "~1.0.7"
   }
 }

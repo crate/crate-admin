@@ -1,43 +1,89 @@
 <!doctype html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Crate Data admin interface">
-    <title>Crate</title>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="//cdn.crate.io/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//cdn.crate.io/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script data-main="index" src="bower_components/requirejs/require.js"></script>
-
+    <title>CRATE Admin</title>
+    <meta name="description" content="CRATE Admin">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
 
-    <link rel="stylesheet" type="text/css"  href="styles/main.css" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <!-- build:js scripts/angular.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/plugins.js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="bower_components/flot/jquery.flot.js"></script>
+    <script src="bower_components/bootstrap/js/affix.js"></script>
+    <script src="bower_components/bootstrap/js/alert.js"></script>
+    <script src="bower_components/bootstrap/js/dropdown.js"></script>
+    <script src="bower_components/bootstrap/js/tooltip.js"></script>
+    <script src="bower_components/bootstrap/js/modal.js"></script>
+    <script src="bower_components/bootstrap/js/transition.js"></script>
+    <script src="bower_components/bootstrap/js/button.js"></script>
+    <script src="bower_components/bootstrap/js/popover.js"></script>
+    <script src="bower_components/bootstrap/js/carousel.js"></script>
+    <script src="bower_components/bootstrap/js/scrollspy.js"></script>
+    <script src="bower_components/bootstrap/js/collapse.js"></script>
+    <script src="bower_components/bootstrap/js/tab.js"></script>
+    <script src="bower_components/ladda-bootstrap/js/spin.js"></script>
+    <script src="bower_components/ladda-bootstrap/js/ladda.js"></script>
+    <!-- endbuild -->
+
+
+    <!-- build:js scripts/ieshims.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+ 
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+
+    <script src="scripts/services/sql.js"></script>
+    <script src="scripts/services/stats.js"></script>
+
+    <script src="scripts/controllers/common.js"></script>
+    <script src="scripts/controllers/tutorial.js"></script>
+    <script src="scripts/controllers/overview.js"></script>
+    <script src="scripts/controllers/console.js"></script>
+    <script src="scripts/controllers/tables.js"></script>
+    <script src="scripts/controllers/cluster.js"></script>
+
+    <script src="scripts/filter/text.js"></script>
+    <script src="scripts/filter/numbers.js"></script>
+    <!-- endbuild -->
 
 </head>
-<body>
+<body ng-app="crateAdminApp">
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
 
-  <div id="statusbar">
-    <nav id="topstatusbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    </nav>
-    <nav id="leftnavbar" role="navigation">
-      <ul class="nav navbar-nav side-nav">
-      </ul>
-    </nav>
-  </div>
-  <div id="wrapper">
-    <div id="page-wrapper">
-      <!-- Main view contents -->
+
+    <div id="wrapper">
+
+      <div ng-include="'views/nav.html'"></div>
+
+      <div id="page-wrapper">
+
+        <div ng-view></div>
+
+      </div>
     </div>
-    <div id="graph-wrapper">
-      <!-- Graphs -->
-    </div>
-  </div>
+
 </body>
 </html>

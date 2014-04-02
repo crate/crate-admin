@@ -1,8 +1,8 @@
 {
   "name": "crate-admin",
-  "description": "Bootstrap for Crate Data Admin UI.",
-  "version": "0.3.1",
-  "author": "Team",
+  "description": "Crate Data Admin UI",
+  "version": "0.4.0",
+  "author": "Crate Team",
   "homepage": "http://crate.io/",
   "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",
   "repository": {
@@ -13,6 +13,26 @@
     "node": ">= 0.10.25"
   },
   "devDependencies": {
-    "bower": ">= 1.2.8"
+    "bower": ">= 1.2.8",
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-htmlmin": "~0.2.0",
+    "grunt-contrib-imagemin": "~0.1.4",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-cli": "~0.1.13",
+    "grunt-ngmin": "~0.0.2",
+    "grunt-usemin": "~0.1.11",
+    "grunt-rev": "~0.1.0",
+    "grunt-open": "~0.2.0",
+    "grunt-concurrent": "~0.3.0",
+    "grunt-recess": "~0.3.1",
+    "grunt-string-replace": "~0.2.7",
+    "matchdep": "~0.1.2"
   }
 }

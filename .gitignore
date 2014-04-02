@@ -10,3 +10,5 @@ bower_components
 *.egg-info
 eggs/
 .idea/
+.tmp/
+dist/
