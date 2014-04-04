@@ -3,7 +3,7 @@
   "description": "Crate Data Admin UI",
   "version": "0.4.0",
   "author": "Crate Team",
-  "homepage": "http://crate.io/",
+  "homepage": "https://github.com/crate/crate-admin/",
   "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",
   "repository": {
     "type": "git",

@@ -19,7 +19,7 @@ angular.module('console', ['sql'])
       var stmt = $scope.statement;
       if (stmt === "") return;
       stmt = stmt.replace(/([^;]);+$/, "$1");
-      if (!stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
+      if (stmt.match(/select/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
       loadingIndicator.start();
 
       SQLQuery.execute(stmt).

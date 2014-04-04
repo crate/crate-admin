@@ -111,11 +111,10 @@ angular.module('tutorial', ['sql'])
     var twitter = new Twitter();
     // The authentication callback sets the start_twitter parameter after
     // a successfull login so the user doesn't have to click the button again
-    // if (localStorage.getItem('crate.start_twitter') === "true") {
-    //     localStorage.setItem('crate.start_twitter', "");
-    //     twitter.start();
-    //     $scope.importing = true;
-    // }
+    if (localStorage.getItem('crate.start_twitter') === "true") {
+        localStorage.removeItem('crate.start_twitter');
+        twitter.start();
+    }
 
     $scope.startImport = function startImport(){
         twitter.start();
@@ -126,4 +125,3 @@ angular.module('tutorial', ['sql'])
     };
 
   });
-

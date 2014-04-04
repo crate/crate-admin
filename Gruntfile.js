@@ -51,15 +51,15 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '<%= crate.tmp %>',
-            '<%= crate.dist %>/*',
-            '!<%= crate.dist %>/.git*'
+            '<%= crate.dist %>',
           ]
         }]
       },
       components: {
         files: [{
           src: [
-            '<%= crate.dist %>/bower_components'
+            '<%= crate.dist %>/bower_components',
+            '!<%= crate.dist %>/bower_components/font-awesome/fonts'
           ]
         }]
       },
@@ -124,31 +124,11 @@ module.exports = function (grunt) {
       }
     },
     cssmin: {
-      // By default, your `index.html` <!-- Usemin Block --> will take care of
-      // minification. This option is pre-configured if you do not wish to use
-      // Usemin blocks.
-      // dist: {
-      //   files: {
-      //     '<%= crate.dist %>/styles/main.css': [
-      //       '<%= crate.tmp %>/styles/{,*/}*.css',
-      //       '<%= crate.app %>/styles/{,*/}*.css'
-      //     ]
-      //   }
-      // }
     },
     htmlmin: {
       dist: {
         options: {
           removeComments: false
-          // removeCommentsFromCDATA: false,
-          // // https://github.com/yeoman/grunt-usemin/issues/44
-          // collapseWhitespace: true,
-          // collapseBooleanAttributes: true,
-          // removeAttributeQuotes: true,
-          // removeRedundantAttributes: true,
-          // useShortDoctype: false,
-          // removeEmptyAttributes: true,
-          // removeOptionalTags: false
         },
         files: [{
           expand: true,
@@ -158,7 +138,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    // Put files not handled in other tasks here
     copy: {
       dist: {
         files: [{
@@ -172,6 +151,14 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp,svg}',
             'fonts/**',
+          ]
+        }, {
+          expand: true,
+          cwd: '<%= crate.app %>',
+          dest: '<%= crate.dist %>/fonts',
+          src: [
+            'bower_components/font-awesome/fonts/*',
+            'bower_components/bootstrap/dist/fonts/*',
           ]
         }, {
           expand: true,
@@ -215,18 +202,15 @@ module.exports = function (grunt) {
     'string-replace': {
       dist: {
         files: {
-          '<%= crate.dist %>/styles/': '*.css',
+          '<%= crate.dist %>/styles/': '<%= crate.dist %>/styles/*.css',
         },
         options: {
           replacements: [{
-            pattern: '../images',
-            replacement: 'images'
+            pattern: /\.{2}\/(bower_components\/font-awesome\/fonts)/ig,
+            replacement: '../fonts/$1'
           }, {
-            pattern: '../bower_components',
-            replacement: 'bower_components'
-          }, {
-            pattern: '../fonts/',
-            replacement: 'fonts/'
+            pattern: /\.{2}\/(bower_components\/bootstrap\/dist\/fonts)/ig,
+            replacement: '../fonts/$1'
           }]
         }
       }

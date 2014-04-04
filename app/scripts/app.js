@@ -16,31 +16,6 @@ crateAdminApp.config(['$routeProvider', '$httpProvider',
   function ($routeProvider, $httpProvider) {
     // Enabling CORS in Angular JS
     $httpProvider.defaults.useXDomain = true;
-
-    var s = window.location.search;
-    var indexHtml = window.location.pathname.match(/index.html$/);
-    // Check if we just got redirected.
-    if (s.length) {
-      s = s.substr(1);
-      var parts = s.split("&");
-      var search = {};
-      for (var i=0; i<parts.length; i++) {
-        var kv = parts[i].split("=");
-        search[kv[0]] = kv[1];
-      }
-      if ("start_twitter" in search) {
-        localStorage.setItem('crate.start_twitter', "true");
-        var prefix = indexHtml ? indexHtml[0] : './'
-        window.location.href = prefix + '#/tutorial';
-        return;
-      } else if ("base_uri" in search) {
-        localStorage.setItem('crate.base_uri', search.base_uri);
-        var indexHtml = window.location.pathname.match(/index.html$/);
-        window.location.href = indexHtml ? indexHtml[0] : './';
-        return;
-      }
-    }
-
     $routeProvider
       .when('/', {
         templateUrl: 'views/overview.html',
@@ -75,4 +50,16 @@ crateAdminApp.config(['$routeProvider', '$httpProvider',
       });
   }]);
 
-crateAdminApp.run(function(ClusterState) {});
+crateAdminApp.run(function($window, $location) {
+  var url = $.url($window.location.href);
+  var path = './' + url.attr("file");
+  var startTwitter = url.param("start_twitter");
+  var baseURI = url.param("base_uri");
+  if (startTwitter) {
+    localStorage.setItem('crate.start_twitter', "true");
+    $window.location.href = path + '#/tutorial';
+  } else if (baseURI) {
+    localStorage.setItem('crate.base_uri', baseURI);
+    $window.location.href = path + '#/';
+  }
+});

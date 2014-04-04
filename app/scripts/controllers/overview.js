@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('overview', ['stats', 'sql', 'common', 'tables'])
+angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
   .controller('OverviewController', function ($scope, $location, $log, $timeout, ClusterState, SQLQuery, TableInfo) {
 
     var colorMap = {

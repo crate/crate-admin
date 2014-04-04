@@ -29,9 +29,9 @@ Create distribution::
 
     bin/grunt build
 
-Run standalone distribution from dist folder::
+Run standalone distribution from dist folder in the browser::
 
-    ./dist/index.html?base_uri=http://localhost:4200
+    open ./dist/index.html?base_uri=http://localhost:4200
 
 .. _Crate Data: https://github.com/crate/crate
 

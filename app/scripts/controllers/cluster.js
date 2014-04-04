@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('cluster', ['stats', 'sql', 'common'])
-  .controller('ClusterController', function ($scope, $location, $log, $interval, $routeParams,
-                                             $http, $filter, ClusterState) {
+  .controller('ClusterController', function ($scope, $interval, $routeParams, $http, $filter, ClusterState) {
 
     var intervalId;
     var refreshInterval = 5000;
