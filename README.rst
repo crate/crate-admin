@@ -13,19 +13,25 @@ Set up from source
 This project uses buildout to set up all requirements.
 As of now, you only need `bower <http://bower.io/>`_.
 
-If you already have installer ``bower`` skip the following steps::
+Install ``npm`` and ``bower`` using the buildout commands::
 
     python boostrap.py
 
     bin/buildout -N
 
-To build the app simply run ``bower`` in this crate-admin folder::
+To bootstrap the app simply run ``npm`` and ``bower`` in this crate-admin folder::
+
+    bin/npm install
 
     bin/bower install
 
-Or if you haven't used ``buildout`` and installed ``bower`` globally::
+Create distribution::
 
-    bower install
+    bin/grunt build
+
+Run standalone distribution from dist folder in the browser::
+
+    open ./dist/index.html?base_uri=http://localhost:4200
 
 .. _Crate Data: https://github.com/crate/crate
 
