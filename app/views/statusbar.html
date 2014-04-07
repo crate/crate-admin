@@ -1,12 +1,17 @@
-<div id="clusterstatus-bar" class="nav clusterstatus-{{cluster_state}}">
-<ul class="nav navbar-nav navbar-right navbar-user">
-  <li>Cluster: <span class="label label-cluster">{{ cluster_name }}</span></li>
-  <li>Health: <span class="label clusterstatus-{{cluster_state}}">{{ cluster_state }}</span></li>
-  <li>
-    Load:
-    <span class="label label-load1">{{ load[0] }}</span>/
-    <span class="label label-load5">{{ load[1] }}</span>/
-    <span class="label label-load15">{{ load[2] }}</span>
-  </li>
-</ul>
+<div ng-controller="StatusBarController">
+  <ul class="nav navbar-nav navbar-right navbar-user">
+    <li>
+      Cluster: <span class="label label-cluster">{{cluster_name}}</span>
+    </li>
+    <li>
+      Health: <span class="label {{cluster_color_label}}">{{cluster_state}}</span>
+    </li>
+    <li>
+      Load:
+      <span class="label label-load1">{{load1}}</span>/
+      <span class="label label-load5">{{load5}}</span>/
+      <span class="label label-load15">{{load15}}</span>
+    </li>
+  </ul>
 </div>
+
