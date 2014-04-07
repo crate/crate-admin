@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/04/07 0.4.2
+================
+
  - fix: display values at overview if no table exists
 
  - fix: default base_uri is current location
