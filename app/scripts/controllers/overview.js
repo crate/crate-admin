@@ -19,7 +19,17 @@ angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
     $scope.cluster_color_class = 'panel-default';
 
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
-      if (!data.tableInfo || !data.tableInfo.tables.length) return;
+      $scope.cluster_state = data.status;
+      $scope.cluster_color_class = colorMap[data.status];
+
+      if (!data.tableInfo || !data.tableInfo.tables.length) {
+        $scope.available_data = 100;
+        $scope.records_unavailable = 0;
+        $scope.replicated_data = 100;
+        $scope.records_total = 0;
+        $scope.records_underreplicated = 0;
+        return;
+      };
 
       var tables = [];
       for (var i=0; i<data.tableInfo.tables.length; i++) {
@@ -37,9 +47,6 @@ angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.records_total = tables.reduce(function(memo, tableInfo, idx) {
         return tableInfo.totalRecords() + memo;
       }, 0);
-
-      $scope.cluster_state = data.status;
-      $scope.cluster_color_class = colorMap[data.status];
 
       if ($scope.records_total) {
         $scope.replicated_data = ($scope.records_total-$scope.records_underreplicated) / $scope.records_total * 100.0;
@@ -66,13 +73,13 @@ angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
           },
           lines: { show: true, fill: true },
           yaxis: {
-              min: 0,
+              min: 0
           },
           xaxis: {
               min: 0,
               max: 100,
               show: false
-          },
+          }
       }).draw();
     };
 
