@@ -18,12 +18,14 @@ angular.module('stats', ['sql'])
     var historyLength = 100;
 
     var checkReachability = function checkReachability(){
-      var baseURI = localStorage.getItem("crate.base_uri") || null;
-      if (baseURI) {
-        $http.get(baseURI+"/").success(function() {
-          setReachability(true);
-        });
+      var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+      if (localStorage.getItem("crate.base_uri") != null) {
+        baseURI = localStorage.getItem("crate.base_uri");
+        $log.debug("Loaded base_uri '"+this.baseURI+"' from cookie");
       }
+      $http.get(baseURI+"/").success(function() {
+          setReachability(true);
+      });
     };
 
     var setReachability = function setReachability(online) {

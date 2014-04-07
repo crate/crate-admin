@@ -80,23 +80,22 @@ angular.module('sql', [])
         return promise;
       };
 
-      var baseURI = localStorage.getItem("crate.base_uri") || null;
-      if (!baseURI) {
-        $log.warn("Cookie 'base_uri' not found!");
-        deferred.reject(new SQLQuery(stmt, null, true));
-      } else {
-        $http.post(baseURI+"/_sql", data).
-          success(function(data, status, headers, config) {
-            deferred.resolve(new SQLQuery(stmt, data, false));
-          }).
-          error(function(data, status, headers, config) {
-            $log.warn("Got ERROR response from query: " + stmt + " with status: " + status);
-            if (status == 0) {
-              data = {'error': {'message': 'Connection error', 'code':0}};
-            }
-            deferred.reject(new SQLQuery(stmt, data, true));
-          });
-        }
+      var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+      if (localStorage.getItem("crate.base_uri") != null) {
+        baseURI = localStorage.getItem("crate.base_uri");
+        $log.debug("Loaded base_uri '"+this.baseURI+"' from cookie");
+      }
+      $http.post(baseURI+"/_sql", data).
+        success(function(data, status, headers, config) {
+          deferred.resolve(new SQLQuery(stmt, data, false));
+        }).
+        error(function(data, status, headers, config) {
+          $log.warn("Got ERROR response from query: " + stmt + " with status: " + status);
+          if (status == 0) {
+            data = {'error': {'message': 'Connection error', 'code':0}};
+          }
+          deferred.reject(new SQLQuery(stmt, data, true));
+        });
       return promise;
     };
 
