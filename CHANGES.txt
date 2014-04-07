@@ -2,6 +2,11 @@
 Changes for Crate Data Admin Interface
 ======================================
 
+2014/04/07 0.4.1
+================
+
+ - fixed Angular version
+
 2014/04/07 0.4.0
 ================
 
