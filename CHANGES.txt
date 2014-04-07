@@ -2,8 +2,8 @@
 Changes for Crate Data Admin Interface
 ======================================
 
-unreleased
-==========
+2014/04/07 0.4.0
+================
 
  - ported from Backbone to Angular
 
