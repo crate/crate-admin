@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: prevent logo from overlapping sidebar navigation
+ 
 2014/04/07 0.4.3
 ================
 

@@ -16,21 +16,23 @@ angular.module('common', ['stats'])
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
     }, true);
   })
-  .controller('NavigationController', function ($scope, $location, ClusterState) {
-    var colorMap = {"good": '',
-                    "warning": 'label-warning',
-                    "critical": 'label-danger',
-                    '--': 'label-danger'};
-
-    // $scope.$watch( function () { return ClusterState.data; }, function (data) {
-    //   $scope.cluster_color_label_bar = colorMap[data.status];
-    // }, true);
-
+  .controller('NavigationController', function ($scope, $location) {
     $scope.isActive = function (viewLocation) {
       if (viewLocation == '/') {
         return viewLocation === $location.path();
       } else {
         return $location.path().substr(0, viewLocation.length) == viewLocation;
       }
+    };
+  })
+  .directive('fixBottom', function(){
+    return function(scope, element, attr){
+      var elem = $(element),
+          nav = $('.side-nav .navbar-nav'),
+          win = $(window);
+      win.on("resize", function() {
+        scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
+        scope.$apply();
+      });
     };
   });
