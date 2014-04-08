@@ -37,25 +37,25 @@ fi
 echo "Fetching origin..."
 git fetch origin > /dev/null
 
-# check if current branch is master
-BRANCH=`git branch | grep "^*" | cut -d " " -f 2`
-if [ "$BRANCH" != "master" ]
-then
-   echo "Current branch is $BRANCH. Must be master."
-   echo "Aborting."
-   exit -1
-fi
+## check if current branch is master
+#BRANCH=`git branch | grep "^*" | cut -d " " -f 2`
+#if [ "$BRANCH" != "master" ]
+#then
+#   echo "Current branch is $BRANCH. Must be master."
+#   echo "Aborting."
+#   exit -1
+#fi
 
-# check if master == origin/master
-MASTER_COMMIT=`git show --format="%H" master`
-ORIGINMASTER_COMMIT=`git show --format="%H" origin/master`
-
-if [ "$MASTER_COMMIT" != "$ORIGINMASTER_COMMIT" ]
-then
-   echo "Local master is not up to date. "
-   echo "Aborting."
-   exit -1
-fi
+## check if master == origin/master
+#MASTER_COMMIT=`git show --format="%H" master`
+#ORIGINMASTER_COMMIT=`git show --format="%H" origin/master`
+#
+#if [ "$MASTER_COMMIT" != "$ORIGINMASTER_COMMIT" ]
+#then
+#   echo "Local master is not up to date. "
+#   echo "Aborting."
+#   exit -1
+#fi
 
 # get the version
 VERSION=`less bower.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`

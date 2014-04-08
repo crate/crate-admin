@@ -7,6 +7,11 @@ Unreleased
 
  - fix: prevent logo from overlapping sidebar navigation
  
+2014/04/08 0.4.4
+================
+
+ - fix: removed horizontal scrollbar in sidebar
+
 2014/04/07 0.4.3
 ================
 
