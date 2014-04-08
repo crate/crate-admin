@@ -93,7 +93,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           _tables = _tables.sort(compareListByHealth);
           $scope.tables = [
             {
-              "display_name": "Doc Tables",
+              "display_name": "Tables",
               "tables": _tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
               "schema_name": "doc"
             },
@@ -152,6 +152,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }
     };
 
+    $scope.renderSidebar = true;
+    $scope.renderSchema = false;
     TableInfoProvider.fetch();
 
     $scope.isActive = function (table_name) {
