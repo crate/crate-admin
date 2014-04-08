@@ -1,8 +1,16 @@
 'use strict';
 
 angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
+  .factory('TabNavigationInfo', function(){
+    return {
+      collapsed: [false, true], // must match $scope.tables of TablesController
+      toggleIndex: function(index){
+        this.collapsed[index] = !this.collapsed[index];
+      }
+    };
+  })
   .controller('TablesController', function ($scope, $location, $log, $timeout, $routeParams,
-        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableInfo) {
+        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableInfo, TabNavigationInfo) {
     var refreshInterval = 5000;
 
     var colorMapPanel = {'good': 'panel-success',
@@ -72,10 +80,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
             if (table.records_unavailable) {
               summary = roundWithUnitFilter(table.records_unavailable, 1) + ' Unavailable Records / ' + summary;
-            } else if (table.shards_missing) {
+            } else if (table.shards_underreplicated) {
               summary = table.shards_underreplicated + ' Underreplicated Shards / ' + summary;
             }
-            if (table.shards_missing && table.records_underreplicated) {
+            if (table.records_underreplicated) {
               summary = table.records_underreplicated + ' Underreplicated Records / ' + summary;
             }
             table.summary = summary;
@@ -83,10 +91,18 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
           var currentTable = _tables.filter(function(table, idx) { return table.name === selected_table; });
           _tables = _tables.sort(compareListByHealth);
-          $scope.tables = {
-            "Doc Tables": _tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
-            "Blog Tables": _tables.filter(function(item, idx){ return item.schema_name == 'blob'; })
-          };
+          $scope.tables = [
+            {
+              "display_name": "Doc Tables",
+              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
+              "schema_name": "doc"
+            },
+            {
+              "display_name": "Blob Tables",
+              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
+              "schema_name": "blob"
+            }
+          ];
 
           $scope.table = currentTable.length ? currentTable[0] : _tables[0];
           $scope.selected_table = $scope.table.name;
@@ -165,6 +181,13 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     $scope.toggleElements = function(index) {
       $("#nav-tabs-"+index).collapse("toggle");
+      $("#nav-tabs-header-"+index+" i.fa").toggleClass("fa-caret-down").toggleClass("fa-caret-right");
+      TabNavigationInfo.toggleIndex(index);
+    };
+
+    $scope.isCollapsed = function(index) {
+      return TabNavigationInfo.collapsed[index];
     };
 
   });
+
