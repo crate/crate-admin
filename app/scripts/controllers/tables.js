@@ -1,12 +1,16 @@
 'use strict';
 
 angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
-  .factory('TabNavigationInfo', function(){
-    return {
-      collapsed: [false, true], // must match $scope.tables of TablesController
-      toggleIndex: function(index){
-        this.collapsed[index] = !this.collapsed[index];
-      }
+  .provider('TabNavigationInfo', function(){
+    this.collapsed = [false, true]; // must match $scope.tables of TablesController
+    this.$get = function() {
+      var collapsed = this.collapsed;
+      return {
+        'collapsed': collapsed,
+        'toggleIndex': function toggleIndex(index){
+          collapsed[index] = !collapsed[index];
+        }
+      };
     };
   })
   .controller('TablesController', function ($scope, $location, $log, $timeout, $routeParams,
