@@ -33,4 +33,17 @@ angular.module('common', ['stats'])
         return $location.path().substr(0, viewLocation.length) == viewLocation;
       }
     };
+  })
+  .directive('fixBottom', function(){
+    return function(scope, element, attr){
+      var elem = $(element),
+          nav = $('.side-nav .navbar-nav'),
+          win = $(window);
+      var calculate = function calculate(){
+        scope.fixBottom = (nav.offset().top + nav.height() + 105 < win.height());
+        scope.$apply();
+      };
+      win.on("resize", calculate);
+      calculate();
+    };
   });
