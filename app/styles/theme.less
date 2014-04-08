@@ -43,7 +43,6 @@ h2 {
   background-position: center center;
   width: 149px;
   height: 80px;
-    /* Hide the text. */
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -106,7 +105,7 @@ h2 {
 // Statusbar
 
 .navbar-fixed-top {
-  min-height: 24px;
+  min-height: 25px;
   border-width: 0 0 0px;
   background-color: #5a5a5a;
   text-transform: uppercase;
@@ -217,7 +216,7 @@ h2 {
 
 #sidebar-wrapper {
   background: #e2e2e2;
-  top: 27px;
+  top: 25px;
   font-size: 16px;
 
   .nav > li > a {
@@ -229,6 +228,11 @@ h2 {
     line-height: 18px;
   }
 
+  .nav > li > a.tabs-header {
+    font-weight: bold;
+    padding: 5px 10px 5px 20px;
+  }
+
   .nav > li {
     width: 100%;
   }
@@ -237,8 +241,16 @@ h2 {
     margin-right: 0;
   }
 
-.nav-tabs > li.active > a {
+  .nav-tabs > li.active > a {
     border-bottom: 1px solid #fff;
+  }
+
+  li.nav-tabs-header {
+    background: #c4c4c4;
+  }
+  li.nav-tabs-header > a,
+  li.nav-tabs-header > a:hover {
+    background: #c4c4c4;
   }
 
   h3 {
@@ -338,19 +350,24 @@ h2 {
   font-size: @font-size-large;
 }
 
-.panel-warning > .panel-heading .announcement-heading {
-  background-color: @brand-warning;
+.panel-success > .panel-heading .announcement-heading,
+.panel-warning > .panel-heading .announcement-heading,
+.panel-danger > .panel-heading .announcement-heading {
   display: inline;
+  color: #fff;
+  padding: 2px 10px;
 }
 
 .panel-success > .panel-heading .announcement-heading {
   background-color: @brand-success;
-  display: inline;
+}
+
+.panel-warning > .panel-heading .announcement-heading {
+  background-color: @brand-warning;
 }
 
 .panel-danger > .panel-heading .announcement-heading {
   background-color: @brand-danger;
-  display: inline;
 }
 
 #load-graph{
