@@ -2,8 +2,8 @@
 Changes for Crate Data Admin Interface
 ======================================
 
-Unreleased
-==========
+2014/04/08 0.5.0
+================
 
  - display blob tables
  
