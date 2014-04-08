@@ -63,10 +63,12 @@ angular.module('cluster', ['stats', 'sql', 'common'])
     };
 
     var compareListByHealth = function compareListByHealth(a,b) {
-      if (healthPriorityMap[a.health] < healthPriorityMap[b.health]) return -1;
-      if (healthPriorityMap[a.health] > healthPriorityMap[b.health]) return 1;
+      if (healthPriorityMap[a.health.status] < healthPriorityMap[b.health.status]) return -1;
+      if (healthPriorityMap[a.health.status] > healthPriorityMap[b.health.status]) return 1;
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
       return 0;
-    }
+    };
 
     var loadNodesStats = function loadNodesStats() {
       var cluster = ClusterState.data.cluster;
@@ -80,20 +82,25 @@ angular.module('cluster', ['stats', 'sql', 'common'])
         $scope.node = angular.copy(empty_node);
         $scope.selected_node = '';
       } else {
+        // sort nodes by health and hostname
+        nodeList = nodeList.sort(compareListByHealth);
         // show sidebar
         var nodeName = $routeParams.node_name;
         var nodeNames = $.map(nodeList, function(obj){
           return obj.name;
         });
         if (nodeName && nodeNames.indexOf(nodeName)>=0) {
+          var selectedNode = nodeList.filter(function(node, idx) {
+            return node.name == $routeParams.node_name;
+          });
+          $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
           $scope.selected_node = $routeParams.node_name;
         } else {
+          $scope.node = nodeList[0];
           $scope.selected_node = nodeList[0].name;
         }
-        $scope.node = nodeList[0];
       }
-      // sort nodes by health
-      $scope.nodes = nodeList.sort(compareListByHealth);
+      $scope.nodes = nodeList;
     };
 
     var prepareNodeList = function prepareNodeList(cluster) {
