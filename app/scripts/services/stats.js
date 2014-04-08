@@ -75,7 +75,8 @@ angular.module('stats', ['sql'])
       var tableQuery = SQLQuery.execute(
         'select table_name, sum(number_of_shards), number_of_replicas ' +
         'from information_schema.tables ' +
-        'where schema_name = \'doc\' group by table_name, number_of_replicas');
+        'where schema_name in (\'doc\', \'blob\') ' +
+        'group by table_name, number_of_replicas');
 
       var shardQuery = SQLQuery.execute(
         'select table_name, count(*), "primary", state, sum(num_docs), avg(num_docs), sum(size) ' +
