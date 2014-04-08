@@ -30,9 +30,11 @@ angular.module('common', ['stats'])
       var elem = $(element),
           nav = $('.side-nav .navbar-nav'),
           win = $(window);
-      win.on("resize", function() {
+      var calculate = function calculate(){
         scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
         scope.$apply();
-      });
+      };
+      win.on("resize", calculate);
+      calculate();
     };
   });

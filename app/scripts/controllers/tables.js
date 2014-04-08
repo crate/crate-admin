@@ -1,8 +1,20 @@
 'use strict';
 
 angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
+  .provider('TabNavigationInfo', function(){
+    this.collapsed = [false, true]; // must match $scope.tables of TablesController
+    this.$get = function() {
+      var collapsed = this.collapsed;
+      return {
+        'collapsed': collapsed,
+        'toggleIndex': function toggleIndex(index){
+          collapsed[index] = !collapsed[index];
+        }
+      };
+    };
+  })
   .controller('TablesController', function ($scope, $location, $log, $timeout, $routeParams,
-        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableInfo) {
+        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableInfo, TabNavigationInfo) {
     var refreshInterval = 5000;
 
     var colorMapPanel = {'good': 'panel-success',
@@ -54,7 +66,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             var table = _tables[i];
             var tableInfo = new TableInfo(_shards.filter(function(shard, idx) { return table.name === shard.name; }));
             tableInfo.shards_configured = table.shards_configured;
-
             table.health = tableInfo.health();
             table.health_label_class = colorMapLabel[table.health];
             table.health_panel_class = colorMapPanel[table.health];
@@ -66,10 +77,37 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             table.shards_missing = tableInfo.missingShards();
             table.shards_underreplicated = tableInfo.underreplicatedShards();
             table.size = tableInfo.size();
+            table.type_display_name = table.schema_name == "doc" ? "Record" : "Blob";
+
+            var summary = roundWithUnitFilter(table.records_total, 1) + ' Records (' + bytesFilter(table.size) + ') / ' +
+                table.replicas_configured + ' Replicas / ' + table.shards_configured + ' Shards (' + table.shards_started + ' Started)';
+
+            if (table.records_unavailable) {
+              summary = roundWithUnitFilter(table.records_unavailable, 1) + ' Unavailable Records / ' + summary;
+            } else if (table.shards_underreplicated) {
+              summary = table.shards_underreplicated + ' Underreplicated Shards / ' + summary;
+            }
+            if (table.records_underreplicated) {
+              summary = table.records_underreplicated + ' Underreplicated Records / ' + summary;
+            }
+            table.summary = summary;
           };
 
           var currentTable = _tables.filter(function(table, idx) { return table.name === selected_table; });
-          $scope.tables = _tables.sort(compareListByHealth);
+          _tables = _tables.sort(compareListByHealth);
+          $scope.tables = [
+            {
+              "display_name": "Tables",
+              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
+              "schema_name": "doc"
+            },
+            {
+              "display_name": "Blob Tables",
+              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
+              "schema_name": "blob"
+            }
+          ];
+
           $scope.table = currentTable.length ? currentTable[0] : _tables[0];
           $scope.selected_table = $scope.table.name;
 
@@ -91,15 +129,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         }
       },
       fetch: function fetch() {
-        SQLQuery.execute('select table_name, number_of_shards, number_of_replicas ' +
+        SQLQuery.execute('select table_name, number_of_shards, number_of_replicas, schema_name ' +
             'from information_schema.tables ' +
-            'where schema_name = \'doc\'').
+            'where schema_name in (\'doc\', \'blob\')').
           success(function(sqlQuery1){
             SQLQuery.execute('select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
                 'from sys.shards group by table_name, "primary", state ' +
                 'order by table_name, "primary"').
               success(function(sqlQuery2) {
-                var tables = queryResultToObjects(sqlQuery1, ['name', 'shards_configured', 'replicas_configured']);
+                var tables = queryResultToObjects(sqlQuery1, ['name', 'shards_configured', 'replicas_configured', 'schema_name']);
                 var shards = queryResultToObjects(sqlQuery2, ['name', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
                 TableInfoProvider.update(true, tables, shards);
               }).
@@ -118,6 +156,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }
     };
 
+    $scope.renderSidebar = true;
+    $scope.renderSchema = false;
     TableInfoProvider.fetch();
 
     $scope.isActive = function (table_name) {
@@ -145,4 +185,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $("#wrapper").toggleClass("active");
     };
 
+    $scope.toggleElements = function(index) {
+      $("#nav-tabs-"+index).collapse("toggle");
+      $("#nav-tabs-header-"+index+" i.fa").toggleClass("fa-caret-down").toggleClass("fa-caret-right");
+      TabNavigationInfo.toggleIndex(index);
+    };
+
+    $scope.isCollapsed = function(index) {
+      return TabNavigationInfo.collapsed[index];
+    };
+
   });
+
