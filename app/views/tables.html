@@ -2,13 +2,15 @@
 
   <div id="sidebar-wrapper" class="sidebar-350" ng-show="renderSidebar">
 
-    <ul class="nav" ng-repeat="(type, tables) in tables track by $index">
-      <li class="nav-tabs-header"><a href class="tabs-header" ng-click="toggleElements($index)"><i class="icon icon-arrow-right"></i> {{ type }}</a></li>
-      <ul class="nav nav-tabs in" id="nav-tabs-{{$index}}">
-        <li ng-repeat="table in tables track by $index" ng-class="{ 'active': isActive(table.name)}">
+    <ul class="nav" ng-repeat="type in tables track by $index">
+      <li class="nav-tabs-header" id="nav-tabs-header-{{$index}}">
+        <a href class="tabs-header" ng-click="toggleElements($index)"><i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i> {{ type.display_name }}</a>
+      </li>
+      <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
+        <li ng-repeat="table in type.tables track by $index" ng-class="{ 'active': isActive(table.name)}">
           <a href="#/tables/{{table.name}}" data-toggle="tab">
             <h3><span class="{{table.health_label_class}}">{{table.name}}</span></h3>
-            <span class="{{table.health_label_class}}">{{table.summary | truncate:65}}</span>
+            <span class="{{table.health_label_class}}">{{table.summary | truncate:100}}</span>
           </a>
         </li>
       </ul>
@@ -22,7 +24,7 @@
       <div class="row">
         <div class="col-lg-11 col-md-11">
           <div class="page-header">
-            <h1>{{table.name}} <span ng-show="table.schema_name">({{ table.schema_name }} table)</span></h1>
+            <h1> <span ng-show="table.schema_name == 'blob'">BLOB: </span>{{table.name}}</h1>
             <div id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="icon-reorder"></i></div>
           </div>
         </div>
