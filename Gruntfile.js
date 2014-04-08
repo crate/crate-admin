@@ -21,6 +21,9 @@ module.exports = function (grunt) {
   grunt.initConfig({
     crate: crateConf,
     watch: {
+      options: {
+        livereload: true
+      },
       recess: {
         files: ['<%= crate.app %>/styles/{,*/}*.less'],
         tasks: ['recess:dist']
@@ -35,7 +38,6 @@ module.exports = function (grunt) {
       dev: {
         options: {
           base: '<%= crate.app %>',
-          keepalive: true,
           middleware: function (connect) {
             return [
               mountFolder(connect, crateConf.tmp),
@@ -238,13 +240,8 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('server', [
-    'concurrent:server',
     'connect:dev',
     'watch'
-  ]);
-
-  grunt.registerTask('jshint', [
-    'jshint'
   ]);
 
   grunt.registerTask('default', [
