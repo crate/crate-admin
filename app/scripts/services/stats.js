@@ -21,7 +21,6 @@ angular.module('stats', ['sql'])
       var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
       if (localStorage.getItem("crate.base_uri") != null) {
         baseURI = localStorage.getItem("crate.base_uri");
-        $log.debug("Loaded base_uri '" + baseURI + "' from cookie");
       }
       $http.get(baseURI+"/").success(function() {
           setReachability(true);
