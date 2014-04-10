@@ -2,6 +2,8 @@
 Changes for Crate Data Admin Interface
 ======================================
 
+ - added history support in admin console
+
 2014/04/08 0.5.1
 ================
 
