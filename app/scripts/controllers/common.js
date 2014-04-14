@@ -32,7 +32,6 @@ angular.module('common', ['stats'])
           win = $(window);
       var calculate = function calculate(){
         scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
-        scope.$apply();
       };
       win.on("resize", calculate);
       calculate();

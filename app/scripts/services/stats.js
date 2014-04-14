@@ -47,7 +47,7 @@ angular.module('stats', ['sql'])
         healthInterval = $interval(refreshHealth, refreshInterval);
         statusInterval = $interval(refreshState, refreshInterval);
       }
-    }
+    };
 
     var addToLoadHistory = function(load) {
       if (load.length != data.loadHistory.length) return;
@@ -60,7 +60,7 @@ angular.module('stats', ['sql'])
 
     var refreshHealth = function() {
       if (!data.online) return;
-      
+
       var clusterQuery = SQLQuery.execute(
         'select id, name, hostname, port, load, mem, fs from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
@@ -86,7 +86,7 @@ angular.module('stats', ['sql'])
           ['name', 'number_of_shards', 'number_of_replicas']);
 
         shardQuery.success(function(sqlQuery){
-          var shardInfo = queryResultToObjects(sqlQuery, 
+          var shardInfo = queryResultToObjects(sqlQuery,
             ['name', 'count', 'primary', 'state', 'sum_docs', 'avg_docs', 'size']);
           data.shardInfo = shardInfo;
 
