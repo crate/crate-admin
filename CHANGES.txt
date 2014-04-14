@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - show node version number
+
  - added history support in admin console
 
 2014/04/14 0.5.2
