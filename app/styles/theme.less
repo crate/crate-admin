@@ -214,9 +214,14 @@ h2 {
 
 // Second vertical Navigation
 
+#content-wrapper {
+  overflow-x: hidden;
+}
+
 #sidebar-wrapper {
   background: #e2e2e2;
-  top: 25px;
+  top: 0px;
+  padding-top: 25px;
   font-size: 16px;
 
   .nav > li > a {
@@ -266,16 +271,18 @@ h2 {
   }
 
   #sidebar-wrapper.sidebar-350 {
-    margin-left: -600px;
-    left: 749px;
+    margin-left: 0px;
+    left: 149px;
     width: 350px;
   }
 
   .margin-left-250 {
+    overflow-x: hidden;
     margin-left: 250px;
   }
 
   .margin-left-350 {
+    overflow-x: hidden;
     margin-left: 350px;
   }
 }
