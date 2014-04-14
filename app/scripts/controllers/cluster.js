@@ -3,9 +3,6 @@
 angular.module('cluster', ['stats', 'sql', 'common'])
   .controller('ClusterController', function ($scope, $interval, $routeParams, $http, $filter, ClusterState) {
 
-    var intervalId;
-    var refreshInterval = 5000;
-
     $scope.percentageLimitYellow = 90;
     $scope.percentageLimitRed = 98;
 
@@ -33,7 +30,7 @@ angular.module('cluster', ['stats', 'sql', 'common'])
             return 'warning';
         }
         return 'good';
-      }
+      };
       this.value = Math.max(node.fs.used_percent, node.mem.used_percent);
       this.status = this.getStatus(this.value);
     };
@@ -47,14 +44,17 @@ angular.module('cluster', ['stats', 'sql', 'common'])
       'health': '--',
       'health_label_class': '',
       'health_panel_class': '',
-      'hostname': '',
-      'address': '',
-      'heap': {
+      'hostname': '--',
+      'address': '--',
+      'mem': {
         'total': 0,
+        'free': 0,
         'used': 0,
-        'used_percent': 0
+        'used_percent': 0,
+        'free_percent': 0
       },
       'fs': {
+        'total': 0,
         'free': 0,
         'used': 0,
         'free_percent': 0,
@@ -70,8 +70,8 @@ angular.module('cluster', ['stats', 'sql', 'common'])
       return 0;
     };
 
-    var loadNodesStats = function loadNodesStats() {
-      var cluster = ClusterState.data.cluster;
+    $scope.$watch(function() { return ClusterState.data; }, function (data) {
+      var cluster = data.cluster;
       var showSidebar = cluster.length > 0;
 
       $scope.renderSidebar = showSidebar;
@@ -101,7 +101,7 @@ angular.module('cluster', ['stats', 'sql', 'common'])
         }
       }
       $scope.nodes = nodeList;
-    };
+    }, true);
 
     var prepareNodeList = function prepareNodeList(cluster) {
       var nodeList = [];
@@ -116,13 +116,6 @@ angular.module('cluster', ['stats', 'sql', 'common'])
       }
       return nodeList;
     };
-
-    loadNodesStats();
-    intervalId = $interval(loadNodesStats, refreshInterval);
-
-    $scope.$on("$destroy", function(){
-      $interval.cancel(intervalId);
-    });
 
     $scope.isActive = function (node_name) {
       return node_name === $scope.selected_node;

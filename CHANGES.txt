@@ -2,6 +2,13 @@
 Changes for Crate Data Admin Interface
 ======================================
 
+2014/04/14 0.5.2
+================
+
+ - fix: scrolling issues with node list/table list
+
+ - fix: immediately show node list on browser refresh
+
 2014/04/08 0.5.1
 ================
 
