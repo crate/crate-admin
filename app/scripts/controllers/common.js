@@ -14,6 +14,7 @@ angular.module('common', ['stats'])
       $scope.load1 = data.load[0]  == '-.-' ? data.load[0] : data.load[0].toFixed(2);
       $scope.load5 = data.load[1]  == '-.-' ? data.load[1] : data.load[1].toFixed(2);
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
+      $scope.version = data.version;
     }, true);
   })
   .controller('NavigationController', function ($scope, $location) {

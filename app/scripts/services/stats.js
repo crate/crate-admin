@@ -11,7 +11,8 @@ angular.module('stats', ['sql'])
       name: '--',
       status: '--',
       load: ['-.-', '-.-', '-.-'],
-      loadHistory: [[],[],[]]
+      loadHistory: [[],[],[]],
+      version: null
     };
 
     var refreshInterval = 5000;
@@ -22,8 +23,14 @@ angular.module('stats', ['sql'])
       if (localStorage.getItem("crate.base_uri") != null) {
         baseURI = localStorage.getItem("crate.base_uri");
       }
-      $http.get(baseURI+"/").success(function() {
-          setReachability(true);
+      $http.get(baseURI+"/").success(function(response) {
+        var version = response.version;
+        data.version = {
+          'number': version.number,
+          'hash': version.build_hash.substr(0,7),
+          'snapshot': version.build_snapshot
+        };
+        setReachability(true);
       });
     };
 
@@ -39,13 +46,16 @@ angular.module('stats', ['sql'])
         data.name = '--';
         data.load = ['-.-', '-.-', '-.-'],
         data.loadHistory = [[],[],[]];
+        data.version = null;
         reachabilityInterval = $interval(checkReachability, refreshInterval);
       } else if (!data.online && online) {
         $interval.cancel(reachabilityInterval);
         $log.info("Cluster is online.");
         data.online = true;
         healthInterval = $interval(refreshHealth, refreshInterval);
+        refreshHealth();
         statusInterval = $interval(refreshState, refreshInterval);
+        refreshState();
       }
     };
 
@@ -154,6 +164,8 @@ angular.module('stats', ['sql'])
         setReachability(false);
       });
     };
+
+    checkReachability();
 
     refreshHealth();
     healthInterval = $interval(refreshHealth, refreshInterval);
