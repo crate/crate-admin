@@ -31,11 +31,11 @@ crateAdminApp.config(['$routeProvider', '$httpProvider',
       })
       .when('/tables', {
         templateUrl: 'views/tables.html',
-        controller: 'TablesController'
+        controller: 'TableDetailController'
       })
-      .when('/tables/:table_name', {
+      .when('/tables/:schema_name/:table_name', {
         templateUrl: 'views/tables.html',
-        controller: 'TablesController'
+        controller: 'TableDetailController'
       })
       .when('/cluster', {
         templateUrl: 'views/cluster.html',

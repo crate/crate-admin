@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('tableinfo', [])
-  .factory('TableInfo', function(){
-    return function TableInfo(shards) {
+  .factory('TableInfo', function() {
+    return function TableInfo(shards, numConfigured, partitionedBy) {
+      this.partitionedBy = partitionedBy || [];
+      this.partitioned = this.partitionedBy.length > 0;
       this.shards = shards;
-      this.shards_configured = 0;
+      this.shards_configured = numConfigured || 0;
       this.primaryShards = function primaryShards() {
         return this.shards.filter(function (shard, idx) {
           return shard.primary;
@@ -23,6 +25,7 @@ angular.module('tableinfo', [])
         }, 0);
       };
       this.missingShards = function missingShards() {
+          if (this.partitioned && this.startedShards() === 0) return 0;
           var activePrimaryShards = this.shards.filter(function(shard) {
               return shard.state in {'STARTED':'', 'RELOCATING':''} && shard.primary;
           });
@@ -55,10 +58,25 @@ angular.module('tableinfo', [])
           return started.length ? (started[0].avg_docs * this.missingShards()) : 0;
       };
       this.health = function health() {
+          if (this.partitioned && this.startedShards() === 0) return 'good';
           if (this.primaryShards().length === 0) return 'critical';
           if (this.missingShards() > 0) return 'critical';
           if (this.unassignedShards() > 0) return 'warning';
           return 'good';
+      };
+      this.asObject = function asObject() {
+        var o = {};
+        o.shards_configured = this.shards_configured;
+        o.health = this.health();
+        o.shards_started = this.startedShards();
+        o.shards_missing = this.missingShards();
+        o.shards_underreplicated = this.underreplicatedShards();
+        o.records_total = this.totalRecords();
+        o.records_unavailable = this.unavailableRecords();
+        o.records_underreplicated = this.underreplicatedRecords();
+        o.size = this.size();
+        o.partitioned = this.partitioned;
+        return o;
       };
     };
   });

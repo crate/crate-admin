@@ -14,7 +14,7 @@
       </li>
       <ul class="nav nav-tabs">
         <li ng-repeat="node in nodes|orderBy:sort.col:sort.desc"
-            ng-class="{ 'active': isActive(node.name)}"><a href="#/cluster/{{node.name}}{{routeParams}}" data-toggle="tab">
+            ng-class="{ 'active': isActive(node.name)}"><a href="#/cluster/{{node.name}}">
           <div class="row">
             <div class="col-md-8 col-sm-8">
               <h3><span class="{{node.health_label_class}}">{{node.name}}</span></h3>
