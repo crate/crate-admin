@@ -3,6 +3,17 @@
   <div ng-include="'views/tablelist.html'"></div>
 
   <div class="row">
+    <div class="col-lg-9 col-md-9" ng-class="{'margin-left-350': renderSidebar}" ng-show="nothingSelected">
+      <div class="row">
+        <div class="col-lg-11 col-md-11">
+          <div class="page-header">
+            <h1>No table selected</h1>
+            <div id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="icon-reorder"></i></div>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+
     <div class="col-lg-9 col-md-9" ng-class="{'margin-left-350': renderSidebar}" ng-show="table">
 
       <div class="row">
@@ -123,7 +134,6 @@
                 <tr ng-repeat="item in ptCtlr.data|orderBy:ptCtlr.sort.col:ptCtlr.sort.desc">
                   <td><span class="{{ item.health_label_class }}">{{ item.health }}</span></td>
                   <td>{{ item.partition_ident }}</td>
-                  <td>{{ item.values }}</td>
 
                   <td>{{ item.replicas_configured }}</td>
 
