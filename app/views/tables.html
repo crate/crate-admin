@@ -54,7 +54,8 @@
         </div>
 
         <div class="col-md-4 col-sm-5">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_started < table.shards_configured}">
+          <div class="panel panel-info text-right"
+               ng-class="{ 'panel-danger': startedShardsError(table) }">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_started}}</p>
               <p class="announcement-text">Started Shards</p>
@@ -120,6 +121,7 @@
       <div class="row" ng-show="renderPartitions">
         <div class="col-lg-11 col-md-11">
           <div class="page-header">
+            <p class="pull-right" ng-show="table.partitioned">Partition Columns: <b ng-repeat="col in table.partitioned_by">{{col}}{{$last?'':', '}}</b></p>
             <h2>Partitions</h2>
           </div>
           <div class="table-responsive">

@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('stats', ['sql'])
-  .factory('ClusterState', function ($http, $interval, $location, $log, SQLQuery, _object, queryResultToObjects) {
+angular.module('stats', ['sql', 'health', 'tableinfo'])
+  .factory('ClusterState', function ($http, $interval, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health) {
     var healthInterval, statusInterval, reachabilityInterval;
 
     var data = {
       online: true,
-      tableInfo: null,
+      tables: [],
       cluster: [],
       name: '--',
       status: '--',
@@ -36,12 +36,12 @@ angular.module('stats', ['sql'])
 
     var setReachability = function setReachability(online) {
       if (data.online && !online) {
+        data.online = false;
+        $log.warn("Cluster is offline.");
         $interval.cancel(healthInterval);
         $interval.cancel(statusInterval);
-        $log.warn("Cluster is offline.");
-        data.online = false;
         data.status = '--';
-        data.tableInfo = null;
+        data.tables = [];
         data.cluster = [];
         data.name = '--';
         data.load = ['-.-', '-.-', '-.-'],
@@ -50,8 +50,8 @@ angular.module('stats', ['sql'])
         reachabilityInterval = $interval(checkReachability, refreshInterval);
       } else if (!data.online && online) {
         $interval.cancel(reachabilityInterval);
-        $log.info("Cluster is online.");
         data.online = true;
+        $log.info("Cluster is online.");
         healthInterval = $interval(refreshHealth, refreshInterval);
         refreshHealth();
         statusInterval = $interval(refreshState, refreshInterval);
@@ -70,80 +70,32 @@ angular.module('stats', ['sql'])
 
     var refreshHealth = function() {
       if (!data.online) return;
-
-      var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, port, load, mem, fs from sys.nodes');
-      clusterQuery.success(function(sqlQuery) {
-        data.cluster = $.map(sqlQuery.rows, function(obj, idx){
-          return _object(['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs'], obj);
-        });
-      }).error(function(sqlQuery) {
-        setReachability(false);
-      });
-
-      var tableQuery = SQLQuery.execute(
-        'select table_name, sum(number_of_shards), number_of_replicas ' +
-        'from information_schema.tables ' +
-        'where schema_name in (\'doc\', \'blob\') ' +
-        'group by table_name, number_of_replicas');
-
-      var shardQuery = SQLQuery.execute(
-        'select table_name, count(*), "primary", state, sum(num_docs), avg(num_docs), sum(size) ' +
-        'from sys.shards group by table_name, "primary", state');
-
-      tableQuery.success(function(sqlQuery){
-        var tableInfo = queryResultToObjects(sqlQuery,
-          ['name', 'number_of_shards', 'number_of_replicas']);
-
-        shardQuery.success(function(sqlQuery){
-          var shardInfo = queryResultToObjects(sqlQuery,
-            ['name', 'count', 'primary', 'state', 'sum_docs', 'avg_docs', 'size']);
-          data.shardInfo = shardInfo;
-
-          var numActivePrimary = shardInfo.filter(function(obj){
-            return (obj.state in {"STARTED":"","RELOCATING":""} && obj.primary === true);
-          }).reduce(function(memo, obj, idx){
-            return memo + obj.count;
+      // We want to get the tables as soon as they become available so we use the promise object.
+      TableList.promise.then(null, null, function(res){
+        if (res.success) {
+          var h = res.data.tables.reduce(function(memo, obj, idx){
+            var level = Health.fromString(obj.health).level;
+            return Math.max(level, memo);
           }, 0);
-
-          var unassigned = shardInfo.filter(function(obj){
-            return obj.state === "UNASSIGNED";
-          });
-          var numUnassigned = unassigned.reduce(function(memo, obj, idx) {
-            return memo + obj.count;
-          }, 0);
-
-          var numConfigured = tableInfo.reduce(function(memo, obj, idx) {
-            return memo + obj.number_of_shards;
-          }, 0);
-
-          data.tableInfo = {
-            'tables': tableInfo,
-            'numActivePrimary': numActivePrimary,
-            'numUnassigned': numUnassigned,
-            'numConfigured': numConfigured,
-            'numMissing': Math.max(numConfigured-numActivePrimary, 0)
-          };
-
-          if (numActivePrimary < numConfigured) {
-            data.status = 'critical';
-          } else if (numUnassigned > 0) {
-            data.status = 'warning';
-          } else {
-            data.status = 'good';
-          }
-
-        }).error(function(){
+          data.status = new Health(h).name;
+          data.tables = res.data.tables;
+        } else {
           setReachability(false);
-        });
-
-      }).error(function(){
-          setReachability(false);
+        }
       });
     };
 
     var refreshState = function() {
       if (!data.online) return;
+
+      var clusterQuery = SQLQuery.execute(
+        'select id, name, hostname, port, load, mem, fs from sys.nodes');
+      clusterQuery.success(function(sqlQuery) {
+        data.cluster = queryResultToObjects(sqlQuery,
+            ['id', 'name', 'hostname', 'port', 'load', 'mem', 'fs']);
+      }).error(function(sqlQuery) {
+        setReachability(false);
+      });
 
       var q = SQLQuery.execute(
           'select ' +
@@ -161,7 +113,7 @@ angular.module('stats', ['sql'])
           for (var i=0; i<data.load.length; i++) data.load[i] /= parseFloat(numNodes);
           addToLoadHistory(data.load);
       }).error(function(sqlQuery) {
-        setReachability(false);
+          setReachability(false);
       });
     };
 

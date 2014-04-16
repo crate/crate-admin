@@ -10,7 +10,7 @@
         <li ng-repeat="table in type.tables track by $index" ng-class="{ 'active': isActive(table.schema_name, table.name)}">
           <a href="#/tables/{{ table.schema_name }}/{{ table.name }}">
             <h3><span class="{{table.health_label_class}}">{{table.name}}</span></h3>
-            <span class="{{table.health_label_class}}">{{table.summary}}</span>
+            <span class="{{table.health_label_class}}">{{ table.summary }}</span>
           </a>
         </li>
       </ul>
