@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
-  .controller('OverviewController', function ($scope, $location, $log, $timeout, ClusterState, SQLQuery, TableInfo) {
+angular.module('overview', ['stats'])
+  .controller('OverviewController', function ($scope, $location, $log, $timeout, ClusterState) {
 
     var colorMap = {
       "good": 'panel-success',
@@ -22,7 +22,10 @@ angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.cluster_state = data.status;
       $scope.cluster_color_class = colorMap[data.status];
 
-      if (!data.tableInfo || !data.tableInfo.tables.length) {
+      // Graph is always drawn
+      drawGraph(data.loadHistory);
+
+      if (!data.tables || !data.tables.length) {
         $scope.available_data = 100;
         $scope.records_unavailable = 0;
         $scope.replicated_data = 100;
@@ -31,32 +34,25 @@ angular.module('overview', ['stats', 'sql', 'common', 'tableinfo'])
         return;
       };
 
-      var tables = [];
-      for (var i=0; i<data.tableInfo.tables.length; i++) {
-        var table = data.tableInfo.tables[i];
-        var tableInfo = new TableInfo(data.shardInfo.filter(function(shard, idx) { return table.name === shard.name; }));
-        tableInfo.shards_configured = table.number_of_shards;
-        tables.push(tableInfo);
-      }
+      // Aggregate date across all tables
+      var tables = data.tables;
       $scope.records_underreplicated = tables.reduce(function(memo, tableInfo, idx) {
-        return tableInfo.underreplicatedRecords() + memo;
+        return tableInfo.records_underreplicated + memo;
       }, 0);
       $scope.records_unavailable = tables.reduce(function(memo, tableInfo, idx) {
-        return tableInfo.unavailableRecords() + memo;
+        return tableInfo.records_unavailable + memo;
       }, 0);
       $scope.records_total = tables.reduce(function(memo, tableInfo, idx) {
-        return tableInfo.totalRecords() + memo;
+        return tableInfo.records_total + memo;
       }, 0);
 
-      if ($scope.records_total) {
+      if ($scope.records_total > 0) {
         $scope.replicated_data = ($scope.records_total-$scope.records_underreplicated) / $scope.records_total * 100.0;
         $scope.available_data = ($scope.records_total-$scope.records_unavailable) / $scope.records_total * 100.0;
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
       }
-
-      drawGraph(data.loadHistory);
     }, true);
 
     var drawGraph = function drawGraph(history) {

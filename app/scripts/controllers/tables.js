@@ -13,22 +13,65 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
   })
-  .controller('TablesController', function ($scope, $location, $log, $timeout, $routeParams,
-        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableInfo, TabNavigationInfo) {
+  .factory('PartitionsTableController', function () {
+    return function PartitionsTableController(){
+      this.headers = [
+        ['health', 'Health'],
+        ['partition_ident', 'Ident'],
+        ['replicas_configured', 'Config. Replicas'],
+        ['shards_configured', 'Config. Shards'],
+        ['shards_started', 'Started Shards'],
+        ['shards_missing', 'Missing Shards'],
+        ['shards_underreplicated', 'Underr. Shards'],
+        ['records_total', 'Total Records'],
+        ['records_unavailable', 'Unavail. Records'],
+        ['records_underreplicated', 'Underr. Records'],
+        ['size', 'Size']
+      ];
+      this.data = [];
+      this.sort = {
+        col: 'partition_ident',
+        desc: false
+      };
+      this.setPartitions = function setPartitions(partitions) {
+        this.data = partitions;
+      };
+      this.sortByColumn = function sortByColumn(col) {
+        if (this.sort.col === col) {
+            this.sort.desc = !this.sort.desc;
+        } else {
+            this.sort.col = col;
+            this.sort.desc = false;
+        }
+      };
+      this.selected = function selected(col){
+        if (col === this.sort.col) {
+          return this.sort.desc ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
+        }
+        return '';
+      };
+    };
+  })
+  .controller('TableDetailController', function ($scope, $location, $log, $timeout, $routeParams,
+        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
+    var _tables = [];
+    var tableName = $routeParams.table_name;
+    var schemaName = $routeParams.schema_name;
     var refreshInterval = 5000;
-
-    var colorMapPanel = {'good': 'panel-success',
-                    'warning': 'panel-warning',
-                    'critical': 'panel-danger',
-                    '--': 'panel-default'};
-    var colorMapLabel = {'good': '',
-                    'warning': 'label-warning',
-                    'critical': 'label-danger',
-                    '--': ''};
-
-    var selected_table = $routeParams.table_name || '';
-
-    var empty_table = {
+    var timeout = null;
+    var colorMapPanel = {
+      'good': 'panel-success',
+      'warning': 'panel-warning',
+      'critical': 'panel-danger',
+      '--': 'panel-default'
+    };
+    var colorMapLabel = {
+      'good': '',
+      'warning': 'label-warning',
+      'critical': 'label-danger',
+      '--': ''
+    };
+    var placeholder = {
       'name': 'Tables (0 found)',
       'summary': '',
       'health': '--',
@@ -47,135 +90,142 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       'size': 0
     };
 
-    var TableInfoProvider = {
-      setEmpty: function setEmpty() {
-        $scope.tables = [];
-        $scope.table = angular.copy(empty_table);
-        $scope.selected_table = '';
+    $scope.ptCtlr = new PartitionsTableController();
+    $scope.nothingSelected = false;
+    $scope.renderSiderbar = true;
+
+    $scope.$watch(function(){ return TableList.data; }, function(data){
+      var tables = data.tables;
+      if (tables.length > 0) {
+        var current = tables.filter(function(item, idx){
+          return item.name === tableName && item.schema_name === schemaName;
+        });
+        current = current.length ? current[0] : tables[0];
+        $scope.table = current;
+        $scope.nothingSelected = current === null;
+        $scope.renderSidebar = true;
+      } else {
+        $scope.table = placeholder;
+        $scope.nothingSelected = false;
         $scope.renderSidebar = false;
         $scope.renderSchema = false;
-      },
-      update: function update(success, tables, shards) {
-        var _tables = tables || [];
-        var _shards = shards || [];
-
-        if (success && _tables.length) {
-          $scope.renderSidebar = true;
-          $scope.renderSchema = true;
-          for (var i=0; i<_tables.length; i++) {
-            var table = _tables[i];
-            var tableInfo = new TableInfo(_shards.filter(function(shard, idx) { return table.name === shard.name; }));
-            tableInfo.shards_configured = table.shards_configured;
-            table.health = tableInfo.health();
-            table.health_label_class = colorMapLabel[table.health];
-            table.health_panel_class = colorMapPanel[table.health];
-            table.records_total = tableInfo.totalRecords();
-            table.records_underreplicated = tableInfo.underreplicatedRecords();
-            table.records_replicated = table.records_total - table.records_underreplicated;
-            table.records_unavailable = tableInfo.unavailableRecords();
-            table.shards_started = tableInfo.startedShards();
-            table.shards_missing = tableInfo.missingShards();
-            table.shards_underreplicated = tableInfo.underreplicatedShards();
-            table.size = tableInfo.size();
-            table.type_display_name = table.schema_name == "doc" ? "Record" : "Blob";
-
-            var summary = roundWithUnitFilter(table.records_total, 1) + ' Records (' + bytesFilter(table.size) + ') / ' +
-                table.replicas_configured + ' Replicas / ' + table.shards_configured + ' Shards (' + table.shards_started + ' Started)';
-
-            if (table.records_unavailable) {
-              summary = roundWithUnitFilter(table.records_unavailable, 1) + ' Unavailable Records / ' + summary;
-            } else if (table.shards_underreplicated) {
-              summary = table.shards_underreplicated + ' Underreplicated Shards / ' + summary;
-            }
-            if (table.records_underreplicated) {
-              summary = table.records_underreplicated + ' Underreplicated Records / ' + summary;
-            }
-            table.summary = summary;
-          };
-
-          var currentTable = _tables.filter(function(table, idx) { return table.name === selected_table; });
-          _tables = _tables.sort(compareListByHealth);
-          $scope.tables = [
-            {
-              "display_name": "Tables",
-              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
-              "schema_name": "doc"
-            },
-            {
-              "display_name": "Blob Tables",
-              "tables": _tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
-              "schema_name": "blob"
-            }
-          ];
-
-          $scope.table = currentTable.length ? currentTable[0] : _tables[0];
-          $scope.selected_table = $scope.table.name;
-
-          // query for table schema
-          var query = SQLQuery.execute(
-            "select column_name, data_type from information_schema.columns " +
-            "where table_name = '"+$scope.selected_table+"'");
-
-          query.success(function(sqlQuery){
-            $scope.schemaHeaders = sqlQuery.cols;
-            $scope.schemaRows = sqlQuery.rows;
-            $scope.renderSchema = true;
-          }).error(function(sqlQuery) {
-            $scope.renderSchema = false;
-          });
-
-        } else {
-          TableInfoProvider.setEmpty();
-        }
-      },
-      fetch: function fetch() {
-        SQLQuery.execute('select table_name, number_of_shards, number_of_replicas, schema_name ' +
-            'from information_schema.tables ' +
-            'where schema_name in (\'doc\', \'blob\')').
-          success(function(sqlQuery1){
-            SQLQuery.execute('select table_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) '+
-                'from sys.shards group by table_name, "primary", state ' +
-                'order by table_name, "primary"').
-              success(function(sqlQuery2) {
-                var tables = queryResultToObjects(sqlQuery1, ['name', 'shards_configured', 'replicas_configured', 'schema_name']);
-                var shards = queryResultToObjects(sqlQuery2, ['name', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-                TableInfoProvider.update(true, tables, shards);
-              }).
-              error(function(sqlQuery) {
-                var tables = queryResultToObjects(sqlQuery1, ['name', 'shards_configured', 'replicas_configured']);
-                TableInfoProvider.update(true, tables);
-              });
-          }).
-          error(function(sqlQuery) {
-            TableInfoProvider.update(false);
-          });
-        var promise = $timeout(TableInfoProvider.fetch, refreshInterval);
-        $scope.$on('$destroy', function(){
-          $timeout.cancel(promise);
-        });
+        $scope.renderPartitions = false;
       }
+      fetch();
+    }, true);
+
+    var fetch = function fetch(){
+      $timeout.cancel(timeout);
+      if (!tableName || !schemaName || !$scope.table.partitioned) return;
+      // Table Partitions
+      var stmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
+            'from sys.shards ' +
+            'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
+            'group by partition_ident, "primary", state';
+      SQLQuery.execute(stmt, [schemaName, tableName]).success(function(query){
+        var result = queryResultToObjects(query,
+                                          ['partition_ident','sum_docs','primary','avg_docs','count','state','size']);
+        var idents = result.reduce(function(memo, obj, idx){
+          var ident = obj.partition_ident;
+          if (memo.indexOf(ident) === -1) memo.push(ident);
+          return memo;
+        }, []);
+
+        var partitions = [];
+        for (var i=0; i<idents.length; i++) {
+          var ident = idents[i];
+          var shardInfoForPartition = result.filter(function(item, idx){
+            return item.partition_ident === ident;
+          });
+          var info = new TableInfo(shardInfoForPartition, $scope.table.shards_configured);
+          var o = info.asObject();
+          o.partition_ident = ident;
+          o.replicas_configured = $scope.table.replicas_configured;
+          o.health_label_class = colorMapLabel[o.health];
+          partitions.push(o);
+        }
+
+        update(true, partitions);
+      }).error(function(query){
+        update(false, []);
+      });
+
     };
 
+    var update = function update(success, partitions){
+      $scope.ptCtlr.data = partitions;
+      $scope.renderPartitions = success;
+      $scope.renderSchema = success;
+      timeout = $timeout(fetch, refreshInterval);
+    };
+
+    if (tableName && schemaName) {
+      // Table Schema
+      var tableStmt = "select column_name, data_type from information_schema.columns " +
+            "where schema_name = $1 and table_name = $2";
+      SQLQuery.execute(tableStmt, [schemaName, tableName]).success(function(query){
+        $scope.schemaHeaders = query.cols;
+        $scope.schemaRows = query.rows;
+        $scope.renderSchema = true;
+      }).error(function(query){
+        $scope.renderSchema = false;
+      });
+    }
+
+    $scope.$on('$destroy', function(){
+      $timeout.cancel(timeout);
+    });
+
+    // Initial
+    $scope.table = null;
     $scope.renderSidebar = true;
     $scope.renderSchema = false;
-    TableInfoProvider.fetch();
+    $scope.renderPartitions = false;
 
-    $scope.isActive = function (table_name) {
-      return table_name === $scope.selected_table;
+  })
+  .controller('TableListController', function ($scope, $routeParams,
+        TableList, TabNavigationInfo) {
+
+    var tableName = $routeParams.table_name;
+    var schemaName = $routeParams.schema_name;
+
+    $scope.renderSidebar = true;
+    $scope.$watch(function(){ return TableList.data; }, function(data){
+      var tables = data.tables;
+      var hasTables = tables.length > 0;
+      $scope.renderSidebar = hasTables;
+      if (hasTables) {
+        // use name and schema from first item
+        if (!tableName || !schemaName) {
+          tableName = tables[0].name;
+          schemaName = tables[0].schema_name;
+        }
+        // group tables
+        $scope.tables = [
+          {
+            "display_name": "Tables",
+            "tables": tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
+            "schema_name": "doc"
+          },
+          {
+            "display_name": "Blob Tables",
+            "tables": tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
+            "schema_name": "blob"
+          }
+        ];
+      } else {
+        $scope.tables = [];
+      }
+    }, true);
+
+    $scope.isActive = function (schema_name, table_name) {
+      return table_name === tableName && schema_name === schemaName;
     };
 
-    var healthPriorityMap = {
-      'good': 2,
-      'warning': 1,
-      'critical': 0,
-      '--': 0
+    $scope.startedShardsError = function(table) {
+      if (table.partitioned && table.shards_started === 0) return false;
+      return (table.shards_started < table.shards_configured);
     };
-
-    function compareListByHealth(a,b) {
-      if (healthPriorityMap[a.health] < healthPriorityMap[b.health]) return -1;
-      if (healthPriorityMap[a.health] > healthPriorityMap[b.health]) return 1;
-      return 0;
-    }
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});

@@ -1,25 +1,20 @@
 <div id="content-wrapper">
 
-  <div id="sidebar-wrapper" class="sidebar-350" ng-show="renderSidebar">
-
-    <ul class="nav" ng-repeat="type in tables track by $index">
-      <li class="nav-tabs-header" id="nav-tabs-header-{{$index}}">
-        <a href class="tabs-header" ng-click="toggleElements($index)"><i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i> {{ type.display_name }}</a>
-      </li>
-      <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-        <li ng-repeat="table in type.tables track by $index" ng-class="{ 'active': isActive(table.name)}">
-          <a href="#/tables/{{table.name}}" data-toggle="tab">
-            <h3><span class="{{table.health_label_class}}">{{table.name}}</span></h3>
-            <span class="{{table.health_label_class}}">{{table.summary}}</span>
-          </a>
-        </li>
-      </ul>
-    </ul>
-
-  </div>
+  <div ng-include="'views/tablelist.html'"></div>
 
   <div class="row">
-    <div class="col-lg-9 col-md-9" ng-class="{'margin-left-350': renderSidebar}">
+    <div class="col-lg-9 col-md-9" ng-class="{'margin-left-350': renderSidebar}" ng-show="nothingSelected">
+      <div class="row">
+        <div class="col-lg-11 col-md-11">
+          <div class="page-header">
+            <h1>No table selected</h1>
+            <div id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="icon-reorder"></i></div>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+
+    <div class="col-lg-9 col-md-9" ng-class="{'margin-left-350': renderSidebar}" ng-show="table">
 
       <div class="row">
         <div class="col-lg-11 col-md-11">
@@ -59,7 +54,8 @@
         </div>
 
         <div class="col-md-4 col-sm-5">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_started < table.shards_configured}">
+          <div class="panel panel-info text-right"
+               ng-class="{ 'panel-danger': startedShardsError(table) }">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_started}}</p>
               <p class="announcement-text">Started Shards</p>
@@ -122,10 +118,49 @@
         </div>
       </div><!-- /.row -->
 
+      <div class="row" ng-show="renderPartitions">
+        <div class="col-lg-11 col-md-11">
+          <div class="page-header">
+            <p class="pull-right" ng-show="table.partitioned">Partition Columns: <b ng-repeat="col in table.partitioned_by">{{col}}{{$last?'':', '}}</b></p>
+            <h2>Partitions</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered tablesorter">
+              <thead>
+                <tr>
+                  <th class="header" ng-repeat="h in ptCtlr.headers"
+                                     ng-click="ptCtlr.sortByColumn(h[0])">{{ h[1] }} <i ng-class="ptCtlr.selected(h[0])"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in ptCtlr.data|orderBy:ptCtlr.sort.col:ptCtlr.sort.desc">
+                  <td><span class="{{ item.health_label_class }}">{{ item.health }}</span></td>
+                  <td>{{ item.partition_ident }}</td>
+
+                  <td>{{ item.replicas_configured }}</td>
+
+                  <td>{{ item.shards_configured }}</td>
+                  <td>{{ item.shards_started }}</td>
+                  <td>{{ item.shards_missing }}</td>
+                  <td>{{ item.shards_underreplicated }}</td>
+
+                  <td>{{ item.records_total }}</td>
+                  <td>{{ item.records_unavailable }}</td>
+                  <td>{{ item.records_underreplicated }}</td>
+
+                  <td>{{ item.size|bytes }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /.row -->
+
       <div class="row" ng-show="renderSchema">
         <div class="col-lg-11 col-md-11">
-          <div class="page-header"></div>
-          <h2>Schema</h2>
+          <div class="page-header">
+            <h2>Schema</h2>
+          </div>
           <div class="table-responsive">
             <table class="table table-hover table-bordered tablesorter">
               <thead>

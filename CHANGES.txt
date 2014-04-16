@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - support for partitioned tables
+
  - make node list sortable by health and name
 
  - display number of nodes in status bar
@@ -29,9 +31,9 @@ Unreleased
 ================
 
  - display blob tables
- 
+
  - fix: prevent logo from overlapping sidebar navigation
- 
+
 2014/04/08 0.4.4
 ================
 
