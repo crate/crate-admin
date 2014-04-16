@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/04/16 0.6.0
+================
+
  - support for partitioned tables
 
  - make node list sortable by health and name
