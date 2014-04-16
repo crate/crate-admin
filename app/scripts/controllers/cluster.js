@@ -1,38 +1,54 @@
 'use strict';
 
 angular.module('cluster', ['stats', 'sql', 'common'])
-  .controller('ClusterController', function ($scope, $interval, $routeParams, $http, $filter, ClusterState) {
+  .provider('NodeListInfo', function() {
+    var sortInfo = {
+      sort: {
+        'col': ['health_value', 'name'],
+        'desc': false
+      },
+      sortBy: function(col) {
+        if (this.sort.col.indexOf(col) === 0) {
+          this.sort.desc = !this.sort.desc;
+        } else {
+          this.sort.col = this.sort.col.reverse();
+          this.sort.desc = false;
+        }
+      },
+      sortClass: function(col) {
+        if (this.sort.col.indexOf(col) === 0) {
+          return this.sort.desc ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
+        } else {
+          return '';
+        }
+      }
+    };
+    this.$get = function() {
+      return sortInfo;
+    };
+  })
+  .controller('ClusterController', function ($scope, $interval, $routeParams, $http, $filter, ClusterState, NodeListInfo) {
 
     $scope.percentageLimitYellow = 90;
     $scope.percentageLimitRed = 98;
 
-    var colorMapPanel = {
-      "good": 'panel-success',
-      "warning": 'panel-warning',
-      "critical": 'panel-danger',
-      '--': 'panel-default'
-    };
     var colorMapLabel = {
       "good": '',
       "warning": 'label-warning',
       "critical": 'label-danger',
       '--': ''
     };
-    var healthPriorityMap = {
-      "good": 2, "warning": 1, "critical": 0, "--": 0
-    };
 
-    var Health = function Health(node) {
-      this.getStatus = function getStatus(val){
-        if (val > $scope.percentageLimitRed) {
-            return 'critical';
-        } else if (val > $scope.percentageLimitYellow) {
-            return 'warning';
-        }
-        return 'good';
+    var NodeHealth = function NodeHealth(node) {
+      var getStatus = function getStatus(val){
+        if (val > $scope.percentageLimitRed) return 2;
+        if (val > $scope.percentageLimitYellow) return 1;
+        return 0;
       };
-      this.value = Math.max(node.fs.used_percent, node.mem.used_percent);
-      this.status = this.getStatus(this.value);
+      var value = Math.max(node.fs.used_percent, node.mem.used_percent);
+      var status = getStatus(value);
+      this.value = status;
+      this.status = ['good','warning','critical'][status];
     };
 
     var selected_node = $routeParams.node_name || '';
@@ -63,8 +79,8 @@ angular.module('cluster', ['stats', 'sql', 'common'])
     };
 
     var compareListByHealth = function compareListByHealth(a,b) {
-      if (healthPriorityMap[a.health.status] < healthPriorityMap[b.health.status]) return -1;
-      if (healthPriorityMap[a.health.status] > healthPriorityMap[b.health.status]) return 1;
+      if (a.health.value < b.health.value) return -1;
+      if (a.health.value > b.health.value) return 1;
       if (a.name < b.name) return -1;
       if (a.name > b.name) return 1;
       return 0;
@@ -108,7 +124,8 @@ angular.module('cluster', ['stats', 'sql', 'common'])
       for (var i=0; i<cluster.length; i++) {
         var node = angular.copy(cluster[i]);
         node.address = "http://" + (node.hostname || "localhost") + ":" + node.port.http;
-        node.health = new Health(node);
+        node.health = new NodeHealth(node);
+        node.health_value = node.health.value;
         node.health_label_class = colorMapLabel[node.health.status];
         node.health_panel_class = colorMapLabel[node.health.status];
         node.mem.total = node.mem.used + node.mem.free;
@@ -116,6 +133,10 @@ angular.module('cluster', ['stats', 'sql', 'common'])
       }
       return nodeList;
     };
+
+    $scope.sort = NodeListInfo.sort;
+    $scope.sortBy = NodeListInfo.sortBy;
+    $scope.sortClass = NodeListInfo.sortClass;
 
     $scope.isActive = function (node_name) {
       return node_name === $scope.selected_node;

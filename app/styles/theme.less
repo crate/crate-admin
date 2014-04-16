@@ -233,6 +233,7 @@ h2 {
     line-height: 18px;
   }
 
+  .nav > li >.list-header,
   .nav > li > a.tabs-header {
     font-weight: bold;
     padding: 5px 10px 5px 20px;
@@ -396,6 +397,19 @@ form {
   margin-bottom: 10px;
 }
 
+.btn-sort {
+    color: #333;
+    background-color: #efefef;
+    border-color: #dfdfdf;
+}
+
+.btn-sort:hover {
+    color: #000;
+    background-color: #dfdfdf;
+    border-color: #cfcfcf;
+}
+
+
 //
 // Mixins
 // --------------------------------------------------
@@ -406,4 +420,9 @@ form {
 
 .margin-left-5 {
   margin-left: 5px;
+}
+
+.list-header-title {
+    padding: 3px 0;
+    line-height: 150%;
 }

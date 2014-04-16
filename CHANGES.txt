@@ -5,6 +5,10 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - make node list sortable by health and name
+
+ - display number of nodes in status bar
+
  - show node version number
 
  - added history support in admin console

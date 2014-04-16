@@ -10,6 +10,7 @@ angular.module('common', ['stats'])
     $scope.$watch( function () { return ClusterState.data; }, function (data) {
       $scope.cluster_state = data.status;
       $scope.cluster_name = data.name;
+      $scope.num_nodes = data.cluster.length;
       $scope.cluster_color_label = colorMap[data.status];
       $scope.load1 = data.load[0]  == '-.-' ? data.load[0] : data.load[0].toFixed(2);
       $scope.load5 = data.load[1]  == '-.-' ? data.load[1] : data.load[1].toFixed(2);
