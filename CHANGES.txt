@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - display number of nodes in status bar
+
  - show node version number
 
  - added history support in admin console

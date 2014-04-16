@@ -7,7 +7,7 @@ angular.module('stats', ['sql'])
     var data = {
       online: true,
       tableInfo: null,
-      cluster: {},
+      cluster: [],
       name: '--',
       status: '--',
       load: ['-.-', '-.-', '-.-'],
@@ -42,7 +42,7 @@ angular.module('stats', ['sql'])
         data.online = false;
         data.status = '--';
         data.tableInfo = null;
-        data.cluster = {};
+        data.cluster = [];
         data.name = '--';
         data.load = ['-.-', '-.-', '-.-'],
         data.loadHistory = [[],[],[]];
