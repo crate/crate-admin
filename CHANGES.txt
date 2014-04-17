@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/04/16 0.6.1
+================
+
+ - force vertical scrollbar to prevent content column from flickering
+
 2014/04/16 0.6.0
 ================
 
