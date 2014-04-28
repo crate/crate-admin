@@ -1,0 +1,37 @@
+<div ng-controller="NodeListController">
+
+  <div id="sidebar-wrapper" class="sidebar-350" ng-show="renderSidebar">
+    <ul class="nav">
+      <li class="nav-tabs-header">
+        <div class="list-header clearfix">
+          <div class="pull-right">
+            <a ng-click="sortBy('name')" class="btn btn-xs btn-sort"><i ng-class="sortClass('name')"></i> Name</a>
+            <a ng-click="sortBy('health_value')" class="btn btn-xs btn-sort"><i ng-class="sortClass('health_value')"></i> Health</a>
+          </div>
+          <div class="list-header-title">Nodes</div>
+        </div>
+      </li>
+      <ul class="nav nav-tabs">
+        <li ng-repeat="node in nodes|orderBy:sort.col:sort.desc"
+            ng-class="{ 'active': isActive(node)}"><a href="#/node/{{node.name}}">
+          <div class="row">
+            <div class="col-md-8 col-sm-8">
+              <h3><span class="{{node.health_label_class}}">{{node.name}}</span></h3>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <span class="pull-right {{node.health_label_class}}">{{node.health.status}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 col-sm-8">
+              <span class="{{node.health_label_class}}">{{node.hostname}}</span>
+            </div>
+            <div class="col-md-4 col-sm-4">
+            </div>
+          </div>
+            </a></li>
+      </ul>
+    </ul>
+  </div>
+
+</div>
