@@ -67,10 +67,10 @@
         </div>
 
         <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.mem.used_percent >= percentageLimitYellow, 'panel-danger': node.mem.used_percent >= percentageLimitRed }">
+          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.heap.used_percent >= percentageLimitYellow, 'panel-danger': node.heap.used_percent >= percentageLimitRed }">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.mem.used | number:0}}">{{node.mem.used | bytes}}</p>
-              <p class="announcement-text">Used Memory</p>
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used | number:0}}">{{node.heap.used | bytes}}</p>
+              <p class="announcement-text">Used HEAP</p>
             </div>
           </div>
         </div>
@@ -78,8 +78,8 @@
         <div class="col-md-4 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.mem.total | number:0}}">{{node.mem.total | bytes}}</p>
-              <p class="announcement-text">Total Memory</p>
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.max | number:0}}">{{node.heap.max | bytes}}</p>
+              <p class="announcement-text">Max HEAP</p>
             </div>
           </div>
         </div>
@@ -87,8 +87,8 @@
         <div class="col-md-4 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.mem.used_percent|number:1}}%">{{node.mem.used_percent|number:1 }}%</p>
-              <p class="announcement-text">% Used Memory</p>
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
+              <p class="announcement-text">Used HEAP</p>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used_percent|number:1}}%">{{node.fs.used_percent|number:1 }}%</p>
-              <p class="announcement-text">% Used Disk</p>
+              <p class="announcement-text">Used Disk</p>
             </div>
           </div>
         </div>

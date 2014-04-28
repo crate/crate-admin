@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - display heap size instead of system memory in node detail view
+
 2014/04/16 0.6.1
 ================
 

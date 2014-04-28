@@ -45,7 +45,7 @@ angular.module('cluster', ['stats', 'sql', 'common'])
         if (val > $scope.percentageLimitYellow) return 1;
         return 0;
       };
-      var value = Math.max(node.fs.used_percent, node.mem.used_percent);
+      var value = Math.max(node.fs.used_percent, node.heap.used_percent);
       var status = getStatus(value);
       this.value = status;
       this.status = ['good','warning','critical'][status];
@@ -128,7 +128,8 @@ angular.module('cluster', ['stats', 'sql', 'common'])
         node.health_value = node.health.value;
         node.health_label_class = colorMapLabel[node.health.status];
         node.health_panel_class = colorMapLabel[node.health.status];
-        node.mem.total = node.mem.used + node.mem.free;
+        node.heap.used_percent = node.heap.used * 100 / node.heap.max;
+        node.heap.free_percent = 100.0 - node.heap.used_percent;
         nodeList.push(node);
       }
       return nodeList;
