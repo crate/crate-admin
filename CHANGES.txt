@@ -2,6 +2,11 @@
 Changes for Crate Data Admin Interface
 ======================================
 
+Unreleased
+==========
+
+ - fixed broken redirect after twitter authentication in 'get started' section
+
 2014/04/14 0.5.2
 ================
 
