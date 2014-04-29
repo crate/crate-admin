@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - make console history persistent by default
+
  - display crate version of each node and show warning if cluster contains multiple versions
 
  - display heap size instead of system memory in node detail view

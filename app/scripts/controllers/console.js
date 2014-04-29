@@ -7,12 +7,16 @@ angular.module('console', ['sql'])
     $scope.typedStatement = "";
     $scope.rows = [];
 
-    $('iframe').hide();
-
     $scope.resultHeaders = [];
     $scope.renderTable = false;
-    $scope.error = {};
-    $scope.error.hide = true;
+    $scope.error = {
+      hide: true,
+      message: ''
+    };
+    $scope.info = {
+      hide: true,
+      message: ''
+    };
 
     var loadingIndicator = Ladda.create(document.querySelector('button[type=submit]'));
 
@@ -21,8 +25,8 @@ angular.module('console', ['sql'])
     };
 
     var getRecentQueriesFromLocalStorage = function() {
-      var v = localStorage.getItem("crate.console.query_list");
-      $scope.recentQueries = v ? JSON.parse(v) : [];
+      var queryList = localStorage.getItem("crate.console.query_list");
+      $scope.recentQueries = queryList ? JSON.parse(queryList) : [];
     };
 
     var updateRecentQueries = function(stmt) {
@@ -39,14 +43,30 @@ angular.module('console', ['sql'])
       $scope.recentCursor = -1;
     };
 
+    $scope.hide = function hide(item){
+      item.hide = true;
+      item.message = '';
+    };
+
+    $scope.toggleOptions = function toggleOptions(){
+      $('#console-options').slideToggle();
+      $scope.info.hide = true;
+      $scope.info.message = '';
+    };
+
     $scope.clearLocalStorage = function() {
+      var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
       localStorage.setItem("crate.console.query_list", JSON.stringify([]));
       $scope.recentCursor = 0;
       $scope.recentQueries = [];
+      var msg = history.length == 1 ? "1 entry in console history has been cleared." :
+            history.length + " entries in console history have been cleared.";
+      $scope.info.message = msg;
+      $scope.info.hide = false;
     };
 
-    var v = localStorage.getItem("crate.console.store_queries");
-    $scope.useLocalStorage = !!parseInt(v);
+    var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
+    $scope.useLocalStorage = !!parseInt(doStoreQueries);
     $scope.recentCursor = 0;
     getRecentQueriesFromLocalStorage();
 
@@ -112,6 +132,9 @@ angular.module('console', ['sql'])
         success(function(sqlQuery) {
           loadingIndicator.stop();
           $scope.error.hide = true;
+          $scope.error.message = '';
+          $scope.info.hide = true;
+          $scope.info.message = '';
           $scope.renderTable = true;
 
           $scope.resultHeaders = [];
