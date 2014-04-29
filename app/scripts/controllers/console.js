@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('console', ['sql'])
-  .controller('ConsoleController', function ($scope, $http, $location, SQLQuery, $log, $timeout) {
+  .controller('ConsoleController', function ($scope, $http, $location, SQLQuery, $log, $timeout, $window) {
 
     $scope.statement = "";
     $scope.typedStatement = "";
     $scope.rows = [];
-
-    $('iframe').hide();
 
     $scope.resultHeaders = [];
     $scope.renderTable = false;
@@ -39,13 +37,21 @@ angular.module('console', ['sql'])
       $scope.recentCursor = -1;
     };
 
+    $scope.toggleOptions = function toggleOptions(){
+      $('#console-options').slideToggle();
+    };
+
     $scope.clearLocalStorage = function() {
+      var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
       localStorage.setItem("crate.console.query_list", JSON.stringify([]));
       $scope.recentCursor = 0;
       $scope.recentQueries = [];
+      var msg = history.length == 1 ? "1 entry in console history has been cleared." :
+            history.length + " entries in console history have been cleared.";
+      $window.alert(msg);
     };
 
-    var v = localStorage.getItem("crate.console.store_queries");
+    var v = localStorage.getItem("crate.console.store_queries") || '1';
     $scope.useLocalStorage = !!parseInt(v);
     $scope.recentCursor = 0;
     getRecentQueriesFromLocalStorage();
