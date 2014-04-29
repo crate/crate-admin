@@ -8,10 +8,12 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
+    var version = null;
+
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       var cluster = data.cluster;
+      version = data.version;
       var showSidebar = cluster.length > 0;
-
       $scope.renderSidebar = showSidebar;
       var nodeList = prepareNodeList(cluster);
 
@@ -45,6 +47,10 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       return node.name === ($scope.selected ? $scope.selected.name : '');
     };
 
+    $scope.isSameVersion = function(nodeVersion){
+       return version ? nodeVersion.build_hash === version.hash : true;
+    };
+
   })
   .controller('NodeDetailController', function ($scope, $interval, $routeParams, $http, $filter,
                                                 ClusterState, prepareNodeList, NodeHealth, compareByHealth) {
@@ -53,14 +59,14 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
     var empty = {
-      'name': 'Cluster Offline',
+      'name': 'Cluster is not reachable',
       'id': '',
       'summary': [],
       'health': '--',
       'health_label_class': '',
       'health_panel_class': '',
       'hostname': '--',
-      'address': '--',
+      'address': '',
       'version': {
         'number': '--',
         'build_hash': '',
@@ -81,12 +87,15 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         'used_percent': 0
       }
     };
+    var version = null;
 
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       var cluster = data.cluster;
+      version = data.version;
       var showSidebar = cluster.length > 0;
 
       $scope.renderSidebar = showSidebar;
+
       var nodeList = prepareNodeList(cluster);
 
       if (!showSidebar) {
@@ -114,6 +123,10 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
       $("#wrapper").toggleClass("active");
+    };
+
+    $scope.isSameVersion = function(nodeVersion){
+       return version ? nodeVersion.build_hash === version.hash : true;
     };
 
     // bind tooltips

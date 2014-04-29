@@ -13,23 +13,26 @@
       </li>
       <ul class="nav nav-tabs">
         <li ng-repeat="node in nodes|orderBy:sort.col:sort.desc"
-            ng-class="{ 'active': isActive(node)}"><a href="#/node/{{node.name}}">
-          <div class="row">
-            <div class="col-md-8 col-sm-8">
-              <h3><span class="{{node.health_label_class}}">{{node.name}}</span></h3>
+            ng-class="{ 'active': isActive(node)}">
+          <a ng-href="#/nodes/{{node.name}}">
+            <div class="row">
+              <div class="col-md-8 col-sm-8">
+                <h3><span ng-class="node.health_label_class">{{node.name}}</span></h3>
+              </div>
+              <div class="col-md-4 col-sm-4 text-right">
+                <span class="{{node.health_label_class}}">{{node.health.status}}</span>
+              </div>
             </div>
-            <div class="col-md-4 col-sm-4">
-              <span class="pull-right {{node.health_label_class}}">{{node.health.status}}</span>
+            <div class="row">
+              <div class="col-md-8 col-sm-8">
+                <span>{{node.hostname}}</span>
+              </div>
+              <div class="col-md-4 col-sm-4 text-right">
+                <span ng-class="{'label-warning': !isSameVersion(node.version)}">Version&nbsp;{{node.version.number}}<span ng-show="node.version.build_snapshot">-snapshot-{{ node.version.build_hash.substr(0,7) }}</span></span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8 col-sm-8">
-              <span class="{{node.health_label_class}}">{{node.hostname}}</span>
-            </div>
-            <div class="col-md-4 col-sm-4">
-            </div>
-          </div>
-            </a></li>
+          </a>
+        </li>
       </ul>
     </ul>
   </div>

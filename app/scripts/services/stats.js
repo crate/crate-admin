@@ -27,7 +27,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         var version = response.version;
         data.version = {
           'number': version.number,
-          'hash': version.build_hash.substr(0,7),
+          'hash': version.build_hash,
           'snapshot': version.build_snapshot
         };
         setReachability(true);

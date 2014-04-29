@@ -27,14 +27,15 @@
         <div class="col-md-12 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading">{{node.address}}</p>
+              <p class="announcement-heading" ng-show="node"><a rel="tooltip" data-original-title="{{ node.address }}" ng-href="{{ node.address }}/admin/" target="_blank">{{ node.address }}</a></p>
+              <p class="announcement-heading" ng-hide="node.address">--</p>
               <p class="announcement-text">Address</p>
             </div>
           </div>
         </div>
 
         <div class="col-md-12 col-sm-11">
-          <div class="panel panel-info text-right">
+          <div class="panel panel-info text-right" ng-class="{'panel-warning':!isSameVersion(node.version)}">
             <div class="panel-heading">
               <p class="announcement-heading">{{node.version.number}}<span ng-show="node.version.build_snapshot">-snapshot-{{ node.version.build_hash.substr(0,7) }}</span></p>
               <p class="announcement-text">Crate Version</p>
@@ -63,8 +64,9 @@
         <div class="col-md-4 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
-              <p class="announcement-text">Used HEAP</p>
+              <p class="announcement-heading inline-block" ng-show="node.heap.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.heap.used_percent">-</p>
+              <p class="announcement-text">HEAP Usage</p>
             </div>
           </div>
         </div>
@@ -90,8 +92,9 @@
         <div class="col-md-4 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used_percent|number:1}}%">{{node.fs.used_percent|number:1 }}%</p>
-              <p class="announcement-text">Used Disk</p>
+              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used_percent|number:1}}%">{{node.fs.used_percent|number:1 }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.fs.used_percent">-</p>
+              <p class="announcement-text">Disk Usage</p>
             </div>
           </div>
         </div>

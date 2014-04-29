@@ -8,6 +8,17 @@ angular.module('common', ['stats'])
                     '--': 'label-danger'};
     $scope.cluster_color_label = 'label-default';
     $scope.$watch( function () { return ClusterState.data; }, function (data) {
+      var hashes = [];
+      var versions = data.cluster.filter(function(obj, idx){
+        var hash = obj.version.build_hash;
+        var contains = hashes.indexOf(hash) == -1;
+        hashes.push(hash);
+        return contains;
+      }).map(function(obj, idx){
+        return obj.version.number;
+      });
+      $scope.versions = versions;
+      $scope.version_warning = versions.length > 1;
       $scope.cluster_state = data.status;
       $scope.cluster_name = data.name;
       $scope.num_nodes = data.cluster.length;
@@ -17,6 +28,8 @@ angular.module('common', ['stats'])
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.version = data.version;
     }, true);
+    // bind tooltips
+    $("[rel=tooltip]").tooltip({ placement: 'bottom'});
   })
   .controller('NavigationController', function ($scope, $location) {
     $scope.isActive = function (viewLocation) {
