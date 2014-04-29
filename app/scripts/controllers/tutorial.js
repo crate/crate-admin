@@ -124,4 +124,8 @@ angular.module('tutorial', ['sql'])
         twitter.stop();
     };
 
+    $scope.$on('$destroy', function(e){
+      twitter.stop();
+    });
+
   });

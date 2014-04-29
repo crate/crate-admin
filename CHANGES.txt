@@ -9,6 +9,13 @@ Unreleased
 
  - display heap size instead of system memory in node detail view
 
+2014/04/29 0.6.3
+================
+
+ - fix: make sure twitter import stops when user navigates away from tutorial view
+
+ - fix: allow horizontal scrolling in console result table
+
 2014/04/28 0.6.2
 ================
 
