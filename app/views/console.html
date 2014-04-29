@@ -8,26 +8,31 @@
 
           <div class="bs-example" ng-hide="error.hide">
             <div class="alert alert-dismissable alert-danger">
-              <button type="button" class="close" data-dismiss="alert">×</button>
+              <button type="button" class="close" ng-click="hide(error)">&times;</button>
               <h4><span>Error!</span></h4>
               <p>{{ error.message }}</p>
             </div>
           </div>
 
+
           <form role="form">
 
-            <div class="form-group pull-right" id="console-options-container">
-              <div class="text-right">
+            <div class="">
+              <div class="pull-right">
                 <a href="" ng-click="toggleOptions()" class="btn btn-xs">Options <span class="fa fa-cog"></span></a>
               </div>
-              <div id="console-options" class="text-right">
-                Store history persistently <input type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()" />
-                <br /><a ng-click="clearLocalStorage()" class="btn btn-xs">Clear History <span class="fa fa-trash-o"></span></a>
+              <label>Enter a select statement to query Crate</label>
+            </div>
+
+            <div id="console-options" class="form-group text-right">
+              Store console history persistently <input type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()" />
+              <br /><a ng-click="clearLocalStorage()" class="btn btn-xs">Clear History <span class="fa fa-trash-o"></span></a>
+              <div ng-hide="info.hide" class="alert-success">
+                <p>{{ info.message }}</p>
               </div>
             </div>
 
             <div class="form-group">
-              <label>Enter a select statement to query Crate</label>
               <textarea id="console-statement-input" ng-keydown="stmtKeyDown($event)" ng-model="statement" class="form-control" rows="3" placeholder="select * from demo limit 100;" ng-change="stmtChange()"></textarea>
             </div>
 

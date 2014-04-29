@@ -317,15 +317,14 @@ h2 {
 .alert {
   padding: 0;
   margin-right: 20px;
-  border: 0;
-  background-color: #fff;
+  border: 0px none;
+  background: transparent none;
 
     .close {
       color: @gray;
     }
 
     h4 span {
-      background: @brand-danger;
       padding: 1px;
       padding-left: 4px;
       color: #fff;
@@ -333,9 +332,56 @@ h2 {
     }
 
     p {
-      background: @brand-danger;
       padding: 2px;
       color: #fff;
+      display: inline;
+    }
+}
+
+.alert-danger {
+    border: 0px none;
+    background: transparent none;
+    h4 span {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-danger;
+    }
+    p {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-danger;
+      display: inline;
+    }
+}
+
+.alert-info {
+    border: 0px none;
+    background: transparent none;
+    h4 span {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-info;
+    }
+    p {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-info;
+      display: inline;
+    }
+}
+
+.alert-success {
+    border: 0px none;
+    background: transparent none;
+    h4 span {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-success;
+    }
+    p {
+      color: #fff;
+      padding: 0px 5px;
+      background: @brand-success;
       display: inline;
     }
 }
@@ -435,7 +481,6 @@ form {
 
 #console-options {
     display: none;
-    float: right;
     background-color: #f0f0f0;
     border: 1px solid #efefef;
     padding: 5px 10px;
