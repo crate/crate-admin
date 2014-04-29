@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/04/29 0.6.3
+================
+
+ - fix: allow horizontal scrolling in console result table
+
 2014/04/28 0.6.2
 ================
 
