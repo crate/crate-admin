@@ -41,6 +41,13 @@ Unreleased
 
  - added history support in admin console
 
+2014/04/30 0.5.3
+================
+
+ - fix: make sure twitter import stops when user navigates away from tutorial view
+
+ - fixed broken redirect after twitter authentication in 'get started' section
+
 2014/04/14 0.5.2
 ================
 
