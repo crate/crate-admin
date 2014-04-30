@@ -3,7 +3,7 @@
 angular.module('tutorial', ['sql'])
   .controller('TutorialController', function ($scope, $location, $log, $timeout, $routeParams, SQLQuery) {
     var base_url = "https://twitter.crate.io/api/v1";
-    var host = [location.protocol,location.host].join("//");
+    var redirect = [window.location.protocol,window.location.host].join("//") + window.location.pathname;
 
     $scope.count = 0;
     $scope.importing = false;
@@ -12,7 +12,7 @@ angular.module('tutorial', ['sql'])
         this.storeTweet = function(tweet) {
             if (!tweet || !tweet.id) return;
             var stmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)';
-            return SQLQuery.execute(stmt, [
+            SQLQuery.execute(stmt,[
                 tweet.created_at,
                 tweet.id,
                 tweet.retweeted,
@@ -54,7 +54,7 @@ angular.module('tutorial', ['sql'])
                 // This is a long polling request.
                 // We do not expect this to ever complete, except on timeout and just parse the
                 // continously updating response for new tweets to insert.
-                self.request = $.ajax(base_url + "/sample?origin=" + encodeURIComponent(host), {
+                self.request = $.ajax(base_url + "/sample?origin=" + encodeURIComponent(redirect), {
                     type: 'GET',
                     xhrFields: {
                         withCredentials: true
@@ -68,10 +68,10 @@ angular.module('tutorial', ['sql'])
                             tweets = $.map(tweets, function (tweet) {
                                 try {
                                     return JSON.parse(tweet);
-                                } catch (e) {}
+                                } catch (e) { return null; }
                             });
                             tweets = tweets.filter(function(tweet, idx) {
-                                return typeof tweet != 'undefined';
+                                return tweet != null;
                             });
                             $.each(tweets, function (idx, tweet) {
                                 self.storeTweet(tweet);
@@ -87,7 +87,7 @@ angular.module('tutorial', ['sql'])
                     // If this is an authorization failure, redirect to get
                     // permission
                     if (err.status === 401) {
-                        window.location = base_url + "/auth?origin=" + encodeURIComponent(host);
+                        window.location = base_url + "/auth?origin=" + encodeURIComponent(redirect);
                     }
                 });
             };
@@ -123,5 +123,9 @@ angular.module('tutorial', ['sql'])
     $scope.stopImport = function stopImport(){
         twitter.stop();
     };
+
+    $scope.$on('$destroy', function(e){
+      twitter.stop();
+    });
 
   });
