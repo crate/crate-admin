@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/05/08 0.7.1
+================
+
  - changed doc url to match doc url pattern
 
 2014/05/08 0.7.0
