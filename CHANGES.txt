@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/05/08 0.7.0
+================
+
+ - removed docs menu item from sidebar and added link to external docs in statusbar
+
  - make console history persistent by default
 
  - display crate version of each node and show warning if cluster contains multiple versions
