@@ -6,6 +6,7 @@ angular.module('common', ['stats'])
                     "warning": 'label-warning',
                     "critical": 'label-danger',
                     '--': 'label-danger'};
+    var docsBaseURL = 'https://crate.io/docs';
     $scope.cluster_color_label = 'label-default';
     $scope.$watch( function () { return ClusterState.data; }, function (data) {
       var hashes = [];
@@ -27,7 +28,7 @@ angular.module('common', ['stats'])
       $scope.load5 = data.load[1]  == '-.-' ? data.load[1] : data.load[1].toFixed(2);
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.version = data.version;
-      $scope.docs_url = $sce.trustAsResourceUrl('https://crate.io/docs/' + (data.version ? data.version.number : 'stable') + '/');
+      $scope.docs_url = $sce.trustAsResourceUrl(docsBaseURL + (data.version ? '/en/'+data.version.number : '/stable') + '/');
     }, true);
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'bottom'});
