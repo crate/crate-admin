@@ -47,8 +47,8 @@ angular.module('overview', ['stats'])
       }, 0);
 
       if ($scope.records_total > 0) {
-        $scope.replicated_data = ($scope.records_total-$scope.records_underreplicated) / $scope.records_total * 100.0;
-        $scope.available_data = ($scope.records_total-$scope.records_unavailable) / $scope.records_total * 100.0;
+        $scope.replicated_data = Math.max(0, $scope.records_total-$scope.records_underreplicated) / $scope.records_total * 100.0;
+        $scope.available_data = Math.max(0, $scope.records_total-$scope.records_unavailable) / $scope.records_total * 100.0;
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
