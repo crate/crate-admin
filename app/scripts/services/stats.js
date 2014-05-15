@@ -20,17 +20,24 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
     var checkReachability = function checkReachability(){
       var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-      if (localStorage.getItem("crate.base_uri") != null) {
-        baseURI = localStorage.getItem("crate.base_uri");
-      }
+      var storedURI = localStorage.getItem("crate.base_uri");
+      if (storedURI) baseURI = storedURI;
       $http.get(baseURI+"/").success(function(response) {
-        var version = response.version;
-        data.version = {
-          'number': version.number,
-          'hash': version.build_hash,
-          'snapshot': version.build_snapshot
-        };
-        setReachability(true);
+        if (typeof response === 'object') {
+          var version = response.version;
+          data.version = {
+            'number': version.number,
+            'hash': version.build_hash,
+            'snapshot': version.build_snapshot
+          };
+          setReachability(true);
+        } else {
+          data.version = null;
+          if (!storedURI) {
+            $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
+          }
+          setReachability(false);
+        }
       });
     };
 
@@ -80,7 +87,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
           data.status = new Health(h).name;
           data.tables = res.data.tables;
         } else {
-          setReachability(false);
+          data.status = '--';
+          data.tables = [];
         }
       });
     };
@@ -94,7 +102,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         data.cluster = queryResultToObjects(sqlQuery,
             ['id', 'name', 'hostname', 'port', 'load', 'heap', 'fs', 'version']);
       }).error(function(sqlQuery) {
-        setReachability(false);
+        var status = sqlQuery.error.status;
+        if (status === 0 || status === 404) setReachability(false);
       });
 
       var q = SQLQuery.execute(
@@ -113,7 +122,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
           for (var i=0; i<data.load.length; i++) data.load[i] /= numNodes;
           addToLoadHistory(data.load);
       }).error(function(sqlQuery) {
-          setReachability(false);
+          var status = sqlQuery.error.status;
+          if (status === 0 || status === 404) setReachability(false);
       });
     };
 

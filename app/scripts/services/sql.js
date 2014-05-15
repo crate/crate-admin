@@ -19,22 +19,22 @@ angular.module('sql', [])
     };
   })
   .factory('SQLQuery', function ($http, $location, $log, $q) {
-    function SQLQuery(stmt, response, failed) {
+    function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
       this.cols = [];
-      this.rowCount = [];
+      this.rowCount = 0;
       this.duration = 0;
-      this.error = {'message':'', code:0};
-      this.failed = failed;
+      this.error = error;
+      this.failed = false;
 
-      if (this.failed === true || !response || response.error) {
-        this.error = response ? response.error : {'message': 'No base_uri specified.', 'code': 0};
-      } else {
+      if (!this.error && response) {
         this.rows = response.rows;
         this.cols = response.cols;
         this.rowCount = response.rowcount;
         this.duration = response.duration;
+      } else {
+        this.failed = true;
       }
     }
 
@@ -86,14 +86,21 @@ angular.module('sql', [])
       }
       $http.post(baseURI+"/_sql", data).
         success(function(data, status, headers, config) {
-          deferred.resolve(new SQLQuery(stmt, data, false));
+          deferred.resolve(new SQLQuery(stmt, data, null));
         }).
         error(function(data, status, headers, config) {
-          $log.warn("Got ERROR response from query: " + stmt + " with status: " + status);
-          if (status == 0) {
-            data = {'error': {'message': 'Connection error', 'code':0}};
+          var error = null;
+          if (status >= 400 && data.error) {
+            error = new Error(data.error.message);
+            error.status = data.error.status;
+          } else if (status >= 400) {
+            error = new Error(data);
+            error.status = status;
+          } else if (status === 0) {
+            error = new Error('Connection refused');
+            error.status = status;
           }
-          deferred.reject(new SQLQuery(stmt, data, true));
+          deferred.reject(new SQLQuery(stmt, data, error));
         });
       return promise;
     };
