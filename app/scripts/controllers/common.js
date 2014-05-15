@@ -11,9 +11,12 @@ angular.module('common', ['stats'])
     $scope.$watch( function () { return ClusterState.data; }, function (data) {
       var hashes = [];
       var versions = data.cluster.filter(function(obj, idx){
-        var hash = obj.version.build_hash;
-        var contains = hashes.indexOf(hash) == -1;
-        hashes.push(hash);
+        var contains = false;
+        if (obj.version) {
+          var hash = obj.version.build_hash;
+          contains = hashes.indexOf(hash) == -1;
+          hashes.push(hash);
+        }
         return contains;
       }).map(function(obj, idx){
         return obj.version.number;

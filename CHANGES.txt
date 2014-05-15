@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - improved handling of error responses from server
+
 2014/05/08 0.7.1
 ================
 
