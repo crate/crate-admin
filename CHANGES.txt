@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/05/19 0.7.3
+================
+
+ - fix: prevent selected node/table item from being out of viewport
+
 2014/05/15 0.7.2
 ================
 
