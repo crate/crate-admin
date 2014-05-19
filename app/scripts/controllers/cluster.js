@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
-  .controller('NodeListController', function($scope, $routeParams,
-                                             ClusterState, prepareNodeList, NodeHealth, NodeListInfo, compareByHealth){
+  .controller('NodeListController', function($scope, $route,
+        ClusterState, prepareNodeList, NodeHealth, NodeListInfo, compareByHealth){
+
     $scope.nodes = [];
     $scope.selected = null;
     $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
@@ -10,50 +11,64 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
     var version = null;
 
-    $scope.$watch(function() { return ClusterState.data; }, function (data) {
-      var cluster = data.cluster;
-      version = data.version;
-      var showSidebar = cluster.length > 0;
-      $scope.renderSidebar = showSidebar;
-      var nodeList = prepareNodeList(cluster);
-
-      if (!showSidebar) {
-        $scope.selected = null;
-      } else {
-        // sort nodes by health and hostname
-        nodeList = nodeList.sort(compareByHealth);
-        // show sidebar
-        var nodeName = $routeParams.node_name;
-        var nodeNames = nodeList.map(function(obj){
-          return obj.name;
-        });
-        if (nodeName && nodeNames.indexOf(nodeName)>=0) {
-          var selectedNode = nodeList.filter(function(node, idx) {
-            return node.name === nodeName;
-          });
-          $scope.selected = selectedNode.length ? selectedNode[0] : nodeList[0];
-        } else {
-          $scope.selected = nodeList[0];
-        }
+    // http://stackoverflow.com/a/14329570/1143231
+    // http://stackoverflow.com/a/12429133/1143231
+    $scope.$on('$locationChangeSuccess', function(event) {
+      if ($route.current.$$route.controller === 'NodeDetailController') {
+        render($route.current.params.node_name);
       }
-      $scope.nodes = nodeList;
-    }, true);
+    });
 
-    $scope.sort = NodeListInfo.sort;
-    $scope.sortBy = NodeListInfo.sortBy;
-    $scope.sortClass = NodeListInfo.sortClass;
+    var render = function render(nodeName) {
 
-    $scope.isActive = function (node) {
-      return node.name === ($scope.selected ? $scope.selected.name : '');
+      $scope.$watch(function() { return ClusterState.data; }, function (data) {
+        var cluster = data.cluster;
+        version = data.version;
+        var showSidebar = cluster.length > 0;
+        $scope.renderSidebar = showSidebar;
+        var nodeList = prepareNodeList(cluster);
+
+        if (!showSidebar) {
+          $scope.selected = null;
+        } else {
+          // sort nodes by health and hostname
+          nodeList = nodeList.sort(compareByHealth);
+          // show sidebar
+          var nodeNames = nodeList.map(function(obj){
+            return obj.name;
+          });
+          if (nodeName && nodeNames.indexOf(nodeName)>=0) {
+            var selectedNode = nodeList.filter(function(node, idx) {
+              return node.name === nodeName;
+            });
+            $scope.selected = selectedNode.length ? selectedNode[0] : nodeList[0];
+          } else {
+            $scope.selected = nodeList[0];
+            nodeName = nodeList[0].name;
+          }
+        }
+        $scope.nodes = nodeList;
+      }, true);
+
+      $scope.sort = NodeListInfo.sort;
+      $scope.sortBy = NodeListInfo.sortBy;
+      $scope.sortClass = NodeListInfo.sortClass;
+
+      $scope.isActive = function (node) {
+        return node.name === nodeName;
+      };
+
+      $scope.isSameVersion = function(nodeVersion){
+        return version ? nodeVersion.build_hash === version.hash : true;
+      };
+
     };
 
-    $scope.isSameVersion = function(nodeVersion){
-       return version ? nodeVersion.build_hash === version.hash : true;
-    };
+    render($route.current.params.node_name);
 
   })
-  .controller('NodeDetailController', function ($scope, $interval, $routeParams, $http, $filter,
-                                                ClusterState, prepareNodeList, NodeHealth, compareByHealth) {
+  .controller('NodeDetailController', function ($scope, $interval, $route, $http, $filter,
+        ClusterState, prepareNodeList, NodeHealth, compareByHealth) {
     $scope.node = null;
     $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
@@ -89,47 +104,65 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     };
     var version = null;
 
-    $scope.$watch(function() { return ClusterState.data; }, function (data) {
-      var cluster = data.cluster;
-      version = data.version;
-      var showSidebar = cluster.length > 0;
-
-      $scope.renderSidebar = showSidebar;
-
-      var nodeList = prepareNodeList(cluster);
-
-      if (!showSidebar) {
-        // no sidebar
-        $scope.node = angular.copy(empty);
-      } else {
-        // sort nodes by health and hostname
-        nodeList = nodeList.sort(compareByHealth);
-        // show sidebar
-        var nodeName = $routeParams.node_name;
-        var nodeNames = nodeList.map(function(obj){
-          return obj.name;
-        });
-        if (nodeName && nodeNames.indexOf(nodeName)>=0) {
-          var selectedNode = nodeList.filter(function(node, idx) {
-            return node.name == $routeParams.node_name;
-          });
-          $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
-        } else {
-          $scope.node = nodeList[0];
-        }
+    // http://stackoverflow.com/a/14329570/1143231
+    // http://stackoverflow.com/a/12429133/1143231
+    var lastRoute = $route.current;
+    $scope.$on('$locationChangeSuccess', function(event) {
+      if ($route.current.$$route.controller === 'NodeDetailController') {
+        var params = $route.current.params;
+        render(params.node_name);
+        $route.current = lastRoute;
+        // apply new params to old route
+        $route.current.params = params;
       }
-    }, true);
+    });
 
-    // sidebar button handler (mobile view)
-    $scope.toggleSidebar = function() {
-      $("#wrapper").toggleClass("active");
+    var render = function render(nodeName){
+
+      $scope.$watch(function() { return ClusterState.data; }, function (data) {
+        var cluster = data.cluster;
+        version = data.version;
+        var showSidebar = cluster.length > 0;
+
+        $scope.renderSidebar = showSidebar;
+
+        var nodeList = prepareNodeList(cluster);
+
+        if (!showSidebar) {
+          // no sidebar
+          $scope.node = angular.copy(empty);
+        } else {
+          // sort nodes by health and hostname
+          nodeList = nodeList.sort(compareByHealth);
+          // show sidebar
+          var nodeNames = nodeList.map(function(obj){
+            return obj.name;
+          });
+          if (nodeName && nodeNames.indexOf(nodeName)>=0) {
+            var selectedNode = nodeList.filter(function(node, idx) {
+              return node.name == nodeName;
+            });
+            $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
+          } else {
+            $scope.node = nodeList[0];
+          }
+        }
+      }, true);
+
+      // sidebar button handler (mobile view)
+      $scope.toggleSidebar = function() {
+        $("#wrapper").toggleClass("active");
+      };
+
+      $scope.isSameVersion = function(nodeVersion){
+        return version ? nodeVersion.build_hash === version.hash : true;
+      };
+
+      // bind tooltips
+      $("[rel=tooltip]").tooltip({ placement: 'top'});
+
     };
 
-    $scope.isSameVersion = function(nodeVersion){
-       return version ? nodeVersion.build_hash === version.hash : true;
-    };
-
-    // bind tooltips
-    $("[rel=tooltip]").tooltip({ placement: 'top'});
+    render($route.current.params.node_name);
 
   });
