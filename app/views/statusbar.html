@@ -1,5 +1,31 @@
-<div ng-controller="StatusBarController">
-  <ul class="nav navbar-nav navbar-right navbar-user">
+<div>
+
+  <ul class="nav navbar-nav navbar-right navbar-notification" ng-controller="NotificationsController">
+    <li class="dropdown">
+      <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-class="{'num-unread': numUnread || showUpdate}"><i class="fa fa-bell"></i></a>
+      <ul class="dropdown-menu notifications">
+        <li class="notification-header"><h3>Notifications</h3><hr /></li>
+        <li class="news-item unread-important" ng-show="showUpdate">
+          <a href="https://crate.io/download">
+            <h3>You're using an old version of Crate.</h3>
+            <div>Please consider updating to the newest version!</div>
+          </a>
+        </li>
+        <li ng-repeat="item in feed.entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
+          <a ng-href="{{ item.link }}" target="_news" ng-click="markAsRead(item)">
+            <h3>{{ item.title }}</h3>
+            <div ng-bind-html="item.preview"></div>
+          </a>
+        </li>
+        <li ng-show="noNotifications"><p>Oh no! There are no notifications yet.</p></li>
+        <li class="notification-footer"><hr /></li>
+        <li class="notification-footer" ng-show="feed.entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
+        <li class="notification-footer"><a href="https://crate.io/blog/category/developernews" target="_news">More</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav navbar-right navbar-user" ng-controller="StatusBarController">
     <li>Cluster: <span class="label label-cluster">{{cluster_name}}</span></li>
     <li>Version: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-SNAPSHOT-{{ version.hash.substr(0,7) }}</span></span></li>
     <li>Nodes: <span class="label">{{ num_nodes }}</span></li>
@@ -11,6 +37,6 @@
       <span class="label label-load15">{{load15}}</span>
     </li>
     <li><a ng-href="{{ docs_url }}" href="" target="_docs"><i class="fa fa-question-circle"></i></a></li>
-    <li>&nbsp;</li>
   </ul>
+
 </div>

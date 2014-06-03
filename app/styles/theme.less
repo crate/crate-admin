@@ -114,52 +114,55 @@ h2 {
   color: #fff;
 }
 
-.navbar-inverse .navbar-user {
-  padding-top: 2px;
+.navbar-inverse {
 
-    li {
-      padding-left:20px;
+    .navbar-right {
+        padding: 2px 5px;
     }
-    li > a {
-      padding-top: 0px;
-      padding-bottom: 0px;
-      color: #fff;
+    .navbar-right > li {
+        padding: 0 10px;
     }
-    li > a:hover {
-      color: @gray-light;
+    .navbar-right > li > a {
+        padding: 0px 5px;
+        color: #fff;
     }
-}
+    .navbar-right > li > a:hover {
+        color: @gray-light;
+    }
 
-.navbar-inverse .alert-success {
-  background-color:@brand-success;
-  color: #fff;
-      span.label.label-success {
-        font-weight: bold;
-      }
-}
 
-.navbar-inverse .alert-warning,
-.navbar-inverse .alert-warning .label {
-  background-color:@brand-warning;
-  color: #000;
+    .alert-success {
+        background-color:@brand-success;
+        color: #fff;
+        span.label.label-success {
+            font-weight: bold;
+        }
+    }
 
-    .navbar-user li > a {
-      color: #000;
-    }
-    .navbar-user li > a:hover {
-      color: #fff;
-    }
-    span.label.label-warning {
-      font-weight: bold;
-    }
-}
+    .alert-warning,
+    .alert-warning .label {
+        background-color:@brand-warning;
+        color: #000;
 
-.navbar-inverse .alert-danger {
-  background-color:@brand-danger;
-  color: #fff;
-    span.label.label-danger {
-      font-weight: bold;
+        .navbar-user li > a {
+            color: #000;
+        }
+        .navbar-user li > a:hover {
+            color: #fff;
+        }
+        span.label.label-warning {
+            font-weight: bold;
+        }
     }
+
+    .alert-danger {
+        background-color:@brand-danger;
+        color: #fff;
+        span.label.label-danger {
+            font-weight: bold;
+        }
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -484,4 +487,90 @@ form {
     background-color: #f0f0f0;
     border: 1px solid #efefef;
     padding: 5px 10px;
+}
+
+
+//
+// Notifications
+// --------------------------------------------------
+
+ul.navbar-notification {
+    .dropdown {
+        padding-right: 0px;
+    }
+    .dropdown a {
+        border-radius: 2px;
+    }
+    .dropdown a.num-unread {
+        color: #fff;
+        background: @brand-danger;
+    }
+    .dropdown.open a.num-unread {
+        color: @brand-danger;
+    }
+}
+ul.notifications {
+    width: 400px;
+
+    li.notification-header,
+    li.notification-footer {
+        text-transform: none;
+        text-align: center;
+        hr {
+            margin: 1px 0;
+        }
+        h3 {
+            font-size: 18px;
+            margin: 5px 0;
+            color: @gray;
+        }
+        a {
+            font-weight: bold;
+            font-size: 14px;
+            color: @gray;
+        }
+    }
+
+    li {
+        a {
+            white-space: normal;
+            display: block;
+        }
+        h3 {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 5px 0 0 0;
+        }
+        div, p {
+            font-size: 15px;
+            color: @gray;
+            text-transform: none;
+        }
+        p {
+            margin: 20px;
+        }
+    }
+
+    li.unread {
+        border-left: 3px solid #000;
+        background-color: lighten(@brand-warning, 40%);
+        a:hover {
+            background-color: lighten(@brand-warning, 30%);
+        }
+        div {
+            font-color: #000;
+        }
+    }
+
+    li.unread-important {
+        border-left: 3px solid #000;
+        background-color: lighten(@brand-danger, 30%);
+        a:hover {
+            background-color: lighten(@brand-danger, 20%);
+        }
+        div {
+            font-color: #000;
+        }
+    }
+
 }

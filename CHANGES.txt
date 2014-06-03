@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - display developer news notifications
+
 2014/05/19 0.7.3
 ================
 
