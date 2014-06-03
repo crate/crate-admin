@@ -6,6 +6,7 @@ var crateAdminApp = angular.module('crateAdminApp', [
   'stats',
   'common',
   'overview',
+  'feed',
   'tutorial',
   'console',
   'tables',
