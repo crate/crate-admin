@@ -7,20 +7,20 @@
         <li class="notification-header"><h3>Notifications</h3><hr /></li>
         <li class="news-item unread-important" ng-show="showUpdate">
           <a href="https://crate.io/download">
-            <h3>You're using an old version of Crate.</h3>
-            <div>Please consider updating to the newest version!</div>
+            <h3>You're using an old version ({{ serverVersion }}) of Crate</h3>
+            <div>Please consider updating to version {{ stableVersion }}!</div>
           </a>
         </li>
-        <li ng-repeat="item in feed.entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
-          <a ng-href="{{ item.link }}" target="_news" ng-click="markAsRead(item)">
-            <h3>{{ item.title }}</h3>
+        <li ng-repeat="item in entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
+          <a ng-href="{{ item.permalink }}" target="_news" ng-click="markAsRead(item)">
+            <h3 ng-bind-html="item.title"></h3>
             <div ng-bind-html="item.preview"></div>
           </a>
         </li>
         <li ng-show="noNotifications"><p>Oh no! There are no notifications yet.</p></li>
         <li class="notification-footer"><hr /></li>
-        <li class="notification-footer" ng-show="feed.entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
-        <li class="notification-footer"><a href="https://crate.io/blog/category/developernews" target="_news">More</a></li>
+        <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
+        <li class="notification-footer"><a ng-href="{{ blog_url }}" target="_news">More</a></li>
       </ul>
     </li>
   </ul>

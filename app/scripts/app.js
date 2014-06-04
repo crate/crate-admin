@@ -2,6 +2,7 @@
 
 var crateAdminApp = angular.module('crateAdminApp', [
   'ngRoute',
+  'truncate',
   'sql',
   'stats',
   'common',
