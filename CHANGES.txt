@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: round percentage of available and underreplicated data correctly
+
 2014/06/04 0.8.0
 ================
 
