@@ -8,6 +8,7 @@
   "dependencies": {
     "angular": "~1.2.16",
     "angular-route": "~1.2.4",
+    "angular-truncate": "",
     "json3": "~3.2.4",
     "jquery": "~1.9.1",
     "jquery.cookie": "~1.4.0",

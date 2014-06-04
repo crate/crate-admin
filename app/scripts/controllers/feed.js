@@ -2,11 +2,10 @@
 
 angular.module('feed', ['stats'])
   .factory('FeedService', function($http){
-    var PROXY_URL = 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={num}&callback=JSON_CALLBACK&q={q}';
+    var FEED_SUFFIX = '/feed/json?callback=JSON_CALLBACK';
     return {
-      parse: function(q, num) {
-        var url = PROXY_URL.replace('{num}',String(num)).replace('{q}', encodeURIComponent(q));
-        return $http.jsonp(url);
+      parse: function(url) {
+        return $http.jsonp(url + FEED_SUFFIX, {cache: false});
       }
     };
   })
@@ -29,21 +28,20 @@ angular.module('feed', ['stats'])
       }
     };
   })
-  .controller('NotificationsController', function ($scope, $sce, $http, FeedService, NotificationService, ClusterState) {
-    var FEED_URL = 'https://crate.io/blog/category/developernews/feed';
+  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState) {
+    var BLOG_URL = 'https://crate.io/blog/category/developernews';
     var MAX_ITEMS = 5;
     var VERSION_URL = 'https://crate.io/versions.json';
     var stableVersion;
 
     $scope.showUpdate = false;
     $scope.numUnread = 0;
-    $scope.feed = {
-      entries: []
-    };
+    $scope.entries = [];
+    $scope.blog_url = BLOG_URL;
 
     var markAsRead = function markAsRead(item){
       if (item === 'all') {
-        var all = $scope.feed.entries;
+        var all = $scope.entries;
         for (var i=0; i<all.length; i++) {
           NotificationService.markAsRead(all[i].id);
         }
@@ -67,28 +65,28 @@ angular.module('feed', ['stats'])
       if (response && response.crate) stableVersion = response.crate;
     });
 
-    FeedService.parse(FEED_URL, MAX_ITEMS).then(function(response){
-      var result = response.data;
-      if (result.responseData && result.responseStatus === 200) {
-        var feed = result.responseData.feed;
-        var entries = feed.entries;
+    FeedService.parse(BLOG_URL, MAX_ITEMS).then(function(result){
+      var trunc = $filter('characters');
+      if (result.status === 200 && result.data.length > 0) {
+        var entries = result.data.splice(0, MAX_ITEMS);
         var unread = entries.length;
         entries.map(function(item, idx){
-          item.preview = $sce.trustAsHtml(item.contentSnippet);
-          item.timestamp = new Date(item.publishedDate);
+          item.title = $sce.trustAsHtml(item.title);
+          item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
+          item.timestamp = new Date(item.date);
           item.id = item.timestamp.getTime().toString(32);
           if (isRead(item)) unread--;
         });
-        $scope.feed = feed;
+        $scope.entries = entries;
         $scope.numUnread = unread;
-      } else {
-        console.warn(result);
       }
     });
 
     $scope.$watch(function(){ return ClusterState.data; }, function(data) {
       $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
-      $scope.noNotifications = (!$scope.showUpdate && $scope.feed.entries.length === 0);
+      $scope.stableVersion = stableVersion;
+      $scope.serverVersion = data.version ? data.version.number : '';
+      $scope.noNotifications = (!$scope.showUpdate && $scope.entries.length === 0);
     }, true);
 
     $scope.noNotifications = true;

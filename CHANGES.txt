@@ -5,6 +5,10 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - display newest version and server version in update alert
+
+ - fetch json feed for notifications directly from crate.io
+
  - display developer news notifications
 
 2014/05/19 0.7.3
