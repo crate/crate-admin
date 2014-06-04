@@ -19,7 +19,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel" ng-class="{'panel-warning': replicated_data < 100}">
           <div class="panel-heading">
-            <p class="announcement-heading">{{replicated_data | number:1}}%</p>
+            <p class="announcement-heading">{{replicated_data | floor:1}}%</p>
             <p class="announcement-text">Full replicated Data</p>
           </div>
         </div>
@@ -28,7 +28,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel" ng-class="{'panel-danger': available_data < 100}">
           <div class="panel-heading">
-            <p class="announcement-heading">{{available_data | number:1}}%</p>
+            <p class="announcement-heading">{{available_data | floor:1}}%</p>
             <p class="announcement-text">Available Data</p>
           </div>
         </div>

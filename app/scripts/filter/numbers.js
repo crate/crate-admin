@@ -1,6 +1,12 @@
 'use strict';
 
 angular.module('common')
+  .filter('floor', function($filter){
+    return function(value, fraction) {
+      var n = Math.pow(10, fraction);
+      return $filter('number')(Math.floor(value*n)/n, fraction);
+    };
+  })
   .filter('roundWithUnit', function($filter, $sce) {
     return function(input, fraction) {
       if (fraction == undefined) {
