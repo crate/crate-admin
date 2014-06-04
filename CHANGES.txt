@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - make table that displays table partitions horizontally scrollable
+
  - display newest version and server version in update alert
 
  - fetch json feed for notifications directly from crate.io
