@@ -102,6 +102,14 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }
     });
 
+    // bind tooltips
+    $("[rel=tooltip]").tooltip({ placement: 'top'});
+
+    // sidebar button handler (mobile view)
+    $scope.toggleSidebar = function() {
+      $("#wrapper").toggleClass("active");
+    };
+
     var render = function render(schemaName, tableName){
 
       $scope.ptCtlr = new PartitionsTableController();
@@ -251,14 +259,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.startedShardsError = function(table) {
         if (table.partitioned && table.shards_started === 0) return false;
         return (table.shards_started < table.shards_configured);
-      };
-
-      // bind tooltips
-      $("[rel=tooltip]").tooltip({ placement: 'top'});
-
-      // sidebar button handler (mobile view)
-      $scope.toggleSidebar = function() {
-        $("#wrapper").toggleClass("active");
       };
 
       $scope.toggleElements = function(index) {

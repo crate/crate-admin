@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/06/06 0.8.2
+================
+
+ - fix: make table list and node list available in mobile view
+
 2014/06/04 0.8.1
 ================
 
