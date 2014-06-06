@@ -8,8 +8,10 @@
       <div class="row">
         <div class="col-lg-11 col-md-11">
           <div class="page-header">
-            <h1>{{node.name}}</h1>
-            <div id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="icon-reorder"></i></div>
+            <h1>
+              <a id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="fa fa-bars"></i></a>
+              {{node.name}}
+            </h1>
           </div>
         </div>
       </div><!-- /.row -->
