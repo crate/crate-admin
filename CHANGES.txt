@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/06/16 0.7.5
+================
+
  - fix: round percentage of available and underreplicated data correctly
 
  - fixed ui glitch that caused right column content to be cut off
