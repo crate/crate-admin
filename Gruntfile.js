@@ -204,7 +204,7 @@ module.exports = function (grunt) {
     'string-replace': {
       dist: {
         files: {
-          '<%= crate.dist %>/styles/': '<%= crate.dist %>/styles/*.css',
+          '<%= crate.dist %>/styles/': '<%= crate.dist %>/styles/*.css'
         },
         options: {
           replacements: [{

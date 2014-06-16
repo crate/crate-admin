@@ -36,7 +36,7 @@ angular.module('tableinfo', ['sql'])
       };
       this.underreplicatedShards = function underreplicatedShards() {
         return this.shards.filter(function(obj, idx){
-          return obj.state === 'UNASSIGNED' && obj.primary === false;
+          return (obj.state != 'STARTED' || obj.state != 'RELOCATING') && obj.primary === false;
         }).reduce(function(memo, obj, idx){
           return obj.count + memo;
         }, 0);

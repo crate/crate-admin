@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: include initializing shards in calculation for underreplicated shards
+
 2014/06/06 0.8.2
 ================
 
