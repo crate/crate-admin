@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fixed ui glitch that caused right column content to be cut off
+
  - make table that displays table partitions horizontally scrollable
 
 2014/06/06 0.7.4
