@@ -36,7 +36,8 @@ angular.module('tableinfo', ['sql'])
       };
       this.underreplicatedShards = function underreplicatedShards() {
         return this.shards.filter(function(obj, idx){
-          return obj.state === 'UNASSIGNED' && obj.primary === false;
+          var active = obj.state in {'STARTED':'', 'RELOCATING':''};
+          return !active && obj.primary === false;
         }).reduce(function(memo, obj, idx){
           return obj.count + memo;
         }, 0);
@@ -67,7 +68,7 @@ angular.module('tableinfo', ['sql'])
           if (this.partitioned && this.startedShards() === 0) return 'good';
           if (this.primaryShards().length === 0) return 'critical';
           if (this.missingShards() > 0) return 'critical';
-          if (this.unassignedShards() > 0) return 'warning';
+          if (this.unassignedShards() > 0 || this.underreplicatedShards()) return 'warning';
           return 'good';
       };
       this.asObject = function asObject() {
