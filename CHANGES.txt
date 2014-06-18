@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - changed font in console for better readability
+
  - fixed ui glitch that caused right column content to be cut off
 
  - fix: include initializing shards in calculation for underreplicated shards
