@@ -55,6 +55,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
   .controller('TableDetailController', function ($scope, $location, $log, $timeout, $route,
         SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
 
+    var activeRequests = {};
     var _tables = [];
     var refreshInterval = 5000;
     var timeout = null;
@@ -93,6 +94,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     // http://stackoverflow.com/a/12429133/1143231
     var lastRoute = $route.current;
     $scope.$on('$locationChangeSuccess', function(event) {
+      cancelRequests();
       if ($route.current.$$route.controller === 'TableDetailController') {
         var params = $route.current.params;
         render(params.schema_name, params.table_name);
@@ -108,6 +110,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
       $("#wrapper").toggleClass("active");
+    };
+
+    var cancelRequests = function cancelRequests() {
+      $timeout.cancel(timeout);
+      for (var k in activeRequests) {
+        var request = activeRequests[k];
+        request.cancel();
+      }
+      activeRequests = {};
     };
 
     var render = function render(schemaName, tableName){
@@ -126,6 +137,9 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.table = current;
           $scope.nothingSelected = current === null;
           $scope.renderSidebar = true;
+          if ($scope.table.partitioned) {
+            fetchPartitions();
+          }
         } else {
           $scope.table = placeholder;
           $scope.nothingSelected = false;
@@ -133,18 +147,18 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.renderSchema = false;
           $scope.renderPartitions = false;
         }
-        fetch();
       }, true);
 
-      var fetch = function fetch(){
+      var fetchPartitions = function fetchPartitions(){
         $timeout.cancel(timeout);
-        if (!tableName || !schemaName || !$scope.table.partitioned) return;
+        if (!tableName || !schemaName) return;
+        var requestId = 'r' + new Date().getTime();
         // Table Partitions
         var stmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
               'from sys.shards ' +
               'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
               'group by partition_ident, "primary", state';
-        SQLQuery.execute(stmt, [schemaName, tableName]).success(function(query){
+        var q = SQLQuery.execute(stmt, [schemaName, tableName]).success(function(query){
           var result = queryResultToObjects(query,
                                             ['partition_ident','sum_docs','primary','avg_docs','count','state','size']);
           var idents = result.reduce(function(memo, obj, idx){
@@ -167,18 +181,20 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             partitions.push(o);
           }
 
+          delete activeRequests[requestId];
           update(true, partitions);
         }).error(function(query){
+          delete activeRequests[requestId];
           update(false, []);
         });
-
+        activeRequests[requestId] = q;
       };
 
       var update = function update(success, partitions){
         $scope.ptCtlr.data = partitions;
         $scope.renderPartitions = success;
         $scope.renderSchema = success;
-        timeout = $timeout(fetch, refreshInterval);
+        timeout = $timeout(fetchPartitions, refreshInterval);
       };
 
       if (tableName && schemaName) {
@@ -206,7 +222,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     };
 
-    render($route.current.params.schema_name, $route.current.params.table_name);
+    render($route.current.params.schema_name,
+           $route.current.params.table_name);
 
   })
   .controller('TableListController', function ($scope, $route,
