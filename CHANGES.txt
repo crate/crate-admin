@@ -11,6 +11,11 @@ Unreleased
 
  - fix: include initializing shards in calculation for underreplicated shards
 
+2014/06/24 0.8.3
+================
+
+ - fix: ui showed partitions from previously selected table
+
 2014/06/06 0.8.2
 ================
 
