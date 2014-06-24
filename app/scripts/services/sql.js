@@ -63,6 +63,8 @@ angular.module('sql', [])
       if (args != undefined) {
         data.args = args;
       }
+
+      var canceler = $q.defer();
       var deferred = $q.defer();
       var promise = deferred.promise;
 
@@ -80,11 +82,15 @@ angular.module('sql', [])
         return promise;
       };
 
+      promise.cancel = function() {
+        canceler.reject();
+      };
+
       var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
       if (localStorage.getItem("crate.base_uri") != null) {
         baseURI = localStorage.getItem("crate.base_uri");
       }
-      $http.post(baseURI+"/_sql", data).
+      $http.post(baseURI+"/_sql", data, {'timeout': canceler.promise}).
         success(function(data, status, headers, config) {
           deferred.resolve(new SQLQuery(stmt, data, null));
         }).
