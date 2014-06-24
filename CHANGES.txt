@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: ui showed partitions from previously selected table
+
 2014/06/16 0.7.5
 ================
 
