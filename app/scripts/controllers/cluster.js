@@ -96,9 +96,9 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       },
       'fs': {
         'total': 0,
-        'free': 0,
+        'available': 0,
         'used': 0,
-        'free_percent': 0,
+        'available_percent': 0,
         'used_percent': 0
       }
     };
@@ -117,10 +117,41 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }
     });
 
+    var aggregateDataDiskUtilisation = function aggregateDataDiskUtilisation(node) {
+      var fs = {
+        total: 0,
+        available: 0,
+        used: 0,
+        available_percent: 0,
+        used_percent: 0
+      };
+      if (node.fs.data) {
+        var dataDisks = [];
+        for (var k=0; k<node.fs.data.length; k++) {
+          dataDisks.push(node.fs.data[k].dev);
+        }
+        for (var j=0; j<node.fs.disks.length; j++) {
+          var disk = node.fs.disks[j];
+          var isDataDisk = dataDisks.indexOf(disk.dev) > -1;
+          if (isDataDisk) {
+            fs.total += disk.size;
+            fs.available += disk.available;
+            fs.used += disk.used;
+          }
+        }
+        fs.available_percent = 100.0 * fs.available / fs.total;
+        fs.used_percent = 100.0 * fs.used / fs.total;
+      }
+      return fs;
+    };
+
     var render = function render(nodeName){
 
       $scope.$watch(function() { return ClusterState.data; }, function (data) {
-        var cluster = data.cluster;
+        var cluster = angular.copy(data.cluster);
+        for (var i=0; i<cluster.length; i++) {
+          cluster[i].fs = aggregateDataDiskUtilisation(cluster[i]);
+        }
         version = data.version;
         var showSidebar = cluster.length > 0;
 
