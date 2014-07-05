@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/07/05 0.9.0
+================
+
  - use new sys.nodes.fs expression in order to
    calculate disk utilization of data disks correctly
 
