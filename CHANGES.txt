@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/07/22 0.9.1
+================
+
  - fix: do not append limit to insert by query statement
 
 2014/07/05 0.9.0
