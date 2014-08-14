@@ -121,7 +121,7 @@ angular.module('console', ['sql'])
 
       if (stmt === "") return;
       stmt = stmt.replace(/([^;]);+$/, "$1");
-      if (stmt.match(/select/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
+      if (stmt.match(/^\s*select\s/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
 
       updateRecentQueries(stmt);
       selectStatementInput();
