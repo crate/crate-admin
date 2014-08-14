@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: display number of records and started shards correctly
+   if table and blob table have the same name
+
 2014/07/05 0.9.0
 ================
 
