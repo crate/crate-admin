@@ -134,7 +134,7 @@ angular.module('tableinfo', ['sql'])
         for (var i=0; i<_tables.length; i++) {
           var table = _tables[i];
           var shardsForTable = _shards.filter(function(shard, idx) {
-            return shard.table_name === table.name;
+            return shard.table_name === table.name && shard.schema_name == table.schema_name;
           });
           var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by);
           var info = tableInfo.asObject();
