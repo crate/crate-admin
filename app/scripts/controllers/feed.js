@@ -61,7 +61,7 @@ angular.module('feed', ['stats'])
       return false;
     };
 
-    $http.get(VERSION_URL).success(function(response){
+    $http.get(VERSION_URL, { withCredentials: true }).success(function(response){
       if (response && response.crate) stableVersion = response.crate;
     });
 
