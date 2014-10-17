@@ -1,161 +1,213 @@
 'use strict';
 
 angular.module('console', ['sql'])
-  .controller('ConsoleController', function ($scope, $http, $location, SQLQuery, $log, $timeout) {
+  .directive('console', function(SQLQuery, $timeout){
+    return {
+      restrict: 'A',
+      controller: function($scope){
 
-    $scope.statement = "";
-    $scope.typedStatement = "";
-    $scope.rows = [];
+        var inputScope = null;
+        var rows = [];
+        var resultHeaders = [];
+        var renderTable = false;
+        var recentQueries = [];
 
-    $scope.resultHeaders = [];
-    $scope.renderTable = false;
-    $scope.error = {
-      hide: true,
-      message: ''
-    };
-    $scope.info = {
-      hide: true,
-      message: ''
-    };
+        $scope.error = {
+          hide: true,
+          message: ''
+        };
+        $scope.info = {
+          hide: true,
+          message: ''
+        };
 
-    var loadingIndicator = Ladda.create(document.querySelector('button[type=submit]'));
+        this.setInputScope = function(scope) {
+          inputScope = scope;
+        };
 
-    $scope.storeInLocalStorageChanged = function() {
-      localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? "1" : "0");
-    };
+        var loadingIndicator = Ladda.create(document.querySelector('button[type=submit]'));
 
-    var getRecentQueriesFromLocalStorage = function() {
-      var queryList = localStorage.getItem("crate.console.query_list");
-      $scope.recentQueries = queryList ? JSON.parse(queryList) : [];
-    };
+        $scope.storeInLocalStorageChanged = function() {
+          localStorage.setItem('crate.console.store_queries', useLocalStorage === true ? "1" : "0");
+        };
 
-    var updateRecentQueries = function(stmt) {
-      if ($scope.useLocalStorage) {
-        getRecentQueriesFromLocalStorage();
-      }
-      if ($scope.recentQueries[$scope.recentQueries.length -1] !== stmt) {
-        $scope.recentQueries.push(stmt + ";");
-      }
-      if ($scope.useLocalStorage) {
-        localStorage.setItem("crate.console.query_list", JSON.stringify($scope.recentQueries));
-      }
-      $scope.typedStatement = "";
-      $scope.recentCursor = -1;
-    };
+        var getRecentQueriesFromLocalStorage = function() {
+          var queryList = localStorage.getItem("crate.console.query_list");
+          recentQueries = queryList ? JSON.parse(queryList) : [];
+        };
 
-    $scope.hide = function hide(item){
-      item.hide = true;
-      item.message = '';
-    };
-
-    $scope.toggleOptions = function toggleOptions(){
-      $('#console-options').slideToggle();
-      $scope.info.hide = true;
-      $scope.info.message = '';
-    };
-
-    $scope.clearLocalStorage = function() {
-      var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
-      localStorage.setItem("crate.console.query_list", JSON.stringify([]));
-      $scope.recentCursor = 0;
-      $scope.recentQueries = [];
-      var msg = history.length == 1 ? "1 entry in console history has been cleared." :
-            history.length + " entries in console history have been cleared.";
-      $scope.info.message = msg;
-      $scope.info.hide = false;
-    };
-
-    var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
-    $scope.useLocalStorage = !!parseInt(doStoreQueries);
-    $scope.recentCursor = 0;
-    getRecentQueriesFromLocalStorage();
-
-    $scope.stmtKeyDown = function(event) {
-      var cursorPos = event.target.selectionStart,
-          queryCount, semicolonPos;
-      if (!event.shiftKey && event.keyCode === 38) {
-        // UP KEY
-        if (cursorPos === 0) {
-          queryCount = $scope.recentQueries.length;
-          if (queryCount + $scope.recentCursor > 0) {
-            if ($scope.recentCursor === 0) {
-              $scope.typedStatement = $scope.statement;
-            }
-            $scope.recentCursor--;
-            $scope.statement = $scope.recentQueries[queryCount + $scope.recentCursor];
-            selectStatementInput();
+        var updateRecentQueries = function(stmt) {
+          if (useLocalStorage) {
+            getRecentQueriesFromLocalStorage();
           }
-        }
-      } else if (!event.shiftKey && event.keyCode === 40) {
-        // DOWN KEY
-        if (cursorPos >= event.target.textLength || cursorPos === 0 && event.target.selectionEnd === $scope.statement.length) {
-          queryCount = $scope.recentQueries.length;
-          if (queryCount + $scope.recentCursor < queryCount) {
-            $scope.recentCursor++;
-            $scope.statement = $scope.recentQueries[queryCount + $scope.recentCursor] || $scope.typedStatement;
-            selectStatementInput();
+          if (recentQueries[recentQueries.length -1] !== stmt) {
+            recentQueries.push(stmt + ";");
           }
-        }
-      } else if (event.keyCode === 13) {
-        // ENTER KEY
-        semicolonPos = $scope.statement.indexOf(';');
-        if (!!event.shiftKey || semicolonPos !== -1 && (semicolonPos < cursorPos || cursorPos != event.target.selectionEnd)) {
-          event.preventDefault();
-          $scope.execute();
-        }
-      }
-    };
+          if (useLocalStorage) {
+            localStorage.setItem("crate.console.query_list", JSON.stringify(recentQueries));
+          }
+          inputScope.recentCursor = -1;
+        };
 
-    $scope.stmtChange = function(event) {
-      $scope.recentCursor = 0;
-    };
+        $scope.hide = function hide(item){
+          item.hide = true;
+          item.message = '';
+        };
 
-    var selectStatementInput = function() {
-      $timeout(function() {
-        $("#console-statement-input").select();
-      }, 1);
-    };
-
-    $scope.execute = function() {
-      var stmt = $scope.statement;
-
-      if (stmt === "") return;
-      stmt = stmt.replace(/([^;]);+$/, "$1");
-      if (stmt.match(/^\s*select\s/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
-
-      updateRecentQueries(stmt);
-      selectStatementInput();
-
-      loadingIndicator.start();
-
-      SQLQuery.execute(stmt).
-        success(function(sqlQuery) {
-          loadingIndicator.stop();
-          $scope.error.hide = true;
-          $scope.error.message = '';
+        $scope.toggleOptions = function toggleOptions(){
+          $('#console-options').slideToggle();
           $scope.info.hide = true;
           $scope.info.message = '';
-          $scope.renderTable = true;
+        };
 
-          $scope.resultHeaders = [];
-          for (var col in sqlQuery.cols) {
+        $scope.clearLocalStorage = function() {
+          var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
+          localStorage.setItem("crate.console.query_list", JSON.stringify([]));
+          inputScope.recentCursor = 0;
+          recentQueries = [];
+          var msg = history.length == 1 ? "1 entry in console history has been cleared." :
+            history.length + " entries in console history have been cleared.";
+          $scope.info.message = msg;
+          $scope.info.hide = false;
+        };
+
+        var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
+        var useLocalStorage = !!parseInt(doStoreQueries);
+        getRecentQueriesFromLocalStorage();
+
+
+        this.execute = function(sql) {
+          var stmt = sql.replace(/^\s+|\s+$/g, '');
+
+          if (stmt === "") return;
+          stmt = stmt.replace(/([^;]);+$/, "$1");
+          if (stmt.match(/^\s*select\s/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
+
+          updateRecentQueries(stmt);
+
+          loadingIndicator.start();
+
+          SQLQuery.execute(stmt)
+          .success(function(sqlQuery) {
+            loadingIndicator.stop();
+            $scope.error.hide = true;
+            $scope.error.message = '';
+            $scope.info.hide = true;
+            $scope.info.message = '';
+            $scope.renderTable = true;
+
+            $scope.resultHeaders = [];
+            for (var col in sqlQuery.cols) {
               $scope.resultHeaders.push(sqlQuery.cols[col]);
-          }
+            }
 
-          $scope.rows = sqlQuery.rows;
-          $scope.status = sqlQuery.status();
-          $scope.statement = stmt + ";";
-          selectStatementInput();
-        }).
-        error(function(sqlQuery) {
-          loadingIndicator.stop();
-          $scope.error.hide = false;
-          $scope.renderTable = false;
-          $scope.error.message = sqlQuery.error.message;
-          $scope.status = sqlQuery.status();
-          $scope.rows = [];
-          $scope.resultHeaders = [];
-        });
+            $scope.rows = sqlQuery.rows;
+            $scope.status = sqlQuery.status();
+            $scope.statement = stmt + ";";
+
+            inputScope.updateInput($scope.statement);
+          })
+          .error(function(sqlQuery) {
+            loadingIndicator.stop();
+            $scope.error.hide = false;
+            $scope.renderTable = false;
+            $scope.error.message = sqlQuery.error.message;
+            $scope.status = sqlQuery.status();
+            $scope.rows = [];
+            $scope.resultHeaders = [];
+          });
+        };
+
+        this.recentQueries = recentQueries;
+
+      }
     };
+  })
+  .directive('cli', function($timeout){
+    return {
+      restrict: 'E',
+      transclude: true,
+      templateUrl: 'views/editor.html',
+      scope: {
+        mimeType: '=',
+        theme: '='
+      },
+      require: '^console',
+      link: function($scope, element, attrs, $console) {
 
+        $console.setInputScope($scope);
+
+        $scope.recentCursor = 0;
+
+        $scope.updateInput = function(stmt){
+          selectStatementInput(stmt);
+        };
+
+        var statement = "";
+        var typedStatement = "";
+
+        var input = $('textarea',element)[0];
+
+        var selectStatementInput = function(stmt) {
+          if (stmt) {
+            editor.setValue(stmt);
+          }
+          $timeout(function() {
+            editor.execCommand('selectAll');
+          }, 10);
+        };
+
+        var editor = CodeMirror.fromTextArea(input, {
+          mode: attrs.mimeType,
+          theme: attrs.theme
+        });
+
+        // input change event
+        editor.on('change', function(instance, changeObj){
+          statement = instance.getValue();
+        });
+
+        // key down event
+        editor.on('keydown', function(instance, event){
+          var cursorPos = event.target.selectionStart,
+              queryCount = $console.recentQueries.length,
+              semicolonPos = statement.indexOf(';'),
+              cursor = instance.getCursor(),
+              selection = instance.getSelection();
+
+          if (!event.shiftKey && event.keyCode === 38) {
+            // UP KEY
+            if ((cursor.ch === 0 && cursor.line === 0) || (cursor.line === 0 && selection === statement)) {
+              if ($scope.recentCursor === 0) {
+                typedStatement = statement;
+              }
+              $scope.recentCursor--;
+              statement = $console.recentQueries[queryCount + $scope.recentCursor];
+              selectStatementInput(statement);
+            }
+          } else if (!event.shiftKey && event.keyCode === 40) {
+            // DOWN KEY
+            if (cursorPos >= event.target.textLength || cursorPos === 0 && event.target.selectionEnd === statement.length) {
+              if (queryCount + $scope.recentCursor < queryCount) {
+                $scope.recentCursor++;
+                statement = $console.recentQueries[queryCount + $scope.recentCursor] || typedStatement;
+                selectStatementInput(statement);
+              }
+            }
+          } else if (event.keyCode === 13 && !!event.shiftKey) {
+            // ENTER KEY
+            if (semicolonPos != -1) {
+              event.preventDefault();
+              $console.execute(statement);
+              typedStatement = '';
+            }
+          } else {
+            $scope.recentCursor = 0;
+          }
+        });
+
+      }
+    };
+  })
+  .controller('ConsoleController', function ($scope, $http, $location, SQLQuery, $log, $timeout) {
   });

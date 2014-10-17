@@ -1,12 +1,14 @@
 'use strict';
 
 var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
+  var path = require('path');
+  return connect.static(path.resolve(dir));
 };
 
 module.exports = function (grunt) {
   // load all grunt tasks
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  var matchDep = require('matchdep');
+  matchDep.filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   var bower = require('./bower.json');
   var pkg = require('./package.json');
@@ -53,7 +55,7 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '<%= crate.tmp %>',
-            '<%= crate.dist %>',
+            '<%= crate.dist %>'
           ]
         }]
       },
@@ -152,7 +154,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp,svg}',
-            'fonts/**',
+            'fonts/**'
           ]
         }, {
           expand: true,
@@ -160,7 +162,7 @@ module.exports = function (grunt) {
           dest: '<%= crate.dist %>/fonts',
           src: [
             'bower_components/font-awesome/fonts/*',
-            'bower_components/bootstrap/dist/fonts/*',
+            'bower_components/bootstrap/dist/fonts/*'
           ]
         }, {
           expand: true,
@@ -174,7 +176,7 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: [
-        'recess',
+        'recess'
       ],
       dist: [
         'recess',

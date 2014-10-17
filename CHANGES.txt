@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - added syntax highlighting to sql console
+
 2014/08/19 0.9.3
 ================
 

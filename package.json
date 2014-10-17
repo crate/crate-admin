@@ -10,7 +10,7 @@
     "url": "git://github.com/crate/crate-admin.git"
   },
   "engines": {
-    "node": ">= 0.10.25"
+    "node": ">= 0.10.32"
   },
   "devDependencies": {
     "bower": ">= 1.2.8",

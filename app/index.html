@@ -13,6 +13,11 @@
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+    <!-- build:css({.tmp,app}) styles/codemirror.css -->
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="bower_components/codemirror/theme/monokai.css">
+    <!-- endbuild -->
+
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
@@ -24,24 +29,19 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/plugins.js -->
-    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="bower_components/flot/jquery.flot.js"></script>
-    <script src="bower_components/bootstrap/js/affix.js"></script>
-    <script src="bower_components/bootstrap/js/alert.js"></script>
-    <script src="bower_components/bootstrap/js/dropdown.js"></script>
-    <script src="bower_components/bootstrap/js/tooltip.js"></script>
-    <script src="bower_components/bootstrap/js/modal.js"></script>
-    <script src="bower_components/bootstrap/js/transition.js"></script>
-    <script src="bower_components/bootstrap/js/button.js"></script>
-    <script src="bower_components/bootstrap/js/popover.js"></script>
-    <script src="bower_components/bootstrap/js/carousel.js"></script>
-    <script src="bower_components/bootstrap/js/scrollspy.js"></script>
-    <script src="bower_components/bootstrap/js/collapse.js"></script>
-    <script src="bower_components/bootstrap/js/tab.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/ladda-bootstrap/js/spin.js"></script>
     <script src="bower_components/ladda-bootstrap/js/ladda.js"></script>
     <script src="bower_components/purl/purl.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/codemirror.js -->
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/addon/display/placeholder.js"></script>
+    <script src="bower_components/codemirror/mode/sql/sql.js"></script>
     <!-- endbuild -->
 
 
@@ -51,7 +51,7 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
     <!-- endbuild -->
- 
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
 
