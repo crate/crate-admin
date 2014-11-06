@@ -5,6 +5,8 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - added hint to console: press shift+enter to submit query
+
  - fix: UI showed partitions from wrong table after switching between tables
    this could also lead to 'red' partitions if the newly selected table also had partitions
 
