@@ -159,6 +159,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
               'group by partition_ident, "primary", state';
         var q = SQLQuery.execute(stmt, [schemaName, tableName]).success(function(query){
+          if (typeof activeRequests[requestId] == 'undefined') return;
           var result = queryResultToObjects(query,
                                             ['partition_ident','sum_docs','primary','avg_docs','count','state','size']);
           var idents = result.reduce(function(memo, obj, idx){

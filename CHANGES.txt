@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fix: UI showed partitions from wrong table after switching between tables
+   this could also lead to 'red' partitions if the newly selected table also had partitions
+
  - added syntax highlighting to sql console
 
 2014/08/19 0.9.3
