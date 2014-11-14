@@ -1,6 +1,6 @@
 {
   "name": "crate-admin",
-  "description": "Crate Data Admin UI",
+  "description": "Crate Admin UI",
   "version": "0.10.1",
   "author": "Crate Team",
   "homepage": "https://github.com/crate/crate-admin/",

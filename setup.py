@@ -48,8 +48,8 @@ test_requires = requires + [
 
 setup(name='crate-admin',
       version=version,
-      description='Crate Data Admin UI',
-      long_description='Crate Data Admin UI',
+      description='Crate Admin UI',
+      long_description='Crate Admin UI',
       classifiers=[
           "Programming Language :: JavaScript",
       ],
