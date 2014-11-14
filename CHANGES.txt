@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+2014/11/14 0.10.1
+=================
+
  - made console placeholder text darker so you can distinguish better
    between placeholder text and actually written statement
 
