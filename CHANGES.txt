@@ -5,6 +5,11 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - made console placeholder text darker so you can distinguish better
+   between placeholder text and actually written statement
+
+ - fixed 'Execute Query' button in console view
+
 2014/11/06 0.10.0
 =================
 

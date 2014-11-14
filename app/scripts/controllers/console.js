@@ -11,6 +11,7 @@ angular.module('console', ['sql'])
         var resultHeaders = [];
         var renderTable = false;
         var recentQueries = [];
+        var statement = "";
 
         $scope.error = {
           hide: true,
@@ -20,6 +21,7 @@ angular.module('console', ['sql'])
           hide: true,
           message: ''
         };
+
 
         this.setInputScope = function(scope) {
           inputScope = scope;
@@ -76,7 +78,7 @@ angular.module('console', ['sql'])
         getRecentQueriesFromLocalStorage();
 
 
-        this.execute = function(sql) {
+        var execute = function(sql) {
           var stmt = sql.replace(/^\s+|\s+$/g, '');
 
           if (stmt === "") return;
@@ -119,7 +121,14 @@ angular.module('console', ['sql'])
         };
 
         this.recentQueries = recentQueries;
+        this.execute = execute;
+        this.updateStatement = function(stmt) {
+          statement = stmt;
+        };
 
+        $scope.execute = function() {
+          execute(statement);
+        };
       }
     };
   })
@@ -165,6 +174,7 @@ angular.module('console', ['sql'])
         // input change event
         editor.on('change', function(instance, changeObj){
           statement = instance.getValue();
+          $console.updateStatement(statement);
         });
 
         // key down event
@@ -195,7 +205,7 @@ angular.module('console', ['sql'])
               }
             }
           } else if (event.keyCode === 13 && !!event.shiftKey) {
-            // ENTER KEY
+            // SHIFT + ENTER KEY
             if (semicolonPos != -1) {
               event.preventDefault();
               $console.execute(statement);
