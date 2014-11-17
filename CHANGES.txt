@@ -5,6 +5,9 @@ Changes for Crate Data Admin Interface
 Unreleased
 ==========
 
+ - fixed issue that caused clunky scrolling with trackpad
+   in Safari that mainly occured when having a narrow browser width
+
 2014/11/14 0.10.1
 =================
 
