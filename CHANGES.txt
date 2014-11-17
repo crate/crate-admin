@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2014/11/17 0.10.2
+=================
+
  - fixed issue that caused clunky scrolling with trackpad
    in Safari that mainly occured when having a narrow browser width
 
