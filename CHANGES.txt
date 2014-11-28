@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - added `Intercom <https://www.intercom.io>`_ integration
+     Intercom allows you to ask questions and send messages to the Crate
+     team directly from the admin interface. Click on the help button
+     in the menu bar to enable personal support.
+     Click on the icon in the bottom right corner to start writing your questions!
+
 2014/11/17 0.10.2
 =================
 

@@ -13,7 +13,8 @@ var crateAdminApp = angular.module('crateAdminApp', [
   'tables',
   'cluster',
   'tableinfo',
-  'nodeinfo'
+  'nodeinfo',
+  'udc'
 ]);
 
 crateAdminApp.config(['$routeProvider', '$httpProvider',
