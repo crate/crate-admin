@@ -223,7 +223,7 @@ h2 {
 }
 
 .table-hscroll, .query-result-container {
-    overflow: scroll;
+    overflow: auto;
 }
 
 #sidebar-wrapper {
@@ -452,6 +452,14 @@ form {
   margin-top: 30px;
 }
 
+#emailform form {
+    margin: 10px 0;
+}
+
+#emailform input[type='email'] {
+    width: 230px;
+}
+
 table.table-code tbody,
 textarea#console-statement-input {
     font-family: @font-family-monospace;
@@ -461,21 +469,45 @@ textarea#console-statement-input {
 // Buttons
 
 .btn-default {
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 10px;
+    font-weight: bold;
+    background-color: #cfdfdf;
+    border: 1px solid #cfdfdf;
+}
+
+.btn-danger {
+    font-weight: bold;
+    background-color: #efcfcf;
+    border: 1px solid #efcfcf;
+    color: #333;
+}
+
+.btn-default.active,
+.btn-default:active,
+.btn-default:focus,
+.btn-default:hover {
+    font-weight: bold;
+    background-color: #cfcfcf;
+    border: 1px solid #cfcfcf;
 }
 
 .btn-sort {
     color: #333;
     background-color: #efefef;
     border-color: #dfdfdf;
+    font-weight: bold;
 }
 
+.btn-sort.active,
+.btn-sort:active,
+.btn-sort:focus,
 .btn-sort:hover {
     color: #000;
     background-color: #dfdfdf;
     border-color: #cfcfcf;
+}
+
+.btn-small {
+    font-size: inherit;
 }
 
 
@@ -554,6 +586,7 @@ ul.notifications {
             font-weight: bold;
             font-size: 16px;
             margin: 5px 0 0 0;
+            color: #333;
         }
         div, p {
             font-size: 15px;
@@ -562,6 +595,14 @@ ul.notifications {
         }
         p {
             margin: 20px;
+        }
+        .icon {
+            float: left;
+            width: 40px;
+            i.fa {
+                font-size: 32px;
+                color: @brand-info;
+            }
         }
     }
 

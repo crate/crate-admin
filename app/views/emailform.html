@@ -1,0 +1,14 @@
+<div id="emailform">
+  <div class="icon" style="padding-top:2px;"><i class="fa fa-pencil-square"></i></div>
+  <h3>PERSONAL SUPPORT</h3>
+  <div ng-hide="user.enabled">Enter your email to enable personal support.</div>
+  <div ng-show="user.enabled">You've enabled personal support.</div>
+  <form class="form-inline" role="form" novalidate>
+    <div class="form-group">
+      <input ng-model="user.email" class="form-control" type="email" placeholder="Enter Email" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+.[a-z0-9-]/" ng-disabled="user.enabled" />
+      <input ng-model="user.uid" class="form-control" type="hidden" />
+    </div>
+    <button ng-hide="user.enabled" type="button" class="btn btn-default btn-small" ng-class="{disabled: !user.email}" ng-click="enable(user)">Enable Support</button>
+    <button ng-show="user.enabled" type="button" class="btn btn-danger btn-small" ng-click="disable()">Disable Support</button>
+  </form>
+</div>

@@ -36,6 +36,7 @@
     <script src="bower_components/ladda-bootstrap/js/spin.js"></script>
     <script src="bower_components/ladda-bootstrap/js/ladda.js"></script>
     <script src="bower_components/purl/purl.js"></script>
+    <script src="scripts/services/segmentio.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/codemirror.js -->
@@ -48,29 +49,30 @@
     <!-- build:js scripts/ieshims.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
+    <script src="bower_components/json3/lib/json3.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
+    <script type="application/javascript" src="scripts/app.js"></script>
 
-    <script src="scripts/services/sql.js"></script>
-    <script src="scripts/services/health.js"></script>
-    <script src="scripts/services/stats.js"></script>
-    <script src="scripts/services/tableinfo.js"></script>
-    <script src="scripts/services/nodeinfo.js"></script>
+    <script type="application/javascript" src="scripts/services/sql.js"></script>
+    <script type="application/javascript" src="scripts/services/health.js"></script>
+    <script type="application/javascript" src="scripts/services/stats.js"></script>
+    <script type="application/javascript" src="scripts/services/tableinfo.js"></script>
+    <script type="application/javascript" src="scripts/services/nodeinfo.js"></script>
+    <script type="application/javascript" src="scripts/services/udc.js"></script>
 
-    <script src="scripts/controllers/common.js"></script>
-    <script src="scripts/controllers/feed.js"></script>
-    <script src="scripts/controllers/tutorial.js"></script>
-    <script src="scripts/controllers/overview.js"></script>
-    <script src="scripts/controllers/console.js"></script>
-    <script src="scripts/controllers/tables.js"></script>
-    <script src="scripts/controllers/cluster.js"></script>
+    <script type="application/javascript" src="scripts/controllers/common.js"></script>
+    <script type="application/javascript" src="scripts/controllers/feed.js"></script>
+    <script type="application/javascript" src="scripts/controllers/tutorial.js"></script>
+    <script type="application/javascript" src="scripts/controllers/overview.js"></script>
+    <script type="application/javascript" src="scripts/controllers/console.js"></script>
+    <script type="application/javascript" src="scripts/controllers/tables.js"></script>
+    <script type="application/javascript" src="scripts/controllers/cluster.js"></script>
 
-    <script src="scripts/filter/text.js"></script>
-    <script src="scripts/filter/numbers.js"></script>
+    <script type="application/javascript" src="scripts/filter/text.js"></script>
+    <script type="application/javascript" src="scripts/filter/numbers.js"></script>
     <!-- endbuild -->
 
 </head>
@@ -79,15 +81,10 @@
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
 
-
     <div id="wrapper">
-
       <div ng-include="'views/nav.html'"></div>
-
       <div id="page-wrapper">
-
         <div ng-view></div>
-
       </div>
     </div>
 
