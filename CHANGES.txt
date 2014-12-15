@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - add support for tables with user defined schemas
+
  - added `Intercom <https://www.intercom.io>`_ integration
      Intercom allows you to ask questions and send messages to the Crate
      team directly from the admin interface. Click on the help button

@@ -11,7 +11,9 @@
           <div class="page-header">
             <h1>
               <a id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="fa fa-bars"></i></a>
-              <span ng-show="table.schema_name == 'blob'">BLOB: </span>{{table.name}}
+              <span ng-show="table.schema_name == 'doc'">{{table.name}}</span>
+              <span ng-show="table.schema_name == 'blob'">BLOB: {{table.name}}</span>
+              <span ng-show="table.schema_name != 'blob' && table.schema_name != 'doc'">{{table.schema_name}}.{{table.name}}</span>
             </h1>
           </div>
         </div>

@@ -252,19 +252,41 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             tableName = tables[0].name;
             schemaName = tables[0].schema_name;
           }
+
+          var customSchemas = [];
+          for (var idx in tables) {
+            var name = tables[idx].schema_name;
+            if (name == 'doc' || name == 'blob') {
+              continue;
+            }
+            customSchemas.push(name);
+          }
+
           // group tables
           $scope.tables = [
             {
-              "display_name": "Tables",
+              "display_name": "Doc Tables",
               "tables": tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
               "schema_name": "doc"
-            },
-            {
+            }
+          ];
+          for (var idx in customSchemas) {
+            var name = customSchemas[idx];
+            $scope.tables.push(
+               {
+                "display_name": name + " Tables",
+                "tables": tables.filter(function(item, idx){ return item.schema_name == name; }),
+                "schema_name": name
+              }
+            );
+          }
+          $scope.tables.push(
+             {
               "display_name": "Blob Tables",
               "tables": tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
               "schema_name": "blob"
             }
-          ];
+          );
         } else {
           $scope.tables = [];
         }

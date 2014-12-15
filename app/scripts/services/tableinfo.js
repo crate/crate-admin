@@ -143,7 +143,7 @@ angular.module('tableinfo', ['sql'])
           $.extend(table, info);
           table.health_label_class = colorMapLabel[table.health];
           table.health_panel_class = colorMapPanel[table.health];
-          table.type_display_name = table.schema_name == "doc" ? "Record" : "Blob";
+          table.type_display_name = table.schema_name == "blob" ?  "Blob" : "Record";
 
           // create summary
           var summary = roundWithUnitFilter(table.records_total, 1) + ' Records (' + bytesFilter(table.size) + ') / ' +
@@ -175,7 +175,7 @@ angular.module('tableinfo', ['sql'])
       // table info statement
       var tableStmt = 'select table_name, number_of_shards, number_of_replicas, schema_name, partitioned_by ' +
           'from information_schema.tables ' +
-          'where schema_name in (\'doc\', \'blob\')';
+          'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
       var shardStmt = 'select table_name, schema_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
