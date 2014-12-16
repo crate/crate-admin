@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2014/12/16 0.11.0
+=================
+
  - add support for tables with user defined schemas
 
  - added `Intercom <https://www.intercom.io>`_ integration
