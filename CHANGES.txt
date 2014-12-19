@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2014/12/19 0.11.1
+=================
+
  - fixed title of `tables` view if no tables exists or connection is down
 
 2014/12/16 0.11.0
