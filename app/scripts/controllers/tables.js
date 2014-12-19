@@ -135,6 +135,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           });
           current = current.length ? current[0] : tables[0];
           $scope.table = current;
+          $scope.table_label = current.name;
+          if (current.schema_name == "blob") {
+            $scope.table_label = "BLOB: " + current.name;
+          } else if (current.schema_name != "doc") {
+            $scope.table_label = current.schema_name + "." + current.name;
+          }
           $scope.nothingSelected = current === null;
           $scope.renderSidebar = true;
           if ($scope.table.partitioned) {
@@ -142,6 +148,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           }
         } else {
           $scope.table = placeholder;
+          $scope.table_label = placeholder.name;
           $scope.nothingSelected = false;
           $scope.renderSidebar = false;
           $scope.renderSchema = false;
