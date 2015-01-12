@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed a template rendering issue in cluster view in Safari
+
+ - de-register watches to decrease DOM updates and improve performance in cluster view
+
 2014/12/19 0.11.1
 =================
 
