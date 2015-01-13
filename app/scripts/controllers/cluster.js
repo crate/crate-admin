@@ -9,7 +9,9 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
+    var currentWatcher = null;
     var version = null;
+    var nodeName = null;
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
@@ -19,10 +21,14 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }
     });
 
-    var render = function render(nodeName) {
-
-      $scope.$watch(function() { return ClusterState.data; }, function (data) {
-        var cluster = data.cluster;
+    var render = function render(_nodeName) {
+      nodeName = _nodeName;
+      if (currentWatcher) {
+        // de-register
+        currentWatcher();
+      }
+      currentWatcher = $scope.$watch(function() { return ClusterState.data; }, function (data) {
+        var cluster = angular.copy(data.cluster);
         version = data.version;
         var showSidebar = cluster.length > 0;
         $scope.renderSidebar = showSidebar;
@@ -49,19 +55,18 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         }
         $scope.nodes = nodeList;
       }, true);
+    };
 
-      $scope.sort = NodeListInfo.sort;
-      $scope.sortBy = NodeListInfo.sortBy;
-      $scope.sortClass = NodeListInfo.sortClass;
+    $scope.sort = NodeListInfo.sort;
+    $scope.sortBy = NodeListInfo.sortBy;
+    $scope.sortClass = NodeListInfo.sortClass;
 
-      $scope.isActive = function (node) {
-        return node.name === nodeName;
-      };
+    $scope.isActive = function(node) {
+      return node.name === nodeName;
+    };
 
-      $scope.isSameVersion = function(nodeVersion){
-        return version ? nodeVersion.build_hash === version.hash : true;
-      };
-
+    $scope.isSameVersion = function(nodeVersion){
+      return version ? nodeVersion.build_hash === version.hash : true;
     };
 
     render($route.current.params.node_name);
@@ -103,6 +108,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }
     };
     var version = null;
+    var currentWatcher = null;
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
@@ -146,8 +152,11 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     };
 
     var render = function render(nodeName){
-
-      $scope.$watch(function() { return ClusterState.data; }, function (data) {
+      if (currentWatcher) {
+        // de-register
+        currentWatcher();
+      }
+      currentWatcher = $scope.$watch(function() { return ClusterState.data; }, function (data) {
         var cluster = angular.copy(data.cluster);
         for (var i=0; i<cluster.length; i++) {
           cluster[i].fs = aggregateDataDiskUtilisation(cluster[i]);
@@ -180,18 +189,18 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         }
       }, true);
 
-      // sidebar button handler (mobile view)
-      $scope.toggleSidebar = function() {
-        $("#wrapper").toggleClass("active");
-      };
+    };
 
-      $scope.isSameVersion = function(nodeVersion){
-        return version ? nodeVersion.build_hash === version.hash : true;
-      };
+    // bind tooltips
+    $("[rel=tooltip]").tooltip({ placement: 'top'});
 
-      // bind tooltips
-      $("[rel=tooltip]").tooltip({ placement: 'top'});
+    // sidebar button handler (mobile view)
+    $scope.toggleSidebar = function() {
+      $("#wrapper").toggleClass("active");
+    };
 
+    $scope.isSameVersion = function(nodeVersion){
+      return version ? nodeVersion.build_hash === version.hash : true;
     };
 
     render($route.current.params.node_name);
