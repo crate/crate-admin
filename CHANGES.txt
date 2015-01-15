@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/01/15 0.11.2
+=================
+
  - removed usage of sys expressions in wrong context
 
  - fixed a template rendering issue in cluster view in Safari
