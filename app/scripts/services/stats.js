@@ -108,19 +108,27 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
       var q = SQLQuery.execute(
           'select ' +
-          '   sys.cluster.name, ' +
           '   sum(load[\'1\']), ' +
           '   sum(load[\'5\']), ' +
           '   sum(load[\'15\']), ' +
           '   count(*) ' +
-          'from sys.nodes group by sys.cluster.name');
+          'from sys.nodes');
       q.success(function(sqlQuery) {
           var row = sqlQuery.rows[0];
-          data.name = row[0];
-          data.load = row.slice(1,4);
-          var numNodes = parseFloat(row[4]);
+          data.load = row.slice(0,3);
+          var numNodes = parseFloat(row[3]);
           for (var i=0; i<data.load.length; i++) data.load[i] /= numNodes;
           addToLoadHistory(data.load);
+      }).error(function(sqlQuery) {
+          var status = sqlQuery.error.status;
+          if (status === 0 || status === 404) setReachability(false);
+      });
+
+      var clusterName = SQLQuery.execute(
+              'select name from sys.cluster');
+      clusterName.success(function(sqlQuery) {
+          var row = sqlQuery.rows[0];
+          data.name = row[0]
       }).error(function(sqlQuery) {
           var status = sqlQuery.error.status;
           if (status === 0 || status === 404) setReachability(false);

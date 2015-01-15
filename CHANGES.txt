@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - removed usage of sys expressions in wrong context
+
  - fixed a template rendering issue in cluster view in Safari
 
  - de-register watches to decrease DOM updates and improve performance in cluster view
