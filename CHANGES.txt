@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed bug that showed custom schemas in the table list
+   as often as the amount of tables in that custom schema
+
 2015/01/15 0.11.2
 =================
 

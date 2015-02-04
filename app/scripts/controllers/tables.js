@@ -234,8 +234,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
            $route.current.params.table_name);
 
   })
-  .controller('TableListController', function ($scope, $route,
-        TableList, TabNavigationInfo) {
+  .controller('TableListController', function ($scope, $route, TableList, TabNavigationInfo) {
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
@@ -263,7 +262,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           var customSchemas = [];
           for (var idx in tables) {
             var name = tables[idx].schema_name;
-            if (name == 'doc' || name == 'blob') {
+            if (name == 'doc' || name == 'blob' || customSchemas.indexOf(name) > -1) {
               continue;
             }
             customSchemas.push(name);
