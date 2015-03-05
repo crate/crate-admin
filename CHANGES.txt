@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/03/05 0.11.4
+=================
+
  - fix: calculate health for each partition of a partitioned table
    based on the number of shards of that partition
 
