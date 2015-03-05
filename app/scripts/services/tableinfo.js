@@ -126,16 +126,24 @@ angular.module('tableinfo', ['sql'])
       return 0;
     };
 
-    var update = function update(success, tables, shards) {
+    var update = function update(success, tables, shards, partitions) {
       var _tables = tables || [];
       var _shards = shards || [];
+      var _partitions = partitions || [];
       // table info query was successful
       if (success && _tables.length) {
         for (var i=0; i<_tables.length; i++) {
           var table = _tables[i];
-          var shardsForTable = _shards.filter(function(shard, idx) {
-            return shard.table_name === table.name && shard.schema_name == table.schema_name;
+          var shardsForTable = _shards.filter(function(item, idx) {
+            return item.table_name === table.name && item.schema_name == table.schema_name;
           });
+	  var partitionsForTable = _partitions.filter(function(item, idx) {
+	    return item.table_name === table.name && item.schema_name == table.schema_name;
+	  });
+
+	  if (table.partitioned_by && partitionsForTable.length === 1) {
+	    table.shards_configured = partitionsForTable[0].num_shards;
+	  }
           var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by);
           var info = tableInfo.asObject();
 
@@ -174,14 +182,19 @@ angular.module('tableinfo', ['sql'])
 
       // table info statement
       var tableStmt = 'select table_name, number_of_shards, number_of_replicas, schema_name, partitioned_by ' +
-          'from information_schema.tables ' +
-          'where schema_name not in (\'information_schema\', \'sys\')';
+        'from information_schema.tables ' +
+        'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
       var shardStmt = 'select table_name, schema_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
-          'from sys.shards ' +
-          'group by table_name, schema_name, "primary", state ' +
-          'order by table_name, "primary", state';
+        'from sys.shards ' +
+        'group by table_name, schema_name, "primary", state ' +
+        'order by table_name, "primary", state';
+
+      // table partitions statement
+      var partStmt = 'select table_name, schema_name, sum(number_of_shards) as num_shards ' +
+	'from information_schema.table_partitions ' +
+	'group by table_name, schema_name';
 
       SQLQuery.execute(tableStmt).success(function(tableQuery){
         var tables = queryResultToObjects(tableQuery,
@@ -189,7 +202,13 @@ angular.module('tableinfo', ['sql'])
         SQLQuery.execute(shardStmt).success(function(shardQuery) {
           var shards = queryResultToObjects(shardQuery,
               ['table_name', 'schema_name', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-          update(true, tables, shards);
+	  SQLQuery.execute(partStmt).success(function(partQuery) {
+	    var partitions = queryResultToObjects(partQuery,
+		['table_name', 'schema_name', 'num_shards'])
+	    update(true, tables, shards, partitions);
+	  }).error(function(sqlQuery){
+	    update(true, tables, shards);
+	  });
         }).error(function(sqlQuery) {
           update(true, tables);
         });
