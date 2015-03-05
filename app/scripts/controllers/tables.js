@@ -126,6 +126,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.ptCtlr = new PartitionsTableController();
       $scope.nothingSelected = false;
       $scope.renderSiderbar = true;
+      $scope.isParted = false;
 
       $scope.$watch(function(){ return TableList.data; }, function(data){
         var tables = data.tables;
@@ -161,36 +162,48 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         if (!tableName || !schemaName) return;
         var requestId = 'r' + new Date().getTime();
         // Table Partitions
-        var stmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
-              'from sys.shards ' +
-              'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
-              'group by partition_ident, "primary", state';
-        var q = SQLQuery.execute(stmt, [schemaName, tableName]).success(function(query){
+        var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
+          'from sys.shards ' +
+          'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
+          'group by partition_ident, "primary", state';
+        var q = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery){
           if (typeof activeRequests[requestId] == 'undefined') return;
-          var result = queryResultToObjects(query,
-                                            ['partition_ident','sum_docs','primary','avg_docs','count','state','size']);
-          var idents = result.reduce(function(memo, obj, idx){
-            var ident = obj.partition_ident;
-            if (memo.indexOf(ident) === -1) memo.push(ident);
-            return memo;
-          }, []);
+	  var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas from information_schema.table_partitions ' +
+	    'where schema_name = $1 and table_name = $2';
+	  SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery){
+	    var partitions = [];
+	    
+	    var shardResult = queryResultToObjects(shardQuery,
+              ['partition_ident', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
+	    var partitionResult = queryResultToObjects(tablePartitionQuery,
+              ['partition_ident', 'number_of_shards', 'number_of_replicas']);
+	    
+	    var idents = shardResult.reduce(function(memo, obj, idx){
+	      var ident = obj.partition_ident;
+	      if (memo.indexOf(ident) === -1) memo.push(ident);
+	      return memo;
+	    }, []);
 
-          var partitions = [];
-          for (var i=0; i<idents.length; i++) {
-            var ident = idents[i];
-            var shardInfoForPartition = result.filter(function(item, idx){
-              return item.partition_ident === ident;
-            });
-            var info = new TableInfo(shardInfoForPartition, $scope.table.shards_configured);
-            var o = info.asObject();
-            o.partition_ident = ident;
-            o.replicas_configured = $scope.table.replicas_configured;
-            o.health_label_class = colorMapLabel[o.health];
-            partitions.push(o);
-          }
+	    for (var i=0; i<idents.length; i++) {
+	      var ident = idents[i];
+	      var shardInfoForPartition = shardResult.filter(function(item, idx){ return item.partition_ident === ident; });
+	      var confInfoForPartition = partitionResult.filter(function(item, idx){ return item.partition_ident === ident; });
+	      if (confInfoForPartition.length === 1) {
+		var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
+		var o = info.asObject();
+		o.partition_ident = ident;
+		o.replicas_configured = confInfoForPartition[0].number_of_replicas;
+		o.health_label_class = colorMapLabel[o.health];
+		partitions.push(o);
+	      }
+	    }
 
-          delete activeRequests[requestId];
-          update(true, partitions);
+	    delete activeRequests[requestId];
+	    update(true, partitions);
+	  }).error(function(query){
+	    delete activeRequests[requestId];
+	    update(false, []);
+	  });
         }).error(function(query){
           delete activeRequests[requestId];
           update(false, []);
@@ -200,6 +213,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
       var update = function update(success, partitions){
         $scope.ptCtlr.data = partitions;
+	$scope.isParted = true;
         $scope.renderPartitions = success;
         $scope.renderSchema = success;
         timeout = $timeout(fetchPartitions, refreshInterval);
