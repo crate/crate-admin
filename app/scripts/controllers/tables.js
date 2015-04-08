@@ -112,6 +112,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $("#wrapper").toggleClass("active");
     };
 
+    var requestId = function requestId() {
+      return 'r-' + new Date().getTime() + '-' + Math.floor(Math.random() * 1000);
+    };
+
     var cancelRequests = function cancelRequests() {
       $timeout.cancel(timeout);
       for (var k in activeRequests) {
@@ -158,19 +162,21 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }, true);
 
       var fetchPartitions = function fetchPartitions(){
-        $timeout.cancel(timeout);
+        cancelRequests();
         if (!tableName || !schemaName) return;
-        var requestId = 'r' + new Date().getTime();
         // Table Partitions
         var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
           'from sys.shards ' +
           'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
           'group by partition_ident, "primary", state';
-        var q = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery){
-          if (typeof activeRequests[requestId] == 'undefined') return;
+	var r1 = requestId();
+        var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery){
+          if (typeof activeRequests[r1] == 'undefined') return;
 	  var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas from information_schema.table_partitions ' +
 	    'where schema_name = $1 and table_name = $2';
-	  SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery){
+	  var r2 = requestId();
+	  var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery){
+            if (typeof activeRequests[r2] == 'undefined') return;
 	    var partitions = [];
 	    
 	    var shardResult = queryResultToObjects(shardQuery,
@@ -204,11 +210,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 	    delete activeRequests[requestId];
 	    update(false, []);
 	  });
+	  activeRequests[r2] = q2;
         }).error(function(query){
           delete activeRequests[requestId];
           update(false, []);
         });
-        activeRequests[requestId] = q;
+        activeRequests[r1] = q1;
       };
 
       var update = function update(success, partitions){
