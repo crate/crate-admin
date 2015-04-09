@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+  - fixed display of RSS feed in notification dropdown
+
 2015/04/09 0.11.5
 =================
 

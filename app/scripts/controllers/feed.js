@@ -2,10 +2,9 @@
 
 angular.module('feed', ['stats'])
   .factory('FeedService', function($http){
-    var FEED_SUFFIX = '/feed/json?callback=JSON_CALLBACK';
     return {
-      parse: function(url) {
-        return $http.jsonp(url + FEED_SUFFIX, {cache: false});
+      fetch: function() {
+        return $http.get('https://crate.io/feed/news.json', {cache: false});
       }
     };
   })
@@ -29,10 +28,13 @@ angular.module('feed', ['stats'])
     };
   })
   .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState) {
-    var BLOG_URL = 'https://crate.io/blog/category/developernews';
+    var BLOG_URL = 'https://crate.io/blog/';
     var MAX_ITEMS = 5;
     var VERSION_URL = 'https://crate.io/versions.json';
     var stableVersion;
+
+    var trunc = $filter('characters');
+    var date = $filter('date');
 
     $scope.showUpdate = false;
     $scope.numUnread = 0;
@@ -65,16 +67,14 @@ angular.module('feed', ['stats'])
       if (response && response.crate) stableVersion = response.crate;
     });
 
-    FeedService.parse(BLOG_URL, MAX_ITEMS).then(function(result){
-      var trunc = $filter('characters');
+    FeedService.fetch().then(function(result){
       if (result.status === 200 && result.data.length > 0) {
         var entries = result.data.splice(0, MAX_ITEMS);
         var unread = entries.length;
         entries.map(function(item, idx){
           item.title = $sce.trustAsHtml(item.title);
           item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
-          item.timestamp = new Date(item.date);
-          item.id = item.timestamp.getTime().toString(32);
+          item.timestamp = date(item.date, 'yyyy-MM-dd HH:ss');
           if (isRead(item)) unread--;
         });
         $scope.entries = entries;
