@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/04/09 0.11.5
+=================
+
   - fix: concurrent ajax requests caused partition information
     in table detail view to be mixed up between tables
 
