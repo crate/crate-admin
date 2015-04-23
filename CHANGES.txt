@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/04/23 0.12.0
+=================
+
   - display ``rest_url`` from sys.nodes table on node detail view
 
 2015/04/09 0.11.5
