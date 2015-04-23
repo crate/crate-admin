@@ -54,8 +54,6 @@ angular.module('nodeinfo', [])
       var nodeList = [];
       for (var i=0; i<cluster.length; i++) {
         var node = angular.copy(cluster[i]);
-        var address = window.location.protocol + "//" + (node.hostname || "localhost") + ":" + node.port.http;
-        node.address = address.toLowerCase();
         node.health = new NodeHealth(node);
         node.health_value = node.health.value;
         node.health_label_class = colorMapLabel[node.health.status];

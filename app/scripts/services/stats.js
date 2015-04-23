@@ -97,10 +97,10 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, port, load, heap, fs, version from sys.nodes');
+        'select id, name, hostname, rest_url, port, load, heap, fs, version from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
         data.cluster = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'port', 'load', 'heap', 'fs', 'version']);
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'version']);
       }).error(function(sqlQuery) {
         var status = sqlQuery.error.status;
         if (status === 0 || status === 404) setReachability(false);
@@ -124,8 +124,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
           if (status === 0 || status === 404) setReachability(false);
       });
 
-      var clusterName = SQLQuery.execute(
-              'select name from sys.cluster');
+      var clusterName = SQLQuery.execute('select name from sys.cluster');
       clusterName.success(function(sqlQuery) {
           var row = sqlQuery.rows[0];
           data.name = row[0]
