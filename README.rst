@@ -60,7 +60,7 @@ visit `https://crate.io`_.
 License
 =======
 
-Copyright 2013-2014 CRATE Technology GmbH ("Crate")
+Copyright 2013-2015 CRATE Technology GmbH ("Crate")
 
 Licensed to CRATE Technology GmbH ("Crate") under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for

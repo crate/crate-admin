@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+  - update logo, favicons
+
 2015/04/23 0.12.0
 =================
 
