@@ -25,7 +25,8 @@ angular.module('common')
   })
   .filter('bytes', function($sce) {
         return function(bytes, precision) {
-                if (bytes == 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+                if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+                if (bytes === 0) return '0\u00A0bytes'
                 if (typeof precision === 'undefined') precision = 1;
                 var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
                         number = Math.floor(Math.log(bytes) / Math.log(1024));
