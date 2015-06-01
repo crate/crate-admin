@@ -63,11 +63,19 @@
 
     </div><!-- /.row -->
 
-    <div class="row">
+    <div class="row" ng-show="chart.data">
         <div class="col-md-12">
-            <div id="load-graph"></div>
+            <nvd3-line-chart
+              data="chart.data"
+              height="450"
+              showXAxis="false"
+              showYAxis="true"
+              yaxisshowmaxmin="false"
+              forcey="[0,2]"
+              interactive="false"
+              showLegend="true">
+            </nvd3-line-chart>
         </div>
     </div><!-- /.row -->
-
 
 </div>

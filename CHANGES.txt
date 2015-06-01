@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - display load, cpu usage, disk i/o, process stats and shard information
+   on node detail page
+
   - added columns with partition values on "Partitions" table
     on table detail view
 

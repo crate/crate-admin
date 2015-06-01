@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo'])
-  .factory('ClusterState', function ($http, $interval, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health) {
-    var healthInterval, statusInterval, reachabilityInterval;
+  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health, ShardInfo, $q) {
+    var healthInterval, statusInterval, reachabilityInterval, shardsInterval;
 
     var data = {
       online: true,
       tables: [],
+      shards: [],
+      partitions: [],
       cluster: [],
       name: '--',
       status: '--',
@@ -15,8 +17,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       version: null
     };
 
+    var diskIoHistory = {};
     var refreshInterval = 5000;
-    var historyLength = 100;
+    var historyLength = 180;
 
     var checkReachability = function checkReachability(){
       var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
@@ -47,6 +50,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         $log.warn("Cluster is offline.");
         $interval.cancel(healthInterval);
         $interval.cancel(statusInterval);
+        $interval.cancel(shardsInterval);
         data.status = '--';
         data.tables = [];
         data.cluster = [];
@@ -63,6 +67,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         refreshHealth();
         statusInterval = $interval(refreshState, refreshInterval);
         refreshState();
+        shardsInterval = $interval(refreshShardInfo, refreshInterval);
+        refreshShardInfo();
+
       }
     };
 
@@ -73,6 +80,58 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
           lh[i].push(load[i]);
           lh[i] = lh[i].splice(-historyLength, historyLength);
       }
+    };
+
+    var onErrorResponse = function(query) {
+      var status = query.error.status;
+      if (status === 0 || status === 404) setReachability(false);
+    };
+
+    var prepareLoadInfo = function(nodeInfo) {
+      var numNodes = nodeInfo.length;
+      var load = [0.0, 0.0, 0.0];
+      for (var i=0; i<numNodes; i++) {
+        var nodeLoad = nodeInfo[i].load;
+        load[0] += nodeLoad['1'] / numNodes;
+        load[1] += nodeLoad['5'] / numNodes;
+        load[2] += nodeLoad['15'] / numNodes;
+      }
+      addToLoadHistory(load);
+      return load;
+    };
+
+    var prepareIoStats = function(nodeInfo) {
+      var numNodes = nodeInfo.length;
+      for (var i=0; i<numNodes; i++) {
+        var node = nodeInfo[i];
+        var currentValue = {
+          'timestamp': node.timestamp,
+          'data': node.fs.total
+        };
+        if (diskIoHistory[node.id]) {
+          var lastValue = diskIoHistory[node.id];
+          var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
+          var readsDelta = currentValue.data.reads - lastValue.data.reads;
+          var writesDelta = currentValue.data.writes - lastValue.data.writes;
+          var readBytesDelta = currentValue.data.bytes_read - lastValue.data.bytes_read;
+          var writtenBytesDelta = currentValue.data.bytes_written - lastValue.data.bytes_written;
+          node.iostats = {
+            'rps': currentValue.data.reads > 0 ? (readsDelta / timeDelta) : -1,
+            'wps':  currentValue.data.writes > 0 ? (writesDelta / timeDelta) : -1,
+            'rbps': currentValue.data.bytes_read > 0 ? (readBytesDelta / timeDelta) : -1,
+            'wbps': currentValue.data.bytes_written > 0 ? (writtenBytesDelta / timeDelta) : -1
+          };
+        } else {
+          node.iostats = {
+            'rps': -1,   // reads per second
+            'wps': -1,   // writes per second
+            'rbps': -1,  // bytes read per second
+            'wbps': -1   // bytes written per second
+          };
+        }
+        diskIoHistory[node.id] = currentValue;
+      }
+      return nodeInfo;
     };
 
     var refreshHealth = function() {
@@ -97,41 +156,60 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, version from sys.nodes');
+        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, '+ 
+        'process[\'cpu\'] as proc_cpu ' +
+        'from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
-        data.cluster = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'version']);
-      }).error(function(sqlQuery) {
-        var status = sqlQuery.error.status;
-        if (status === 0 || status === 404) setReachability(false);
-      });
-
-      var q = SQLQuery.execute(
-          'select ' +
-          '   sum(load[\'1\']), ' +
-          '   sum(load[\'5\']), ' +
-          '   sum(load[\'15\']), ' +
-          '   count(*) ' +
-          'from sys.nodes');
-      q.success(function(sqlQuery) {
-          var row = sqlQuery.rows[0];
-          data.load = row.slice(0,3);
-          var numNodes = parseFloat(row[3]);
-          for (var i=0; i<data.load.length; i++) data.load[i] /= numNodes;
-          addToLoadHistory(data.load);
-      }).error(function(sqlQuery) {
-          var status = sqlQuery.error.status;
-          if (status === 0 || status === 404) setReachability(false);
-      });
+        var response = queryResultToObjects(sqlQuery,
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu']);
+        data.load = prepareLoadInfo(response);
+        data.cluster = prepareIoStats(response);
+      }).error(onErrorResponse);
 
       var clusterName = SQLQuery.execute('select name from sys.cluster');
       clusterName.success(function(sqlQuery) {
           var row = sqlQuery.rows[0];
           data.name = row[0]
-      }).error(function(sqlQuery) {
-          var status = sqlQuery.error.status;
-          if (status === 0 || status === 404) setReachability(false);
-      });
+      }).error(onErrorResponse);
+    };
+
+    var refreshShardInfo = function () {
+      if (!data.online) return;
+
+      ShardInfo.executeTableStmt()
+        .then(function (tables) {
+          data.tables = tables;
+          ShardInfo.executeShardStmt()
+            .then(function (shards) {
+              data.shards = shards;
+              ShardInfo.executePartStmt()
+                .then(function (partitions) {
+                  data.partitions = partitions;
+                  var result = {
+                    tables: data.tables,
+                    shards: data.shards,
+                    partitions: data.partitions
+                  };
+                  ShardInfo.deferred.resolve(result);
+                })
+                .catch(function () {
+                  var result = {
+                    tables: data.tables,
+                    shards: data.shards
+                  };
+                  ShardInfo.deferred.reject(result);
+                })
+            })
+            .catch(function () {
+              var result = {
+                tables: data.tables
+              };
+              ShardInfo.deferred.reject(result);
+            })
+        })
+        .catch(function () {
+          ShardInfo.deferred.reject({});
+        });
     };
 
     checkReachability();
@@ -139,10 +217,15 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     refreshHealth();
     healthInterval = $interval(refreshHealth, refreshInterval);
 
+    refreshShardInfo();
+    shardsInterval = $interval(refreshShardInfo, refreshInterval);
+
     refreshState();
+    $timeout(refreshState, 500); // we want IOPs quickly!
     statusInterval = $interval(refreshState, refreshInterval);
 
     return {
-      data: data
+      data: data,
+      HISTORY_LENGTH: historyLength
     };
   });

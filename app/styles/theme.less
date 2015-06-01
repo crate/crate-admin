@@ -24,6 +24,16 @@ h2 {
   border-bottom: 1px solid #eeeeee;
 }
 
+.section-header {
+  margin: 30px 0 10px 0;
+  padding: 0px;
+}
+
+.page-header-sm {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
 @media (min-width: 768px) {
 
   #wrapper {
@@ -408,6 +418,8 @@ h2 {
   box-shadow: 0 0 0;
   -webkit-box-shadow: 0 0 0;
   text-align: left;
+  margin-bottom: 15px;
+  margin-top: 0px;
     .panel-heading {
       color: #000;
       background-color: transparent;
@@ -419,6 +431,10 @@ h2 {
 
 .announcement-heading {
   font-size: @font-size-large;
+}
+
+.announcement-text{
+  font-size: @font-size-small;
 }
 
 .panel-success > .panel-heading .announcement-heading,
@@ -441,9 +457,24 @@ h2 {
   background-color: @brand-danger;
 }
 
-#load-graph{
+hr.panel-splitter {
+  margin: 0 0 15px 0;
+}
+
+#load-graph {
   width: 80%;
   height:250px;
+}
+
+#legend ul {
+  width: 150px;
+  list-style-type: none;
+  list-style-position: inside;
+  padding-left: 20px;
+}
+
+#legend li {
+  padding-left: 10px;
 }
 
 // Form
@@ -652,4 +683,82 @@ table.table-bordered > thead > tr> th.header-colspan {
   border-bottom-width: 1px;
 }
 
+// Override nv.d3.css
+// ------------------
 
+svg text {
+  font: normal 16px BlenderPro;
+}
+
+svg .title {
+ font: normal 14px BlenderPro;
+}
+
+/********************
+ * TOOLTIP CSS
+ */
+
+.nvtooltip {
+  position: absolute;
+  background-color: rgba(255,255,255,1.0);
+  padding: 1px;
+  border: 1px solid rgba(0,0,0,.2);
+  z-index: 10000;
+
+  font-family: BlenderPro;
+  font-size: 13px;
+  text-align: left;
+  pointer-events: none;
+
+  white-space: nowrap;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/**********
+*  Axes
+*/
+.nvd3 .nv-axis {
+  pointer-events:none;
+}
+
+.nvd3 .nv-axis path {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .75;
+  shape-rendering: crispEdges;
+}
+
+.nvd3 .nv-axis path.domain {
+  stroke-opacity: .75;
+}
+
+.nvd3 .nv-axis.nv-x path.domain {
+  stroke-opacity: 0;
+}
+
+.nvd3 .nv-axis line {
+  fill: none;
+  stroke: #e5e5e5;
+  shape-rendering: crispEdges;
+}
+
+.nvd3 .nv-axis .zero line,
+/*this selector may not be necessary*/ .nvd3 .nv-axis line.zero {
+  stroke-opacity: .75;
+}
+
+.nvd3 .nv-axis .nv-axisMaxMin text {
+  font-weight: normal;
+}
+
+.nvd3 .x  .nv-axis .nv-axisMaxMin text,
+.nvd3 .x2 .nv-axis .nv-axisMaxMin text,
+.nvd3 .x3 .nv-axis .nv-axisMaxMin text {
+  text-anchor: middle
+}
