@@ -95,10 +95,6 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       return load;
     };
 
-    var prepareNodeInfo = function(nodeInfo) {
-      return nodeInfo;
-    };
-
     var refreshHealth = function() {
       if (!data.online) return;
       // We want to get the tables as soon as they become available so we use the promise object.
@@ -126,7 +122,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         var response = queryResultToObjects(sqlQuery,
             ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version']);
         data.load = prepareLoadInfo(response);
-        data.cluster = prepareNodeInfo(response);
+        data.cluster = response;
       }).error(onErrorResponse);
 
       var clusterName = SQLQuery.execute('select name from sys.cluster');
