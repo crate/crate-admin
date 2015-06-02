@@ -107,18 +107,23 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         if (diskIoHistory[node.id]) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
+          console.log(timeDelta, lastValue, currentValue);
+          var readsDelta = currentValue.data.reads - lastValue.data.reads;
+          var writesDelta = currentValue.data.writes - lastValue.data.writes;
+          var readBytesDelta = currentValue.data.bytes_read - lastValue.data.bytes_read;
+          var writtenBytesDelta = currentValue.data.bytes_written - lastValue.data.bytes_written;
           node.iostats = {
-            'rps': (currentValue.data.reads - lastValue.data.reads) / timeDelta,
-            'wps':  (currentValue.data.writes - lastValue.data.writes) / timeDelta,
-            'rbps': (currentValue.data.bytes_read - lastValue.data.bytes_read) / timeDelta,
-            'wbps': (currentValue.data.bytes_written - lastValue.data.bytes_written) / timeDelta
+            'rps': currentValue.data.reads > 0 ? (readsDelta / timeDelta) : -1,
+            'wps':  currentValue.data.writes > 0 ? (writesDelta / timeDelta) : -1,
+            'rbps': currentValue.data.bytes_read > 0 ? (readBytesDelta / timeDelta) : -1,
+            'wbps': currentValue.data.bytes_written > 0 ? (writtenBytesDelta / timeDelta) : -1
           };
         } else {
           node.iostats = {
-            'rps': 0,   // reads per second
-            'wps': 0,   // writes per second
-            'rbps': 0,  // bytes read per second
-            'wbps': 0   // bytes written per second
+            'rps': -1,   // reads per second
+            'wps': -1,   // writes per second
+            'rbps': -1,  // bytes read per second
+            'wbps': -1   // bytes written per second
           };
         }
         diskIoHistory[node.id] = currentValue;
