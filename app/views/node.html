@@ -94,9 +94,39 @@
         <div class="col-md-4 col-sm-11">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used_percent|number:1}}%">{{node.fs.used_percent|number:1 }}%</p>
+              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent">{{node.fs.used_percent|number:1 }}%</p>
               <p class="announcement-heading inline-block" ng-hide="node.fs.used_percent">-</p>
               <p class="announcement-text">Disk Usage</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-11">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.load['1']">{{ node.load['1']|number:2 }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.load['1']">-</p>
+              <p class="announcement-text">Load 1min</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-11">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.load['5']">{{ node.load['5']|number:2 }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.load['5']">-</p>
+              <p class="announcement-text">Load 5min</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-11">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.load['15']">{{ node.load['15']|number:2 }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.load['15']">-</p>
+              <p class="announcement-text">Load 15min</p>
             </div>
           </div>
         </div>

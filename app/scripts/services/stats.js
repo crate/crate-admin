@@ -75,6 +75,30 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       }
     };
 
+    var onErrorResponse = function(query) {
+      var status = query.error.status;
+      if (status === 0 || status === 404) setReachability(false);
+    };
+
+    var prepareLoadInfo = function(nodeInfo) {
+      var numNodes = nodeInfo.length;
+      var load = [0.0, 0.0, 0.0];
+      for (var i=0; i<numNodes; i++) {
+        var node = nodeInfo[i];
+        var j = 0;
+        for (var k in node.load) {
+          load[j] += node.load[k] / numNodes;
+          j++;
+        }
+      }
+      addToLoadHistory(load);
+      return load;
+    };
+
+    var prepareNodeInfo = function(nodeInfo) {
+      return nodeInfo;
+    };
+
     var refreshHealth = function() {
       if (!data.online) return;
       // We want to get the tables as soon as they become available so we use the promise object.
@@ -97,41 +121,19 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, version from sys.nodes');
+        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
-        data.cluster = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'version']);
-      }).error(function(sqlQuery) {
-        var status = sqlQuery.error.status;
-        if (status === 0 || status === 404) setReachability(false);
-      });
-
-      var q = SQLQuery.execute(
-          'select ' +
-          '   sum(load[\'1\']), ' +
-          '   sum(load[\'5\']), ' +
-          '   sum(load[\'15\']), ' +
-          '   count(*) ' +
-          'from sys.nodes');
-      q.success(function(sqlQuery) {
-          var row = sqlQuery.rows[0];
-          data.load = row.slice(0,3);
-          var numNodes = parseFloat(row[3]);
-          for (var i=0; i<data.load.length; i++) data.load[i] /= numNodes;
-          addToLoadHistory(data.load);
-      }).error(function(sqlQuery) {
-          var status = sqlQuery.error.status;
-          if (status === 0 || status === 404) setReachability(false);
-      });
+        var response = queryResultToObjects(sqlQuery,
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version']);
+        data.load = prepareLoadInfo(response);
+        data.cluster = prepareNodeInfo(response);
+      }).error(onErrorResponse);
 
       var clusterName = SQLQuery.execute('select name from sys.cluster');
       clusterName.success(function(sqlQuery) {
           var row = sqlQuery.rows[0];
           data.name = row[0]
-      }).error(function(sqlQuery) {
-          var status = sqlQuery.error.status;
-          if (status === 0 || status === 404) setReachability(false);
-      });
+      }).error(onErrorResponse);
     };
 
     checkReachability();

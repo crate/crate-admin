@@ -13,6 +13,7 @@ var crateAdminApp = angular.module('crateAdminApp', [
   'tables',
   'cluster',
   'tableinfo',
+  'shardinfo',
   'nodeinfo',
   'udc'
 ]);
