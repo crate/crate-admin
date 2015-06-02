@@ -183,6 +183,49 @@
           </div>
         </div>
 
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.iostats.rps">{{ node.iostats.rps|number:2 }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.iostats.rps">-</p>
+              <p class="announcement-text">Disk reads/s</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.iostats.wps">{{ node.iostats.wps|number:2 }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.iostats.wps">-</p>
+              <p class="announcement-text">Disk writes/s</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.iostats.rbps">{{ node.iostats.rbps|bytes }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.iostats.rbps">-</p>
+              <p class="announcement-text">Disk bytes read/s</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.iostats.wbps">{{ node.iostats.wbps|bytes }}</p>
+              <p class="announcement-heading inline-block" ng-hide="node.iostats.wbps">-</p>
+              <p class="announcement-text">Disk bytes written/s</p>
+            </div>
+          </div>
+        </div>
+
+
       </div><!-- /.row -->
 
     </div>

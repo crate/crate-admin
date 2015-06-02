@@ -5,7 +5,7 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - added load and cpu stats on node detail page
+ - added load, cpu and disk i/o stats on node detail page
 
 2015/05/22 0.12.1
 =================

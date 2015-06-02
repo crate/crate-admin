@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo'])
-  .factory('ClusterState', function ($http, $interval, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health) {
+  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health) {
     var healthInterval, statusInterval, reachabilityInterval;
 
     var data = {
@@ -15,6 +15,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       version: null
     };
 
+    var diskIoHistory = {};
     var refreshInterval = 5000;
     var historyLength = 100;
 
@@ -95,6 +96,36 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       return load;
     };
 
+    var prepareIoStats = function(nodeInfo) {
+      var numNodes = nodeInfo.length;
+      for (var i=0; i<numNodes; i++) {
+        var node = nodeInfo[i];
+        var currentValue = {
+          'timestamp': node.timestamp,
+          'data': node.fs.total
+        }
+        if (diskIoHistory[node.id]) {
+          var lastValue = diskIoHistory[node.id];
+          var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
+          node.iostats = {
+            'rps': (currentValue.data.reads - lastValue.data.reads) / timeDelta,
+            'wps':  (currentValue.data.writes - lastValue.data.writes) / timeDelta,
+            'rbps': (currentValue.data.bytes_read - lastValue.data.bytes_read) / timeDelta,
+            'wbps': (currentValue.data.bytes_written - lastValue.data.bytes_written) / timeDelta
+          };
+        } else {
+          node.iostats = {
+            'rps': 0,   // reads per second
+            'wps': 0,   // writes per second
+            'rbps': 0,  // bytes read per second
+            'wbps': 0   // bytes written per second
+          };
+        }
+        diskIoHistory[node.id] = currentValue;
+      }
+      return nodeInfo;
+    };
+
     var refreshHealth = function() {
       if (!data.online) return;
       // We want to get the tables as soon as they become available so we use the promise object.
@@ -117,12 +148,12 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version from sys.nodes');
+        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'timestamp\'] as timestamp from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
         var response = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version']);
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp']);
         data.load = prepareLoadInfo(response);
-        data.cluster = response;
+        data.cluster = prepareIoStats(response);
       }).error(onErrorResponse);
 
       var clusterName = SQLQuery.execute('select name from sys.cluster');
@@ -138,6 +169,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     healthInterval = $interval(refreshHealth, refreshInterval);
 
     refreshState();
+    $timeout(refreshState, 500); // we want IOPs quickly!
     statusInterval = $interval(refreshState, refreshInterval);
 
     return {
