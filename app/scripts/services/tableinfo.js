@@ -88,7 +88,7 @@ angular.module('tableinfo', ['sql'])
       };
     };
   })
-  .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, queryResultToObjects){
+  .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, ShardInfo) {
 
     var deferred = $q.defer();
     var data = {
@@ -180,43 +180,22 @@ angular.module('tableinfo', ['sql'])
     var fetch = function fetch() {
       $timeout.cancel(timeout);
 
-      // table info statement
-      var tableStmt = 'select table_name, number_of_shards, number_of_replicas, schema_name, partitioned_by ' +
-        'from information_schema.tables ' +
-        'where schema_name not in (\'information_schema\', \'sys\')';
-
-      // shard info statement
-      var shardStmt = 'select table_name, schema_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
-        'from sys.shards ' +
-        'group by table_name, schema_name, "primary", state ' +
-        'order by table_name, "primary", state';
-
-      // table partitions statement
-      var partStmt = 'select table_name, schema_name, sum(number_of_shards) as num_shards ' +
-	'from information_schema.table_partitions ' +
-	'group by table_name, schema_name';
-
-      SQLQuery.execute(tableStmt).success(function(tableQuery){
-        var tables = queryResultToObjects(tableQuery,
-            ['name', 'shards_configured', 'replicas_configured', 'schema_name', 'partitioned_by']);
-        SQLQuery.execute(shardStmt).success(function(shardQuery) {
-          var shards = queryResultToObjects(shardQuery,
-              ['table_name', 'schema_name', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-	  SQLQuery.execute(partStmt).success(function(partQuery) {
-	    var partitions = queryResultToObjects(partQuery,
-		['table_name', 'schema_name', 'num_shards'])
-	    update(true, tables, shards, partitions);
-	  }).error(function(sqlQuery){
-	    update(true, tables, shards);
-	  });
-        }).error(function(sqlQuery) {
-          update(true, tables);
+      ShardInfo.executeTableStmt()
+        .success(function () {
+        ShardInfo.executeShardStmt()
+          .success(function () {
+          ShardInfo.executePartStmt()
+            .success(function () {
+            update(true, ShardInfo.tables, ShardInfo.shards, ShardInfo.partitions);
+          }).error(function () {
+            update(true, ShardInfo.tables, ShardInfo.shards);
+          });
+        }).error(function() {
+          update(true, ShardInfo.tables);
         });
-
-      }).error(function(sqlQuery) {
+      }).error(function() {
         update(false);
       });
-
     };
 
     // initialize
