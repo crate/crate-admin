@@ -3,10 +3,10 @@
   <div ng-include="'views/nodelist.html'"></div>
 
   <div class="row">
-    <div class="col-lg-6 col-md-6" ng-class="{'margin-left-350': renderSidebar}" ng-show="node">
+    <div class="col-lg-8 col-md-8" ng-class="{'margin-left-350': renderSidebar}" ng-show="node">
 
       <div class="row">
-        <div class="col-lg-11 col-md-11">
+        <div class="col-sm-12">
           <div class="page-header">
             <h1>
               <a id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="fa fa-bars"></i></a>
@@ -17,7 +17,7 @@
       </div><!-- /.row -->
 
       <div class="row">
-        <div class="col-md-12 col-sm-11">
+        <div class="col-sm-12 col-xs-12">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{node.hostname}}</p>
@@ -26,7 +26,9 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-sm-11">
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-sm-12 col-xs-12">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading" ng-show="node"><a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="{{ node.rest_url }}/admin/" target="_blank">{{ node.rest_url }}</a></p>
@@ -36,7 +38,9 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-sm-11">
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-sm-12 col-xs-12">
           <div class="panel panel-info text-right" ng-class="{'panel-warning':!isSameVersion(node.version)}">
             <div class="panel-heading">
               <p class="announcement-heading">{{node.version.number}}<span ng-show="node.version.build_snapshot">-snapshot-{{ node.version.build_hash.substr(0,7) }}</span></p>
@@ -45,63 +49,9 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.heap.used_percent >= percentageLimitYellow, 'panel-danger': node.heap.used_percent >= percentageLimitRed }">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used | number:0}}">{{node.heap.used | bytes}}</p>
-              <p class="announcement-text">Used HEAP</p>
-            </div>
-          </div>
-        </div>
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
 
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.max | number:0}}">{{node.heap.max | bytes}}</p>
-              <p class="announcement-text">Max HEAP</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.heap.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.heap.used_percent">-</p>
-              <p class="announcement-text">HEAP Usage</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.fs.used_percent >= percentageLimitYellow, 'panel-danger': node.fs.used_percent >= percentageLimitRed }">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used | number:0}}">{{node.fs.used | bytes}}</p>
-              <p class="announcement-text">Used Disk</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.available | number:0}}">{{node.fs.available | bytes}}</p>
-              <p class="announcement-text">Free Disk</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-11">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent">{{node.fs.used_percent|number:1 }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.fs.used_percent">-</p>
-              <p class="announcement-text">Disk Usage</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-11">
+        <div class="col-md-4 col-sm-6 col-xs-4">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" ng-show="node.load['1']">{{ node.load['1']|number:2 }}</p>
@@ -111,7 +61,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-11">
+        <div class="col-md-4 col-sm-6 col-xs-4">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" ng-show="node.load['5']">{{ node.load['5']|number:2 }}</p>
@@ -121,12 +71,114 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-11">
+        <div class="col-md-4 col-sm-12 col-xs-4">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" ng-show="node.load['15']">{{ node.load['15']|number:2 }}</p>
               <p class="announcement-heading inline-block" ng-hide="node.load['15']">-</p>
               <p class="announcement-text">Load 15min</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.cpu.system">{{ node.cpu.system }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.cpu.system">-</p>
+              <p class="announcement-text">CPU System</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.cpu.user">{{ node.cpu.user }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.cpu.user">-</p>
+              <p class="announcement-text">CPU User</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.cpu.idle">{{ node.cpu.idle }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.cpu.idle">-</p>
+              <p class="announcement-text">CPU Idle</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.cpu.stolen > -1">{{ node.cpu.stolen }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.cpu.stolen > -1">-</p>
+              <p class="announcement-text">CPU Stolen</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-md-4 col-sm-6 col-xs-4">
+          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.heap.used_percent >= percentageLimitYellow, 'panel-danger': node.heap.used_percent >= percentageLimitRed }">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used | number:0}}">{{node.heap.used | bytes}}</p>
+              <p class="announcement-text">Used HEAP</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-4">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.max | number:0}}">{{node.heap.max | bytes}}</p>
+              <p class="announcement-text">Max HEAP</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12 col-xs-4">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.heap.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.heap.used_percent">-</p>
+              <p class="announcement-text">HEAP Usage</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
+        <div class="col-md-4 col-sm-6 col-xs-4">
+          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.fs.used_percent >= percentageLimitYellow, 'panel-danger': node.fs.used_percent >= percentageLimitRed }">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used | number:0}}">{{node.fs.used | bytes}}</p>
+              <p class="announcement-text">Used Disk</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-4">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.available | number:0}}">{{node.fs.available | bytes}}</p>
+              <p class="announcement-text">Free Disk</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12 col-xs-4">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent">{{node.fs.used_percent|number:1 }}%</p>
+              <p class="announcement-heading inline-block" ng-hide="node.fs.used_percent">-</p>
+              <p class="announcement-text">Disk Usage</p>
             </div>
           </div>
         </div>
