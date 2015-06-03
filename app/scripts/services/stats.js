@@ -103,7 +103,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         var currentValue = {
           'timestamp': node.timestamp,
           'data': node.fs.total
-        }
+        };
         if (diskIoHistory[node.id]) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
@@ -153,10 +153,12 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'timestamp\'] as timestamp from sys.nodes');
+        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'timestamp\'] as timestamp, '+ 
+        'process[\'cpu\'] as proc_cpu ' +
+        'from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
         var response = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp']);
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu']);
         data.load = prepareLoadInfo(response);
         data.cluster = prepareIoStats(response);
       }).error(onErrorResponse);
