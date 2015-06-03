@@ -158,6 +158,44 @@
           <h3 class="page-header page-header-sm">HEAP</h3>
         </div>
 
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block">{{ shardInfo.initializing }}</p>
+              <p class="announcement-text">Initializing Shards</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block">{{ shardInfo.started }}</p>
+              <p class="announcement-text">Started Shards</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block">{{ shardInfo.reallocating }}</p>
+              <p class="announcement-text">Reallocating Shards</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-3">
+          <div class="panel panel-info text-right">
+            <div class="panel-heading">
+              <p class="announcement-heading inline-block">{{ shardInfo.unassigned }}</p>
+              <p class="announcement-text">Unassigned Shards</p>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="col-sm-12 col-xs-12"><hr class="panel-splitter" /></div>
+
         <div class="col-md-4 col-sm-6 col-xs-4">
           <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.heap.used_percent >= percentageLimitYellow, 'panel-danger': node.heap.used_percent >= percentageLimitRed }">
             <div class="panel-heading">

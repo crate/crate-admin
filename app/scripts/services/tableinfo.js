@@ -137,13 +137,13 @@ angular.module('tableinfo', ['sql'])
           var shardsForTable = _shards.filter(function(item, idx) {
             return item.table_name === table.name && item.schema_name == table.schema_name;
           });
-	  var partitionsForTable = _partitions.filter(function(item, idx) {
-	    return item.table_name === table.name && item.schema_name == table.schema_name;
-	  });
+          var partitionsForTable = _partitions.filter(function(item, idx) {
+            return item.table_name === table.name && item.schema_name == table.schema_name;
+          });
 
-	  if (table.partitioned_by && partitionsForTable.length === 1) {
-	    table.shards_configured = partitionsForTable[0].num_shards;
-	  }
+          if (table.partitioned_by && partitionsForTable.length === 1) {
+            table.shards_configured = partitionsForTable[0].num_shards;
+          }
           var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by);
           var info = tableInfo.asObject();
 
@@ -180,22 +180,25 @@ angular.module('tableinfo', ['sql'])
     var fetch = function fetch() {
       $timeout.cancel(timeout);
 
-      ShardInfo.executeTableStmt()
-        .success(function () {
-        ShardInfo.executeShardStmt()
-          .success(function () {
-          ShardInfo.executePartStmt()
-            .success(function () {
-            update(true, ShardInfo.tables, ShardInfo.shards, ShardInfo.partitions);
-          }).error(function () {
-            update(true, ShardInfo.tables, ShardInfo.shards);
-          });
-        }).error(function() {
-          update(true, ShardInfo.tables);
+      ShardInfo.executionPromise.promise
+        .then(function (result) {
+          update(true, result.tables, result.shards, result.partitions);
+        })
+        .catch(function (result) {
+          if (jQuery.isEmptyObject(result)) return;
+
+          if (result.tables && result.shards) {
+            update(true, result.tables, result.shards);
+          } else if (result.tables) {
+            update(true, result.tables);
+          } else {
+            update(false);
+          }
+        })
+        .finally(function () {
+          ShardInfo.executionPromise.promise = $q.defer().promise;
+          fetch();
         });
-      }).error(function() {
-        update(false);
-      });
     };
 
     // initialize

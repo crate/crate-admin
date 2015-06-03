@@ -158,6 +158,8 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }
       currentWatcher = $scope.$watch(function() { return ClusterState.data; }, function (data) {
         var cluster = angular.copy(data.cluster);
+        var shards = angular.copy(data.shards);
+
         for (var i=0; i<cluster.length; i++) {
           cluster[i].fs = aggregateDataDiskUtilisation(cluster[i]);
         }
@@ -187,8 +189,28 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             $scope.node = nodeList[0];
           }
         }
-      }, true);
+        var getShardsCountPerState = function(shardInfo, state) {
+          return shardInfo.filter(function (shard) {
+            return shard.state === state;
+          })
+            .reduce(function(acc, table) {
+              return acc + table.count;
+            }, 0)
+        };
 
+        if (shards && shards.length) {
+          var shardInfoPerNode = shards.filter(function (shard) {
+            return shard.node_id === $scope.node.id;
+          });
+          var shardInfo = {
+            'started': getShardsCountPerState(shardInfoPerNode, "STARTED"),
+            'initializing': getShardsCountPerState(shardInfoPerNode, "INITIALIZING"),
+            'reallocating': getShardsCountPerState(shardInfoPerNode, "REALLOCATING"),
+            'unassigned': getShardsCountPerState(shardInfoPerNode, "UNASSIGNED")
+          };
+          $scope.shardInfo = shardInfo;
+        }
+      }, true);
     };
 
     // bind tooltips
