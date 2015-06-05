@@ -19,7 +19,8 @@
     "flot": "~0.8.2",
     "ladda-bootstrap": "~0.1.0",
     "purl": "~2.3.1",
-    "codemirror": "4.6.0"
+    "codemirror": "4.6.0",
+    "Chart.js": "1.0.2"
   },
   "devDependencies": {},
   "resolutions": {

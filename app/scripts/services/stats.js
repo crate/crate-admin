@@ -17,7 +17,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
     var diskIoHistory = {};
     var refreshInterval = 5000;
-    var historyLength = 100;
+    var historyLength = 180;
 
     var checkReachability = function checkReachability(){
       var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
@@ -107,7 +107,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         if (diskIoHistory[node.id]) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
-          console.log(timeDelta, lastValue, currentValue);
+          //console.log(timeDelta, lastValue, currentValue);
           var readsDelta = currentValue.data.reads - lastValue.data.reads;
           var writesDelta = currentValue.data.writes - lastValue.data.writes;
           var readBytesDelta = currentValue.data.bytes_read - lastValue.data.bytes_read;
@@ -180,6 +180,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     statusInterval = $interval(refreshState, refreshInterval);
 
     return {
-      data: data
+      data: data,
+      HISTORY_LENGTH: historyLength
     };
   });
