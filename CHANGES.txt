@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+  - added columns with partition values on "Partitions" table
+    on table detail view
+
 2015/05/22 0.12.1
 =================
 

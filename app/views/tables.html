@@ -120,14 +120,28 @@
             <table class="table table-hover table-bordered tablesorter">
               <thead>
                 <tr>
-                  <th class="header" ng-repeat="h in ptCtlr.headers"
-                                     ng-click="ptCtlr.sortByColumn(h[0])">{{ h[1] }} <i ng-class="ptCtlr.selected(h[0])"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('health')">Health <i ng-class="ptCtlr.selected('health')"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('partition_ident')">Ident <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
+                  <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">Partition Values</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('replicas_configured')">Conf. Replicas<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('shards_configured')">Conf. Shards<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
+                  <th rowspan="2" class="header">Started Shards</th>
+                  <th rowspan="2" class="header">Missing Shards</th>
+                  <th rowspan="2" class="header">Underr. Shards</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('records_total')">Total Records<i ng-class="ptCtlr.selected('records_total')"></i></th>
+                  <th rowspan="2" class="header">Unavail. Records</th>
+                  <th rowspan="2" class="header">Underr. Records</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('size')">Size<i ng-class="ptCtlr.selected('size')"></i></th>
+                </tr>
+                  <th class="header" ng-repeat="col in table.partitioned_by">{{ col }}</th>
+                <tr>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="item in ptCtlr.data|orderBy:ptCtlr.sort.col:ptCtlr.sort.desc">
                   <td><span class="{{ item.health_label_class }}">{{ item.health }}</span></td>
                   <td>{{ item.partition_ident }}</td>
+                  <td ng-repeat="col in table.partitioned_by">{{ item.partition_values[col] }}</td>
 
                   <td>{{ item.replicas_configured }}</td>
 
