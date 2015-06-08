@@ -55,12 +55,51 @@ angular.module('overview', ['stats'])
       }
     }, true);
 
+    /*
+     **************************************************************
+     ******************* CHART SETTINGS ***************************
+     **************************************************************
+    */
 
     var ctx = document.getElementById('load-graph').getContext("2d");
     var lineChart = new Chart(ctx);
 
+    // Set the line attributes
+    var line15 = {
+      label: "Load 15min",
+      fillColor: "#F4F4F5",
+      strokeColor: "#D5D5D5",
+      pointColor: "#CACACA",
+      pointStrokeColor: "#fff",
+      data: []
+    }
+
+    var line5 = {
+      label: "Load 5min",
+      fillColor: "#B9B9B9",
+      strokeColor: "#E1E1E1",
+      pointColor: "#DADADA",
+      pointStrokeColor: "#fff",
+      data: []
+    }
+
+    var line1 = {
+      label: "Load 1min",
+      fillColor: "#CCF3DF",
+      strokeColor: "#80E2B0",
+      pointColor: "#00c561",
+      pointStrokeColor: "#fff",
+      data: []
+    }
+
+    var startValue = 0.0; // the scale start value
+    var stepWidth = 0.2;  // the scale step size
+    var offsetY = 0.5;    // the scale offset
+
+
     var drawGraph = function drawGraph(history) {
 
+      // Create Arrays with Zeroes in it
       var data1 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
       var data5 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
       var data15 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
@@ -87,41 +126,17 @@ angular.module('overview', ['stats'])
 
       var maxVal = Math.max.apply(Math, [max1, max5, max15]);
 
-      var startValue = 0.0; // the scale start value
-      var stepWidth = 0.2;  // the scale step size
-      var offsetY = 0.5;    // the scale offset
-
       // Calc the number of steps used for scaling the chart
       var numbSteps = (maxVal + offsetY) / stepWidth;
 
+      // Append the line data
+      line15.data = data15;
+      line5.data = data5;
+      line1.data = data1;
+
       var chartData = {
         labels: labels,
-        datasets: [
-          {
-            label: "Load 15min",
-            fillColor: "#F4F4F5",
-            strokeColor: "#D5D5D5",
-            pointColor: "#CACACA",
-            pointStrokeColor: "#fff",
-            data: data15
-          },
-          {
-            label: "Load 5min",
-            fillColor: "#B9B9B9",
-            strokeColor: "#E1E1E1",
-            pointColor: "#DADADA",
-            pointStrokeColor: "#fff",
-            data: data5
-          },
-          {
-            label: "Load 1min",
-            fillColor: "#CCF3DF",
-            strokeColor: "#80E2B0",
-            pointColor: "#00c561",
-            pointStrokeColor: "#fff",
-            data: data1
-          }
-        ]
+        datasets: [line15, line5, line1]
       };
 
       var theChart = lineChart.Line(chartData, {
@@ -136,22 +151,22 @@ angular.module('overview', ['stats'])
         datasetFill: false,
         scaleShowVerticalLines: false,
         pointDot : false,
-        datasetStrokeWidth : 2
-        //legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+        datasetStrokeWidth : 2,
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
       });
 
-/*
+
       var legend = theChart.generateLegend();
+      $('#legend').empty();
       $('#legend').append(legend);
-*/
     };
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});
 
-  });
+    function fillArrayWithZeroes(size) {
+      var arr = Array.apply(null, Array(size));
+      return arr.map(function (x, i) { return 0 });
+    }
 
-function fillArrayWithZeroes(n) {
-  var arr = Array.apply(null, Array(n));
-  return arr.map(function (x, i) { return 0 });
-}
+  });

@@ -107,7 +107,6 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         if (diskIoHistory[node.id]) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
-          //console.log(timeDelta, lastValue, currentValue);
           var readsDelta = currentValue.data.reads - lastValue.data.reads;
           var writesDelta = currentValue.data.writes - lastValue.data.writes;
           var readBytesDelta = currentValue.data.bytes_read - lastValue.data.bytes_read;
