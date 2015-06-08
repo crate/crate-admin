@@ -93,7 +93,7 @@ angular.module('overview', ['stats'])
     }
 
     var startValue = 0.0; // the scale start value
-    var stepWidth = 0.2;  // the scale step size
+    var stepWidth = 0.5;  // the scale step size
     var offsetY = 0.5;    // the scale offset
 
 
@@ -147,12 +147,12 @@ angular.module('overview', ['stats'])
         animation: false, 
         responsive: true,
         bezierCurve: false,
-        showTooltips: false,
         datasetFill: false,
         scaleShowVerticalLines: false,
         pointDot : false,
+        pointHitDetectionRadius: 2,
         datasetStrokeWidth : 2,
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=datasets.length-1; i>=0; i--){%><li style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
       });
 
 
