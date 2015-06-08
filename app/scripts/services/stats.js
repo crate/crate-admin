@@ -158,7 +158,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       if (!data.online) return;
 
       var clusterQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'timestamp\'] as timestamp, '+ 
+        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, '+ 
         'process[\'cpu\'] as proc_cpu ' +
         'from sys.nodes');
       clusterQuery.success(function(sqlQuery) {
