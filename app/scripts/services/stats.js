@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo'])
-  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health) {
-    var healthInterval, statusInterval, reachabilityInterval;
+  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health, ShardInfo, $q) {
+    var healthInterval, statusInterval, reachabilityInterval, shardsInterval;
 
     var data = {
       online: true,
       tables: [],
+      shards: [],
+      partitions: [],
       cluster: [],
       name: '--',
       status: '--',
@@ -48,6 +50,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         $log.warn("Cluster is offline.");
         $interval.cancel(healthInterval);
         $interval.cancel(statusInterval);
+        $interval.cancel(shardsInterval);
         data.status = '--';
         data.tables = [];
         data.cluster = [];
@@ -64,6 +67,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         refreshHealth();
         statusInterval = $interval(refreshState, refreshInterval);
         refreshState();
+        shardsInterval = $interval(refreshShardInfo, refreshInterval);
+        refreshShardInfo();
+
       }
     };
 
@@ -169,10 +175,56 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       }).error(onErrorResponse);
     };
 
+    var refreshShardInfo = function () {
+      if (!data.online) return;
+
+      ShardInfo.executeTableStmt()
+        .then(function (tables) {
+          data.tables = tables;
+          ShardInfo.executeShardStmt()
+            .then(function (shards) {
+              data.shards = shards;
+              ShardInfo.executePartStmt()
+                .then(function (partitions) {
+                  data.partitions = partitions;
+                  var result = {
+                    tables: data.tables,
+                    shards: data.shards,
+                    partitions: data.partitions
+                  };
+                  ShardInfo.executionPromise
+                    .resolve(result);
+                })
+                .catch(function () {
+                  var result = {
+                    tables: data.tables,
+                    shards: data.shards
+                  };
+                  ShardInfo.executionPromise
+                    .reject(result);
+                })
+            })
+            .catch(function () {
+              var result = {
+                tables: data.tables
+              };
+              ShardInfo.executionPromise
+                .reject(result);
+            })
+        })
+        .catch(function () {
+          ShardInfo.executionPromise
+            .reject({});
+        });
+    };
+
     checkReachability();
 
     refreshHealth();
     healthInterval = $interval(refreshHealth, refreshInterval);
+
+    refreshShardInfo();
+    shardsInterval = $interval(refreshShardInfo, refreshInterval);
 
     refreshState();
     $timeout(refreshState, 500); // we want IOPs quickly!
