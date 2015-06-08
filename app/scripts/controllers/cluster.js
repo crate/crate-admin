@@ -56,6 +56,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         $scope.nodes = nodeList;
       }, true);
     };
+    
 
     $scope.sort = NodeListInfo.sort;
     $scope.sortBy = NodeListInfo.sortBy;
@@ -74,6 +75,10 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
   })
   .controller('NodeDetailController', function ($scope, $interval, $route, $http, $filter,
         ClusterState, prepareNodeList, NodeHealth, compareByHealth) {
+
+    // Needed to format tooltip byte-values in div. graphs
+    var byteFormatFunction = $filter('bytes');
+
     $scope.node = null;
     $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
@@ -113,6 +118,11 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         'postrecovery': -1
       }
     };
+    var COLORS = {
+      'used': '#55d4f5',
+      'free': '#eeeeee',
+    };
+   
     var version = null;
     var currentWatcher = null;
 
@@ -202,6 +212,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           } else {
             $scope.node = nodeList[0];
           }
+          drawGraph($scope.node);
         }
         if (shards && shards.length) {
           var shardInfoPerNode = shards.filter(function (shard) {
@@ -216,6 +227,88 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         }
       }, true);
     };
+
+    $scope.toolTipUsedPercentFunction = function(){
+      return function(key, x, y, e, graph) {
+        return '<p><b>'+y+'%</b></p>';
+      }
+    }
+
+    $scope.toolTipUsedBytesFunction = function(){
+      return function(key, x, y, e, graph) {
+        return '<p><b>'+y+'</b></p>';
+      }
+    }
+
+    $scope.yAxisByteFormatFunction = function(){
+      return function(d) {
+        return byteFormatFunction(d, 2);
+      }
+    }
+
+    var drawGraph = function drawGraph(node) {
+
+      $scope.cpuData = [
+        {
+          "key": "System",
+          "values": [["CPU", node.cpu.system]],
+          "color": COLORS.used
+        },
+        {
+          "key": "User",
+          "values": [["CPU", node.cpu.user]],
+          "color": "#5987ff"
+        },
+        {
+          "key": "Idle",
+          "values": [["CPU", Math.max(0, 100-node.cpu.system-node.cpu.user-node.cpu.stolen)]],
+          "color": COLORS.free
+        },
+        {
+          "key": "Stolen",
+          "values": [["CPU", node.cpu.stolen]],
+          "color": "#ff814d"
+        }];
+
+      $scope.crateProcessData = [
+        {
+          "key": "Used",
+          "values": [["Crate Process CPU", Math.min(100, node.proc_cpu.percent)]],
+          "color": COLORS.used
+        }, 
+        {
+          "key": "Free",
+          "values": [["Crate Process CPU", Math.max(0, 100.0-node.proc_cpu.percent)]],
+          "color": COLORS.free
+        }
+      ];
+
+      $scope.heapData = [
+        {
+          "key": "Used",
+          "values": [["HEAP", node.heap.used]],
+          "color": COLORS.used
+        }, 
+        {
+          "key": "Free",
+          "values": [["HEAP", node.heap.max - node.heap.used]],
+          "color": COLORS.free
+        }
+      ];
+
+      $scope.diskUsageData = [
+        {
+          "key": "Used",
+          "values": [["Disk Usage", node.fs.used]],
+          "color": COLORS.used
+        },
+        {
+          "key": "Free",
+          "values": [["Disk Usage", node.fs.available]],
+          "color": COLORS.free
+        }
+      ];
+    }
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});

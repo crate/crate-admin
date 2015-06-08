@@ -14,16 +14,14 @@
       </div><!-- /.row -->
 
       <div class="row">
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-6 col-xs-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{ node.hostname }}</p>
               <p class="announcement-text">Hostname</p>
             </div>
           </div>
-        </div>
 
-        <div class="col-sm-12 col-xs-12">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading" ng-show="node"><a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="{{ node.rest_url }}/admin/" target="_blank">{{ node.rest_url }}</a></p>
@@ -31,9 +29,7 @@
               <p class="announcement-text">REST URL</p>
             </div>
           </div>
-        </div>
 
-        <div class="col-sm-12 col-xs-12">
           <div class="panel panel-info text-right" ng-class="{'panel-warning':!isSameVersion(node.version)}">
             <div class="panel-heading">
               <p class="announcement-heading">{{node.version.number}}<span ng-show="node.version.build_snapshot">-snapshot-{{ node.version.build_hash.substr(0,7) }}</span></p>
@@ -42,265 +38,178 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">Load</h3>
-        </div>
+        <div class="col-sm-6 col-xs-6">
+          <div class="col-sm-12">
+            <h3 class="section-header page-header-sm">Load</h3>
+          </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
+            <div class="col-md-4 col-sm-4 col-xs-4">
               <p class="announcement-heading inline-block" ng-show="node.load['1'] >= 0">{{ node.load['1']|number:2 }}</p>
               <p class="announcement-heading inline-block" ng-hide="node.load['1'] >= 0">-</p>
               <p class="announcement-text">1min</p>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
+            <div class="col-md-4 col-sm-4 col-xs-4">
               <p class="announcement-heading inline-block" ng-show="node.load['5'] >= 0">{{ node.load['5']|number:2 }}</p>
               <p class="announcement-heading inline-block" ng-hide="node.load['5'] >= 0">-</p>
               <p class="announcement-text">5min</p>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-12 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
+            <div class="col-md-4 col-sm-4 col-xs-4">
               <p class="announcement-heading inline-block" ng-show="node.load['15'] >= 0">{{ node.load['15']|number:2 }}</p>
               <p class="announcement-heading inline-block" ng-hide="node.load['15'] >= 0">-</p>
               <p class="announcement-text">15min</p>
             </div>
+
+          <div class="col-sm-12">
+            <h3 class="section-header page-header-sm">Shards</h3>
           </div>
-        </div>
 
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">CPU</h3>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.cpu.system > -1">{{ node.cpu.system }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.cpu.system > -1">-</p>
-              <p class="announcement-text">System</p>
+            <div class="col-md-3 col-sm-6 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="shardInfo.initializing > -1">{{ shardInfo.initializing }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="shardInfo.initializing > -1">-</p>
+                  <p class="announcement-text">Initializing</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.cpu.user > -1">{{ node.cpu.user }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.cpu.user > -1">-</p>
-              <p class="announcement-text">User</p>
+            <div class="col-md-3 col-sm-6 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="shardInfo.started > -1">{{ shardInfo.started }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="shardInfo.started > -1">-</p>
+                  <p class="announcement-text">Started</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.cpu.idle > -1">{{ node.cpu.idle }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.cpu.idle > -1">-</p>
-              <p class="announcement-text">Idle</p>
+            <div class="col-md-3 col-sm-6 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="shardInfo.reallocating > -1">{{ shardInfo.reallocating }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="shardInfo.reallocating > -1">-</p>
+                  <p class="announcement-text">Reallocating</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.cpu.stolen > -1">{{ node.cpu.stolen }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.cpu.stolen > -1">-</p>
-              <p class="announcement-text">Stolen</p>
+            <div class="col-md-3 col-sm-6 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="shardInfo.postrecovery> -1">{{ shardInfo.postrecovery }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="shardInfo.postrecovery> -1">-</p>
+                  <p class="announcement-text">Post Recovery</p>
+                </div>
+              </div>
             </div>
+
+          <div class="col-sm-12">
+            <h3 class="section-header page-header-sm">Disk Operations</h3>
           </div>
-        </div>
-
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">Crate Process CPU</h3>
-        </div>
-
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.proc_cpu.percent > -1">{{ node.proc_cpu.percent }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.proc_cpu.percent > -1">-</p>
-              <p class="announcement-text">Percent</p>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="node.iostats.rps > -1">{{ node.iostats.rps|number:1 }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="node.iostats.rps > -1">-</p>
+                  <p class="announcement-text">Read OPS</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.proc_cpu.user > -1">{{ node.proc_cpu.user / 1000.0|number:1 }} s</p>
-              <p class="announcement-heading inline-block" ng-hide="node.proc_cpu.user > -1">-</p>
-              <p class="announcement-text">User</p>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="node.iostats.wps > -1">{{ node.iostats.wps|number:1 }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="node.iostats.wps > -1">-</p>
+                  <p class="announcement-text">Write OPS</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.proc_cpu.system > -1">{{ node.proc_cpu.system / 1000.0|number:1 }} s</p>
-              <p class="announcement-heading inline-block" ng-hide="node.proc_cpu.system > -1">-</p>
-              <p class="announcement-text">System</p>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="node.iostats.rbps > -1">{{ node.iostats.rbps|bytes }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="node.iostats.rbps > -1">-</p>
+                  <p class="announcement-text">Read Bytes/s</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">Shards</h3>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="shardInfo.initializing > -1">{{ shardInfo.initializing }}</p>
-              <p class="announcement-heading inline-block" ng-hide="shardInfo.initializing > -1">-</p>
-              <p class="announcement-text">Initializing</p>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+              <div class="panel panel-info text-right">
+                <div class="panel-heading">
+                  <p class="announcement-heading inline-block" ng-show="node.iostats.wbps > -1">{{ node.iostats.wbps|bytes }}</p>
+                  <p class="announcement-heading inline-block" ng-hide="node.iostats.wbps > -1">-</p>
+                  <p class="announcement-text">Write Bytes/s</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="shardInfo.started > -1">{{ shardInfo.started }}</p>
-              <p class="announcement-heading inline-block" ng-hide="shardInfo.started > -1">-</p>
-              <p class="announcement-text">Started</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="shardInfo.reallocating > -1">{{ shardInfo.reallocating }}</p>
-              <p class="announcement-heading inline-block" ng-hide="shardInfo.reallocating > -1">-</p>
-              <p class="announcement-text">Reallocating</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="shardInfo.postrecovery> -1">{{ shardInfo.postrecovery }}</p>
-              <p class="announcement-heading inline-block" ng-hide="shardInfo.postrecovery> -1">-</p>
-              <p class="announcement-text">Post Recovery</p>
-            </div>
-          </div>
         </div>
 
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">HEAP</h3>
+        <div class="col-sm-12">
+          <hr />
         </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.heap.used_percent >= percentageLimitYellow, 'panel-danger': node.heap.used_percent >= percentageLimitRed }">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used | number:0}}">{{node.heap.used | bytes}}</p>
-              <p class="announcement-text">Used</p>
-            </div>
-          </div>
+        <div class="col-sm-11">
+          <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
+            data="cpuData"
+            showXAxis="true"
+            showYAxis="true"
+            stacked="true"
+            showLegend="true" 
+            height="100"
+            forcey="[0,100]"
+            xAxisOrient="top"
+            tooltips="true"
+            tooltipcontent="toolTipUsedPercentFunction()">
+          </nvd3-multi-bar-horizontal-chart>
         </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.max | number:0}}">{{node.heap.max | bytes}}</p>
-              <p class="announcement-text">Max</p>
-            </div>
-          </div>
+        <div class="col-sm-11">
+          <nvd3-multi-bar-horizontal-chart id="chart-process-cpu-usage"
+            data="crateProcessData" 
+            showXAxis="true"
+            showYAxis="true"
+            stacked="true"
+            showLegend="true"
+            height="100"
+            forcey="[0,100]"
+            tooltips="true"
+            xAxisOrient="top" 
+            tooltipcontent="toolTipUsedPercentFunction()">
+          </nvd3-multi-bar-horizontal-chart>
         </div>
 
-        <div class="col-md-4 col-sm-12 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.heap.used_percent" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.heap.used_percent|number:1}}%">{{node.heap.used_percent|number:1 }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.heap.used_percent">-</p>
-              <p class="announcement-text">Used Percent</p>
-            </div>
-          </div>
+        <div class="col-sm-11">
+          <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
+            data="heapData"
+            showXAxis="true"
+            showYAxis="true"
+            yAxisTickFormat="yAxisByteFormatFunction()"
+            stacked="true"
+            showLegend="true"
+            height="100"
+            tooltips="true"
+            xAxisOrient="top"
+            tooltipcontent="toolTipUsedBytesFunction()">
+          </nvd3-multi-bar-horizontal-chart>
         </div>
 
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">Disk Usage</h3>
+        <div class="col-sm-11">
+          <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
+            data="diskUsageData"
+            showXAxis="true"
+            showYAxis="true"
+            yAxisTickFormat="yAxisByteFormatFunction()"
+            stacked="true"
+            showLegend="true"
+            height="100"
+            xAxisOrient="top"
+            tooltips="true"
+            tooltipcontent="toolTipUsedBytesFunction()">
+          </nvd3-multi-bar-horizontal-chart>
         </div>
 
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right" ng-class="{ 'panel-warning': node.fs.used_percent >= percentageLimitYellow, 'panel-danger': node.fs.used_percent >= percentageLimitRed }">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.used | number:0}}">{{node.fs.used | bytes}}</p>
-              <p class="announcement-text">Used</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{node.fs.available | number:0}}">{{node.fs.available | bytes}}</p>
-              <p class="announcement-text">Free</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-sm-12 col-xs-4">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.fs.used_percent">{{ node.fs.used_percent|number:1 }}%</p>
-              <p class="announcement-heading inline-block" ng-hide="node.fs.used_percent">-</p>
-              <p class="announcement-text">Used Percent</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-12 col-xs-12">
-          <h3 class="page-header page-header-sm">Disk Operations</h3>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.iostats.rps > -1">{{ node.iostats.rps|number:1 }}</p>
-              <p class="announcement-heading inline-block" ng-hide="node.iostats.rps > -1">-</p>
-              <p class="announcement-text">Read OPS</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.iostats.wps > -1">{{ node.iostats.wps|number:1 }}</p>
-              <p class="announcement-heading inline-block" ng-hide="node.iostats.wps > -1">-</p>
-              <p class="announcement-text">Write OPS</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.iostats.rbps > -1">{{ node.iostats.rbps|bytes }}</p>
-              <p class="announcement-heading inline-block" ng-hide="node.iostats.rbps > -1">-</p>
-              <p class="announcement-text">Read Bytes/s</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-3">
-          <div class="panel panel-info text-right">
-            <div class="panel-heading">
-              <p class="announcement-heading inline-block" ng-show="node.iostats.wbps > -1">{{ node.iostats.wbps|bytes }}</p>
-              <p class="announcement-heading inline-block" ng-hide="node.iostats.wbps > -1">-</p>
-              <p class="announcement-text">Write Bytes/s</p>
-            </div>
-          </div>
+        <div class="col-sm-12">
+          <hr />
         </div>
 
       </div><!-- /.row -->

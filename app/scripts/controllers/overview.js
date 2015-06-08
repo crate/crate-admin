@@ -17,13 +17,18 @@ angular.module('overview', ['stats'])
     $scope.records_underreplicated = '--';
     $scope.cluster_state = '--';
     $scope.cluster_color_class = 'panel-default';
+    $scope.chart = {
+      'data': [],
+      'maxY': 1.0
+    };
 
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       $scope.cluster_state = data.status;
       $scope.cluster_color_class = colorMap[data.status];
 
-      // Graph is always drawn
-      drawGraph(data.loadHistory);
+      if (data.loadHistory[0].length > 0) {
+        drawGraph(data.loadHistory);
+      }
 
       if (!data.tables || !data.tables.length) {
         $scope.available_data = 100;
@@ -55,118 +60,71 @@ angular.module('overview', ['stats'])
       }
     }, true);
 
-    /*
-     **************************************************************
-     ******************* CHART SETTINGS ***************************
-     **************************************************************
-    */
-
-    var ctx = document.getElementById('load-graph').getContext("2d");
-    var lineChart = new Chart(ctx);
-
-    // Set the line attributes
-    var line15 = {
-      label: "Load 15min",
-      fillColor: "#F4F4F5",
-      strokeColor: "#D5D5D5",
-      pointColor: "#CACACA",
-      pointStrokeColor: "#fff",
-      data: []
-    }
-
-    var line5 = {
-      label: "Load 5min",
-      fillColor: "#B9B9B9",
-      strokeColor: "#E1E1E1",
-      pointColor: "#DADADA",
-      pointStrokeColor: "#fff",
-      data: []
-    }
-
-    var line1 = {
-      label: "Load 1min",
-      fillColor: "#CCF3DF",
-      strokeColor: "#80E2B0",
-      pointColor: "#00c561",
-      pointStrokeColor: "#fff",
-      data: []
-    }
-
-    var startValue = 0.0; // the scale start value
-    var stepWidth = 0.5;  // the scale step size
-    var offsetY = 0.5;    // the scale offset
-
+    function fillArrayWithZeroes(len) {
+      var res = new Array(len);
+      for (var i=0; i<res.length; i++) {
+        res[i] = 0;
+      }
+      return res;
+    };
 
     var drawGraph = function drawGraph(history) {
+      var len = history[0].length;
 
       // Create Arrays with Zeroes in it
-      var data1 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
-      var data5 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
-      var data15 = fillArrayWithZeroes(ClusterState.HISTORY_LENGTH);
+      var data = [
+        fillArrayWithZeroes(ClusterState.HISTORY_LENGTH-len),
+        fillArrayWithZeroes(ClusterState.HISTORY_LENGTH-len),
+        fillArrayWithZeroes(ClusterState.HISTORY_LENGTH-len)
+      ];
 
-      for (var i=0; i<history[0].length; i++) {
-        data1.shift();
-        data5.shift();
-        data15.shift();
+      for (var i=0; i<data.length; i++){
+        data[i].push.apply(data[i], history[i]);
       }
 
-      data1.push.apply(data1, history[0]);
-      data5.push.apply(data5, history[1]);
-      data15.push.apply(data15, history[2]);
-
-      var labels = new Array(data1.length);
+      var labels = new Array(ClusterState.HISTORY_LENGTH);
       for (var i=0; i<labels.length; i++) {
-        labels[i] = String(""); // Set label text here 
+        labels[i] = i;
       }
 
       // Get the max value out of the history
-      var max1 = Math.max.apply(Math, data1);
-      var max5 = Math.max.apply(Math, data5);
-      var max15 = Math.max.apply(Math, data15);
+      var maxY = Math.max(
+        Math.max.apply(Math, data[0]),
+        Math.max.apply(Math, data[1]),
+        Math.max.apply(Math, data[2])
+      );
 
-      var maxVal = Math.max.apply(Math, [max1, max5, max15]);
+      var graphData = [[], [], []];
 
-      // Calc the number of steps used for scaling the chart
-      var numbSteps = (maxVal + offsetY) / stepWidth;
+      for (var i=0; i<ClusterState.HISTORY_LENGTH; i++) {
+        graphData[0][i] = [labels[i], data[0][i]];
+        graphData[1][i] = [labels[i], data[1][i]];
+        graphData[2][i] = [labels[i], data[2][i]];
+      }
 
-      // Append the line data
-      line15.data = data15;
-      line5.data = data5;
-      line1.data = data1;
+      var chart = d3.select('#history-chart svg');
 
-      var chartData = {
-        labels: labels,
-        datasets: [line15, line5, line1]
-      };
-
-      var theChart = lineChart.Line(chartData, {
-        scaleOverride: true,
-        scaleSteps: numbSteps,
-        scaleStepWidth: stepWidth,
-        scaleStartValue: startValue,
-        animation: false, 
-        responsive: true,
-        bezierCurve: false,
-        datasetFill: false,
-        scaleShowVerticalLines: false,
-        pointDot : false,
-        pointHitDetectionRadius: 2,
-        datasetStrokeWidth : 2,
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=datasets.length-1; i>=0; i--){%><li style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-      });
-
-
-      var legend = theChart.generateLegend();
-      $('#legend').empty();
-      $('#legend').append(legend);
+      $scope.chart.y = [0, Math.round(Math.max(maxY+0.2, 1.0)*10)/10];
+      $scope.chart.data = [
+      {
+        "key": "Load 1",
+        "values": graphData[0],
+        "color": "#55d4f5",
+        "area": true
+      },
+      {
+        "key": "Load 5",
+        "values": graphData[1],
+        "color": "#5987ff"
+      },
+      {
+        "key": "Load 15",
+        "values": graphData[2],
+        "color": "#115097"
+      }];
     };
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});
-
-    function fillArrayWithZeroes(size) {
-      var arr = Array.apply(null, Array(size));
-      return arr.map(function (x, i) { return 0 });
-    }
 
   });
