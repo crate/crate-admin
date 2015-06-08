@@ -15,19 +15,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
   })
   .factory('PartitionsTableController', function () {
     return function PartitionsTableController(){
-      this.headers = [
-        ['health', 'Health'],
-        ['partition_ident', 'Ident'],
-        ['replicas_configured', 'Config. Replicas'],
-        ['shards_configured', 'Config. Shards'],
-        ['shards_started', 'Started Shards'],
-        ['shards_missing', 'Missing Shards'],
-        ['shards_underreplicated', 'Underr. Shards'],
-        ['records_total', 'Total Records'],
-        ['records_unavailable', 'Unavail. Records'],
-        ['records_underreplicated', 'Underr. Records'],
-        ['size', 'Size']
-      ];
       this.data = [];
       this.sort = {
         col: 'partition_ident',
@@ -167,13 +154,14 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         // Table Partitions
         var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
           'from sys.shards ' +
-          'where schema_name = $1 and table_name = $2 and partition_ident != \'\' ' +
+          'where schema_name = ? and table_name = ? and partition_ident != \'\' ' +
           'group by partition_ident, "primary", state';
 	var r1 = requestId();
         var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery){
           if (typeof activeRequests[r1] == 'undefined') return;
-	  var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas from information_schema.table_partitions ' +
-	    'where schema_name = $1 and table_name = $2';
+	  var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
+      'from information_schema.table_partitions ' +
+	    'where schema_name = ? and table_name = ?';
 	  var r2 = requestId();
 	  var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery){
             if (typeof activeRequests[r2] == 'undefined') return;
@@ -182,7 +170,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 	    var shardResult = queryResultToObjects(shardQuery,
               ['partition_ident', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
 	    var partitionResult = queryResultToObjects(tablePartitionQuery,
-              ['partition_ident', 'number_of_shards', 'number_of_replicas']);
+              ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
 	    
 	    var idents = shardResult.reduce(function(memo, obj, idx){
 	      var ident = obj.partition_ident;
@@ -192,15 +180,20 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
 	    for (var i=0; i<idents.length; i++) {
 	      var ident = idents[i];
-	      var shardInfoForPartition = shardResult.filter(function(item, idx){ return item.partition_ident === ident; });
-	      var confInfoForPartition = partitionResult.filter(function(item, idx){ return item.partition_ident === ident; });
+	      var shardInfoForPartition = shardResult.filter(function(item, idx){
+          return item.partition_ident === ident;
+        });
+	      var confInfoForPartition = partitionResult.filter(function(item, idx){
+          return item.partition_ident === ident;
+        });
 	      if (confInfoForPartition.length === 1) {
-		var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
-		var o = info.asObject();
-		o.partition_ident = ident;
-		o.replicas_configured = confInfoForPartition[0].number_of_replicas;
-		o.health_label_class = colorMapLabel[o.health];
-		partitions.push(o);
+          var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
+          var o = info.asObject();
+          o.partition_values = confInfoForPartition[0].values;
+          o.partition_ident = ident;
+          o.replicas_configured = confInfoForPartition[0].number_of_replicas;
+          o.health_label_class = colorMapLabel[o.health];
+          partitions.push(o);
 	      }
 	    }
 
@@ -220,7 +213,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
       var update = function update(success, partitions){
         $scope.ptCtlr.data = partitions;
-	$scope.isParted = true;
+        $scope.isParted = true;
         $scope.renderPartitions = success;
         $scope.renderSchema = success;
         timeout = $timeout(fetchPartitions, refreshInterval);
@@ -229,7 +222,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       if (tableName && schemaName) {
         // Table Schema
         var tableStmt = "select column_name, data_type from information_schema.columns " +
-              "where schema_name = $1 and table_name = $2";
+              "where schema_name = ? and table_name = ?";
         SQLQuery.execute(tableStmt, [schemaName, tableName]).success(function(query){
           $scope.schemaHeaders = query.cols;
           $scope.schemaRows = query.rows;
