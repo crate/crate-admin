@@ -81,16 +81,32 @@ License: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
 
 =========================================================================
 
-Flot
-http://www.flotcharts.org
-Copyright (c) 2007-2013 IOLA and Ole Laursen
-License: MIT (http://opensource.org/licenses/MIT)
-
-=========================================================================
-
 Ladda
 http://lab.hakim.se/ladda/
 Copyright (C) 2013 Hakim El Hattab, http://hakim.se
 License: MIT (http://opensource.org/licenses/MIT)
 
 =========================================================================
+
+d3.js
+http://d3js.org
+Copyright (c) 2012, Michael Bostock
+All rights reserved.
+License: https://github.com/mbostock/d3/blob/master/LICENSE
+
+=========================================================================
+
+nvd3.js
+http://nvd3.org
+Copyright (c) 2011-2014 Novus Partners, Inc., http://www.novus.com
+License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+
+=========================================================================
+
+angularjs-nvd3-directives
+http://angularjs-nvd3-directives.github.io/angularjs-nvd3-directives/
+Copyright (c) 2013 Christian Maurer
+License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+
+=========================================================================
+

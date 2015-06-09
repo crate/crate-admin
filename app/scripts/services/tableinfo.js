@@ -88,7 +88,7 @@ angular.module('tableinfo', ['sql'])
       };
     };
   })
-  .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, queryResultToObjects){
+  .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, ShardInfo) {
 
     var deferred = $q.defer();
     var data = {
@@ -137,13 +137,13 @@ angular.module('tableinfo', ['sql'])
           var shardsForTable = _shards.filter(function(item, idx) {
             return item.table_name === table.name && item.schema_name == table.schema_name;
           });
-	  var partitionsForTable = _partitions.filter(function(item, idx) {
-	    return item.table_name === table.name && item.schema_name == table.schema_name;
-	  });
+          var partitionsForTable = _partitions.filter(function(item, idx) {
+            return item.table_name === table.name && item.schema_name == table.schema_name;
+          });
 
-	  if (table.partitioned_by && partitionsForTable.length === 1) {
-	    table.shards_configured = partitionsForTable[0].num_shards;
-	  }
+          if (table.partitioned_by && partitionsForTable.length === 1) {
+            table.shards_configured = partitionsForTable[0].num_shards;
+          }
           var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by);
           var info = tableInfo.asObject();
 
@@ -180,43 +180,21 @@ angular.module('tableinfo', ['sql'])
     var fetch = function fetch() {
       $timeout.cancel(timeout);
 
-      // table info statement
-      var tableStmt = 'select table_name, number_of_shards, number_of_replicas, schema_name, partitioned_by ' +
-        'from information_schema.tables ' +
-        'where schema_name not in (\'information_schema\', \'sys\')';
-
-      // shard info statement
-      var shardStmt = 'select table_name, schema_name, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
-        'from sys.shards ' +
-        'group by table_name, schema_name, "primary", state ' +
-        'order by table_name, "primary", state';
-
-      // table partitions statement
-      var partStmt = 'select table_name, schema_name, sum(number_of_shards) as num_shards ' +
-	'from information_schema.table_partitions ' +
-	'group by table_name, schema_name';
-
-      SQLQuery.execute(tableStmt).success(function(tableQuery){
-        var tables = queryResultToObjects(tableQuery,
-            ['name', 'shards_configured', 'replicas_configured', 'schema_name', 'partitioned_by']);
-        SQLQuery.execute(shardStmt).success(function(shardQuery) {
-          var shards = queryResultToObjects(shardQuery,
-              ['table_name', 'schema_name', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-	  SQLQuery.execute(partStmt).success(function(partQuery) {
-	    var partitions = queryResultToObjects(partQuery,
-		['table_name', 'schema_name', 'num_shards'])
-	    update(true, tables, shards, partitions);
-	  }).error(function(sqlQuery){
-	    update(true, tables, shards);
-	  });
-        }).error(function(sqlQuery) {
-          update(true, tables);
-        });
-
-      }).error(function(sqlQuery) {
-        update(false);
+      ShardInfo.deferred.promise.then(function(result) {
+        update(true, result.tables, result.shards, result.partitions);
+      }).catch(function(result) {
+        if (jQuery.isEmptyObject(result)) return;
+        if (result.tables && result.shards) {
+          update(true, result.tables, result.shards);
+        } else if (result.tables) {
+          update(true, result.tables);
+        } else {
+          update(false);
+        }
+      }).finally(function() {
+        ShardInfo.deferred.promise = $q.defer().promise;
+        fetch();
       });
-
     };
 
     // initialize

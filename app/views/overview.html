@@ -37,8 +37,8 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_total | number:0}}">{{records_total | roundWithUnit:1}}</p>
-            <p class="announcement-text">Records total</p>
+            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_total|number:0 }}">{{ records_total|roundWithUnit:1 }}</p>
+            <p class="announcement-text">Total Records</p>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel" ng-class="{'panel-warning': records_underreplicated > 0}">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_underreplicated | number:0}}">{{records_underreplicated | roundWithUnit:1}}</p>
+            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_underreplicated|number:0 }}">{{ records_underreplicated|roundWithUnit:1 }}</p>
             <p class="announcement-text">Underreplicated Records</p>
           </div>
         </div>
@@ -55,7 +55,7 @@
       <div class="col-md-4 col-sm-5">
         <div class="panel" ng-class="{'panel-danger': records_unavailable > 0}">
           <div class="panel-heading">
-            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{records_unavailable | number:0}}">{{records_unavailable | roundWithUnit:1}}</p>
+            <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_unavailable|number:0 }}">{{ records_unavailable|roundWithUnit:1 }}</p>
             <p class="announcement-text">Unavailable Records</p>
           </div>
         </div>
@@ -63,11 +63,19 @@
 
     </div><!-- /.row -->
 
-    <div class="row">
+    <div class="row" ng-show="chart.data">
         <div class="col-md-12">
-            <div id="load-graph"></div>
+            <nvd3-line-chart
+              data="chart.data"
+              height="450"
+              showXAxis="false"
+              showYAxis="true"
+              yaxisshowmaxmin="false"
+              forcey="[0,2]"
+              interactive="false"
+              showLegend="true">
+            </nvd3-line-chart>
         </div>
     </div><!-- /.row -->
-
 
 </div>
