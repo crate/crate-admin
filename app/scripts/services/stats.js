@@ -192,29 +192,25 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
                     shards: data.shards,
                     partitions: data.partitions
                   };
-                  ShardInfo.executionPromise
-                    .resolve(result);
+                  ShardInfo.deferred.resolve(result);
                 })
                 .catch(function () {
                   var result = {
                     tables: data.tables,
                     shards: data.shards
                   };
-                  ShardInfo.executionPromise
-                    .reject(result);
+                  ShardInfo.deferred.reject(result);
                 })
             })
             .catch(function () {
               var result = {
                 tables: data.tables
               };
-              ShardInfo.executionPromise
-                .reject(result);
+              ShardInfo.deferred.reject(result);
             })
         })
         .catch(function () {
-          ShardInfo.executionPromise
-            .reject({});
+          ShardInfo.deferred.reject({});
         });
     };
 
