@@ -5,7 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - added load, cpu and disk i/o stats on node detail page
+ - display load, cpu usage, disk i/o, process stats and shard information
+   on node detail page
 
 2015/05/22 0.12.1
 =================
