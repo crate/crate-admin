@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/06/09 0.13.0
+=================
+
  - improved load graph on overview page
 
  - display load, cpu usage, disk i/o, process stats and shard information
