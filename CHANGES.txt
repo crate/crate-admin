@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/06/09 0.13.1
+=================
+
  - fix: load graph was not displayed when no tables where available
 
 2015/06/09 0.13.0
