@@ -180,25 +180,21 @@ angular.module('tableinfo', ['sql'])
     var fetch = function fetch() {
       $timeout.cancel(timeout);
 
-      ShardInfo.deferred.promise
-        .then(function (result) {
-          update(true, result.tables, result.shards, result.partitions);
-        })
-        .catch(function (result) {
-          if (jQuery.isEmptyObject(result)) return;
-
-          if (result.tables && result.shards) {
-            update(true, result.tables, result.shards);
-          } else if (result.tables) {
-            update(true, result.tables);
-          } else {
-            update(false);
-          }
-        })
-        .finally(function () {
-          ShardInfo.deferred.promise = $q.defer().promise;
-          fetch();
-        });
+      ShardInfo.deferred.promise.then(function(result) {
+        update(true, result.tables, result.shards, result.partitions);
+      }).catch(function(result) {
+        if (jQuery.isEmptyObject(result)) return;
+        if (result.tables && result.shards) {
+          update(true, result.tables, result.shards);
+        } else if (result.tables) {
+          update(true, result.tables);
+        } else {
+          update(false);
+        }
+      }).finally(function() {
+        ShardInfo.deferred.promise = $q.defer().promise;
+        fetch();
+      });
     };
 
     // initialize

@@ -3,6 +3,7 @@
 angular.module('overview', ['stats'])
   .controller('OverviewController', function ($scope, $location, $log, $timeout, ClusterState) {
 
+    var lastUpdate = null;
     var colorMap = {
       "good": 'panel-success',
       "warning": 'panel-warning',
@@ -23,12 +24,15 @@ angular.module('overview', ['stats'])
     };
 
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
+      var now = new Date().getTime();
+      if (lastUpdate && now - lastUpdate < 100) {
+        return;
+      } else {
+        lastUpdate = now;
+      }
+
       $scope.cluster_state = data.status;
       $scope.cluster_color_class = colorMap[data.status];
-
-      if (data.loadHistory[0].length > 0) {
-        drawGraph(data.loadHistory);
-      }
 
       if (!data.tables || !data.tables.length) {
         $scope.available_data = 100;
@@ -57,6 +61,10 @@ angular.module('overview', ['stats'])
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
+      }
+      // draw graph
+      if (data.loadHistory[0].length > 0) {
+        drawGraph(data.loadHistory);
       }
     }, true);
 
