@@ -34,6 +34,11 @@ angular.module('overview', ['stats'])
       $scope.cluster_state = data.status;
       $scope.cluster_color_class = colorMap[data.status];
 
+      // draw graph
+      if (data.loadHistory[0].length > 0) {
+        drawGraph(data.loadHistory);
+      }
+
       if (!data.tables || !data.tables.length) {
         $scope.available_data = 100;
         $scope.records_unavailable = 0;
@@ -61,10 +66,6 @@ angular.module('overview', ['stats'])
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
-      }
-      // draw graph
-      if (data.loadHistory[0].length > 0) {
-        drawGraph(data.loadHistory);
       }
     }, true);
 
