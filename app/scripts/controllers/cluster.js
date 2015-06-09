@@ -110,7 +110,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         'started': -1,
         'initializing': -1,
         'reallocating': -1,
-        'unassigned': -1
+        'postrecovery': -1
       }
     };
     var version = null;
@@ -157,6 +157,14 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       return fs;
     };
 
+    var getShardsCountPerState = function(shardInfo, state) {
+      return shardInfo.filter(function (shard) {
+        return shard.state === state;
+      }).reduce(function(acc, table) {
+        return acc + table.count;
+      }, 0);
+    };
+
     var render = function render(nodeName){
       if (currentWatcher) {
         // de-register
@@ -195,26 +203,16 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             $scope.node = nodeList[0];
           }
         }
-        var getShardsCountPerState = function(shardInfo, state) {
-          return shardInfo.filter(function (shard) {
-            return shard.state === state;
-          })
-            .reduce(function(acc, table) {
-              return acc + table.count;
-            }, 0)
-        };
-
         if (shards && shards.length) {
           var shardInfoPerNode = shards.filter(function (shard) {
             return shard.node_id === $scope.node.id;
           });
-          var shardInfo = {
+          $scope.shardInfo = {
             'started': getShardsCountPerState(shardInfoPerNode, "STARTED"),
             'initializing': getShardsCountPerState(shardInfoPerNode, "INITIALIZING"),
             'reallocating': getShardsCountPerState(shardInfoPerNode, "REALLOCATING"),
-            'unassigned': getShardsCountPerState(shardInfoPerNode, "UNASSIGNED")
+            'postrecovery': getShardsCountPerState(shardInfoPerNode, "POST_RECOVERY")
           };
-          $scope.shardInfo = shardInfo;
         }
       }, true);
     };
