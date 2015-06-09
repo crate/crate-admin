@@ -105,6 +105,12 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         'used': 0,
         'available_percent': 0,
         'used_percent': 0
+      },
+      'shardInfo': {
+        'started': -1,
+        'initializing': -1,
+        'reallocating': -1,
+        'unassigned': -1
       }
     };
     var version = null;

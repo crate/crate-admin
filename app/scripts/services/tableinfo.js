@@ -180,7 +180,7 @@ angular.module('tableinfo', ['sql'])
     var fetch = function fetch() {
       $timeout.cancel(timeout);
 
-      ShardInfo.executionPromise.promise
+      ShardInfo.deferred.promise
         .then(function (result) {
           update(true, result.tables, result.shards, result.partitions);
         })
@@ -196,7 +196,7 @@ angular.module('tableinfo', ['sql'])
           }
         })
         .finally(function () {
-          ShardInfo.executionPromise.promise = $q.defer().promise;
+          ShardInfo.deferred.promise = $q.defer().promise;
           fetch();
         });
     };
