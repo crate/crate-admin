@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('common', ['stats', 'udc'])
+var commons = angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function ($scope, $log, $location, $sce, ClusterState) {
     var colorMap = {"good": '',
                     "warning": 'label-warning',
@@ -40,12 +40,39 @@ angular.module('common', ['stats', 'udc'])
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'bottom'});
   })
-  .controller('NavigationController', function ($scope, $location) {
+  .controller('NavigationController', function ($scope, $location, NavigationService) {
+
+    $scope.navBarElements = NavigationService.navBarElements;
+
     $scope.isActive = function (viewLocation) {
       if (viewLocation == '/') {
         return viewLocation === $location.path();
       } else {
         return $location.path().substr(0, viewLocation.length) == viewLocation;
+      }
+    };
+  })
+  .service('NavigationService', function() {
+    this.navBarElements = [];
+
+    this.addNavBarElement = function(iconClass, text, urlPattern, index) {
+
+      if (urlPattern.charAt(0) != '/') {
+        urlPattern = "/" + urlPattern;
+      }
+
+      var pluginElement = {
+        "text" : text,
+        "iconClass" : iconClass,
+        "urlPattern" : urlPattern
+      };
+
+      if (typeof index === 'undefined') {
+        this.navBarElements.push(pluginElement);
+      } else if (index < 0 || index >= this.navBarElements.length) {
+        this.navBarElements.push(pluginElement);
+      } else {
+        this.navBarElements.splice(index, 0, pluginElement);
       }
     };
   })
@@ -122,4 +149,11 @@ angular.module('common', ['stats', 'udc'])
     console.warn(error);
   }).notify(function(event){
   });
+});
+
+commons.run(function(NavigationService) {
+  NavigationService.addNavBarElement("fa fa-th-large", "Overview", "/");
+  NavigationService.addNavBarElement("fa fa-code", "Console", "/console");
+  NavigationService.addNavBarElement("fa fa-table", "Tables", "/tables");
+  NavigationService.addNavBarElement("fa fa-sitemap", "Cluster", "/cluster");
 });

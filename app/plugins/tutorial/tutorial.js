@@ -95,7 +95,6 @@ var tutorialPlugin = angular.module('tutorial', ['sql'])
 
             ctd.success(fetch);
             ctd.error(fetch);
-
         };
 
         this.running = function() {
@@ -131,8 +130,14 @@ var tutorialPlugin = angular.module('tutorial', ['sql'])
 
   });
 
-tutorialPlugin.run(function($window, $location) {
-    
+tutorialPlugin.run(function($window, $location, NavigationService) {
+
+    var iconClass = "fa fa-info-circle";
+    var navElementText = "GET STARTED";
+    var urlPattern = "/tutorial";
+    var position = 1;
+    NavigationService.addNavBarElement(iconClass, navElementText, urlPattern, position);
+
     var url = $.url($window.location.href);
     var path = './' + url.attr("file");
     var startTwitter = url.param("start_twitter");
