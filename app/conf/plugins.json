@@ -1,2 +1,12 @@
-[]
-
+[
+  {
+    "name": "tutorial",
+    "uri": "plugins/tutorial/tutorial.js",
+    "routing": {
+      "/tutorial": {
+        "templateUrl": "plugins/tutorial/tutorial.html",
+        "controller": "TutorialController"
+      }
+    }
+  }
+]

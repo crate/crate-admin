@@ -10,7 +10,6 @@
     'common',
     'overview',
     'feed',
-    'tutorial',
     'console',
     'tables',
     'cluster',
@@ -25,10 +24,6 @@
     '/': {
       'templateUrl': 'views/overview.html',
       'controller': 'OverviewController'
-    },
-    '/tutorial': {
-      'templateUrl': 'views/tutorial.html',
-      'controller': 'TutorialController'
     },
     '/console': {
       'templateUrl': 'views/console.html',
@@ -55,9 +50,12 @@
   var head = document.getElementsByTagName('head')[0];
 
   var loadScript = function loadScript(url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send('');
     var script = document.createElement('script');
     script.type = 'application/javascript';
-    script.src = url;
+    script.text = xhr.responseText;
     head.appendChild(script);
   };
 
@@ -101,12 +99,8 @@
     app.run(function($window, $location) {
       var url = $.url($window.location.href);
       var path = './' + url.attr("file");
-      var startTwitter = url.param("start_twitter");
       var baseURI = url.param("base_uri");
-      if (startTwitter) {
-        localStorage.setItem('crate.start_twitter', "true");
-        $window.location.href = path + '#/tutorial';
-      } else if (baseURI) {
+      if (baseURI) {
         localStorage.setItem('crate.base_uri', baseURI);
         $window.location.href = path + '#/';
       }
@@ -119,4 +113,3 @@
   });
 
 }());
-
