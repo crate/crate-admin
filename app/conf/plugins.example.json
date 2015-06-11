@@ -1,0 +1,13 @@
+[
+  {
+    "name": "demo",
+    "uri": "plugins/demo/module.js",
+    "routing": {
+      "/dataviz": {
+        "templateUrl": "plugins/demo/view.html",
+        "controller": "DemoController"
+      }
+    }
+  }
+]
+
