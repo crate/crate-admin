@@ -273,13 +273,8 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       $scope.crateProcessData = [
         {
           "key": "Used",
-          "values": [["Crate Process CPU", Math.min(100, node.proc_cpu.percent)]],
+          "values": [["Crate Process CPU", node.proc_cpu.percent]],
           "color": COLORS.used
-        }, 
-        {
-          "key": "Free",
-          "values": [["Crate Process CPU", Math.max(0, 100.0-node.proc_cpu.percent)]],
-          "color": COLORS.free
         }
       ];
 
