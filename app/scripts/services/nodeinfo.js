@@ -45,7 +45,7 @@ angular.module('nodeinfo', [])
   })
   .factory('prepareNodeList', function(NodeHealth){
     var colorMapLabel = {
-      "good": '',
+      "good": 'label-success',
       "warning": 'label-warning',
       "critical": 'label-danger',
       '--': ''

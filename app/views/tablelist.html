@@ -1,6 +1,6 @@
 <div ng-controller="TableListController">
 
-  <div id="sidebar-wrapper" class="sidebar-350" ng-show="renderSidebar">
+  <div class="side-list" ng-show="renderSidebar">
 
     <ul class="nav" ng-repeat="type in tables track by $index">
       <li class="nav-tabs-header" id="nav-tabs-header-{{$index}}">
@@ -9,8 +9,20 @@
       <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
         <li ng-repeat="table in type.tables track by $index" ng-class="{ 'active': isActive(table.schema_name, table.name)}">
           <a href="#/tables/{{ table.schema_name }}/{{ table.name }}">
-            <h3><span class="{{table.health_label_class}}">{{table.name}}</span></h3>
-            <span class="{{table.health_label_class}}">{{ table.summary }}</span>
+            <div class="row">
+              <div class="col-sm-10 col-xs-10">
+                <h3>{{ table.name }}</h3>
+              </div>
+              <div class="col-sm-2 col-xs-2 text-right">
+                <span class="health-bubble {{ table.health_label_class }}" title="{{ table.health.status }}"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <span>{{ table.records_total|roundWithUnit:1 }} Records ({{ table.size|bytes }})</span>
+                <span class="hide-md"><br />{{ table.summary }}</span>
+              </div>
+            </div>
           </a>
         </li>
       </ul>

@@ -56,7 +56,6 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         $scope.nodes = nodeList;
       }, true);
     };
-    
 
     $scope.sort = NodeListInfo.sort;
     $scope.sortBy = NodeListInfo.sortBy;
@@ -120,9 +119,9 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     };
     var COLORS = {
       'used': '#55d4f5',
-      'free': '#eeeeee',
+      'free': '#e2e2e2',
     };
-   
+
     var version = null;
     var currentWatcher = null;
 
@@ -230,13 +229,13 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
     $scope.toolTipUsedPercentFunction = function(){
       return function(key, x, y, e, graph) {
-        return '<p><b>'+y+'%</b></p>';
+        return '<p>' + key +'<br /><b>' + y + '%</b></p>';
       }
     }
 
     $scope.toolTipUsedBytesFunction = function(){
       return function(key, x, y, e, graph) {
-        return '<p><b>'+y+'</b></p>';
+        return '<p>' + key +'<br /><b>' + y + '</b></p>';
       }
     }
 
@@ -270,20 +269,12 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           "color": "#ff814d"
         }];
 
-      $scope.crateProcessData = [
-        {
-          "key": "Used",
-          "values": [["Crate Process CPU", node.proc_cpu.percent]],
-          "color": COLORS.used
-        }
-      ];
-
       $scope.heapData = [
         {
           "key": "Used",
           "values": [["HEAP", node.heap.used]],
           "color": COLORS.used
-        }, 
+        },
         {
           "key": "Free",
           "values": [["HEAP", node.heap.max - node.heap.used]],
@@ -310,7 +301,8 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
-      $("#wrapper").toggleClass("active");
+      $("#page-viewport").toggleClass("show-sidebar");
+      $(".menu-toggle i.fa").toggleClass("fa-angle-double-right").toggleClass("fa-angle-double-left");
     };
 
     $scope.isSameVersion = function(nodeVersion){
