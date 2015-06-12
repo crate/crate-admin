@@ -1,26 +1,29 @@
 <div ng-controller="NavigationController">
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <button type="button" class="navbar-toggle"
+        data-toggle="collapse" data-target=".navbar-ex1-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
     </div>
-
-    <div class="collapse navbar-collapse navbar-ex1-collapse {{cluster_color_label_bar}}">
+    
+    <div class="collapse navbar-collapse navbar-ex1-collapse {{ cluster_color_label_bar }}">
+      <div ng-include="'views/statusbar.html'"></div>
       <div class="side-nav">
         <ul class="nav navbar-nav">
-          <li ng-class="{ 'active': isActive('/')}"><a href="#/"><i class="fa fa-th-large"></i><br />Overview</a></li>
-          <li ng-class="{ 'active': isActive('/tutorial') }"><a href="#/tutorial"><i class="fa fa-info-circle"></i><br />Get Started</a></li>
-          <li ng-class="{ 'active': isActive('/console')}"><a href="#/console"><i class="fa fa-code"></i><br />Console</a></li>
-          <li ng-class="{ 'active': isActive('/tables')}"><a href="#/tables"><i class="fa fa-table"></i><br />Tables</a></li>
-          <li ng-class="{ 'active': isActive('/nodes')}"><a href="#/nodes"><i class="fa fa-sitemap"></i><br />Cluster</a></li>
+          <li ng-class="{ 'active': isActive('/')}"><a href="#/"><i class="fa fa-th-large"></i><br /><span>Overview<span></a></li>
+          <li ng-class="{ 'active': isActive('/tutorial') }"><a href="#/tutorial"><i class="fa fa-info-circle"></i><br /><span>Get Started</span></a></li>
+          <li ng-class="{ 'active': isActive('/console')}"><a href="#/console"><i class="fa fa-code"></i><br /><span>Console</span></a></li>
+          <li ng-class="{ 'active': isActive('/tables')}"><a href="#/tables"><i class="fa fa-table"></i><br /><span>Tables</span></a></li>
+          <li ng-class="{ 'active': isActive('/nodes')}"><a href="#/nodes"><i class="fa fa-sitemap"></i><br /><span>Cluster</span></a></li>
         </ul>
         <div id="crate-logo" fix-bottom ng-class="{'bottom-fixed': fixBottom }"><a class="navbar-brand" href="index.html"></a></div>
       </div>
-      <div ng-include="'views/statusbar.html'"></div>
     </div>
+
   </nav>
 </div>

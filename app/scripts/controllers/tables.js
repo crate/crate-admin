@@ -96,7 +96,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
-      $("#wrapper").toggleClass("active");
+      $("#page-viewport").toggleClass("show-sidebar");
+      $(".menu-toggle i.fa").toggleClass("fa-angle-double-right").toggleClass("fa-angle-double-left");
     };
 
     var requestId = function requestId() {

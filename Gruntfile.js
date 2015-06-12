@@ -35,7 +35,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         hostname: 'localhost',
-        path: '/?base_uri=http://localhost:4200'
+        path: '/'
       },
       dev: {
         options: {
