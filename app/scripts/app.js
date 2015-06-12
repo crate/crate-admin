@@ -44,7 +44,7 @@ crateAdminApp.config(['$routeProvider', '$httpProvider',
         templateUrl: 'views/tables.html',
         controller: 'TableDetailController'
       })
-      .when('/cluster', {
+      .when('/nodes', {
         templateUrl: 'views/node.html',
         controller: 'NodeDetailController'
       })
