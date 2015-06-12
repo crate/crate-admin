@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- fix: highlight cluster navigation item also when node is selected
+
 - fix: crate process cpu will now also display values greater than 100%
 
 2015/06/09 0.13.1
