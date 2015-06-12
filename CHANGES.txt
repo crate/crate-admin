@@ -5,7 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- fix: crate process cpu will now also display values greater than 100%
+ - load plugins.json to inject additional modules on app start
+
+ - fix: crate process cpu will now also display values greater than 100%
 
 2015/06/09 0.13.1
 =================

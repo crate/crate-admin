@@ -44,6 +44,15 @@ the admin ui against crate::
 Then visit the browser on ``http://localhost:9000/?base_uri=http://localhost:4200``.
 
 
+Inject Plugins
+==============
+
+On app start the file ``conf/plugins.json`` is loaded, where additional plugins
+(Angular modules) can be defined.
+
+The "Get Started" tutorial is now loaded as a plugin.
+
+
 Distributing
 ============
 
