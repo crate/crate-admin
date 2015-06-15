@@ -105,7 +105,7 @@ angular.module('tableinfo', ['sql'])
     };
 
     var colorMapLabel = {
-      'good': '',
+      'good': 'label-success',
       'warning': 'label-warning',
       'critical': 'label-danger',
       '--': ''
@@ -154,8 +154,8 @@ angular.module('tableinfo', ['sql'])
           table.type_display_name = table.schema_name == "blob" ?  "Blob" : "Record";
 
           // create summary
-          var summary = roundWithUnitFilter(table.records_total, 1) + ' Records (' + bytesFilter(table.size) + ') / ' +
-                table.replicas_configured + ' Replicas / ' + table.shards_configured + ' Shards (' + table.shards_started + ' Started)';
+          var summary = table.shards_configured + ' Shards';
+          summary += ' / ' + table.replicas_configured + ' Replicas';
           if (table.records_unavailable) {
             summary = roundWithUnitFilter(table.records_unavailable, 1) + ' Unavailable Records / ' + summary;
           } else if (table.shards_underreplicated) {

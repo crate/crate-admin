@@ -88,11 +88,14 @@
     <![endif]-->
 
     <div id="wrapper">
-      <div ng-include="'views/nav.html'"></div>
+      <div id="navigation-wrapper">
+        <div id="navigation-viewport" ng-include="'views/nav.html'"></div>
+      </div>
       <div id="page-wrapper">
-        <div ng-view></div>
+        <div id="page-viewport" ng-view></div>
       </div>
     </div>
 
 </body>
 </html>
+

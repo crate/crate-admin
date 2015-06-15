@@ -1,29 +1,24 @@
-<div id="content-wrapper">
+<div class="page-container">
+  <div class="row">
+    <div class="col-sm-12">
 
-  <div class="row col-md-12">
-    <div class="page-header">
-      <h1>Get started with sample data</h1>
+      <div class="page-header">
+        <h1>Get started with sample data</h1>
+      </div>
+    
+      <p>Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new Crate instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.</p>
+      <p>After authentication Twitter allows you to consume a small fraction of their public stream, hence the slow import. In a production environment you can index hundreds  of thousands of records per second.</p>
+
+      <ul>
+        <li>Your imported tweets will be stored in a table called <b>tweets</b>.</li>
+        <li>Click <b>TABLES</b> on the left to see the table and its stats. You should see its records increase as the tweets import.</li>
+        <li>Click <b>CONSOLE</b> to query the table directly with SQL. For starters, you can try: <code>SELECT text FROM tweets LIMIT 100</code> after you have added some  tweets.</li>
+      </ul>
+
+      <p ng-hide="importing"><button ng-click="startImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> Import tweets for testing.</button></p>
+      <p ng-show="importing">Importing tweets. <strong id="tweets">{{ count }}</strong> tweets imported.</p>
+      <p ng-show="importing"><button ng-click="stopImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> Enough! Stop importing tweets.</button></p>
+
     </div>
   </div>
-  <div class="row col-md-12">
-    <p>Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new Crate instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.</p>
-    <p>After authentication Twitter allows you to consume a small fraction of their public stream, hence the slow import. In a production environment you can index hundreds  of thousands of records per second.</p>
-  </div>
-  <div class="row col-md-12">
-    <ul>
-      <li>Your imported tweets will be stored in a table called <b>tweets</b>.</li>
-      <li>Click <b>TABLES</b> on the left to see the table and its stats. You should see its records increase as the tweets import.</li>
-      <li>Click <b>CONSOLE</b> to query the table directly with SQL. For starters, you can try: <code>SELECT text FROM tweets LIMIT 100</code> after you have added some  tweets.</li>
-    </ul>
-  </div>
-
-  <div class="row col-md-12" ng-hide="importing">
-    <p><button ng-click="startImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> Import tweets for testing.</button></p>
-  </div>
-
-  <div class="row col-md-12" ng-show="importing">
-    <p>Importing tweets. <strong id="tweets">{{ count }}</strong> tweets imported.</p>
-    <p><button ng-click="stopImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> Enough! Stop importing tweets.</button></p>
-  </div>
-
 </div>

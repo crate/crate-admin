@@ -2,7 +2,7 @@
 
 angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function ($scope, $log, $location, $sce, ClusterState) {
-    var colorMap = {"good": '',
+    var colorMap = {"good": 'label-success',
                     "warning": 'label-warning',
                     "critical": 'label-danger',
                     '--': 'label-danger'};

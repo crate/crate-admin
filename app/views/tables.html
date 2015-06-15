@@ -1,24 +1,22 @@
-<div id="content-wrapper">
+<div ng-include="'views/tablelist.html'"></div>
 
-  <div ng-include="'views/tablelist.html'"></div>
+<div ng-class="{'page-container-padded': renderSidebar}">
+<div class="page-container" ng-show="table">
 
-  <div class="row">
-
-    <div class="col-lg-8 col-md-8" ng-class="{'margin-left-350': renderSidebar}" ng-show="table">
-
-      <div class="row">
-        <div class="col-lg-11 col-md-11">
-          <div class="page-header">
-            <h1>
-              <a id="menu-toggle" ng-click="toggleSidebar()" class="btn btn-default"><i class="fa fa-bars"></i></a>
-              <span>{{table_label}} <span ng-show="isParted" class="small">(partitioned)<span></span>
-            </h1>
+      <div class="row row-first">
+        <div class="col-sm-12">
+          <a class="btn btn-default menu-toggle" ng-click="toggleSidebar()"><i class="fa fa-angle-double-right"></i></a>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <p class="announcement-heading"><b>{{ table_label }}</b> <span ng-show="isParted" class="small">(partitioned)<span></p>
+              <p class="announcement-text">Name</p>
+            </div>
           </div>
         </div>
-      </div><!-- /.row -->
 
-      <div class="row">
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right {{table.health_panel_class}}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.health}}</p>
@@ -27,7 +25,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.replicas_configured}}</p>
@@ -35,8 +33,11 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-4 col-sm-5">
+      <div class="row">
+
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_configured}}</p>
@@ -45,7 +46,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right"
                ng-class="{ 'panel-danger': startedShardsError(table) }">
             <div class="panel-heading">
@@ -55,7 +56,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_missing > 0}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_missing}}</p>
@@ -64,16 +65,18 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.shards_underreplicated > 0}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_underreplicated}}</p>
-              <p class="announcement-text">Underreplicated Shards</p>
+              <p class="announcement-text">Underrepl. Shards</p>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-4 col-sm-5">
+      <div class="row">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_total | number:0}}">{{table.records_total | roundWithUnit:1}}</p>
@@ -82,7 +85,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">{{table.records_unavailable | roundWithUnit:1}}</p>
@@ -91,16 +94,16 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.records_underreplicated > 0}">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">{{table.records_underreplicated | roundWithUnit:1}}</p>
-              <p class="announcement-text">Underreplicated {{ table.type_display_name }}s</p>
+              <p class="announcement-text">Underrepl. {{ table.type_display_name }}s</p>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-5">
+        <div class="col-sm-3 col-xs-6">
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.size | number:0}}">{{table.size | bytes}}</p>
@@ -111,7 +114,7 @@
       </div><!-- /.row -->
 
       <div class="row" ng-show="renderPartitions">
-        <div class="col-lg-11 col-md-11">
+        <div class="col-sm-12">
           <div class="page-header">
             <p class="pull-right" ng-show="table.partitioned">Partition Columns: <b ng-repeat="col in table.partitioned_by">{{col}}{{$last?'':', '}}</b></p>
             <h2>Partitions</h2>
@@ -163,7 +166,7 @@
       </div><!-- /.row -->
 
       <div class="row" ng-show="renderSchema">
-        <div class="col-lg-11 col-md-11">
+        <div class="col-sm-12">
           <div class="page-header">
             <h2>Schema</h2>
           </div>
@@ -185,8 +188,5 @@
         </div>
       </div><!-- /.row -->
 
-
-    </div>
-  </div><!-- /.row -->
-
+</div>
 </div>

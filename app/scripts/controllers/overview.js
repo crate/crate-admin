@@ -72,7 +72,10 @@ angular.module('overview', ['stats'])
         lastUpdate = now;
       }
 
-      $scope.cluster_state = data.status;
+      $scope.cluster = {
+        'name': data.name,
+        'state': data.status
+      };
       $scope.cluster_color_class = colorMap[data.status];
 
       // draw graph
