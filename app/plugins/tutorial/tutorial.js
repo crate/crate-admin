@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('tutorial', ['sql'])
+var tutorialPlugin = angular.module('tutorial', ['sql'])
   .controller('TutorialController', function ($scope, $location, $log, $timeout, $routeParams, SQLQuery) {
+    
     var base_url = "https://twitter.crate.io/api/v1";
     var redirect = [window.location.protocol,window.location.host].join("//") + window.location.pathname;
 
@@ -94,7 +95,6 @@ angular.module('tutorial', ['sql'])
 
             ctd.success(fetch);
             ctd.error(fetch);
-
         };
 
         this.running = function() {
@@ -129,3 +129,20 @@ angular.module('tutorial', ['sql'])
     });
 
   });
+
+tutorialPlugin.run(function($window, $location, NavigationService) {
+
+    var iconClass = "fa fa-info-circle";
+    var navElementText = "GET STARTED";
+    var urlPattern = "/tutorial";
+    var position = 1;
+    NavigationService.addNavBarElement(iconClass, navElementText, urlPattern, position);
+
+    var url = $.url($window.location.href);
+    var path = './' + url.attr("file");
+    var startTwitter = url.param("start_twitter");
+    if (startTwitter) {
+      localStorage.setItem('crate.start_twitter', "true");
+      $window.location.href = path + '#/tutorial';
+    }
+});

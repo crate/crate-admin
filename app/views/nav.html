@@ -15,11 +15,9 @@
       <div ng-include="'views/statusbar.html'"></div>
       <div class="side-nav">
         <ul class="nav navbar-nav">
-          <li ng-class="{ 'active': isActive('/')}"><a href="#/"><i class="fa fa-th-large"></i><br /><span>Overview<span></a></li>
-          <li ng-class="{ 'active': isActive('/tutorial') }"><a href="#/tutorial"><i class="fa fa-info-circle"></i><br /><span>Get Started</span></a></li>
-          <li ng-class="{ 'active': isActive('/console')}"><a href="#/console"><i class="fa fa-code"></i><br /><span>Console</span></a></li>
-          <li ng-class="{ 'active': isActive('/tables')}"><a href="#/tables"><i class="fa fa-table"></i><br /><span>Tables</span></a></li>
-          <li ng-class="{ 'active': isActive('/nodes')}"><a href="#/nodes"><i class="fa fa-sitemap"></i><br /><span>Cluster</span></a></li>
+          <li ng-repeat="navBarElement in navBarElements" ng-class="{ 'active': isActive(navBarElement.urlPattern) }">
+            <a ng-href="#{{ navBarElement.urlPattern }}"><i class="{{ navBarElement.iconClass }}"></i><br />{{ navBarElement.text }}</a>
+          </li>
         </ul>
         <div id="crate-logo" fix-bottom ng-class="{'bottom-fixed': fixBottom }"><a class="navbar-brand" href="index.html"></a></div>
       </div>
