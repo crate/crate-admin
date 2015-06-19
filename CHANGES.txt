@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: hide navigation item title when screen width is less than 1200px
+
  - load plugins.json that can inject additional modules on app start
    the "Get Started" tutorial is now implemented as a plugin
 

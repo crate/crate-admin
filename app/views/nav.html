@@ -16,7 +16,7 @@
       <div class="side-nav">
         <ul class="nav navbar-nav">
           <li ng-repeat="navBarElement in navBarElements" ng-class="{ 'active': isActive(navBarElement.urlPattern) }">
-            <a ng-href="#{{ navBarElement.urlPattern }}"><i class="{{ navBarElement.iconClass }}"></i><br />{{ navBarElement.text }}</a>
+            <a ng-href="#{{ navBarElement.urlPattern }}"><i class="{{ navBarElement.iconClass }}"></i><br /><span>{{ navBarElement.text }}</span></a>
           </li>
         </ul>
         <div id="crate-logo" fix-bottom ng-class="{'bottom-fixed': fixBottom }"><a class="navbar-brand" href="index.html"></a></div>
