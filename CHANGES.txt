@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: approximate number of underreplicated and missing records per table was
+   calculated incorrectly, which could have lead to different results
+   when viewing table info on admin ui of different nodes
+
 2015/06/22 0.13.3
 =================
 

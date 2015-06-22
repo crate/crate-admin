@@ -2,90 +2,115 @@
 
 angular.module('tableinfo', ['sql'])
   .factory('TableInfo', function() {
-    return function TableInfo(shards, numConfigured, partitionedBy) {
-      this.partitionedBy = partitionedBy || [];
-      this.partitioned = this.partitionedBy.length > 0;
-      this.shards = shards;
-      this.shards_configured = numConfigured || 0;
-      this.primaryShards = function primaryShards() {
-        return this.shards.filter(function (shard, idx) {
+    return function TableInfo(shards, configured, partitionedBy) {
+      var shards = shards ? angular.copy(shards) : [];
+      var partitionedBy = partitionedBy ? angular.copy(partitionedBy) : [];
+      var partitioned = partitionedBy.length > 0;
+      var numShardsConfigured = configured || 0;
+
+      var primaryShards = (function() {
+        return shards.filter(function(shard, idx) {
           return shard.primary;
         });
-      };
-      this.size = function size() {
-        var primary = this.primaryShards();
-        return primary.reduce(function(memo, shard, idx) {
+      }());
+
+      var numPrimaryShards = (function() {
+        return shards.reduce(function(memo, shard, idx){
+          return memo + shard.count;
+        }, 0);
+      }());
+
+      var startedShards = (function() {
+        return shards.filter(function(shard, idx) {
+          return shard.state == 'STARTED';
+        });
+      }());
+
+      var numStartedShards = (function() {
+        return startedShards.reduce(function(memo, shard, idx) {
+          return memo + shard.count;
+        }, 0);
+      }());
+
+      var numActivePrimaryShards = (function() {
+        return shards.filter(function(shard, idx) {
+          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === true;
+        }).reduce(function(memo, shard, idx) {
+          return memo + shard.count;
+        }, 0);
+      }());
+
+      var shardSize = (function() {
+        return primaryShards.reduce(function(memo, shard, idx) {
           return memo + shard.size;
         }, 0);
-      };
-      this.totalRecords = function totalRecords() {
-        var primary = this.primaryShards();
-        return primary.reduce(function (memo, shard, idx) {
+      }());
+
+      var numRecords = (function() {
+        return primaryShards.reduce(function (memo, shard, idx) {
           return memo + shard.sum_docs;
         }, 0);
-      };
-      this.missingShards = function missingShards() {
-          if (this.partitioned && this.startedShards() === 0) return 0;
-          var activePrimaryShards = this.shards.filter(function(shard) {
-              return shard.state in {'STARTED':'', 'RELOCATING':''} && shard.primary === true;
-          });
-          var numActivePrimaryShards = activePrimaryShards.reduce(function(memo, shard, idx) {
-            return shard.count + memo;
-          }, 0);
-          return Math.max(this.shards_configured-numActivePrimaryShards, 0);
-      };
-      this.underreplicatedShards = function underreplicatedShards() {
-        return this.shards.filter(function(obj, idx){
-          var active = obj.state in {'STARTED':'', 'RELOCATING':''};
-          return !active && obj.primary === false;
+      }());
+
+      var numMissingShards = (function() {
+        return (partitioned && numStartedShards === 0) ? 0 :
+          (numShardsConfigured - numActivePrimaryShards);
+      }());
+
+      var numUnderreplicatedShards = (function() {
+        return shards.filter(function(obj, idx){
+          return !(['STARTED', 'RELOCATING']) && obj.primary === false;
         }).reduce(function(memo, obj, idx){
-          return obj.count + memo;
+          return memo + obj.count;
         }, 0);
-      };
-      this.unassignedShards = function unassignedShards() {
-          var shards = this.shards.filter(function(shard, idx) {
-              return shard.state == 'UNASSIGNED';
-          });
-          return shards.reduce(function(memo, shard, idx) { return shard.count + memo; }, 0);
-      };
-      this.startedShards = function startedShards() {
-          var shards = this.shards.filter(function(shard, idx) {
-              return shard.state == 'STARTED';
-          });
-          return shards.reduce(function(memo, shard, idx) {return shard.count + memo; }, 0);
-      };
-      this.underreplicatedRecords = function underreplicatedRecords() {
-          var primary = this.primaryShards();
-          return primary.length ? Math.ceil(primary[0].avg_docs * this.underreplicatedShards()) : 0;
-      };
-      this.unavailableRecords = function unavailableRecords() {
-          var started = this.shards.filter(function(shard, idx) {
-              return shard.state == 'STARTED';
-          });
-          return started.length ? Math.ceil(started[0].avg_docs * this.missingShards()) : 0;
-      };
-      this.health = function health() {
-          if (this.partitioned && this.startedShards() === 0) return 'good';
-          if (this.primaryShards().length === 0) return 'critical';
-          if (this.missingShards() > 0) return 'critical';
-          if (this.unassignedShards() > 0 || this.underreplicatedShards()) return 'warning';
-          return 'good';
-      };
+      }());
+
+      var numUnassignedShards = (function() {
+        return shards.filter(function(shard, idx) {
+          return shard.state == 'UNASSIGNED';
+        }).reduce(function(memo, shard, idx) {
+          return memo + shard.count;
+        }, 0);
+      }());
+
+      var numUnderreplicatedRecords = (function(){
+        var avgDocsPerPrimaryShard = primaryShards.reduce(function(memo, shard, idx, arr){
+          return memo + shard.avg_docs / arr.length;
+        }, 0);
+        return Math.ceil(avgDocsPerPrimaryShard * numUnderreplicatedShards);
+      }());
+
+      var numUnavailableRecords = (function() {
+        var avgDocsPerStartedShard = startedShards.reduce(function(memo, shard, idx, arr){
+          return memo + shard.avg_docs / arr.length;
+        }, 0);
+        return Math.ceil(avgDocsPerStartedShard * numMissingShards);
+      }());
+
+      var health = (function() {
+        if (partitioned && numStartedShards === 0) return 'good';
+        if (numPrimaryShards === 0) return 'critical';
+        if (numMissingShards > 0) return 'critical';
+        if (numUnassignedShards > 0 || numUnderreplicatedShards) return 'warning';
+        return 'good';
+      }());
+
       this.asObject = function asObject() {
-        var o = {};
-        o.shards_configured = this.shards_configured;
-        o.health = this.health();
-        o.shards_started = this.startedShards();
-        o.shards_missing = this.missingShards();
-        o.shards_underreplicated = this.underreplicatedShards();
-        o.records_total = this.totalRecords();
-        o.records_unavailable = this.unavailableRecords();
-        o.records_underreplicated = this.underreplicatedRecords();
-        o.size = this.size();
-        o.partitioned = this.partitioned;
-        o.partitioned_by = this.partitionedBy;
-        return o;
+        return {
+          'shards_configured': numShardsConfigured,
+          'health': health,
+          'shards_started': numStartedShards,
+          'shards_missing': numMissingShards,
+          'shards_underreplicated': numUnderreplicatedShards,
+          'records_total': numRecords,
+          'records_unavailable': numUnavailableRecords,
+          'records_underreplicated': numUnderreplicatedRecords,
+          'size': shardSize,
+          'partitioned': partitioned,
+          'partitioned_by': partitionedBy
+        };
       };
+
     };
   })
   .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, ShardInfo) {
