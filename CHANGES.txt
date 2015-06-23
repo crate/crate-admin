@@ -5,14 +5,17 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - fix: approximate number of underreplicated and missing records per table was
-   calculated incorrectly, which could have lead to different results
-   when viewing table info on admin ui of different nodes
-
  - fix: hide navigation item title when screen width is less than 1200px
 
  - load plugins.json that can inject additional modules on app start
    the "Get Started" tutorial is now implemented as a plugin
+
+2015/06/23 0.13.4
+=================
+
+ - fix: approximate number of underreplicated and missing records per table was
+   calculated incorrectly, which could have lead to different results
+   when viewing table info on admin ui of different nodes
 
 2015/06/22 0.13.3
 =================
