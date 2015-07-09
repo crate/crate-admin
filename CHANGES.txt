@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: number of underreplicated shards were fetched and displayed incorrectly
+
 2015/06/29 0.14.0
 =================
 
