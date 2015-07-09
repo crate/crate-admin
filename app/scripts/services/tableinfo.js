@@ -58,10 +58,10 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numUnderreplicatedShards = (function() {
-        return shards.filter(function(obj, idx){
-          return !(['STARTED', 'RELOCATING']) && obj.primary === false;
-        }).reduce(function(memo, obj, idx){
-          return memo + obj.count;
+        return shards.filter(function(shard, idx){
+          return !(['STARTED', 'RELOCATING'].indexOf(shard.state) > -1) && shard.primary === false;
+        }).reduce(function(memo, shard, idx){
+          return memo + shard.count;
         }, 0);
       }());
 
@@ -91,7 +91,7 @@ angular.module('tableinfo', ['sql'])
         if (partitioned && numStartedShards === 0) return 'good';
         if (numPrimaryShards === 0) return 'critical';
         if (numMissingShards > 0) return 'critical';
-        if (numUnassignedShards > 0 || numUnderreplicatedShards) return 'warning';
+        if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) return 'warning';
         return 'good';
       }());
 
