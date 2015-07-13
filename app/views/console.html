@@ -61,7 +61,9 @@
             </thead>
             <tbody>
               <tr ng-repeat="row in rows">
-                <td ng-repeat="column in row track by $index">{{ column }}</td>
+                <td ng-repeat="column in row track by $index">
+                    <pre class="query-result">{{ column }}</pre>
+                </td>
               </tr>
             </tbody>
           </table>

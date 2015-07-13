@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - added support for line breaks in console result table
+
 2015/07/09 0.14.1
 =================
 
