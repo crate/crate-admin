@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed line wrapping in console result table
+
 2015/07/13 0.14.2
 =================
 
