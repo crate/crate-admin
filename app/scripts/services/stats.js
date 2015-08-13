@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo'])
-  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health, ShardInfo, $q) {
-    var healthInterval, statusInterval, reachabilityInterval, shardsInterval;
+  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health, ShardInfo, ClusterCheck, $q) {
+    var healthInterval, statusInterval, reachabilityInterval, shardsInterval, checkInterval;
 
     var data = {
       online: true,
       tables: [],
       shards: [],
       partitions: [],
+      checks: [],
       cluster: [],
       name: '--',
       status: '--',
@@ -19,6 +20,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
     var diskIoHistory = {};
     var refreshInterval = 5000;
+    var refreshIntervalClusterCheck = 60000;
     var historyLength = 180;
 
     var checkReachability = function checkReachability(){
@@ -51,9 +53,11 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         $interval.cancel(healthInterval);
         $interval.cancel(statusInterval);
         $interval.cancel(shardsInterval);
+        $interval.cancel(checkInterval);
         data.status = '--';
         data.tables = [];
         data.cluster = [];
+        data.checks = [];
         data.name = '--';
         data.load = ['-.-', '-.-', '-.-'],
         data.loadHistory = [[],[],[]];
@@ -69,7 +73,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         refreshState();
         shardsInterval = $interval(refreshShardInfo, refreshInterval);
         refreshShardInfo();
-
+        checkInterval = $interval(refreshClusterCheck, refreshIntervalClusterCheck);
+        refreshClusterCheck();
       }
     };
 
@@ -206,7 +211,21 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       });
     };
 
+    var refreshClusterCheck = function refreshClusterCheck() {
+        if (!data.online) return;
+
+        ClusterCheck.executeStmt().then(function(checks) {
+          data.checks = checks;
+          ClusterCheck.deferred.resolve(data.checks);
+        }).catch(function() {
+          ClusterCheck.deferred.reject({});
+        });
+    };
+
     checkReachability();
+
+    refreshClusterCheck();
+    checkInterval = $interval(refreshClusterCheck, refreshIntervalClusterCheck);
 
     refreshHealth();
     healthInterval = $interval(refreshHealth, refreshInterval);
@@ -219,6 +238,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     statusInterval = $interval(refreshState, refreshInterval);
 
     return {
+      refreshClusterCheck: refreshClusterCheck,
       data: data,
       HISTORY_LENGTH: historyLength
     };

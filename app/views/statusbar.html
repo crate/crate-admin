@@ -4,7 +4,10 @@
     <li>Cluster: <span class="label label-cluster">{{cluster_name}}</span></li>
     <li>Version: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-SNAPSHOT-{{ version.hash.substr(0,7) }}</span></span></li>
     <li>Nodes: <span class="label">{{ num_nodes }}</span></li>
-    <li>Health: <span class="label {{ cluster_color_label }}">{{ cluster_state }}</span></li>
+    <li>Health:
+      <span class="label {{ cluster_color_label }}">Data</span>
+      <span class="label {{ config_label }}" data-original-title="{{ checks.length }}&nbsp;check&nbsp;not&nbsp;passed" rel="tooltip" onclick="window.open('/#/', '_self')">Config</span>
+    </li>
     <li>Load: <span class="label label-load1">{{ load1 }}</span>/<span class="label label-load5">{{ load5 }}</span>/<span class="label label-load15">{{ load15 }}</span></li>
 
     <li class="dropdown" ng-controller="HelpMenuController">
@@ -49,4 +52,3 @@
 
   </ul>
 </div>
-

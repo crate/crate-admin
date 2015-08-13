@@ -9,6 +9,11 @@ h2, h3 {
   font-weight: bold;
 }
 
+strong {
+  padding: 3px;
+  font-weight: bold;
+}
+
 // Structure
 // -------------------------
 
@@ -169,15 +174,23 @@ h2, h3 {
         }
     }
 
+    .alert-success {
+        background-color:@brand-info;
+        color: #fff;
+        span.label.label-success {
+            font-weight: bold;
+        }
+    }
+
     .alert-warning,
     .alert-warning .label {
         background-color:@brand-warning;
-        color: #000;
+        color: #fff;
 
         .navbar-user li > a {
-            color: #000;
+            color: #fff;
         }
-          span.label.label-warning {
+        span.label.label-warning {
             font-weight: bold;
         }
     }
@@ -442,6 +455,14 @@ h2, h3 {
 
 #legend li {
   padding-left: 10px;
+}
+
+.list-clusterchecks {
+  li {
+    border-bottom: 1px solid @gray-lighter;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 // Form

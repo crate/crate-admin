@@ -2,10 +2,13 @@
 
 var commons = angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function ($scope, $log, $location, $sce, ClusterState) {
-    var colorMap = {"good": 'label-success',
-                    "warning": 'label-warning',
-                    "critical": 'label-danger',
-                    '--': 'label-danger'};
+    var HEALTH = ['good', 'warning', 'critical', '--'];
+    var LABELS = ['label-success', 'label-warning', 'label-danger', 'label-danger'];
+    var colorMap = HEALTH.reduce(function(memo, o, idx){
+      memo[o] = LABELS[idx];
+      return memo;
+    }, {});
+
     var DOCS_BASE_URL = 'https://crate.io/docs';
     var getDocsUrl = function getDocsUrl(version) {
       return $sce.trustAsResourceUrl(DOCS_BASE_URL + (version ? '/en/'+version.number : '/stable') + '/');
@@ -35,6 +38,11 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.version = data.version;
       $scope.docs_url = getDocsUrl(data.version);
+      $scope.checks = data.checks;
+      var severity = data.checks.reduce(function(memo, obj, idx) {
+        return Math.max(memo, obj.severity);
+      }, 0);
+      $scope.config_label = LABELS[Math.min(severity-1, LABELS.length-1)];
     }, true);
 
     // bind tooltips

@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - display cluster checks on overview page
+
  - display relative Crate process CPU usage as bar chart
    and show number of cores per node
 
