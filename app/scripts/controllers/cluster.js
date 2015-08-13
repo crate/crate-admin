@@ -294,6 +294,19 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           "color": COLORS.free
         }
       ];
+
+      $scope.processCpuData = [
+        {
+          "key": "Used",
+          "values": [["Process CPU", Math.min(100.0, node.proc_cpu.percent / node.num_cores)]],
+          "color": COLORS.used
+        },
+        {
+          "key": "Idle",
+          "values": [["Process CPU", Math.max(0, 100.0 - node.proc_cpu.percent / node.num_cores)]],
+          "color": COLORS.free
+        }
+      ];
     }
 
     // bind tooltips

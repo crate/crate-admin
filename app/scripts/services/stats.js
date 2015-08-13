@@ -155,13 +155,13 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     var refreshState = function() {
       if (!data.online) return;
 
-      var clusterQuery = SQLQuery.execute(
+      var sysNodesQuery = SQLQuery.execute(
         'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, ' +
-        'process[\'cpu\'] as proc_cpu ' +
+        'process[\'cpu\'] as proc_cpu, os_info[\'available_processors\'] as num_cores ' +
         'from sys.nodes');
-      clusterQuery.success(function(sqlQuery) {
+      sysNodesQuery.success(function(sqlQuery) {
         var response = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu']);
+            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores']);
         data.load = prepareLoadInfo(response);
         data.cluster = prepareIoStats(response);
       }).error(onErrorResponse);

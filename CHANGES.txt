@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - display relative Crate process CPU usage as bar chart
+   and show number of cores per node
+
 2015/08/06 0.14.3
 =================
 
