@@ -67,9 +67,11 @@
     </div><!-- /.row -->
 
     <div class="row" ng-show="chart.data">
-        <div class="col-md-12">
-            <nvd3-line-chart
-              data="chart.data"
+        <div ng-class="checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
+            <div class="page-header">
+              <h2>Cluster Load</h2>
+            </div>
+            <nvd3-line-chart data="chart.data"
               height="350"
               showXAxis="false"
               showYAxis="true"
@@ -80,6 +82,26 @@
               showLegend="true">
             </nvd3-line-chart>
         </div>
+        <div ng-show="checks.length > 0" class="col-md-4 col-sm-12 col-xs-12">
+          <div class="panel">
+            <div class="page-header">
+              <a ng-click="refreshConfigCheck()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
+              <h2>Cluster Checks</h2>
+            </div>
+            <ul class="list-unstyled list-clusterchecks">
+              <li ng-repeat="check in checks" ng-switch on="check.severity">
+                <span ng-switch-when="1" class="label label-info">INFO</span>
+                <span ng-switch-when="2" class="label label-warning">WARNING</span>
+                <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+                {{ check.description }}
+              </li>
+            </ul>
+          </div>
+        </div>
     </div><!-- /.row -->
+<!--
+    <div class="row" ng-if="checks.length > 0">
 
+    </div>
+  -->
 </div>

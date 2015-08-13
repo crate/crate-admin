@@ -16,6 +16,7 @@
     'tableinfo',
     'shardinfo',
     'nodeinfo',
+    'clustercheck',
     'udc',
     'nvd3ChartDirectives'
   ];
@@ -64,7 +65,7 @@
 
     console.info("Loaded Modules:", MODULES);
     console.info("Loaded Plugins:", plugins.map(function(o){ return o.name; }));
-    
+
     for (var i=0; i<plugins.length; i++) {
       var module = plugins[i];
       loadScript(module.uri);
@@ -113,4 +114,3 @@
   });
 
 }());
-

@@ -72,6 +72,8 @@ angular.module('overview', ['stats'])
         lastUpdate = now;
       }
 
+      $scope.checks = data.checks;
+
       $scope.cluster = {
         'name': data.name,
         'state': data.status
@@ -128,6 +130,10 @@ angular.module('overview', ['stats'])
         data[i].push.apply(data[i], history[i]);
       }
       $scope.chart.data = chart.update(data).data();
+    };
+
+    $scope.refreshClusterCheck = function refreshClusterCheck() {
+      ClusterState.refreshClusterCheck();
     };
 
     // bind tooltips
