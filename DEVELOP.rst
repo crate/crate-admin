@@ -16,9 +16,11 @@ As of now, you only need `bower <http://bower.io/>`_.
 
 If you already have installer ``bower`` skip the following steps::
 
-    python boostrap.py
+    python boostrap.py -v 2.2.5
 
-    bin/buildout -N
+Note that ``zc.buildout 2.2.5`` is required!
+
+    bin/buildout -Nv
 
 To build the app simply run ``npm`` and ``bower`` in this crate-admin folder::
 
