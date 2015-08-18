@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed CONFIG link to overview page in status bar and changed its wording
+
  - display cluster checks on overview page
 
  - display relative Crate process CPU usage as bar chart
