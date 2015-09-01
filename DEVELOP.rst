@@ -16,7 +16,7 @@ As of now, you only need `bower <http://bower.io/>`_.
 
 If you already have installer ``bower`` skip the following steps::
 
-    python boostrap.py -v 2.2.5
+    python bootstrap.py -v 2.2.5
 
 Note that ``zc.buildout 2.2.5`` is required!
 
