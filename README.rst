@@ -26,7 +26,7 @@ As of now, you only need `Bower`_.
 
 Install ``npm`` and ``bower`` using the buildout commands::
 
-    python boostrap.py
+    python bootstrap.py
 
     bin/buildout -N
 
