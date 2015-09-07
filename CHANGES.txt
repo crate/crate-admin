@@ -5,9 +5,6 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-2015/09/07 0.14.4
-=================
- 
  - updated Intercom to support new messaging features. The Intercom service is 
    disabled if UDC is disabled on the Crate server.
 
