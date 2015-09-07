@@ -102,7 +102,12 @@ var commons = angular.module('common', ['stats', 'udc'])
   })
 .controller('HelpMenuController', function ($scope, UidLoader, UdcSettings) {
   var verified = null;
-
+  
+  // set user
+  $scope.user = {
+    uid: null
+  };
+  
   // 'analytics' is globally available
   analytics.load(UdcSettings.SegmentIoToken)
   analytics.ready(function(){
@@ -112,56 +117,29 @@ var commons = angular.module('common', ['stats', 'udc'])
       traits: user.traits()
     };
   });
-
+  
   var identify = function identify(user){
-    var b = (user.email && user.uid && user.enabled);
-    if (!b) return;
-    // identify user
-    analytics.identify(user.uid, {
-      email: user.email
-    }, {
-      userAgent: navigator.userAgent,
-      integrations: {
-        'All': false,
-        'Intercom': {}
-      }
-    });
-    // check for messsages
-    analytics.page();
+    if (user.uid != null) {
+      analytics.setAnonymousId(user.uid);
+      // check for messsages
+      analytics.page();
+      analytics.track('visited_admin', { version: $scope.version.number});
+    }
   };
 
-  // set user
-  $scope.user = {
-    email: UdcSettings.Email.get(),
-    uid: null,
-    enabled: UdcSettings.Email.get() !== null
-  };
-
-  // enable email support
-  $scope.enable = function enable(data){
-    UdcSettings.Email.set(data.email);
-    $scope.user.enabled = true;
-    identify($scope.user);
-  };
-
-  // disable email support
-  $scope.disable = function disable(){
-    UdcSettings.Email.unset();
-    $scope.user.enabled = false;
-    $scope.user.email = null;
-    analytics.reset();
-    $('#intercom-container').remove();
-  };
-
-  // load uid
-  UidLoader.load().success(function(uid){
-    $scope.user.uid = uid.toString();
-    identify($scope.user);
-  }).error(function(error){
-    console.warn(error);
-  }).notify(function(event){
+  UdcSettings.availability.success(function(isEnabled){
+    if (isEnabled === true) {
+      // load uid
+      UidLoader.load().success(function(uid){
+        $scope.user.uid = uid.toString();
+        identify($scope.user);
+      }).error(function(error){
+        console.warn(error);
+      });
+    }
   });
 });
+
 
 commons.run(function(NavigationService) {
   NavigationService.addNavBarElement("fa fa-th-large", "Overview", "/");

@@ -4,6 +4,9 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+ 
+ - updated Intercom to support new messaging features. The Intercom service is 
+   disabled if UDC is disabled on the Crate server.
 
  - fixed CONFIG link to overview page in status bar and changed its wording
 

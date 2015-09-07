@@ -7,6 +7,9 @@
 
   // Create a queue, but don't obliterate an existing one!
   var analytics = window.analytics = window.analytics || [];
+  
+  // If the real analytics.js is already on the page return.
+  if (analytics.initialize) return;
 
   // If the snippet was invoked already show an error.
   if (analytics.invoked) {
@@ -28,6 +31,7 @@
     'trackForm',
     'pageview',
     'identify',
+    'reset',
     'group',
     'track',
     'ready',
@@ -35,7 +39,8 @@
     'page',
     'once',
     'off',
-    'on'
+    'on',
+    'setAnonymousId'
   ];
 
   // Define a factory to create stubs. These are placeholders
@@ -75,7 +80,7 @@
   };
 
   // Add a version to keep track of what's in the wild.
-  analytics.SNIPPET_VERSION = '3.0.0';
+  analytics.SNIPPET_VERSION = '3.1.0';
 
   // Load Analytics.js with your key, which will automatically
   // load the tools you've enabled for your account. Boosh!
