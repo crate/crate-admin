@@ -1,25 +1,32 @@
 'use strict';
 
 angular.module('udc', [])
-.factory('UdcSettings', function(){
-  var EMAIL_KEY = 'crate.user_email';
-  return {
-    SegmentIoToken: 'vd4x4hv637',
-    Email: {
-      get: function() {
-        return localStorage.getItem(EMAIL_KEY) || null;
-      },
-      set: function(email) {
-        if (!email) return false;
-        localStorage.setItem(EMAIL_KEY, email);
-        return true;
-      },
-      unset: function() {
-        localStorage.removeItem(EMAIL_KEY);
-      }
-    }
-  };
-})
+.factory('UdcSettings', ['SQLQuery', 'queryResultToObjects', '$q',
+  function(SQLQuery, queryResultToObjects, $q){
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+    promise.success = function(result) {
+      promise.then(result, null, null);
+      return promise;
+    };
+    promise.error = function(error) {
+      promise.then(null, error, null);
+      return promise;
+    };
+
+    var stmt = "SELECT settings['udc']['enabled'] as enabled from sys.cluster";
+    var UdcSettingsQuery = SQLQuery.execute(stmt);
+    UdcSettingsQuery.success(function(query) {
+      var result = queryResultToObjects(query, ['enabled']);
+      deferred.resolve(result[0]['enabled']);
+    }).error(function(query) { deferred.reject(null, "could not load udc setting"); });
+    
+    return {
+      SegmentIoToken: 'sfTz0KpAhR0KmOH4GnoqbpLID71eaB3w',
+      availability: promise
+    };
+  }
+])
 .factory('Uid', function(){
   var Uid = function Uid(uid){
     this.uid = uid;

@@ -28,17 +28,40 @@ angular.module('feed', ['stats'])
       }
     };
   })
-  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState) {
+  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings) {
     var BLOG_URL = 'https://crate.io/blog/category/developernews';
     var MAX_ITEMS = 5;
     var VERSION_URL = 'https://crate.io/versions.json';
-    var stableVersion;
+    
+    UdcSettings.availability.success(function(isEnabled) {
+      if (isEnabled !== true) {
+        var udcString = '?udc.enabled=false';
+        BLOG_URL = BLOG_URL.concat(udcString);
+        VERSION_URL = VERSION_URL.concat(udcString);
+      }
+      
+      $scope.showUpdate = false;
+      $scope.numUnread = 0;
+      $scope.entries = [];
+      $scope.blog_url = BLOG_URL;
+      
+      var stableVersion;
+      $http.get(VERSION_URL, { withCredentials: true }).success(function(response){
+        if (response && response.crate) stableVersion = response.crate;
+      });
+      
+      $scope.$watch(function(){ return ClusterState.data; }, function(data) {
+        $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
+        $scope.stableVersion = stableVersion;
+        $scope.serverVersion = data.version ? data.version.number : '';
+        $scope.noNotifications = (!$scope.showUpdate && $scope.entries.length === 0);
+      }, true);
 
-    $scope.showUpdate = false;
-    $scope.numUnread = 0;
-    $scope.entries = [];
-    $scope.blog_url = BLOG_URL;
-
+      $scope.noNotifications = true;
+      $scope.isRead = isRead;
+      $scope.markAsRead = markAsRead;
+    });
+    
     var markAsRead = function markAsRead(item){
       if (item === 'all') {
         var all = $scope.entries;
@@ -60,11 +83,7 @@ angular.module('feed', ['stats'])
       }
       return false;
     };
-
-    $http.get(VERSION_URL, { withCredentials: true }).success(function(response){
-      if (response && response.crate) stableVersion = response.crate;
-    });
-
+    
     FeedService.parse(BLOG_URL, MAX_ITEMS).then(function(result){
       var trunc = $filter('characters');
       if (result.status === 200 && result.data.length > 0) {
@@ -81,16 +100,4 @@ angular.module('feed', ['stats'])
         $scope.numUnread = unread;
       }
     });
-
-    $scope.$watch(function(){ return ClusterState.data; }, function(data) {
-      $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
-      $scope.stableVersion = stableVersion;
-      $scope.serverVersion = data.version ? data.version.number : '';
-      $scope.noNotifications = (!$scope.showUpdate && $scope.entries.length === 0);
-    }, true);
-
-    $scope.noNotifications = true;
-    $scope.isRead = isRead;
-    $scope.markAsRead = markAsRead;
-
   });
