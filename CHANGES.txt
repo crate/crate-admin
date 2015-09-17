@@ -4,7 +4,9 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
- 
+
+ - display ``NULL`` instead of empty cell in console results table
+
 2015/09/07 0.14.4
 =================
 
