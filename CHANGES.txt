@@ -5,7 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - fixed CONFIG link to overview page in status bar and changed its wording
+2015/09/17 0.15.0
+=================
 
  - display cluster checks on overview page
 
