@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed a bug that displays a zero value as NULL value
+
 2015/09/17 0.14.5
 =================
 
