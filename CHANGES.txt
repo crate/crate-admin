@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/10/09 0.15.1
+=================
+
  - fixed a visual bug that let an item in the node/table list partly disappear 
    if scrolling gets enabled
 
