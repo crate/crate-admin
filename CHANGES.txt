@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed a bug where cluster shows wrong state if the number of nodes gets 
+   smaller than the minimum master nodes.
+
 2015/10/09 0.15.1
 =================
 
