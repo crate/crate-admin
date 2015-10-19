@@ -43,6 +43,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
           }
           setReachability(false);
         }
+      }).error(function(data, status) {
+        setReachability(false);
       });
     };
 
@@ -77,7 +79,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
         refreshClusterCheck();
       }
     };
-
+    
     var addToLoadHistory = function(load) {
       if (load.length != data.loadHistory.length) return;
       var lh = data.loadHistory;
@@ -140,10 +142,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     };
 
     var refreshHealth = function() {
-      if (!data.online) return;
       // We want to get the tables as soon as they become available so we use the promise object.
       TableList.promise.then(null, null, function(res){
-        if (res.success) {
+        if (res.success || !data.online) {
           var h = res.data.tables.reduce(function(memo, obj, idx){
             var level = Health.fromString(obj.health).level;
             return Math.max(level, memo);
@@ -158,13 +159,13 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     };
 
     var refreshState = function() {
-      if (!data.online) return;
-
       var sysNodesQuery = SQLQuery.execute(
         'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, ' +
         'process[\'cpu\'] as proc_cpu, os_info[\'available_processors\'] as num_cores ' +
         'from sys.nodes');
       sysNodesQuery.success(function(sqlQuery) {
+        if (!data.online) return;
+         
         var response = queryResultToObjects(sqlQuery,
             ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores']);
         data.load = prepareLoadInfo(response);
@@ -173,8 +174,10 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
       var clusterName = SQLQuery.execute('select name from sys.cluster');
       clusterName.success(function(sqlQuery) {
-          var row = sqlQuery.rows[0];
-          data.name = row[0]
+        if (!data.online) return;
+      
+        var row = sqlQuery.rows[0];
+        data.name = row[0]
       }).error(onErrorResponse);
     };
 

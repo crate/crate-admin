@@ -106,7 +106,6 @@ angular.module('console', ['sql'])
             $scope.rows = sqlQuery.rows;
             $scope.status = sqlQuery.status();
             $scope.statement = stmt + ";";
-
             inputScope.updateInput($scope.statement);
           })
           .error(function(sqlQuery) {
