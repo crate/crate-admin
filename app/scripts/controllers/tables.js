@@ -42,6 +42,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
   .controller('TableDetailController', function ($scope, $location, $log, $timeout, $route,
         SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
 
+    var scopeWatcher = null;
     var activeRequests = {};
     var _tables = [];
     var refreshInterval = 5000;
@@ -81,8 +82,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     // http://stackoverflow.com/a/12429133/1143231
     var lastRoute = $route.current;
     $scope.$on('$locationChangeSuccess', function(event) {
-      cancelRequests();
       if ($route.current.$$route.controller === 'TableDetailController') {
+        if (scopeWatcher) {
+          scopeWatcher();
+          scopeWatcher = null;
+        }
+        cancelRequests();
         var params = $route.current.params;
         render(params.schema_name, params.table_name);
         $route.current = lastRoute;
@@ -105,7 +110,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     };
 
     var cancelRequests = function cancelRequests() {
-      $timeout.cancel(timeout);
       for (var k in activeRequests) {
         var request = activeRequests[k];
         request.cancel();
@@ -120,7 +124,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.renderSiderbar = true;
       $scope.isParted = false;
 
-      $scope.$watch(function(){ return TableList.data; }, function(data){
+      scopeWatcher = $scope.$watch(function(){ return TableList.data; }, function(data){
         var tables = data.tables;
         if (tables.length > 0) {
           var current = tables.filter(function(item, idx){
@@ -150,7 +154,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }, true);
 
       var fetchPartitions = function fetchPartitions(){
-        cancelRequests();
         if (!tableName || !schemaName) return;
         // Table Partitions
         var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
@@ -197,27 +200,30 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           partitions.push(o);
 	      }
 	    }
-
-	    delete activeRequests[requestId];
-	    update(true, partitions);
+      
+      update(true, partitions, typeof activeRequests[r2] === 'undefined');
+	    delete activeRequests[r2];
 	  }).error(function(query){
-	    delete activeRequests[requestId];
-	    update(false, []);
+      update(false, [], typeof activeRequests[r2] === 'undefined');
+	    delete activeRequests[r2];
 	  });
-	  activeRequests[r2] = q2;
+    
+    delete activeRequests[r1];
+    activeRequests[r2] = q2;
+    
         }).error(function(query){
-          delete activeRequests[requestId];
-          update(false, []);
+          update(false, [], typeof activeRequests[r1] === 'undefined');
+          delete activeRequests[r1];
         });
         activeRequests[r1] = q1;
       };
 
-      var update = function update(success, partitions){
+      var update = function update(success, partitions, cancelled){
+        if (cancelled) { return; }
         $scope.ptCtlr.data = partitions;
         $scope.isParted = true;
         $scope.renderPartitions = success;
-        $scope.renderSchema = success;
-        timeout = $timeout(fetchPartitions, refreshInterval);
+        $scope.renderSchema = true;
       };
 
       if (tableName && schemaName) {
@@ -233,8 +239,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         });
       }
 
-      $scope.$on('$destroy', function(){
-        $timeout.cancel(timeout);
+      $scope.$on('$destroy', function() {
+        cancelRequests();
+        if (scopeWatcher) {
+          scopeWatcher();
+          scopeWatcher = null;
+        }
       });
 
       // Initial
@@ -337,4 +347,3 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     render($route.current.params.schema_name, $route.current.params.table_name);
 
   });
-
