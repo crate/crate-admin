@@ -7,7 +7,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       var collapsed = this.collapsed;
       return {
         'collapsed': collapsed,
-        'toggleIndex': function toggleIndex(index){
+        'toggleIndex': function toggleIndex(index) {
           collapsed[index] = !collapsed[index];
         }
       };
@@ -25,13 +25,13 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
       this.sortByColumn = function sortByColumn(col) {
         if (this.sort.col === col) {
-            this.sort.desc = !this.sort.desc;
+          this.sort.desc = !this.sort.desc;
         } else {
-            this.sort.col = col;
-            this.sort.desc = false;
+          this.sort.col = col;
+          this.sort.desc = false;
         }
       };
-      this.selected = function selected(col){
+      this.selected = function selected(col) {
         if (col === this.sort.col) {
           return this.sort.desc ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
         }
@@ -117,14 +117,13 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       activeRequests = {};
     };
 
-    var render = function render(schemaName, tableName){
-
+    var render = function render(schemaName, tableName) {
       $scope.ptCtlr = new PartitionsTableController();
       $scope.nothingSelected = false;
       $scope.renderSiderbar = true;
       $scope.isParted = false;
 
-      scopeWatcher = $scope.$watch(function(){ return TableList.data; }, function(data){
+      scopeWatcher = $scope.$watch(function(){ return TableList.data; }, function(data) {
         var tables = data.tables;
         if (tables.length > 0) {
           var current = tables.filter(function(item, idx){
@@ -153,72 +152,75 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         }
       }, true);
 
-      var fetchPartitions = function fetchPartitions(){
+      var fetchPartitions = function fetchPartitions() {
         if (!tableName || !schemaName) return;
         // Table Partitions
         var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
           'from sys.shards ' +
           'where schema_name = ? and table_name = ? and partition_ident != \'\' ' +
           'group by partition_ident, "primary", state';
-	var r1 = requestId();
-        var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery){
+          
+        var r1 = requestId();
+        var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery) {
           if (typeof activeRequests[r1] == 'undefined') return;
-	  var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
-      'from information_schema.table_partitions ' +
-	    'where schema_name = ? and table_name = ?';
-	  var r2 = requestId();
-	  var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery){
+	        var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' + 
+          'from information_schema.table_partitions ' + 
+          'where schema_name = ? and table_name = ?';
+          
+          var r2 = requestId();
+          var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery) {
             if (typeof activeRequests[r2] == 'undefined') return;
-	    var partitions = [];
-	    
-	    var shardResult = queryResultToObjects(shardQuery,
+            var partitions = [];  
+            var shardResult = queryResultToObjects(shardQuery,
               ['partition_ident', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-	    var partitionResult = queryResultToObjects(tablePartitionQuery,
+            var partitionResult = queryResultToObjects(tablePartitionQuery, 
               ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
 	    
-	    var idents = shardResult.reduce(function(memo, obj, idx){
-	      var ident = obj.partition_ident;
-	      if (memo.indexOf(ident) === -1) memo.push(ident);
-	      return memo;
-	    }, []);
+            var idents = shardResult.reduce(function(memo, obj, idx) {
+              var ident = obj.partition_ident;
+              if (memo.indexOf(ident) === -1) memo.push(ident);
+	            return memo;
+	          }, []);
 
-	    for (var i=0; i<idents.length; i++) {
-	      var ident = idents[i];
-	      var shardInfoForPartition = shardResult.filter(function(item, idx){
-          return item.partition_ident === ident;
-        });
-	      var confInfoForPartition = partitionResult.filter(function(item, idx){
-          return item.partition_ident === ident;
-        });
-	      if (confInfoForPartition.length === 1) {
-          var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
-          var o = info.asObject();
-          o.partition_values = confInfoForPartition[0].values;
-          o.partition_ident = ident;
-          o.replicas_configured = confInfoForPartition[0].number_of_replicas;
-          o.health_label_class = colorMapLabel[o.health];
-          partitions.push(o);
-	      }
-	    }
+      	    for (var i=0; i<idents.length; i++) {
+      	      var ident = idents[i];
+      	      var shardInfoForPartition = shardResult.filter(function(item, idx) {
+                return item.partition_ident === ident;
+              });
+      	      var confInfoForPartition = partitionResult.filter(function(item, idx) {
+                return item.partition_ident === ident;
+              });
+      	      if (confInfoForPartition.length === 1) {
+                var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
+                var o = info.asObject();
+                o.partition_values = confInfoForPartition[0].values;
+                o.partition_ident = ident;
+                o.replicas_configured = confInfoForPartition[0].number_of_replicas;
+                o.health_label_class = colorMapLabel[o.health];
+                partitions.push(o);
+      	      }
+      	    }
       
-      update(true, partitions, typeof activeRequests[r2] === 'undefined');
-	    delete activeRequests[r2];
-	  }).error(function(query){
-      update(false, [], typeof activeRequests[r2] === 'undefined');
-	    delete activeRequests[r2];
-	  });
+            update(true, partitions, typeof activeRequests[r2] === 'undefined');
+            delete activeRequests[r2];
+            
+          }).error(function(query) {
+            update(false, [], typeof activeRequests[r2] === 'undefined');
+            delete activeRequests[r2];
+          });
+            
+          delete activeRequests[r1];
+          activeRequests[r2] = q2;
     
-    delete activeRequests[r1];
-    activeRequests[r2] = q2;
-    
-        }).error(function(query){
+        }).error(function(query) {
           update(false, [], typeof activeRequests[r1] === 'undefined');
           delete activeRequests[r1];
         });
+        
         activeRequests[r1] = q1;
       };
 
-      var update = function update(success, partitions, cancelled){
+      var update = function update(success, partitions, cancelled) {
         if (cancelled) { return; }
         $scope.ptCtlr.data = partitions;
         $scope.isParted = true;
@@ -230,7 +232,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         // Table Schema
         var tableStmt = "select column_name, data_type from information_schema.columns " +
               "where schema_name = ? and table_name = ?";
-        SQLQuery.execute(tableStmt, [schemaName, tableName]).success(function(query){
+        SQLQuery.execute(tableStmt, [schemaName, tableName]).success(function(query) {
           $scope.schemaHeaders = query.cols;
           $scope.schemaRows = query.rows;
           $scope.renderSchema = true;
@@ -255,8 +257,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     };
 
-    render($route.current.params.schema_name,
-           $route.current.params.table_name);
+    render($route.current.params.schema_name, $route.current.params.table_name);
 
   })
   .controller('TableListController', function ($scope, $route, TableList, TabNavigationInfo) {
@@ -270,10 +271,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }
     });
 
-    var render = function render(schemaName, tableName){
+    var render = function render(schemaName, tableName) {
 
       $scope.renderSidebar = true;
-      $scope.$watch(function(){ return TableList.data; }, function(data){
+      $scope.$watch(function(){ return TableList.data; }, function(data) {
         var tables = data.tables;
         var hasTables = tables.length > 0;
         $scope.renderSidebar = hasTables;
