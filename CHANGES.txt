@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed a bug that displays partitions that are not related to the selected 
+   table in the table-list.
+
  - fixed a bug where cluster shows wrong state if the number of nodes gets 
    smaller than the minimum master nodes.
 
