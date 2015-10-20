@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/10/20 0.15.2
+=================
+
  - fixed a bug that displays partitions that are not related to the selected 
    table in the table-list.
 
