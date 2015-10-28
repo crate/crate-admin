@@ -90,6 +90,7 @@ angular.module('overview', ['stats'])
         $scope.records_unavailable = 0;
         $scope.replicated_data = 100;
         $scope.records_total = 0;
+        $scope.records_total_with_replicas = 0;
         $scope.records_underreplicated = 0;
         return;
       };
@@ -106,9 +107,16 @@ angular.module('overview', ['stats'])
         return tableInfo.records_total + memo;
       }, 0);
 
-      if ($scope.records_total > 0) {
-        $scope.replicated_data = Math.max(0, $scope.records_total-$scope.records_underreplicated) / $scope.records_total * 100.0;
-        $scope.available_data = Math.max(0, $scope.records_total-$scope.records_unavailable) / $scope.records_total * 100.0;
+      $scope.records_total_with_replicas = tables.reduce(function(memo, tableInfo, idx) {
+        return tableInfo.records_total_with_replicas + memo;
+      }, 0);
+
+      if ($scope.records_total_with_replicas > 0) {
+        $scope.replicated_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_underreplicated)
+          / $scope.records_total_with_replicas * 100.0;
+
+        $scope.available_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_unavailable)
+          / $scope.records_total_with_replicas * 100.0;
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
