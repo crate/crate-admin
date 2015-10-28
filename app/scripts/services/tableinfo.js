@@ -15,7 +15,7 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numPrimaryShards = (function() {
-        return shards.reduce(function(memo, shard, idx){
+        return primaryShards.reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
       }());
@@ -33,8 +33,8 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numActivePrimaryShards = (function() {
-        return shards.filter(function(shard, idx) {
-          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === true;
+        return primaryShards.filter(function(shard, idx) {
+          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1;
         }).reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
