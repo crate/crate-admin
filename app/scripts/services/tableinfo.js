@@ -15,7 +15,7 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numPrimaryShards = (function() {
-        return shards.reduce(function(memo, shard, idx){
+        return primaryShards.reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
       }());
@@ -33,8 +33,8 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numActivePrimaryShards = (function() {
-        return shards.filter(function(shard, idx) {
-          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === true;
+        return primaryShards.filter(function(shard, idx) {
+          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1;
         }).reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
@@ -73,11 +73,21 @@ angular.module('tableinfo', ['sql'])
         }, 0);
       }());
 
-      var numUnderreplicatedRecords = (function(){
-        var avgDocsPerPrimaryShard = primaryShards.reduce(function(memo, shard, idx, arr){
+      var avgDocsPerPrimaryShard = (function() {
+        return primaryShards.reduce(function(memo, shard, idx, arr) {
           return memo + shard.avg_docs / arr.length;
         }, 0);
+      }());
+
+      var numUnderreplicatedRecords = (function(){
         return Math.ceil(avgDocsPerPrimaryShard * numUnderreplicatedShards);
+      }());
+
+      var numRecordsWithReplicas = (function() {
+        var numShards = shards.reduce(function(memo, shard, idx) {
+          return memo + shard.count;
+        }, 0);
+        return Math.ceil(avgDocsPerPrimaryShard * numShards);
       }());
 
       var numUnavailableRecords = (function() {
@@ -103,6 +113,7 @@ angular.module('tableinfo', ['sql'])
           'shards_missing': numMissingShards,
           'shards_underreplicated': numUnderreplicatedShards,
           'records_total': numRecords,
+          'records_total_with_replicas': numRecordsWithReplicas,
           'records_unavailable': numUnavailableRecords,
           'records_underreplicated': numUnderreplicatedRecords,
           'size': shardSize,
