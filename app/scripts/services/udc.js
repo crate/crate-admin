@@ -14,13 +14,13 @@ angular.module('udc', [])
       return promise;
     };
 
-    var stmt = "SELECT settings['udc']['enabled'] as enabled from sys.cluster";
+    var stmt = "SELECT settings['udc']['enabled'] as enabled, id as cluster_id from sys.cluster";
     var UdcSettingsQuery = SQLQuery.execute(stmt);
     UdcSettingsQuery.success(function(query) {
-      var result = queryResultToObjects(query, ['enabled']);
-      deferred.resolve(result[0]['enabled']);
+      var result = queryResultToObjects(query, ['enabled','cluster_id']);
+      deferred.resolve(result[0]);
     }).error(function(query) { deferred.reject(null, "could not load udc setting"); });
-    
+
     return {
       SegmentIoToken: 'sfTz0KpAhR0KmOH4GnoqbpLID71eaB3w',
       availability: promise

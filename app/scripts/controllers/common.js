@@ -102,12 +102,12 @@ var commons = angular.module('common', ['stats', 'udc'])
   })
 .controller('HelpMenuController', function ($scope, UidLoader, UdcSettings) {
   var verified = null;
-  
+
   // set user
   $scope.user = {
     uid: null
   };
-  
+
   // 'analytics' is globally available
   analytics.load(UdcSettings.SegmentIoToken)
   analytics.ready(function(){
@@ -117,22 +117,25 @@ var commons = angular.module('common', ['stats', 'udc'])
       traits: user.traits()
     };
   });
-  
-  var identify = function identify(user){
-    if (user.uid != null) {
-      analytics.setAnonymousId(user.uid);
-      // check for messsages
+
+  var identify = function identify(userdata){
+    if (userdata.user.uid != null) {
+      analytics.setAnonymousId(userdata.user.uid);
+      analytics.identify(userdata.user.uid);
       analytics.page();
-      analytics.track('visited_admin', { version: $scope.version.number});
+      analytics.track('visited_admin', {
+        'version': $scope.version.number,
+        'cluster_id': userdata.cluster_id
+      });
     }
   };
 
-  UdcSettings.availability.success(function(isEnabled){
-    if (isEnabled === true) {
+  UdcSettings.availability.success(function(data){
+    if (data.enabled === true) {
       // load uid
       UidLoader.load().success(function(uid){
         $scope.user.uid = uid.toString();
-        identify($scope.user);
+        identify({'user': $scope.user, 'cluster_id': data.cluster_id});
       }).error(function(error){
         console.warn(error);
       });
