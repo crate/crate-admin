@@ -41,12 +41,12 @@
             <div class="chart-container">
               <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
                 data="cpuData"
-                height="20"
                 margin="{left: 0, top: 0, bottom: 0, right: 0}"
                 stacked="true"
                 forcey="[0,100]"
                 tooltips="true"
                 tooltipcontent="toolTipUsedPercentFunction()">
+                <svg style="height: 20px"></svg>
               </nvd3-multi-bar-horizontal-chart>
             </div>
           </div>
@@ -57,12 +57,12 @@
             <div class="chart-container">
               <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
                 data="heapData"
-                height="20"
                 margin="{left: 0, top: 0, bottom: 0, right: 0}"
                 yAxisTickFormat="yAxisByteFormatFunction()"
                 stacked="true"
                 tooltips="true"
                 tooltipcontent="toolTipUsedBytesFunction()">
+                <svg style="height: 20px"></svg>
               </nvd3-multi-bar-horizontal-chart>
             </div>
           </div>
@@ -73,12 +73,12 @@
             <div class="chart-container">
               <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
                 data="diskUsageData"
-                height="20"
                 margin="{left: 0, top: 0, bottom: 0, right: 0}"
                 yAxisTickFormat="yAxisByteFormatFunction()"
                 stacked="true"
                 tooltips="true"
                 tooltipcontent="toolTipUsedBytesFunction()">
+                <svg style="height: 20px"></svg>
               </nvd3-multi-bar-horizontal-chart>
             </div>
           </div>
@@ -120,11 +120,11 @@
             <div class="chart-container">
               <nvd3-multi-bar-horizontal-chart id="chart-process-cpu"
                 data="processCpuData"
-                height="20"
                 margin="{left: 0, top: 0, bottom: 0, right: 0}"
                 stacked="true"
                 tooltips="true"
                 tooltipcontent="toolTipUsedPercentFunction()">
+                <svg style="height: 20px"></svg>
               </nvd3-multi-bar-horizontal-chart>
             </div>
           </div>

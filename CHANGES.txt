@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: charts are not correctly displayed in Microsoft Edge browser.
+
 2015/10/30 0.15.3
 =================
 
