@@ -72,7 +72,6 @@
               <h2>Cluster Load</h2>
             </div>
             <nvd3-line-chart data="chart.data"
-              height="350"
               showXAxis="false"
               showYAxis="true"
               yaxisshowmaxmin="false"
@@ -80,6 +79,7 @@
               forcey="[0,1]"
               interactive="false"
               showLegend="true">
+              <svg style="height: 350px"></svg>
             </nvd3-line-chart>
         </div>
         <div ng-show="checks.length > 0" class="col-md-4 col-sm-12 col-xs-12">
