@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: Crate version check was always fetched with `udc.enabled=false`
+   even when the `udc.enabled` setting was enabled on the Crate server.
+
  - fix: charts are not correctly displayed in Microsoft Edge browser.
 
  - UDC: identify anonymous user with cluster id.
