@@ -4,7 +4,7 @@
   "version": "0.15.3",
   "author": "Crate Team",
   "homepage": "https://github.com/crate/crate-admin/",
-  "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/crate/crate-admin.git"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "bower": ">= 1.2.8",
     "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.13",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.2.0",
@@ -25,8 +26,7 @@
     "grunt-contrib-htmlmin": "~0.2.0",
     "grunt-contrib-imagemin": "~0.1.4",
     "grunt-contrib-watch": "~0.4.0",
-    "grunt-cli": "~0.1.13",
-    "grunt-ng-annotate": "~0.8.0",
+    "grunt-ng-annotate": "~1.0.0",
     "grunt-usemin": "~0.1.11",
     "grunt-rev": "~0.1.0",
     "grunt-open": "~0.2.0",
@@ -34,5 +34,8 @@
     "grunt-recess": "~0.3.1",
     "grunt-string-replace": "~0.2.7",
     "matchdep": "~0.1.2"
+  },
+  "peerDependencies": {
+    "grunt-cli": "~0.1.13"
   }
 }
