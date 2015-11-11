@@ -159,23 +159,23 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           'from sys.shards ' +
           'where schema_name = ? and table_name = ? and partition_ident != \'\' ' +
           'group by partition_ident, "primary", state';
-          
+
         var r1 = requestId();
         var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery) {
           if (typeof activeRequests[r1] == 'undefined') return;
-	        var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' + 
-          'from information_schema.table_partitions ' + 
+	        var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
+          'from information_schema.table_partitions ' +
           'where schema_name = ? and table_name = ?';
-          
+
           var r2 = requestId();
           var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery) {
             if (typeof activeRequests[r2] == 'undefined') return;
-            var partitions = [];  
+            var partitions = [];
             var shardResult = queryResultToObjects(shardQuery,
               ['partition_ident', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
-            var partitionResult = queryResultToObjects(tablePartitionQuery, 
+            var partitionResult = queryResultToObjects(tablePartitionQuery,
               ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
-	    
+
             var idents = shardResult.reduce(function(memo, obj, idx) {
               var ident = obj.partition_ident;
               if (memo.indexOf(ident) === -1) memo.push(ident);
@@ -200,23 +200,23 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
                 partitions.push(o);
       	      }
       	    }
-      
+
             update(true, partitions, typeof activeRequests[r2] === 'undefined');
             delete activeRequests[r2];
-            
+
           }).error(function(query) {
             update(false, [], typeof activeRequests[r2] === 'undefined');
             delete activeRequests[r2];
           });
-            
+
           delete activeRequests[r1];
           activeRequests[r2] = q2;
-    
+
         }).error(function(query) {
           update(false, [], typeof activeRequests[r1] === 'undefined');
           delete activeRequests[r1];
         });
-        
+
         activeRequests[r1] = q1;
       };
 
@@ -272,7 +272,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     });
 
     var render = function render(schemaName, tableName) {
-
+      $scope.tableName = "";
       $scope.renderSidebar = true;
       $scope.$watch(function(){ return TableList.data; }, function(data) {
         var tables = data.tables;
@@ -342,9 +342,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.isCollapsed = function(index) {
         return TabNavigationInfo.collapsed[index];
       };
-
     };
 
     render($route.current.params.schema_name, $route.current.params.table_name);
-
   });

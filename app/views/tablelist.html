@@ -1,13 +1,19 @@
 <div ng-controller="TableListController">
 
   <div class="side-list" ng-show="renderSidebar">
-
+    <div class="row">
+      <div class="col-xs-12">
+        <input class="nav" id="tableFilter" ng-model="tableName" placeholder="Filter tables ..." type="text" focus="true"></input>
+      </div>
+    </div>
     <ul class="nav" ng-repeat="type in tables track by $index">
       <li class="nav-tabs-header" id="nav-tabs-header-{{$index}}">
-        <a href class="tabs-header" ng-click="toggleElements($index)"><i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i> {{ type.display_name }}</a>
+        <a class="tabs-header" href ng-click="toggleElements($index)">
+          <i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i>
+          {{ type.display_name }}</a>
       </li>
       <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-        <li ng-repeat="table in type.tables track by $index" ng-class="{ 'active': isActive(table.schema_name, table.name)}">
+        <li ng-class="{ 'active': isActive(table.schema_name, table.name)}" ng-repeat="table in type.tables | orderBy: 'name' | filter: tableName track by $index">
           <a href="#/tables/{{ table.schema_name }}/{{ table.name }}">
             <div class="row">
               <div class="col-sm-10 col-xs-10">
@@ -19,15 +25,14 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <span>{{ table.records_total|roundWithUnit:1 }} Records ({{ table.size|bytes }})</span>
-                <span class="hide-md"><br />{{ table.summary }}</span>
+                <span>{{ table.records_total|roundWithUnit:1 }}
+                  Records ({{ table.size|bytes }})</span>
+                <span class="hide-md"><br/>{{ table.summary }}</span>
               </div>
             </div>
           </a>
         </li>
       </ul>
     </ul>
-
   </div>
-
 </div>

@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - The table list is now fully searchable and sorted by table name within
+   its schemas.
+
  - fix: Crate version check was always fetched with `udc.enabled=false`
    even when the `udc.enabled` setting was enabled on the Crate server.
 
@@ -24,10 +27,10 @@ Unreleased
 2015/10/20 0.15.2
 =================
 
- - fixed a bug that displays partitions that are not related to the selected 
+ - fixed a bug that displays partitions that are not related to the selected
    table in the table-list.
 
- - fixed a bug where cluster shows wrong state if the number of nodes gets 
+ - fixed a bug where cluster shows wrong state if the number of nodes gets
    smaller than the minimum master nodes.
 
 2015/10/09 0.15.1
@@ -45,7 +48,7 @@ Unreleased
 
  - display cluster checks on overview page
 
- - display relative Crate process CPU usage as bar chart and show number of 
+ - display relative Crate process CPU usage as bar chart and show number of
    cores per node
 
 2015/09/17 0.14.5
@@ -56,7 +59,7 @@ Unreleased
 2015/09/07 0.14.4
 =================
 
- - updated Intercom to support new messaging features. The Intercom service is 
+ - updated Intercom to support new messaging features. The Intercom service is
    disabled if UDC is disabled on the Crate server.
 
 2015/08/06 0.14.3
