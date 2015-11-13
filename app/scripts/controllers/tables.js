@@ -272,7 +272,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     });
 
     var render = function render(schemaName, tableName) {
-      $scope.tableName = "";
       $scope.renderSidebar = true;
       $scope.$watch(function(){ return TableList.data; }, function(data) {
         var tables = data.tables;
@@ -294,31 +293,31 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             customSchemas.push(name);
           }
 
-          // group tables
-          $scope.tables = [
-            {
-              "display_name": "Doc Tables",
-              "tables": tables.filter(function(item, idx){ return item.schema_name == 'doc'; }),
-              "schema_name": "doc"
-            }
-          ];
+          $scope.tables = [];
+          $scope.tables.push({
+            "display_name": "Doc Tables",
+            "tables": tables.filter(function(item, idx){
+              return item.schema_name == 'doc';
+            }),
+            "schema_name": "doc"
+          });
           for (var idx in customSchemas) {
             var name = customSchemas[idx];
-            $scope.tables.push(
-               {
-                "display_name": name + " Tables",
-                "tables": tables.filter(function(item, idx){ return item.schema_name == name; }),
-                "schema_name": name
-              }
-            );
+            $scope.tables.push({
+              "display_name": name + " Tables",
+              "tables": tables.filter(function(item, idx){
+                return item.schema_name == name;
+              }),
+              "schema_name": name
+            });
           }
-          $scope.tables.push(
-             {
-              "display_name": "Blob Tables",
-              "tables": tables.filter(function(item, idx){ return item.schema_name == 'blob'; }),
-              "schema_name": "blob"
-            }
-          );
+          $scope.tables.push({
+            "display_name": "Blob Tables",
+            "tables": tables.filter(function(item, idx){
+              return item.schema_name == 'blob';
+            }),
+            "schema_name": "blob"
+          });
         } else {
           $scope.tables = [];
         }
