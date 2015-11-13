@@ -3,7 +3,7 @@
   <div class="side-list" ng-show="renderSidebar">
     <div class="row">
       <div class="col-xs-12">
-        <input class="nav" id="tableFilter" ng-model="tableName" placeholder="Filter tables ..." type="text" focus="true"></input>
+        <input class="nav" id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text" focus="true"></input>
       </div>
     </div>
     <ul class="nav" ng-repeat="type in tables track by $index">
@@ -13,7 +13,7 @@
           {{ type.display_name }}</a>
       </li>
       <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-        <li ng-class="{ 'active': isActive(table.schema_name, table.name)}" ng-repeat="table in type.tables | orderBy: 'name' | filter: tableName track by $index">
+        <li ng-class="{ 'active': isActive(table.schema_name, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
           <a href="#/tables/{{ table.schema_name }}/{{ table.name }}">
             <div class="row">
               <div class="col-sm-10 col-xs-10">

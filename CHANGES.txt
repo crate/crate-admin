@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Improved table list filter: maintain default sort order (health, name)
+   and include schema name in search predicate
+
  - The table list is now fully searchable and sorted by table name within
    its schemas.
 
