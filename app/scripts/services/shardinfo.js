@@ -8,19 +8,19 @@ angular.module('shardinfo', [])
       };
 
       // table info statement
-      var tableStmt = 'select table_name, number_of_shards, number_of_replicas, schema_name, partitioned_by ' +
+      var tableStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, number_of_shards, number_of_replicas, partitioned_by ' +
           'from information_schema.tables ' +
           'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
-        var shardStmt = 'select table_name, schema_name, _node[\'id\'] as node_id, state, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
+        var shardStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, _node[\'id\'] as node_id, state, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
         'from sys.shards ' +
-        'group by table_name, schema_name, node_id, state, "primary"';
+        'group by table_name, schema_name, fqn, node_id, state, "primary"';
 
       // table partitions statement
-      var partStmt = 'select table_name, schema_name, sum(number_of_shards) as num_shards ' +
+      var partStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, sum(number_of_shards) as num_shards ' +
           'from information_schema.table_partitions ' +
-          'group by table_name, schema_name';
+          'group by table_name, schema_name, fqn';
 
       self.executeTableStmt = function () {
         var deferred = $q.defer(),
@@ -29,7 +29,7 @@ angular.module('shardinfo', [])
         SQLQuery.execute(tableStmt)
           .success(function (tableQuery) {
             var result = queryResultToObjects(tableQuery,
-                ['name', 'shards_configured', 'replicas_configured', 'schema_name', 'partitioned_by']);
+                ['name', 'schema_name', 'fqn', 'shards_configured', 'replicas_configured', 'partitioned_by']);
             deferred.resolve(result);
           })
           .error(function () {
@@ -46,7 +46,7 @@ angular.module('shardinfo', [])
         SQLQuery.execute(shardStmt)
           .success(function (shardQuery) {
             var result = queryResultToObjects(shardQuery,
-                ['table_name', 'schema_name', 'node_id', 'state', 'count', 'primary', 'sum_docs', 'avg_docs', 'size']);
+                ['table_name', 'schema_name', 'fqn', 'node_id', 'state', 'count', 'primary', 'sum_docs', 'avg_docs', 'size']);
             deferred.resolve(result);
           })
           .error(function () {
@@ -63,7 +63,7 @@ angular.module('shardinfo', [])
         SQLQuery.execute(partStmt)
           .success(function (partQuery) {
             var result = queryResultToObjects(partQuery,
-                ['table_name', 'schema_name', 'num_shards']);
+                ['table_name', 'schema_name', 'fqn', 'num_shards']);
             deferred.resolve(result);
           })
           .error(function () {
