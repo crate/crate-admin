@@ -5,14 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Improved table list filter: maintain default sort order (health, name)
-   and include schema name in search predicate
+2015/11/16 0.16.0
+=================
 
  - The table list is now fully searchable and sorted by table name within
    its schemas.
-
- - fix: Crate version check was always fetched with `udc.enabled=false`
-   even when the `udc.enabled` setting was enabled on the Crate server.
 
  - fix: charts are not correctly displayed in Microsoft Edge browser.
 
