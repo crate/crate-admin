@@ -187,15 +187,26 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
       ShardInfo.executeTableStmt().then(function(tables) {
           ShardInfo.executeShardStmt().then(function(shards) {
               ShardInfo.executePartStmt().then(function(partitions) {
-                  data.shards = shards;
-                  data.tables = tables;
-                  data.partitions = partitions;
-                  var result = {
-                    tables: data.tables,
-                    shards: data.shards,
-                    partitions: data.partitions
-                  };
-                  ShardInfo.deferred.resolve(result);
+                  ShardInfo.executeRecoveryStmt().then(function(recovery) {
+                    data.shards = shards;
+                    data.tables = tables;
+                    data.partitions = partitions;
+                    data.recovery = recovery;
+                    var result = {
+                      tables: data.tables,
+                      shards: data.shards,
+                      partitions: data.partitions,
+                      recovery: data.recovery
+                    };
+                    ShardInfo.deferred.resolve(result);
+                  }).catch(function() {
+                    var result = {
+                      tables: data.tables,
+                      shards: data.shards,
+                      partitions: data.partitions
+                    };
+                    ShardInfo.deferred.reject(result);
+                  });
               }).catch(function() {
                   var result = {
                     tables: data.tables,

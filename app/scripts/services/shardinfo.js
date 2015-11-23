@@ -13,14 +13,18 @@ angular.module('shardinfo', [])
           'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
-        var shardStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, _node[\'id\'] as node_id, state, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
-        'from sys.shards ' +
-        'group by table_name, schema_name, fqn, node_id, state, "primary"';
+      var shardStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, _node[\'id\'] as node_id, state, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
+          'from sys.shards ' +
+          'group by table_name, schema_name, fqn, node_id, state, "primary"';
 
       // table partitions statement
       var partStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, sum(number_of_shards) as num_shards ' +
           'from information_schema.table_partitions ' +
           'group by table_name, schema_name, fqn';
+      
+      var recoveryStmt = 'select table_name, schema_name, recovery[\'stage\'] as recovery_stage, recovery[\'size\'][\'percent\'] as recovery_percent ' +
+          'from sys.shards ' +
+          'group by table_name, schema_name, recovery_stage, recovery_percent';
 
       self.executeTableStmt = function () {
         var deferred = $q.defer(),
@@ -64,6 +68,23 @@ angular.module('shardinfo', [])
           .success(function (partQuery) {
             var result = queryResultToObjects(partQuery,
                 ['table_name', 'schema_name', 'fqn', 'num_shards']);
+            deferred.resolve(result);
+          })
+          .error(function () {
+            deferred.reject();
+          });
+
+        return promise;
+      };
+      
+      self.executeRecoveryStmt = function () {
+        var deferred = $q.defer(),
+           promise = deferred.promise;
+
+        SQLQuery.execute(recoveryStmt)
+          .success(function (recoveryQuery) {
+            var result = queryResultToObjects(recoveryQuery,
+                ['table_name', 'schema_name', 'recovery_stage', 'recovery_percent']);
             deferred.resolve(result);
           })
           .error(function () {

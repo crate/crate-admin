@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - displays current shard recovery status on table info page. It shows the 
+   percentage of done recovery.
+
 2015/11/16 0.16.0
 =================
 
