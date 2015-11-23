@@ -2,7 +2,7 @@
 
 angular.module('tableinfo', ['sql'])
   .factory('TableInfo', function() {
-    return function TableInfo(shards, configured, partitionedBy) {
+    return function TableInfo(shards, configured, partitionedBy, recovery) {
       var shards = shards ? angular.copy(shards) : [];
       var partitionedBy = partitionedBy ? angular.copy(partitionedBy) : [];
       var partitioned = partitionedBy.length > 0;
@@ -103,7 +103,37 @@ angular.module('tableinfo', ['sql'])
         if (numUnassignedShards > 0) return 'warning';
         return 'good';
       }());
-
+    
+      var recovery_percent = (function() {
+        if (!recovery) return;
+        var init_filter = recovery.filter(function(data, idx) {
+          return data.recovery_stage.toLowerCase() === 'init';
+        });
+        var count_shards = init_filter.length;
+        
+        var recovered_filter = recovery.filter(function(data, idx) {
+          return data.recovery_stage.toLowerCase() !== 'init' && data.recovery_stage.toLowerCase() !== 'done';
+        });
+        count_shards += recovered_filter.length;
+        var recovered = recovered_filter.reduce(function(memo, data, idx) {
+          return memo + (data.recovery_percent / recovered_filter.length);
+        }, 0);
+        
+        var done_filter = recovery.filter(function(data, idx) {
+          return data.recovery_stage.toLowerCase() === 'done'
+        });
+        count_shards += done_filter.length;
+        var done = done_filter.reduce(function(memo, data, idx) {
+          return memo + 100;
+        }, 0);
+        
+        return (recovered + done) * 100 / (count_shards * 100);
+      }());
+      
+      if (isNaN(recovery_percent)) {
+        recovery_percent = 0;
+      }
+      
       this.asObject = function asObject() {
         return {
           'shards_configured': numShardsConfigured,
@@ -117,7 +147,8 @@ angular.module('tableinfo', ['sql'])
           'records_underreplicated': numUnderreplicatedRecords,
           'size': shardSize,
           'partitioned': partitioned,
-          'partitioned_by': partitionedBy
+          'partitioned_by': partitionedBy,
+          'recovery_percent': recovery_percent
         };
       };
 
@@ -161,10 +192,11 @@ angular.module('tableinfo', ['sql'])
       return 0;
     };
 
-    var update = function update(success, tables, shards, partitions) {
+    var update = function update(success, tables, shards, partitions, recovery) {
       var _tables = tables || [];
       var _shards = shards || [];
       var _partitions = partitions || [];
+      var _recovery = recovery || [];
       // table info query was successful
       if (success && _tables.length) {
         for (var i=0; i<_tables.length; i++) {
@@ -175,11 +207,13 @@ angular.module('tableinfo', ['sql'])
           var partitionsForTable = _partitions.filter(function(item, idx) {
             return item.table_name === table.name && item.schema_name == table.schema_name;
           });
-
+          var recoveryForTable = _recovery.filter(function(item, idx) {
+            return item.table_name === table.name && item.schema_name == table.schema_name;
+          });
           if (table.partitioned_by && partitionsForTable.length === 1) {
             table.shards_configured = partitionsForTable[0].num_shards;
           }
-          var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by);
+          var tableInfo = new TableInfo(shardsForTable, table.shards_configured, table.partitioned_by, recoveryForTable);
           var info = tableInfo.asObject();
 
           // extend table object with information from TableInfo instance
@@ -216,11 +250,11 @@ angular.module('tableinfo', ['sql'])
       $timeout.cancel(timeout);
 
       ShardInfo.deferred.promise.then(function(result) {
-        update(true, result.tables, result.shards, result.partitions);
+        update(true, result.tables, result.shards, result.partitions, result.recovery);
       }).catch(function(result) {
         if (jQuery.isEmptyObject(result)) return;
-        if (result.tables && result.shards) {
-          update(true, result.tables, result.shards);
+        if (result.tables && result.shards && result.recovery) {
+          update(true, result.tables, result.shards, null, result.recovery);
         } else if (result.tables) {
           update(true, result.tables);
         } else {

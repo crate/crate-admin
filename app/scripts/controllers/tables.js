@@ -74,7 +74,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       'shards_missing': 0,
       'shards_underreplicated': 0,
       'replicas_configured': '0',
-      'size': 0
+      'size': 0,
+      'recovery_percent': 0
     };
 
     // http://stackoverflow.com/a/14329570/1143231
