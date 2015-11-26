@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Updated calculation of underreplicated shards/records to work with the
+   change in Crate server where shards in sys.shards table have a more fine
+   granular state now and relocating shards are listed, too.
+
 2015/11/16 0.16.0
 =================
 

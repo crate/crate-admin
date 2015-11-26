@@ -34,7 +34,7 @@ angular.module('tableinfo', ['sql'])
 
       var numActivePrimaryShards = (function() {
         return primaryShards.filter(function(shard, idx) {
-          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1;
+          return shard.state != 'UNASSIGNED';
         }).reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
@@ -52,17 +52,16 @@ angular.module('tableinfo', ['sql'])
         }, 0);
       }());
 
+      /**
+       * numMissingShards must not be less than 0
+       * however, when primary shards are relocating they exist actually
+       * twice (source and target) for the time of the relocation
+       * and therefore causing numActivePrimaryShards being greater than
+       * numShardsConfigured.
+       **/
       var numMissingShards = (function() {
         return (partitioned && numStartedShards === 0) ? 0 :
-          (numShardsConfigured - numActivePrimaryShards);
-      }());
-
-      var numUnderreplicatedShards = (function() {
-        return shards.filter(function(shard, idx){
-          return !(['STARTED', 'RELOCATING'].indexOf(shard.state) > -1) && shard.primary === false;
-        }).reduce(function(memo, shard, idx){
-          return memo + shard.count;
-        }, 0);
+          Math.max(0, numShardsConfigured - numActivePrimaryShards);
       }());
 
       var numUnassignedShards = (function() {
@@ -80,7 +79,7 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numUnderreplicatedRecords = (function(){
-        return Math.ceil(avgDocsPerPrimaryShard * numUnderreplicatedShards);
+        return Math.ceil(avgDocsPerPrimaryShard * numUnassignedShards);
       }());
 
       var numRecordsWithReplicas = (function() {
@@ -101,7 +100,7 @@ angular.module('tableinfo', ['sql'])
         if (partitioned && numStartedShards === 0) return 'good';
         if (numPrimaryShards === 0) return 'critical';
         if (numMissingShards > 0) return 'critical';
-        if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) return 'warning';
+        if (numUnassignedShards > 0) return 'warning';
         return 'good';
       }());
 
@@ -111,7 +110,7 @@ angular.module('tableinfo', ['sql'])
           'health': health,
           'shards_started': numStartedShards,
           'shards_missing': numMissingShards,
-          'shards_underreplicated': numUnderreplicatedShards,
+          'shards_underreplicated': numUnassignedShards,
           'records_total': numRecords,
           'records_total_with_replicas': numRecordsWithReplicas,
           'records_unavailable': numUnavailableRecords,

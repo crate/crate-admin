@@ -71,7 +71,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       'records_unavailable': 0,
       'shards_configured': 0,
       'shards_started': 0,
-      'shards_active': 0,
       'shards_missing': 0,
       'shards_underreplicated': 0,
       'replicas_configured': '0',
