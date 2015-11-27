@@ -43,7 +43,7 @@
             </div>
 
           </form>
-          
+
         </div>
         <div class="col-lg-12">
           <label>{{ status }}</label>
@@ -57,7 +57,7 @@
           <table class="table table-bordered table-hover tablesorter table-code">
             <thead>
               <tr>
-                <th ng-repeat="header in resultHeaders" class="header">{{ header }}</th>
+                <th ng-repeat="header in resultHeaders track by $index" class="header">{{ header }}</th>
               </tr>
             </thead>
             <tbody>
