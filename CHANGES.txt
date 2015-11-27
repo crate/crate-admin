@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2015/11/27 0.16.1
+=================
+
  - fix: column headers where not shown in result table on console page
    when two or more columns with the same name were selected
 
