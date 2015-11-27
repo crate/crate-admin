@@ -5,9 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - displays current shard recovery status on table info page. It shows the 
+ - fix: column headers where not shown in result table on console page
+   when two or more columns with the same name were selected
+
+ - Display current shard recovery status on table info page. It shows the
    percentage of done recovery.
- 
+
  - Updated calculation of underreplicated shards/records to work with the
    change in Crate server where shards in sys.shards table have a more fine
    granular state now and relocating shards are listed, too.
