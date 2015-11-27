@@ -22,7 +22,6 @@ angular.module('console', ['sql'])
           message: ''
         };
 
-
         this.setInputScope = function(scope) {
           inputScope = scope;
         };
@@ -99,8 +98,8 @@ angular.module('console', ['sql'])
             $scope.renderTable = true;
 
             $scope.resultHeaders = [];
-            for (var col in sqlQuery.cols) {
-              $scope.resultHeaders.push(sqlQuery.cols[col]);
+            for (var i = 0; i < sqlQuery.cols.length; i++) {
+              $scope.resultHeaders.push(sqlQuery.cols[i]);
             }
 
             $scope.rows = sqlQuery.rows;
