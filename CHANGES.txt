@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: Unavailable dependency `angular-truncate` module caused blank Admin UI.
+   Switched to `angular-truncate-2` now.
+
  - Display current shard recovery status on table info page. It shows the
    percentage of done recovery.
 
