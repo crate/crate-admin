@@ -53,7 +53,7 @@ Help & Contact
 ==============
 
 Do you have any questions? Or suggestions? We would be very happy
-to help you. So, feel free to swing by our IRC channel ``#crate`` on Freenode_.
+to help you. So, feel free to swing by our public room on HipChat_.
 Or for further information and official contact please
 visit `https://crate.io`_.
 
@@ -84,5 +84,5 @@ software solely pursuant to the terms of the relevant commercial agreement.
 
 .. _`Crate`: https://github.com/crate/crate
 .. _`https://crate.io`: https://crate.io
-.. _`Freenode`: http://freenode.net
+.. _`HipChat`: https://www.hipchat.com/g7Pc2CYwi
 .. _`Bower`: http://bower.io
