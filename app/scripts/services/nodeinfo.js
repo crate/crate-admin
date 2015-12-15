@@ -17,6 +17,41 @@ angular.module('nodeinfo', [])
     NodeHealth.THRESHOLD_WARNING = 90;
     return NodeHealth;
   })
+  .factory('NodeInfo', ['SQLQuery', 'queryResultToObjects', '$q',
+    function (SQLQuery, queryResultToObjects, $q) {
+      var nodeInfo = {
+        deferred: $q.defer()
+      };
+      
+      var nodeQuery = 'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, ' +
+          'process[\'cpu\'] as proc_cpu, os_info[\'available_processors\'] as num_cores ' +
+          'from sys.nodes';
+      nodeInfo.executeNodeQuery = function(){
+        var d = $q.defer();
+        SQLQuery.execute(nodeQuery).success(function(sqlQuery){
+          var response = queryResultToObjects(sqlQuery,
+              ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores']);
+          d.resolve(response);
+        }).error(function(){
+          d.reject();
+        })
+        return d.promise;
+      }
+      
+      var clusterQuery = 'select name from sys.cluster';
+      nodeInfo.executeClusterQuery = function(){
+        var d = $q.defer();
+        SQLQuery.execute(clusterQuery).success(function(sqlQuery){
+          d.resolve(queryResultToObjects(sqlQuery, ['name']));
+        }).error(function(){
+          d.reject();
+        })
+        return d.promise;
+      }
+      
+      return nodeInfo;
+    }
+  ])
   .provider('NodeListInfo', function() {
     var sortInfo = {
       sort: {

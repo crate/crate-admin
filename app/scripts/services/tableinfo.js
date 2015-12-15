@@ -271,7 +271,7 @@ angular.module('tableinfo', ['sql'])
 
     return {
       'data': data,
-      'promise': deferred.promise
+      'execute': function() { return deferred.promise; }
     };
 
   });

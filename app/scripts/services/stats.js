@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('stats', ['sql', 'health', 'tableinfo'])
-  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, TableInfo, Health, ShardInfo, ClusterCheck, $q) {
+angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
+  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ClusterCheck, $q) {
     var healthInterval, statusInterval, reachabilityInterval, shardsInterval, checkInterval;
 
     var data = {
@@ -143,7 +143,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
 
     var refreshHealth = function() {
       // We want to get the tables as soon as they become available so we use the promise object.
-      TableList.promise.then(null, null, function(res){
+      TableList.execute().then(null, null, function(res){
         if (res.success || !data.online) {
           var h = res.data.tables.reduce(function(memo, obj, idx){
             var level = Health.fromString(obj.health).level;
@@ -159,26 +159,21 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
     };
 
     var refreshState = function() {
-      var sysNodesQuery = SQLQuery.execute(
-        'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, ' +
-        'process[\'cpu\'] as proc_cpu, os_info[\'available_processors\'] as num_cores ' +
-        'from sys.nodes');
-      sysNodesQuery.success(function(sqlQuery) {
+      NodeInfo.executeNodeQuery().then(function(response){
         if (!data.online) return;
-         
-        var response = queryResultToObjects(sqlQuery,
-            ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores']);
         data.load = prepareLoadInfo(response);
         data.cluster = prepareIoStats(response);
-      }).error(onErrorResponse);
-
-      var clusterName = SQLQuery.execute('select name from sys.cluster');
-      clusterName.success(function(sqlQuery) {
-        if (!data.online) return;
-      
-        var row = sqlQuery.rows[0];
-        data.name = row[0]
-      }).error(onErrorResponse);
+        NodeInfo.executeClusterQuery().then(function(response){
+          if (!data.online) return;
+          data.name = response[0].name;
+          // resolve global NodeInfo deferred object
+          var result = {
+            name: data.name,
+            nodes: data.cluster.length
+          }
+          NodeInfo.deferred.resolve(result);
+        }, onErrorResponse);
+      }, onErrorResponse);
     };
 
     var refreshShardInfo = function() {
@@ -192,6 +187,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo'])
                     data.tables = tables;
                     data.partitions = partitions;
                     data.recovery = recovery;
+                    // resolve global ShardInfo deferred object
                     var result = {
                       tables: data.tables,
                       shards: data.shards,

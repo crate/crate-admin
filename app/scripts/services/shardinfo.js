@@ -3,7 +3,7 @@
 angular.module('shardinfo', [])
   .factory('ShardInfo', ['SQLQuery', 'queryResultToObjects', '$q',
     function (SQLQuery, queryResultToObjects, $q) {
-      var self = {
+      var shardInfo = {
         deferred: $q.defer()
       };
 
@@ -26,7 +26,7 @@ angular.module('shardinfo', [])
           'from sys.shards ' +
           'group by table_name, schema_name, recovery_stage, recovery_percent';
 
-      self.executeTableStmt = function () {
+      shardInfo.executeTableStmt = function () {
         var deferred = $q.defer(),
             promise = deferred.promise;
 
@@ -43,7 +43,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      self.executeShardStmt = function () {
+      shardInfo.executeShardStmt = function () {
         var deferred = $q.defer(),
            promise = deferred.promise;
 
@@ -60,7 +60,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      self.executePartStmt = function () {
+      shardInfo.executePartStmt = function () {
         var deferred = $q.defer(),
             promise = deferred.promise;
 
@@ -76,8 +76,8 @@ angular.module('shardinfo', [])
 
         return promise;
       };
-      
-      self.executeRecoveryStmt = function () {
+
+      shardInfo.executeRecoveryStmt = function () {
         var deferred = $q.defer(),
            promise = deferred.promise;
 
@@ -94,7 +94,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      return self;
+      return shardInfo;
     }
 
   ]);
