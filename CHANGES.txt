@@ -5,8 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - fix: Underreplicated shards have been calculated wrong and caused green 
-   cluster state during replication.
+2015/12/15 0.17.0
+=================
 
  - Display current shard recovery status on table info page. It shows the
    percentage of done recovery.
