@@ -22,7 +22,7 @@ angular.module('tableinfo', ['sql'])
 
       var startedShards = (function() {
         return shards.filter(function(shard, idx) {
-          return shard.state == 'STARTED';
+          return shard.state === 'STARTED';
         });
       }());
 
@@ -33,12 +33,20 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numActivePrimaryShards = (function() {
-        return primaryShards.filter(function(shard, idx) {
-          return shard.state != 'UNASSIGNED';
+        return shards.filter(function(shard, idx) {
+          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === true;
         }).reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
       }());
+
+      var numActiveReplicaShards = (function() {
+        return shards.filter(function(shard, idx) {
+          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === false;
+        }).reduce(function(memo, shard, idx) {
+          return memo + shard.count;
+        }, 0);
+      }());
 
       var shardSize = (function() {
         return primaryShards.reduce(function(memo, shard, idx) {
@@ -53,23 +61,27 @@ angular.module('tableinfo', ['sql'])
       }());
 
       /**
-       * numMissingShards must not be less than 0
+       * numMissingPrimaryShards must not be less than 0
        * however, when primary shards are relocating they exist actually
        * twice (source and target) for the time of the relocation
        * and therefore causing numActivePrimaryShards being greater than
        * numShardsConfigured.
        **/
-      var numMissingShards = (function() {
+      var numMissingPrimaryShards = (function() {
         return (partitioned && numStartedShards === 0) ? 0 :
           Math.max(0, numShardsConfigured - numActivePrimaryShards);
       }());
 
       var numUnassignedShards = (function() {
         return shards.filter(function(shard, idx) {
-          return shard.state == 'UNASSIGNED';
-        }).reduce(function(memo, shard, idx) {
+          return !(['STARTED', 'RELOCATING'].indexOf(shard.state) > -1);
+        }).reduce(function(memo, shard, idx, arr) {
           return memo + shard.count;
         }, 0);
+      }());
+
+      var numUnderreplicatedShards = (function() {
+        return numUnassignedShards - numMissingPrimaryShards;
       }());
 
       var avgDocsPerPrimaryShard = (function() {
@@ -93,54 +105,54 @@ angular.module('tableinfo', ['sql'])
         var avgDocsPerStartedShard = startedShards.reduce(function(memo, shard, idx, arr){
           return memo + shard.avg_docs / arr.length;
         }, 0);
-        return Math.ceil(avgDocsPerStartedShard * numMissingShards);
+        return Math.ceil(avgDocsPerStartedShard * numMissingPrimaryShards);
       }());
 
       var health = (function() {
         if (partitioned && numStartedShards === 0) return 'good';
         if (numPrimaryShards === 0) return 'critical';
-        if (numMissingShards > 0) return 'critical';
-        if (numUnassignedShards > 0) return 'warning';
+        if (numMissingPrimaryShards > 0) return 'critical';
+        if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) return 'warning';
         return 'good';
       }());
-    
+
       var recovery_percent = (function() {
         if (!recovery) return;
         var init_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage.toLowerCase() === 'init';
+          return data.recovery_stage && data.recovery_stage.toLowerCase() === 'init';
         });
         var count_shards = init_filter.length;
-        
+
         var recovered_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage.toLowerCase() !== 'init' && data.recovery_stage.toLowerCase() !== 'done';
+          return data.recovery_stage && data.recovery_stage.toLowerCase() !== 'init' && data.recovery_stage.toLowerCase() !== 'done';
         });
         count_shards += recovered_filter.length;
         var recovered = recovered_filter.reduce(function(memo, data, idx) {
           return memo + (data.recovery_percent / recovered_filter.length);
         }, 0);
-        
+
         var done_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage.toLowerCase() === 'done'
+          return data.recovery_stage && data.recovery_stage.toLowerCase() === 'done'
         });
         count_shards += done_filter.length;
         var done = done_filter.reduce(function(memo, data, idx) {
           return memo + 100;
         }, 0);
-        
+
         return (recovered + done) * 100 / (count_shards * 100);
       }());
-      
+
       if (isNaN(recovery_percent)) {
         recovery_percent = 0;
       }
-      
+
       this.asObject = function asObject() {
         return {
           'shards_configured': numShardsConfigured,
           'health': health,
           'shards_started': numStartedShards,
-          'shards_missing': numMissingShards,
-          'shards_underreplicated': numUnassignedShards,
+          'shards_missing': numMissingPrimaryShards,
+          'shards_underreplicated': numUnderreplicatedShards,
           'records_total': numRecords,
           'records_total_with_replicas': numRecordsWithReplicas,
           'records_unavailable': numUnavailableRecords,

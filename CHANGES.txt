@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fix: Underreplicated shards have been calculated wrong and caused green 
+   cluster state during replication.
+
  - fix: Unavailable dependency `angular-truncate` module caused blank Admin UI.
    Switched to `angular-truncate-2` now.
 
