@@ -13,10 +13,11 @@
         <li ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
           <a ng-href="#/nodes/{{ node.name }}">
             <div class="row">
-              <div class="col-sm-10 col-xs-10">
+              <div class="col-sm-8 col-xs-8">
                 <h3>{{ node.name }}</h3>
               </div>
-              <div class="col-sm-2 col-xs-2 text-right">
+              <div class="col-sm-4 col-xs-4 text-right">
+                <span ng-if="node.master_node" class="master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
                 <span class="health-bubble {{ node.health_label_class }}" title="{{ node.health.status }}"></span>
               </div>
             </div>

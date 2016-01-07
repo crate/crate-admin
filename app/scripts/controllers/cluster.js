@@ -32,7 +32,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         version = data.version;
         var showSidebar = cluster.length > 0;
         $scope.renderSidebar = showSidebar;
-        var nodeList = prepareNodeList(cluster);
+        var nodeList = prepareNodeList(cluster, data.master_node);
 
         if (!showSidebar) {
           $scope.selected = null;
@@ -191,7 +191,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
         $scope.renderSidebar = showSidebar;
 
-        var nodeList = prepareNodeList(cluster);
+        var nodeList = prepareNodeList(cluster, data.master_node);
 
         if (!showSidebar) {
           // no sidebar

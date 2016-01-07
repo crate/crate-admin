@@ -166,9 +166,11 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
         NodeInfo.executeClusterQuery().then(function(response){
           if (!data.online) return;
           data.name = response[0].name;
+          data.master_node = response[0].master_node;
           // resolve global NodeInfo deferred object
           var result = {
             name: data.name,
+            master_node: data.master_node,
             nodes: data.cluster.length
           }
           NodeInfo.deferred.resolve(result);

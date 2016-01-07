@@ -38,11 +38,11 @@ angular.module('nodeinfo', [])
         return d.promise;
       }
       
-      var clusterQuery = 'select name from sys.cluster';
+      var clusterQuery = 'select name, master_node from sys.cluster';
       nodeInfo.executeClusterQuery = function(){
         var d = $q.defer();
         SQLQuery.execute(clusterQuery).success(function(sqlQuery){
-          d.resolve(queryResultToObjects(sqlQuery, ['name']));
+          d.resolve(queryResultToObjects(sqlQuery, ['name', 'master_node']));
         }).error(function(){
           d.reject();
         })
@@ -85,7 +85,7 @@ angular.module('nodeinfo', [])
       "critical": 'label-danger',
       '--': ''
     };
-    return function prepareNodeList(cluster) {
+    return function prepareNodeList(cluster, master_node) {
       var nodeList = [];
       for (var i=0; i<cluster.length; i++) {
         var node = angular.copy(cluster[i]);
@@ -95,6 +95,7 @@ angular.module('nodeinfo', [])
         node.health_panel_class = colorMapLabel[node.health.status];
         node.heap.used_percent = node.heap.used * 100 / node.heap.max;
         node.heap.free_percent = 100.0 - node.heap.used_percent;
+        node.master_node = node.id === master_node;
         nodeList.push(node);
       }
       return nodeList;
