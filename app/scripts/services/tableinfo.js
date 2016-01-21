@@ -116,35 +116,37 @@ angular.module('tableinfo', ['sql'])
         return 'good';
       }());
 
-      var recovery_percent = (function() {
-        if (!recovery) return;
-        var init_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage && data.recovery_stage.toLowerCase() === 'init';
-        });
-        var count_shards = init_filter.length;
-
-        var recovered_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage && data.recovery_stage.toLowerCase() !== 'init' && data.recovery_stage.toLowerCase() !== 'done';
-        });
-        count_shards += recovered_filter.length;
-        var recovered = recovered_filter.reduce(function(memo, data, idx) {
-          return memo + (data.recovery_percent / recovered_filter.length);
-        }, 0);
-
-        var done_filter = recovery.filter(function(data, idx) {
-          return data.recovery_stage && data.recovery_stage.toLowerCase() === 'done'
-        });
-        count_shards += done_filter.length;
-        var done = done_filter.reduce(function(memo, data, idx) {
-          return memo + 100;
-        }, 0);
-
-        return (recovered + done) * 100 / (count_shards * 100);
+      var recovery_percent = shards.length === 0 ? 100.0 : (function() {
+        // stage == 'DONE' -> recovery finished
+        var done = recovery.filter(function(data, idx){
+          return data.recovery_stage && data.recovery_stage === 'DONE';
+        }).reduce(function(memo, data, idx, arr){
+          return [
+            memo[0] + 100.0 * data.count,
+            memo[1] + data.count
+          ];
+        }, [0, 0]);
+        // stage != 'DONE' -> recovery in progress
+        var progress = recovery.filter(function(data, idx){
+          return data.recovery_stage && data.recovery_stage !== 'DONE';
+        }).reduce(function(memo, data, idx, arr){
+          return [
+            memo[0] + data.recovery_percent * data.count,
+            memo[1] + data.count
+          ];
+        }, [0, 0]);
+        // recovery == NULL -> recovery not started yet
+        var unassigned = recovery.filter(function(data, idx){
+          return data.recovery_stage === null;
+        }).reduce(function(memo, data, idx, arr){
+          return [
+            0,
+            memo[1] + data.count
+          ];
+        }, [0, 0]);
+        var percent = (done[0] + progress[0] + unassigned[0]) / (done[1] + progress[1] + unassigned[1]);
+        return percent;
       }());
-
-      if (isNaN(recovery_percent)) {
-        recovery_percent = 0;
-      }
 
       this.asObject = function asObject() {
         return {

@@ -13,18 +13,18 @@ angular.module('shardinfo', [])
           'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
-      var shardStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, _node[\'id\'] as node_id, state, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
-          'from sys.shards ' +
-          'group by table_name, schema_name, fqn, node_id, state, "primary"';
+      var shardStmt = "SELECT table_name, schema_name, format('%s.%s', schema_name, table_name) AS fqn, _node['id'] AS node_id, state, count(*), \"primary\", sum(num_docs), avg(num_docs), sum(size) " +
+          "FROM sys.shards " +
+          "GROUP BY table_name, schema_name, fqn, node_id, state, \"primary\"";
 
       // table partitions statement
       var partStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, sum(number_of_shards) as num_shards ' +
           'from information_schema.table_partitions ' +
           'group by table_name, schema_name, fqn';
-      
-      var recoveryStmt = 'select table_name, schema_name, recovery[\'stage\'] as recovery_stage, recovery[\'size\'][\'percent\'] as recovery_percent ' +
-          'from sys.shards ' +
-          'group by table_name, schema_name, recovery_stage, recovery_percent';
+
+      var recoveryStmt = "SELECT table_name, schema_name, recovery['stage'] AS recovery_stage, avg(recovery['size']['percent']), count(*) as count " +
+          "FROM sys.shards " +
+          "GROUP BY table_name, schema_name, recovery_stage";
 
       shardInfo.executeTableStmt = function () {
         var deferred = $q.defer(),
@@ -84,7 +84,7 @@ angular.module('shardinfo', [])
         SQLQuery.execute(recoveryStmt)
           .success(function (recoveryQuery) {
             var result = queryResultToObjects(recoveryQuery,
-                ['table_name', 'schema_name', 'recovery_stage', 'recovery_percent']);
+                ['table_name', 'schema_name', 'recovery_stage', 'recovery_percent', 'count']);
             deferred.resolve(result);
           })
           .error(function () {
