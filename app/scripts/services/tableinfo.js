@@ -7,6 +7,7 @@ angular.module('tableinfo', ['sql'])
       var partitionedBy = partitionedBy ? angular.copy(partitionedBy) : [];
       var partitioned = partitionedBy.length > 0;
       var numShardsConfigured = configured || 0;
+      var recovery = recovery || [];
 
       var primaryShards = (function() {
         return shards.filter(function(shard, idx) {
@@ -116,7 +117,7 @@ angular.module('tableinfo', ['sql'])
         return 'good';
       }());
 
-      var recovery_percent = shards.length === 0 ? 100.0 : (function() {
+      var recovery_percent = (shards.length === 0 || recovery.length === 0) ? 100.0 : (function() {
         // stage == 'DONE' -> recovery finished
         var done = recovery.filter(function(data, idx){
           return data.recovery_stage && data.recovery_stage === 'DONE';

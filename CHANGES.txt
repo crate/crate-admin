@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: change in calculation of recovery percentage broke calculations for
+   partitioned tables causing table partitions not showing up
+
  - Fix: now also include unassigned shards (as 0% recovered) in calculation of
    recovery percentage which is displayed per table.
    Previously it could show '100% recovery done' even if there were still
