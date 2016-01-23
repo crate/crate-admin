@@ -29,7 +29,7 @@ angular.module('feed', ['stats'])
     };
   })
   .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings) {
-    var BLOG_URL = 'https://crate.io/blog/category/developernews';
+    var BLOG_URL = 'https://crate.io/blog';
     var MAX_ITEMS = 5;
     var VERSION_URL = 'https://crate.io/versions.json';
 
