@@ -2,6 +2,10 @@
 
 angular.module('tableinfo', ['sql'])
   .factory('TableInfo', function() {
+    var ACTIVE_SHARDS = ['STARTED', 'RELOCATING'];
+    var isActiveShard = function(shard) {
+      return ACTIVE_SHARDS.indexOf(shard.routing_state) > -1;
+    };
     return function TableInfo(shards, configured, partitionedBy, recovery) {
       var shards = shards ? angular.copy(shards) : [];
       var partitionedBy = partitionedBy ? angular.copy(partitionedBy) : [];
@@ -23,7 +27,7 @@ angular.module('tableinfo', ['sql'])
 
       var startedShards = (function() {
         return shards.filter(function(shard, idx) {
-          return shard.state === 'STARTED';
+          return isActiveShard(shard);
         });
       }());
 
@@ -35,19 +39,11 @@ angular.module('tableinfo', ['sql'])
 
       var numActivePrimaryShards = (function() {
         return shards.filter(function(shard, idx) {
-          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === true;
+          return isActiveShard(shard) && shard.primary === true;
         }).reduce(function(memo, shard, idx) {
           return memo + shard.count;
         }, 0);
       }());
-
-      var numActiveReplicaShards = (function() {
-        return shards.filter(function(shard, idx) {
-          return ['STARTED', 'RELOCATING'].indexOf(shard.state) > -1 && shard.primary === false;
-        }).reduce(function(memo, shard, idx) {
-          return memo + shard.count;
-        }, 0);
-      }());
 
       var shardSize = (function() {
         return primaryShards.reduce(function(memo, shard, idx) {
@@ -75,14 +71,22 @@ angular.module('tableinfo', ['sql'])
 
       var numUnassignedShards = (function() {
         return shards.filter(function(shard, idx) {
-          return !(['STARTED', 'RELOCATING'].indexOf(shard.state) > -1);
+          return shard.routing_state == 'UNASSIGNED';
+        }).reduce(function(memo, shard, idx, arr) {
+          return memo + shard.count;
+        }, 0);
+      }());
+
+      var numReplicatingShards = (function() {
+        return shards.filter(function(shard, idx) {
+          return shard.routing_state == 'INITIALIZING' && shard.relocating_node === null;
         }).reduce(function(memo, shard, idx, arr) {
           return memo + shard.count;
         }, 0);
       }());
 
       var numUnderreplicatedShards = (function() {
-        return numUnassignedShards - numMissingPrimaryShards;
+        return numUnassignedShards + numReplicatingShards - numMissingPrimaryShards;
       }());
 
       var avgDocsPerPrimaryShard = (function() {

@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: relocating shards where previously displayed as "underreplicated" shards
+   causing a yellow cluster state while relocating was in progress
+
  - Fix: change in calculation of recovery percentage broke calculations for
    partitioned tables causing table partitions not showing up
 
