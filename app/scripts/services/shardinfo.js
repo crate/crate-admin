@@ -13,9 +13,9 @@ angular.module('shardinfo', [])
           'where schema_name not in (\'information_schema\', \'sys\')';
 
       // shard info statement
-      var shardStmt = "SELECT table_name, schema_name, format('%s.%s', schema_name, table_name) AS fqn, _node['id'] AS node_id, state, count(*), \"primary\", sum(num_docs), avg(num_docs), sum(size) " +
+      var shardStmt = "SELECT table_name, schema_name, format('%s.%s', schema_name, table_name) AS fqn, _node['id'] AS node_id, state, routing_state, relocating_node, count(*), \"primary\", sum(num_docs), avg(num_docs), sum(size) " +
           "FROM sys.shards " +
-          "GROUP BY table_name, schema_name, fqn, node_id, state, \"primary\"";
+          "GROUP BY table_name, schema_name, fqn, node_id, state, routing_state, relocating_node, \"primary\"";
 
       // table partitions statement
       var partStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, sum(number_of_shards) as num_shards ' +
@@ -50,7 +50,7 @@ angular.module('shardinfo', [])
         SQLQuery.execute(shardStmt)
           .success(function (shardQuery) {
             var result = queryResultToObjects(shardQuery,
-                ['table_name', 'schema_name', 'fqn', 'node_id', 'state', 'count', 'primary', 'sum_docs', 'avg_docs', 'size']);
+                ['table_name', 'schema_name', 'fqn', 'node_id', 'state', 'routing_state', 'relocating_node', 'count', 'primary', 'sum_docs', 'avg_docs', 'size']);
             deferred.resolve(result);
           })
           .error(function () {
