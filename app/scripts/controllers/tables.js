@@ -155,51 +155,52 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       var fetchPartitions = function fetchPartitions() {
         if (!tableName || !schemaName) return;
         // Table Partitions
-        var shardStmt = 'select partition_ident, sum(num_docs), "primary", avg(num_docs), count(*), state, sum(size) ' +
-          'from sys.shards ' +
-          'where schema_name = ? and table_name = ? and partition_ident != \'\' ' +
-          'group by partition_ident, "primary", state';
+        var shardStmt = 'SELECT partition_ident, routing_state, state, relocating_node, "primary", SUM(num_docs), AVG(num_docs), COUNT(*), SUM(size) ' +
+          'FROM sys.shards ' +
+          'WHERE schema_name = ? AND table_name = ? AND partition_ident != \'\' ' +
+          'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
         var r1 = requestId();
         var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery) {
           if (typeof activeRequests[r1] == 'undefined') return;
-	        var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
-          'from information_schema.table_partitions ' +
-          'where schema_name = ? and table_name = ?';
+          var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
+            'from information_schema.table_partitions ' +
+            'where schema_name = ? and table_name = ?';
 
           var r2 = requestId();
           var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery) {
             if (typeof activeRequests[r2] == 'undefined') return;
             var partitions = [];
             var shardResult = queryResultToObjects(shardQuery,
-              ['partition_ident', 'sum_docs', 'primary', 'avg_docs', 'count', 'state', 'size']);
+              ['partition_ident', 'routing_state', 'state', 'relocating_node', 'primary', 'sum_docs', 'avg_docs', 'count', 'size']);
             var partitionResult = queryResultToObjects(tablePartitionQuery,
               ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
 
             var idents = shardResult.reduce(function(memo, obj, idx) {
               var ident = obj.partition_ident;
               if (memo.indexOf(ident) === -1) memo.push(ident);
-	            return memo;
-	          }, []);
+              return memo;
+            }, []);
 
-      	    for (var i=0; i<idents.length; i++) {
-      	      var ident = idents[i];
-      	      var shardInfoForPartition = shardResult.filter(function(item, idx) {
+            for (var i=0; i<idents.length; i++) {
+              var ident = idents[i];
+              var shardInfoForPartition = shardResult.filter(function(item, idx) {
                 return item.partition_ident === ident;
               });
-      	      var confInfoForPartition = partitionResult.filter(function(item, idx) {
+              var confInfoForPartition = partitionResult.filter(function(item, idx) {
                 return item.partition_ident === ident;
               });
-      	      if (confInfoForPartition.length === 1) {
-                var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
+              if (confInfoForPartition.length === 1) {
+                var info = new TableInfo(shardInfoForPartition,
+                                         confInfoForPartition[0].number_of_shards);
                 var o = info.asObject();
                 o.partition_values = confInfoForPartition[0].values;
                 o.partition_ident = ident;
                 o.replicas_configured = confInfoForPartition[0].number_of_replicas;
                 o.health_label_class = colorMapLabel[o.health];
                 partitions.push(o);
-      	      }
-      	    }
+              }
+            }
 
             update(true, partitions, typeof activeRequests[r2] === 'undefined');
             delete activeRequests[r2];
