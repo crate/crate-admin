@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: The recent update of the shard calculation for relocating shards caused
+   problems with partitioned tables showing incorrect table health.
+
  - Fix: Reading an undefined property while cluster is offline caused
    Javascript error.
 
