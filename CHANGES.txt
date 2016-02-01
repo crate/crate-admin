@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: Reading an undefined property while cluster is offline caused
+   Javascript error.
+
  - Fix: Rename cluster check indicator on statusbar to ``Checks``.
 
  - Improved display of recovery percentage in table view

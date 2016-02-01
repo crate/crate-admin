@@ -79,7 +79,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
         refreshClusterCheck();
       }
     };
-    
+
     var addToLoadHistory = function(load) {
       if (load.length != data.loadHistory.length) return;
       var lh = data.loadHistory;
@@ -90,8 +90,8 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     };
 
     var onErrorResponse = function(query) {
-      var status = query.error.status;
-      if (status === 0 || status === 404) setReachability(false);
+        if (query && query.error) var status = query.error.status;
+        if (status === 0 || status === 404) setReachability(false);
     };
 
     var prepareLoadInfo = function(nodeInfo) {
