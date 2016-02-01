@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: Rename cluster check indicator on statusbar to ``Checks``.
+
  - Improved display of recovery percentage in table view
 
  - Fix: relocating shards where previously displayed as "underreplicated" shards
