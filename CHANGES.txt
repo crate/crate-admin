@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: Rename cluster check indicator on statusbar to ``Checks``.
+
  - Fix: The recent update of the shard calculation for relocating shards caused
    problems with partitioned tables showing incorrect table health.
 
