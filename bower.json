@@ -13,7 +13,7 @@
     "jquery": "1.11.1",
     "jquery.cookie": "",
     "es5-shim": "~2.0.8",
-    "bootstrap": "~3.0.3",
+    "bootstrap": "~3.3.6",
     "font-awesome": "~4.0.3",
     "morris.js": "~0.4.3",
     "ladda-bootstrap": "~0.1.0",

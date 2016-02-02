@@ -26,9 +26,9 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       },
-      recess: {
+      less: {
         files: ['<%= crate.app %>/styles/{,*/}*.less'],
-        tasks: ['recess:dist']
+        tasks: ['less:dist']
       }
     },
     connect: {
@@ -78,7 +78,7 @@ module.exports = function (grunt) {
         '<%= crate.app %>/scripts/{,*/}*.js'
       ]
     },
-    recess: {
+    less: {
       dist: {
         options: {
           compile: true
@@ -178,10 +178,10 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: [
-        'recess'
+        'less'
       ],
       dist: [
-        'recess',
+        'less',
         'imagemin',
         'htmlmin'
       ]
