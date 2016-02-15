@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/02/15 0.17.1
+=================
+
  - Fix: updated BlenderPro webfont
    This fixes CSS glitches in Firefox 44 which misinterpreted height of webfont.
 
