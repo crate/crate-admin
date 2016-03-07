@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Label the master node in the cluster node list
+
 2016/02/15 0.17.1
 =================
 
@@ -31,8 +33,6 @@ Unreleased
    recovery percentage which is displayed per table.
    Previously it could show '100% recovery done' even if there were still
    unassigned shards.
-
- - Label the master node in the cluster node list.
 
 2015/12/15 0.17.0
 =================
