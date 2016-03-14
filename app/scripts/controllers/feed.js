@@ -2,10 +2,10 @@
 
 angular.module('feed', ['stats'])
   .factory('FeedService', function($http){
-    var FEED_SUFFIX = '/feed/json?callback=JSON_CALLBACK';
+    var FEED_PATH = '/feed/developernews.json?callback=JSON_CALLBACK';
     return {
-      parse: function(url) {
-        return $http.jsonp(url + FEED_SUFFIX, {cache: false});
+      parse: function(host) {
+        return $http.jsonp(host + FEED_PATH, {cache: false});
       }
     };
   })
@@ -84,7 +84,7 @@ angular.module('feed', ['stats'])
       return false;
     };
 
-    FeedService.parse(BLOG_URL, MAX_ITEMS).then(function(result){
+    FeedService.parse('https://crate.io', MAX_ITEMS).then(function(result){
       var trunc = $filter('characters');
       if (result.status === 200 && result.data.length > 0) {
         var entries = result.data.splice(0, MAX_ITEMS);

@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Updated news feed URL
+
  - Label the master node in the cluster node list
 
 2016/02/15 0.17.1
