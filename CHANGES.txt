@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added UTM tokens to links that link to the Crate.IO blog
+
  - Updated news feed URL
 
  - Label the master node in the cluster node list

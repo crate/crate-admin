@@ -35,7 +35,7 @@
           </a>
         </li>
         <li ng-repeat="item in entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
-          <a ng-href="{{ item.permalink }}" target="_news" ng-click="markAsRead(item)">
+          <a ng-href="{{ item.permalink }}?utm_source=adminui&utm_medium=browser&utm_term={{ item.tags.join('+') }}&utm_content=blogpostlink&utm_campaign=newsfeed" target="_news" ng-click="markAsRead(item)">
             <h3 ng-bind-html="item.title"></h3>
             <div ng-bind-html="item.preview"></div>
           </a>
@@ -43,7 +43,7 @@
         <li ng-show="noNotifications"><p>Oh no! There are no notifications yet.</p></li>
         <li class="notification-footer"><hr /></li>
         <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
-        <li class="notification-footer"><a ng-href="{{ blog_url }}" target="_news">More</a></li>
+        <li class="notification-footer"><a ng-href="{{ blog_url }}?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed" target="_news">More</a></li>
       </ul>
     </li>
 
