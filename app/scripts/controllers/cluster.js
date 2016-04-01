@@ -11,18 +11,18 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
     var currentWatcher = null;
     var version = null;
-    var nodeName = null;
+    var nodeId = null;
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
     $scope.$on('$locationChangeSuccess', function(event) {
       if ($route.current.$$route.controller === 'NodeDetailController') {
-        render($route.current.params.node_name);
+        render($route.current.params.node_id);
       }
     });
 
-    var render = function render(_nodeName) {
-      nodeName = _nodeName;
+    var render = function render(_nodeId) {
+      nodeId = _nodeId;
       if (currentWatcher) {
         // de-register
         currentWatcher();
@@ -40,17 +40,17 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           // sort nodes by health and hostname
           nodeList = nodeList.sort(compareByHealth);
           // show sidebar
-          var nodeNames = nodeList.map(function(obj){
-            return obj.name;
+          var nodeIds = nodeList.map(function(obj){
+            return obj.id;
           });
-          if (nodeName && nodeNames.indexOf(nodeName)>=0) {
+          if (nodeId && nodeIds.indexOf(nodeId)>=0) {
             var selectedNode = nodeList.filter(function(node, idx) {
-              return node.name === nodeName;
+              return node.id === nodeId;
             });
             $scope.selected = selectedNode.length ? selectedNode[0] : nodeList[0];
           } else {
             $scope.selected = nodeList[0];
-            nodeName = nodeList[0].name;
+            nodeId = nodeList[0].id;
           }
         }
         $scope.nodes = nodeList;
@@ -62,14 +62,14 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.sortClass = NodeListInfo.sortClass;
 
     $scope.isActive = function(node) {
-      return node.name === nodeName;
+      return node.id === nodeId;
     };
 
     $scope.isSameVersion = function(nodeVersion){
       return version ? nodeVersion.build_hash === version.hash : true;
     };
 
-    render($route.current.params.node_name);
+    render($route.current.params.node_id);
 
   })
   .controller('NodeDetailController', function ($scope, $interval, $route, $http, $filter,
@@ -131,7 +131,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.$on('$locationChangeSuccess', function(event) {
       if ($route.current.$$route.controller === 'NodeDetailController') {
         var params = $route.current.params;
-        render(params.node_name);
+        render(params.node_id);
         $route.current = lastRoute;
         // apply new params to old route
         $route.current.params = params;
@@ -174,7 +174,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }, 0);
     };
 
-    var render = function render(nodeName){
+    var render = function render(nodeId){
       if (currentWatcher) {
         // de-register
         currentWatcher();
@@ -200,12 +200,12 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           // sort nodes by health and hostname
           nodeList = nodeList.sort(compareByHealth);
           // show sidebar
-          var nodeNames = nodeList.map(function(obj){
-            return obj.name;
+          var nodeIds = nodeList.map(function(obj){
+            return obj.id;
           });
-          if (nodeName && nodeNames.indexOf(nodeName)>=0) {
+          if (nodeId && nodeIds.indexOf(nodeId)>=0) {
             var selectedNode = nodeList.filter(function(node, idx) {
-              return node.name == nodeName;
+              return node.id == nodeId;
             });
             $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
           } else {
@@ -322,6 +322,6 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       return version ? nodeVersion.build_hash === version.hash : true;
     };
 
-    render($route.current.params.node_name);
+    render($route.current.params.node_id);
 
   });

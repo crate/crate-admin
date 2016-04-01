@@ -11,7 +11,7 @@
       </li>
       <ul class="nav nav-tabs">
         <li ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
-          <a ng-href="#/nodes/{{ node.name }}">
+          <a ng-href="#/nodes/{{ node.id }}">
             <div class="row">
               <div class="col-sm-8 col-xs-8">
                 <h3>{{ node.name }}</h3>

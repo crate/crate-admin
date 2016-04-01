@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed an issue which caused rendering errors in the node list if the cluster
+   contains multiple nodes with the same name
+   note: changes the url to the detail view of single nodes
+
  - Added UTM tokens to links that link to the Crate.IO blog
 
  - Updated news feed URL

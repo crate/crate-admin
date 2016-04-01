@@ -42,7 +42,7 @@
       'templateUrl': 'views/node.html',
       'controller': 'NodeDetailController'
     },
-    '/nodes/:node_name': {
+    '/nodes/:node_id': {
       'templateUrl': 'views/node.html',
       'controller': 'NodeDetailController'
     }
