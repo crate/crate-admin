@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added link to http://crate.io/demo to menu
+
  - Fixed an issue which caused rendering errors in the node list if the cluster
    contains multiple nodes with the same name
    note: changes the url to the detail view of single nodes

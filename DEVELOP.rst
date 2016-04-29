@@ -41,7 +41,7 @@ Start the development server on port ``9000``::
 Then enable Cross Origin Resource Sharing in your crate configuration to test
 the admin ui against crate::
 
-    http.cors.enabled:true
+    http.cors.enabled: true
 
 Then visit the browser on ``http://localhost:9000/?base_uri=http://localhost:4200``.
 

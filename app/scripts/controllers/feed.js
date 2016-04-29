@@ -30,6 +30,7 @@ angular.module('feed', ['stats'])
   })
   .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings) {
     var BLOG_URL = 'https://crate.io/blog';
+    var DEMO_URL = 'https://crate.io/demo';
     var MAX_ITEMS = 5;
     var VERSION_URL = 'https://crate.io/versions.json';
 
@@ -44,6 +45,7 @@ angular.module('feed', ['stats'])
       $scope.numUnread = 0;
       $scope.entries = [];
       $scope.blog_url = BLOG_URL;
+      $scope.demo_url = DEMO_URL;
 
       var stableVersion;
       $http.get(VERSION_URL, { withCredentials: true }).success(function(response){
