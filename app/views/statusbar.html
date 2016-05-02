@@ -43,8 +43,10 @@
         <li ng-show="noNotifications"><p>Oh no! There are no notifications yet.</p></li>
         <li class="notification-footer"><hr /></li>
         <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
-        <li class="notification-footer"><a ng-href="{{ demo_url }}" target="_demo">Schedule a 1-ON-1 demo with a Crate engineer</a></li>
-        <li class="notification-footer"><a ng-href="{{ blog_url }}?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed" target="_news">More</a></li>
+        <li ng-repeat="item in menu" class="notification-footer" ng-show="entries">
+            <a ng-href="{{item.url}}" target="_menu_{{$index}}">{{item.title}}</a>
+        </li>
+
       </ul>
     </li>
 
