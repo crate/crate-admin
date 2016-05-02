@@ -102,4 +102,18 @@ angular.module('feed', ['stats'])
         $scope.numUnread = unread;
       }
     });
+
+    // Set default menu data
+    $scope.menu = [
+        {"url": "https://crate.io/demo",
+         "title": "Schedule a 1-ON-1 demo with a Crate engineer"},
+        {"url": "https://crate.io/blog?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed",
+         "title": "More"}
+    ]
+
+    $http.get("https://crate.io/feed/menu.json").success(function(response){
+      if (response && response.data) {
+          $scope.menu = response.data;
+      }
+    });
   });
