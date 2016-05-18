@@ -44,7 +44,7 @@
         <li class="notification-footer"><hr /></li>
         <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
         <li ng-repeat="item in menu" class="notification-footer" ng-show="entries">
-            <a ng-href="{{item.url}}" target="_menu_{{$index}}">{{item.title}}</a>
+            <a ng-href="{{ item.url }}" target="_menu_{{ $index }}" ng-click="track(item)">{{ item.title }}</a>
         </li>
 
       </ul>
