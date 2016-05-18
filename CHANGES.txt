@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Send anonymous usage statistics on links that lead to the Crate.IO website
+
  - Load additional links in menu dynamically from news feed
 
  - Fixed an issue which caused rendering errors in the node list if the cluster

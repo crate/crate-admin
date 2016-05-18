@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('feed', ['stats'])
+angular.module('feed', ['stats', 'udc'])
   .factory('FeedService', function($http){
     var FEED_PATH = '/feed/developernews.json?callback=JSON_CALLBACK';
     return {
@@ -28,7 +28,7 @@ angular.module('feed', ['stats'])
       }
     };
   })
-  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings) {
+  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings, UidLoader) {
     var BLOG_URL = 'https://crate.io/blog';
     var DEMO_URL = 'https://crate.io/demo';
     var MAX_ITEMS = 5;
@@ -62,6 +62,7 @@ angular.module('feed', ['stats'])
       $scope.noNotifications = true;
       $scope.isRead = isRead;
       $scope.markAsRead = markAsRead;
+      $scope.track = track;
     });
 
     var markAsRead = function markAsRead(item){
@@ -75,6 +76,20 @@ angular.module('feed', ['stats'])
         NotificationService.markAsRead(item.id);
         $scope.numUnread = Math.max(0, $scope.numUnread-1);
       }
+    };
+
+    var track = function track(item) {
+      UdcSettings.availability.success(function(data){
+        UidLoader.load().success(function(uid){
+          if (uid !== null && data.enabled === true) {
+            analytics.track('clicked_menu', {
+              'title': item.title,
+              'url': item.url,
+              'uid': uid.toString()
+            });
+          }
+        });
+      });
     };
 
     var isRead = function isRead(item){
