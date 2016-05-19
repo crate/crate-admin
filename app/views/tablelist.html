@@ -10,7 +10,7 @@
       <li class="nav-tabs-header" id="nav-tabs-header-{{$index}}">
         <a class="tabs-header" href ng-click="toggleElements($index)">
           <i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i>
-          {{ type.display_name }}</a>
+          {{ type.display_name }} {{ 'TABLE.TITLE' | translate }}</a>
       </li>
       <ul class="nav nav-tabs" id="nav-tabs-{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
         <li ng-class="{ 'active': isActive(table.schema_name, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
@@ -26,7 +26,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <span>{{ table.records_total|roundWithUnit:1 }}
-                  Records ({{ table.size|bytes }})</span>
+                  {{ 'TABLE.RECORDS' | translate }} ({{ table.size|bytes }})</span>
                 <span class="hide-md"><br/>{{ table.summary }}</span>
               </div>
             </div>

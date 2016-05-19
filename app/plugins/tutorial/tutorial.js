@@ -2,7 +2,7 @@
 
 var tutorialPlugin = angular.module('tutorial', ['sql'])
   .controller('TutorialController', function ($scope, $location, $log, $timeout, $routeParams, SQLQuery) {
-    
+
     var base_url = "https://twitter.crate.io/api/v1";
     var redirect = [window.location.protocol,window.location.host].join("//") + window.location.pathname;
 

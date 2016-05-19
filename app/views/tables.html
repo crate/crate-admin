@@ -11,7 +11,7 @@
           <div class="panel panel-info">
             <div class="panel-heading">
               <p class="announcement-heading"><b>{{ table_label }}</b> <span ng-show="isParted" class="small">(partitioned)<span></p>
-              <p class="announcement-text">Name</p>
+              <p class="announcement-text">{{ 'TABLE.NAME' | translate }}</p>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
           <div class="panel panel-info text-right {{table.health_panel_class}}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.health}}</p>
-              <p class="announcement-text">Health</p>
+              <p class="announcement-text">{{ 'TABLE.HEALTH' | translate }}</p>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.replicas_configured}}</p>
-              <p class="announcement-text">Configured Replicas</p>
+              <p class="announcement-text">{{ 'TABLE.CONFIG_REPLICAS' | translate }}</p>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_configured}}</p>
-              <p class="announcement-text">Configured Shards</p>
+              <p class="announcement-text">{{ 'TABLE.CONFIG_SHARDS' | translate }}</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
                ng-class="{ 'panel-danger': startedShardsError(table) }">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_started}}</p>
-              <p class="announcement-text">Started Shards</p>
+              <p class="announcement-text">{{ 'TABLE.STARTED_SHARDS' | translate }}</p>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.shards_missing > 0}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_missing}}</p>
-              <p class="announcement-text">Missing Shards</p>
+              <p class="announcement-text">{{ 'TABLE.MISSING_SHARDS' | translate }}</p>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
           <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.shards_underreplicated > 0}">
             <div class="panel-heading">
               <p class="announcement-heading">{{table.shards_underreplicated}}</p>
-              <p class="announcement-text">Underrepl. Shards</p>
+              <p class="announcement-text">{{ 'TABLE.UNDERREPL_SHARDS' | translate }}</p>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_total | number:0}}">{{table.records_total | roundWithUnit:1}}</p>
-              <p class="announcement-text">Total {{ table.type_display_name }}s</p>
+              <p class="announcement-text">{{ 'TABLE.TOTAL' | translate }} {{ table.type_display_name | translate }}</p>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@
           <div class="panel panel-info text-right" ng-class="{ 'panel-danger': table.records_unavailable > 0}">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">{{table.records_unavailable | roundWithUnit:1}}</p>
-              <p class="announcement-text">Unavailable {{ table.type_display_name }}s</p>
+              <p class="announcement-text">{{ 'TABLE.UNAVAILABLE' | translate }} {{ table.type_display_name | translate }}</p>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@
           <div class="panel panel-info text-right" ng-class="{ 'panel-warning': table.records_underreplicated > 0}">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">{{table.records_underreplicated | roundWithUnit:1}}</p>
-              <p class="announcement-text">Underrepl. {{ table.type_display_name }}s</p>
+              <p class="announcement-text">{{ 'TABLE.UNDERREPL' | translate }} {{ table.type_display_name | translate }}</p>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.size | number:0}}">{{table.size | bytes}}</p>
-              <p class="announcement-text">Size</p>
+              <p class="announcement-text">{{ 'TABLE.SIZE' | translate }}</p>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@
           <div class="panel panel-info text-right">
             <div class="panel-heading">
               <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.recovery_percent}}%">{{table.recovery_percent | number:1}}%</p>
-              <p class="announcement-text">Recovery</p>
+              <p class="announcement-text">{{ 'TABLE.RECOVERY' | translate }}</p>
             </div>
           </div>
         </div>
@@ -126,25 +126,25 @@
       <div class="row" ng-show="renderPartitions">
         <div class="col-sm-12">
           <div class="page-header">
-            <p class="pull-right" ng-show="table.partitioned">Partition Columns: <b ng-repeat="col in table.partitioned_by">{{col}}{{$last?'':', '}}</b></p>
-            <h2>Partitions</h2>
+            <p class="pull-right" ng-show="table.partitioned">{{ 'TABLE.PARTITION_COLUMNS' | translate }}: <b ng-repeat="col in table.partitioned_by">{{col}}{{$last?'':', '}}</b></p>
+            <h2>{{ 'TABLE.PARTITIONS' | translate }}</h2>
           </div>
           <div class="table-responsive table-hscroll">
             <table class="table table-hover table-bordered tablesorter">
               <thead>
                 <tr>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('health')">Health <i ng-class="ptCtlr.selected('health')"></i></th>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('partition_ident')">Ident <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
-                  <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">Partition Values</th>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('replicas_configured')">Conf. Replicas<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('shards_configured')">Conf. Shards<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
-                  <th rowspan="2" class="header">Started Shards</th>
-                  <th rowspan="2" class="header">Missing Shards</th>
-                  <th rowspan="2" class="header">Underr. Shards</th>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('records_total')">Total Records<i ng-class="ptCtlr.selected('records_total')"></i></th>
-                  <th rowspan="2" class="header">Unavail. Records</th>
-                  <th rowspan="2" class="header">Underr. Records</th>
-                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('size')">Size<i ng-class="ptCtlr.selected('size')"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('health')">{{ 'TABLE.HEALTH' | translate }} <i ng-class="ptCtlr.selected('health')"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('partition_ident')">{{ 'TABLE.ROW.IDENT' | translate }} <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
+                  <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">{{ 'TABLE.ROW.PARTITION_VALUES' | translate }}</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('replicas_configured')">{{ 'TABLE.ROW.CONF_REPLICAS' | translate }}<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('shards_configured')">{{ 'TABLE.ROW.CONF_SHARDS' | translate }}<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
+                  <th rowspan="2" class="header">{{ 'TABLE.ROW.STARTED_SHARDS' | translate }}</th>
+                  <th rowspan="2" class="header">{{ 'TABLE.ROW.MISSING_SHARDS' | translate }}</th>
+                  <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_SHARDS' | translate }}</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('records_total')">{{ 'TABLE.ROW.TOTAL_RECORDS' | translate }}<i ng-class="ptCtlr.selected('records_total')"></i></th>
+                  <th rowspan="2" class="header">{{ 'TABLE.ROW.UNAVAIL_RECORDS' | translate }}</th>
+                  <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_RECORDS' | translate }}</th>
+                  <th rowspan="2" class="header" ng-click="ptCtlr.sortByColumn('size')">{{ 'TABLE.ROW.SIZE' | translate }}<i ng-class="ptCtlr.selected('size')"></i></th>
                 </tr>
                   <th class="header" ng-repeat="col in table.partitioned_by">{{ col }}</th>
                 <tr>
@@ -178,14 +178,14 @@
       <div class="row" ng-show="renderSchema">
         <div class="col-sm-12">
           <div class="page-header">
-            <h2>Schema</h2>
+            <h2>{{ 'TABLE.SCHEMA' | translate }}</h2>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-bordered tablesorter">
               <thead>
               <tr>
-                <th class="header">Name</th>
-                <th class="header">Type</th>
+                <th class="header">{{ 'TABLE.NAME' | translate }}</th>
+                <th class="header">{{ 'TABLE.TYPE' | translate }}</th>
               </tr>
               </thead>
               <tbody>

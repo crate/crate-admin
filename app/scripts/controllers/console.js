@@ -4,7 +4,7 @@ angular.module('console', ['sql'])
   .directive('console', function(SQLQuery, $timeout){
     return {
       restrict: 'A',
-      controller: function($scope){
+      controller: ['$scope', '$translate', function($scope, $translate){
 
         var inputScope = null;
         var rows = [];
@@ -62,14 +62,17 @@ angular.module('console', ['sql'])
         };
 
         $scope.clearLocalStorage = function() {
-          var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
-          localStorage.setItem("crate.console.query_list", JSON.stringify([]));
-          inputScope.recentCursor = 0;
-          recentQueries = [];
-          var msg = history.length == 1 ? "1 entry in console history has been cleared." :
-            history.length + " entries in console history have been cleared.";
-          $scope.info.message = msg;
-          $scope.info.hide = false;
+          $translate(['CONSOLE.CLEAR_HISTORY_MSG', 'CONSOLE.CLEAR_HISTORY_MSG_PLURAL']).then(function(i18n) {
+            console.log(i18n)
+            var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
+            localStorage.setItem("crate.console.query_list", JSON.stringify([]));
+            inputScope.recentCursor = 0;
+            recentQueries = [];
+            var msg = history.length ? 0 : history.length + ' '; 
+            msg += ( history.length == 0 || history.length == 1 ) ? i18n['CONSOLE.CLEAR_HISTORY_MSG'] : i18n['CONSOLE.CLEAR_HISTORY_MSG_PLURAL'] ;
+            $scope.info.message = msg;
+            $scope.info.hide = false;
+          });
         };
 
         var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
@@ -127,7 +130,7 @@ angular.module('console', ['sql'])
         $scope.execute = function() {
           execute(statement);
         };
-      }
+      }]
     };
   })
   .directive('cli', function($timeout){

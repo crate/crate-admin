@@ -239,7 +239,7 @@ angular.module('tableinfo', ['sql'])
           $.extend(table, info);
           table.health_label_class = colorMapLabel[table.health];
           table.health_panel_class = colorMapPanel[table.health];
-          table.type_display_name = table.schema_name == "blob" ?  "Blob" : "Record";
+          table.type_display_name = table.schema_name == "blob" ?  "TABLE.BLOBS" : "TABLE.RECORDS";
 
           // create summary
           var summary = table.shards_configured + ' Shards';

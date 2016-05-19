@@ -296,7 +296,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
           $scope.tables = [];
           $scope.tables.push({
-            "display_name": "Doc Tables",
+            "display_name": "Doc",
             "tables": tables.filter(function(item, idx){
               return item.schema_name == 'doc';
             }),
@@ -305,7 +305,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           for (var idx in customSchemas) {
             var name = customSchemas[idx];
             $scope.tables.push({
-              "display_name": name + " Tables",
+              "display_name": name,
               "tables": tables.filter(function(item, idx){
                 return item.schema_name == name;
               }),
@@ -313,7 +313,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             });
           }
           $scope.tables.push({
-            "display_name": "Blob Tables",
+            "display_name": "Blob",
             "tables": tables.filter(function(item, idx){
               return item.schema_name == 'blob';
             }),

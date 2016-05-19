@@ -29,6 +29,10 @@ module.exports = function (grunt) {
       less: {
         files: ['<%= crate.app %>/styles/{,*/}*.less'],
         tasks: ['less:dist']
+      },
+      i18n: {
+        files: ['<%= crate.app %>/i18n/**'],
+        tasks: ['copy:i18nTmp']
       }
     },
     connect: {
@@ -156,7 +160,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.{gif,webp,svg}',
             'fonts/**',
             'plugins/**',
-            'conf/**'
+            'conf/**',
+            'i18n/**'
           ]
         }, {
           expand: true,
@@ -174,7 +179,18 @@ module.exports = function (grunt) {
             'generated/*'
           ]
         }]
-      }
+      },
+      i18nTmp: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= crate.app %>',
+          dest: '<%= crate.tmp %>',
+          src: [
+            'i18n/**'
+          ]
+        }]
+      },
     },
     concurrent: {
       server: [
@@ -245,6 +261,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', [
     'concurrent:server',
+    'copy:i18nTmp',
     'connect:dev',
     'watch'
   ]);

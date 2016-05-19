@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added German translation.
+   This change also enables the possibility for further i18n.
+
 2016/06/03 0.18.1
 =================
 
