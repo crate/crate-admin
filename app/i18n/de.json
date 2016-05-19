@@ -17,9 +17,9 @@
       "MARK_ALL_READ": "Mark all notifications as read."
     },    
     "NAVIGATION": {
-      "OVERVIEW": "Overview",
-      "CONSOLE": "Console",
-      "TABLE": "Table",
+      "OVERVIEW": "Übersicht",
+      "CONSOLE": "Konsole",
+      "TABLE": "Tabelle",
       "CLUSTER": "Cluster"
     },
     "OVERVIEW": {
