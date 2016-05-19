@@ -18,7 +18,8 @@
     'nodeinfo',
     'clustercheck',
     'udc',
-    'nvd3ChartDirectives'
+    'nvd3ChartDirectives',
+    'pascalprecht.translate'
   ];
 
   var ROUTING = {
@@ -95,6 +96,25 @@
         $routeProvider.otherwise({
             redirectTo: '/'
           });
+      }]);
+
+    // Configuration of i18n Internationalization
+    app.config(['$translateProvider', 
+      function($translateProvider) {
+
+        // configures staticFilesLoader
+        $translateProvider.useStaticFilesLoader({
+          prefix: '/i18n/',
+          suffix: '.json'
+        })
+        .registerAvailableLanguageKeys(['en', 'de', 'zh'], {
+          'en_*': 'en',
+          'de_*': 'de',
+          'zh_*': 'zh'
+        })
+        .determinePreferredLanguage()
+        .fallbackLanguage('en');
+
       }]);
 
     app.run(function($window, $location) {

@@ -4,10 +4,10 @@
     <ul class="nav">
       <li class="nav-tabs-header clearfix" style="background-color:#c4c4c4;">
         <div class="pull-right" style="padding:5px;">
-          <a ng-click="sortBy('name')" class="btn btn-xs btn-sort"><i ng-class="sortClass('name')"></i> Name</a>
-          <a ng-click="sortBy('health_value')" class="btn btn-xs btn-sort"><i ng-class="sortClass('health_value')"></i> Health</a>
+          <a ng-click="sortBy('name')" class="btn btn-xs btn-sort"><i ng-class="sortClass('name')"></i> {{ 'NODE.NAME' | translate }}</a>
+          <a ng-click="sortBy('health_value')" class="btn btn-xs btn-sort"><i ng-class="sortClass('health_value')"></i> {{ 'NODE.HEALTH' | translate }}</a>
         </div>
-        <a class="pull-left tabs-header">Nodes</a>
+        <a class="pull-left tabs-header">{{ 'NODE.NODES' | translate }}</a>
       </li>
       <ul class="nav nav-tabs">
         <li ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
