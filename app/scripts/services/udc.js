@@ -44,6 +44,7 @@ angular.module('udc', [])
   return Uid;
 })
 .factory('UidLoader', function($q, Uid) {
+  var cachedUid = null;
   var loadIframe = function loadIframe(uri) {
     var ifr = document.createElement('iframe');
     ifr.id = 'ifr' + new Date().getTime();
@@ -54,11 +55,11 @@ angular.module('udc', [])
     return ifr;
   };
 
+  var DOMAIN = 'cdn.crate.io';
+  var PATH = '/libs/crate/uid.html';
+
   return {
     load: function load(){
-      var DOMAIN = 'cdn.crate.io';
-      var PATH = '/libs/crate/uid.html';
-
       var deferred = $q.defer();
       var promise = deferred.promise;
       promise.success = function(fn) {
@@ -74,19 +75,24 @@ angular.module('udc', [])
         return promise;
       };
 
-      window.addEventListener('message', function(event) {
-        if (event.origin.match(DOMAIN)) {
-          deferred.notify(event);
-          var uid = Uid.create(event.data[Uid.NAME]);
-          if (uid.isValid()) {
-            deferred.resolve(uid);
-          } else {
-            deferred.reject(new Error("Cookie failed to load"));
-          }
-        }
-      }, false);
-      var protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-      loadIframe(protocol + '//' + DOMAIN + PATH);
+      if (cachedUid === null) {
+          window.addEventListener('message', function(event) {
+            if (event.origin.match(DOMAIN)) {
+              deferred.notify(event);
+              var uid = Uid.create(event.data[Uid.NAME]);
+              if (uid.isValid()) {
+                cachedUid = uid;
+                deferred.resolve(uid);
+              } else {
+                deferred.reject(new Error("Cookie failed to load"));
+              }
+            }
+          }, false);
+          var protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+          loadIframe(protocol + '//' + DOMAIN + PATH);
+      } else {
+        deferred.resolve(cachedUid);
+      }
       return promise;
     }
   };
