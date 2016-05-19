@@ -112,7 +112,9 @@
           'de_*': 'de',
           'zh_*': 'zh'
         })
+        // Check local language automatically
         .determinePreferredLanguage()
+        // Use English as default language if no matched language is found.
         .fallbackLanguage('en');
 
       }]);

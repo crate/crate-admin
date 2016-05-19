@@ -156,7 +156,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.{gif,webp,svg}',
             'fonts/**',
             'plugins/**',
-            'conf/**'
+            'conf/**',
+            'i18n/**'
           ]
         }, {
           expand: true,
