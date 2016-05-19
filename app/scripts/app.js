@@ -104,7 +104,7 @@
 
         // configures staticFilesLoader
         $translateProvider.useStaticFilesLoader({
-          prefix: '../i18n/',
+          prefix: './i18n/',
           suffix: '.json'
         })
         .registerAvailableLanguageKeys(['en', 'de', 'zh'], {
