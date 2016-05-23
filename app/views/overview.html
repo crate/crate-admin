@@ -93,7 +93,7 @@
                 <span ng-switch-when="1" class="label label-info">INFO</span>
                 <span ng-switch-when="2" class="label label-warning">WARNING</span>
                 <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
-                {{ check.description }}
+                <p ng-bind-html="check.description  | linky:'_blank'"></p>
               </li>
             </ul>
           </div>
