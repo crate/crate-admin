@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/05/25 0.18.0
+=================
+
  - Cluster check include now clickable links
 
  - Load additional links in menu dynamically from news feed
