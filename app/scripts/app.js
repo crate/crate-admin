@@ -50,7 +50,7 @@
 
   var head = document.getElementsByTagName('head')[0];
 
-  var loadScript = function loadScript(url) {
+  var loadScript = (url) => {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
     xhr.send('');
@@ -61,10 +61,10 @@
   };
 
   // todo: load json from rest endpoint
-  $.get("conf/plugins.json", function(plugins){
+  $.get("conf/plugins.json", (plugins) => {
 
     console.info("Loaded Modules:", MODULES);
-    console.info("Loaded Plugins:", plugins.map(function(o){ return o.name; }));
+    console.info("Loaded Plugins:", plugins.map(function(o) { return o.name; }));
 
     for (var i=0; i<plugins.length; i++) {
       var module = plugins[i];
@@ -75,7 +75,7 @@
     var app = angular.module('crate', MODULES);
 
     app.config(['$routeProvider', '$httpProvider',
-      function ($routeProvider, $httpProvider) {
+      ($routeProvider, $httpProvider) => {
         // Enabling CORS in Angular JS
         $httpProvider.defaults.useXDomain = true;
         // register default routing
@@ -107,9 +107,7 @@
       }
     });
 
-    angular.element(document).ready(function() {
-      angular.bootstrap(document, ['crate']);
-    });
+    angular.element(document).ready(() => angular.bootstrap(document, ['crate']));
 
   });
 
