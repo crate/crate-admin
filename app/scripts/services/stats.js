@@ -143,7 +143,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
       TableList.execute().then(null, null, function(res){
         if (res.success || !data.online) {
           var h = res.data.tables.reduce(function(memo, obj, idx){
-            var level = Health.fromString(obj.health).level;
+            var level = Health.levelFromString(obj.health);
             return Math.max(level, memo);
           }, 0);
           data.status = new Health(h).name;
