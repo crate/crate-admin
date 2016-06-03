@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Resolve path to ``/_sql`` endpoint correctly when Crate is served at a
+   different location than ``/``
+
 2016/05/25 0.18.0
 =================
 
