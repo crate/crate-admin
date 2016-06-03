@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
-  .factory('ClusterState', function ($http, $interval, $timeout, $location, $log, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ClusterCheck, $q) {
+  .factory('ClusterState', function ($http, $interval, $timeout, $log, baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ClusterCheck, $q) {
     var healthInterval, statusInterval, reachabilityInterval, shardsInterval, checkInterval;
 
     var data = {
@@ -24,10 +24,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     var historyLength = 180;
 
     var checkReachability = function checkReachability(){
-      var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-      var storedURI = localStorage.getItem("crate.base_uri");
-      if (storedURI) baseURI = storedURI;
-      $http.get(baseURI+"/").success(function(response) {
+      $http.get(baseURI("/")).success(function(response) {
         if (typeof response === 'object') {
           var version = response.version;
           data.version = {
