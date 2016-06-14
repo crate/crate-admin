@@ -32,7 +32,6 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.version_warning = versions.length > 1;
       $scope.cluster_state = data.status;
       $scope.cluster_name = data.name;
-      $scope.serverVersion = 123;
       $scope.num_nodes = data.cluster.length;
       $scope.load1 = data.load[0]  == '-.-' ? data.load[0] : data.load[0].toFixed(2);
       $scope.load5 = data.load[1]  == '-.-' ? data.load[1] : data.load[1].toFixed(2);
