@@ -1,25 +1,30 @@
 'use strict';
 
 angular.module('udc', [])
-.factory('UdcSettings', ['SQLQuery', 'queryResultToObjects', '$q',
-  function(SQLQuery, queryResultToObjects, $q){
+.factory('UdcSettings', ['$q', 'SQLQuery', 'queryResultToObjects',
+  function($q, SQLQuery, queryResultToObjects){
     var deferred = $q.defer();
     var promise = deferred.promise;
-    promise.success = function(result) {
+    promise.success = (result) => {
       promise.then(result, null, null);
       return promise;
     };
-    promise.error = function(error) {
+    promise.error = (error) => {
       promise.then(null, error, null);
       return promise;
     };
 
-    var stmt = "SELECT settings['udc']['enabled'] as enabled, id as cluster_id from sys.cluster";
-    var UdcSettingsQuery = SQLQuery.execute(stmt);
-    UdcSettingsQuery.success(function(query) {
-      var result = queryResultToObjects(query, ['enabled','cluster_id']);
-      deferred.resolve(result[0]);
-    }).error(function(query) { deferred.reject(null, "could not load udc setting"); });
+    const stmt = "SELECT settings['udc']['enabled'] as enabled, id as cluster_id from sys.cluster";
+    const cols = ['enabled', 'cluster_id'];
+
+    SQLQuery.execute(stmt)
+      .success((query) => {
+        let result = queryResultToObjects(query, cols);
+        deferred.resolve(result[0]);
+      })
+      .error((query) => {
+        deferred.reject(null, "could not load udc setting");
+      });
 
     return {
       SegmentIoToken: 'sfTz0KpAhR0KmOH4GnoqbpLID71eaB3w',
@@ -27,73 +32,78 @@ angular.module('udc', [])
     };
   }
 ])
-.factory('Uid', function(){
-  var Uid = function Uid(uid){
-    this.uid = uid;
-  };
-  Uid.create = function(uid) {
-    return new Uid(uid);
-  };
-  Uid.NAME = 'uid';
-  Uid.prototype.isValid = function() {
-    return this.uid ? this.uid.match(/^[a-f0-9]{32}$/) !== null : false;
-  };
-  Uid.prototype.toString = function() {
-    return this.uid;
-  };
-  return Uid;
-})
-.factory('UidLoader', function($q, Uid) {
-  var cachedUid = null;
-  var loadIframe = function loadIframe(uri) {
-    var ifr = document.createElement('iframe');
-    ifr.id = 'ifr' + new Date().getTime();
-    ifr.style.width = '0px';
-    ifr.style.height = '0px';
-    ifr.src = uri;
-    document.getElementsByTagName('body')[0].appendChild(ifr);
-    return ifr;
-  };
-
-  var DOMAIN = 'cdn.crate.io';
-  var PATH = '/libs/crate/uid.html';
-
-  return {
-    load: function load(){
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-      promise.success = function(fn) {
-        promise.then(fn, null, null);
-        return promise;
-      };
-      promise.error = function(fn) {
-        promise.then(null, fn, null);
-        return promise;
-      };
-      promise.notify = function(fn) {
-        promise.then(null, null, fn);
-        return promise;
-      };
-
-      if (cachedUid === null) {
-          window.addEventListener('message', function(event) {
-            if (event.origin.match(DOMAIN)) {
-              deferred.notify(event);
-              var uid = Uid.create(event.data[Uid.NAME]);
-              if (uid.isValid()) {
-                cachedUid = uid;
-                deferred.resolve(uid);
-              } else {
-                deferred.reject(new Error("Cookie failed to load"));
-              }
-            }
-          }, false);
-          var protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-          loadIframe(protocol + '//' + DOMAIN + PATH);
-      } else {
-        deferred.resolve(cachedUid);
+.factory('Uid', [
+  function(){
+    class Uid {
+      constructor(uid) {
+        this.value = uid;
       }
-      return promise;
+      isValid() {
+        return this.value ? this.value.match(/^[a-f0-9]{32}$/) !== null : false;
+      }
+      toString() {
+        return this.value;
+      }
+      static create(uid) {
+        return new Uid(uid);
+      }
     }
-  };
-})
+    return Uid;
+  }
+])
+.factory('UidLoader', ['$q', 'Uid',
+  function($q, Uid) {
+    var cachedUid = null;
+    var loadIframe = (uri) => {
+      var ifr = document.createElement('iframe');
+      ifr.id = 'ifr' + new Date().getTime();
+      ifr.style.width = '0px';
+      ifr.style.height = '0px';
+      ifr.src = uri;
+      document.getElementsByTagName('body')[0].appendChild(ifr);
+      return ifr;
+    };
+
+    const DOMAIN = 'cdn.crate.io';
+    const PATH = '/libs/crate/uid.html';
+
+    return {
+      load: () => {
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+        promise.success = (fn) => {
+          promise.then(fn, null, null);
+          return promise;
+        };
+        promise.error = (fn) => {
+          promise.then(null, fn, null);
+          return promise;
+        };
+        promise.notify = (fn) => {
+          promise.then(null, null, fn);
+          return promise;
+        };
+
+        if (cachedUid === null) {
+            window.addEventListener('message', (event) => {
+              if (event.origin.match(DOMAIN)) {
+                deferred.notify(event);
+                let uid = Uid.create(event.data['uid']);
+                if (uid.isValid()) {
+                  cachedUid = uid;
+                  deferred.resolve(uid);
+                } else {
+                  deferred.reject(new Error("Cookie failed to load"));
+                }
+              }
+            }, false);
+            loadIframe('https://' + DOMAIN + PATH);
+        } else {
+          deferred.resolve(cachedUid);
+        }
+        return promise;
+      }
+    }
+  }
+]);
+
