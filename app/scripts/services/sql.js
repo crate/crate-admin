@@ -28,7 +28,8 @@ angular.module('sql', [])
                    $location.port() +
                    window.location.pathname.replace(pluginPath, '');
       }
-      return basePath + path;
+      // remove trailing slash from base path and append path
+      return basePath.replace(/\/+$/, '') + path;
     };
   })
   .factory('SQLQuery', function ($http, $log, $q, baseURI) {
