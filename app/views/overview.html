@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-header">
-          <h1>Cluster: {{ cluster.name }}</h1>
+          <h1>{{ 'NAVIGATION.CLUSTER' | translate }} : {{ cluster.name }}</h1>
         </div>
       </div>
     </div><!-- /.row -->
@@ -14,7 +14,7 @@
         <div class="panel {{ cluster_color_class }}">
           <div class="panel-heading">
             <p class="announcement-heading"><span class="{{ cluster_color_label_bar }}">{{ cluster.state }}</span></p>
-            <p class="announcement-text">Health</p>
+            <p class="announcement-text">{{ 'OVERVIEW.HEALTH' | translate }}</p>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
         <div class="panel" ng-class="{'panel-warning': replicated_data < 100}">
           <div class="panel-heading">
             <p class="announcement-heading">{{replicated_data | floor:1}}%</p>
-            <p class="announcement-text">Replicated Data</p>
+            <p class="announcement-text">{{ 'OVERVIEW.REPLICATED_DATA' | translate }}</p>
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
         <div class="panel" ng-class="{'panel-danger': available_data < 100}">
           <div class="panel-heading">
             <p class="announcement-heading">{{available_data | floor:1}}%</p>
-            <p class="announcement-text">Available Data</p>
+            <p class="announcement-text">{{ 'OVERVIEW.AVAILABLE_DATA' | translate }}</p>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
         <div class="panel">
           <div class="panel-heading">
             <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_total|number:0 }}">{{ records_total|roundWithUnit:1 }}</p>
-            <p class="announcement-text">Total Records</p>
+            <p class="announcement-text">{{ 'OVERVIEW.TOTAL_RECORDS' | translate }}</p>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
         <div class="panel" ng-class="{'panel-warning': records_underreplicated > 0}">
           <div class="panel-heading">
             <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_underreplicated|number:0 }}">{{ records_underreplicated|roundWithUnit:1 }}</p>
-            <p class="announcement-text">Underrepl. Records</p>
+            <p class="announcement-text">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</p>
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@
         <div class="panel" ng-class="{'panel-danger': records_unavailable > 0}">
           <div class="panel-heading">
             <p class="announcement-heading inline-block" data-toggle="tooltip" rel="tooltip" data-original-title="{{ records_unavailable|number:0 }}">{{ records_unavailable|roundWithUnit:1 }}</p>
-            <p class="announcement-text">Unavail. Records</p>
+            <p class="announcement-text">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</p>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
     <div class="row" ng-show="chart.data">
         <div ng-class="checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
             <div class="page-header">
-              <h2>Cluster Load</h2>
+              <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
             </div>
             <nvd3-line-chart data="chart.data"
               showXAxis="false"
@@ -86,13 +86,13 @@
           <div class="panel">
             <div class="page-header">
               <a ng-click="refreshConfigCheck()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
-              <h2>Cluster Checks</h2>
+              <h2>{{ 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
             </div>
             <ul class="list-unstyled list-clusterchecks">
               <li ng-repeat="check in checks" ng-switch on="check.severity">
-                <span ng-switch-when="1" class="label label-info">INFO</span>
-                <span ng-switch-when="2" class="label label-warning">WARNING</span>
-                <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+                <span ng-switch-when="1" class="label label-info">{{ 'OVERVIEW.INFO' | translate }}</span>
+                <span ng-switch-when="2" class="label label-warning">{{ 'OVERVIEW.WARNING' | translate }}</span>
+                <span ng-switch-when="3" class="label label-danger">{{ 'OVERVIEW.CRITICAL' | translate }}</span>
                 <p ng-bind-html="check.description  | linky:'_blank'"></p>
               </li>
             </ul>

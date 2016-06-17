@@ -29,7 +29,7 @@ angular.module('sql', [])
       return basePath + path;
     };
   })
-  .factory('SQLQuery', function($http, $location, $log, $q) {
+  .factory('SQLQuery', function($http, $location, $log, $q, baseURI) {
     class SQLQuery {
 
       constructor(stmt, response, error) {
