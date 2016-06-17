@@ -28,7 +28,7 @@ angular.module('shardinfo', [])
           "GROUP BY table_name, schema_name, recovery_stage";
       const recoveryStmtColumns = ['table_name', 'schema_name', 'recovery_stage', 'recovery_percent', 'count'];
 
-      var shardinfo = {
+      var shardInfo = {
         deferred: $q.defer()
       };
 
