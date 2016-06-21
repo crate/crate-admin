@@ -91,7 +91,7 @@
         "HEAP_USAGE": "Heap Usage",
         "DISK_USAGE": "Disk Usage",
         "LOAD": "Load",
-        "MIN": "min",
+        "MINUTES": "min",
         "CPU_CORES": "CPU Cores",
         "CORES": "Cores",
         "CRATE_CPU_USAGE": "Crate CPU Usage",

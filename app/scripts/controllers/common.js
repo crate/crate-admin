@@ -101,9 +101,8 @@ var commons = angular.module('common', ['stats', 'udc'])
       if(queryElements.length===0){
         return;
       }
-
-      var element = queryElements[0];
-      element.text = text;
+      
+      queryElements[0].text = text;
     };
   })
   .directive('focus', function($timeout) {
