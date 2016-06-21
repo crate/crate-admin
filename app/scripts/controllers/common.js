@@ -87,6 +87,23 @@ var commons = angular.module('common', ['stats', 'udc'])
         this.navBarElements.splice(index, 0, pluginElement);
       }
     };
+    // urlPattern is the identifier. TODO: need an actual identifier for each element
+    this.updateNavBarElement = function(urlPattern, text) {
+
+      if (urlPattern.charAt(0) != '/') {
+        urlPattern = "/" + urlPattern;
+      }
+
+      var queryElements = this.navBarElements.filter(function(item) {
+        return item.urlPattern==urlPattern;
+      });
+
+      if(queryElements.length===0){
+        return;
+      }
+      
+      queryElements[0].text = text;
+    };
   })
   .directive('focus', function($timeout) {
     return {
@@ -157,12 +174,32 @@ var commons = angular.module('common', ['stats', 'udc'])
       });
     }
   });
+})
+.controller('LanguageSwitchController', function ($scope, $translate) {
+  $scope.changeLanguage = function (langKey) {
+    // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
+    langKey = langKey==='auto' ? $translate.preferredLanguage() : langKey;
+    $translate.use(langKey);
+  };
 });
 
 
-commons.run(function(NavigationService) {
-  NavigationService.addNavBarElement("fa fa-th-large", "Overview", "/");
-  NavigationService.addNavBarElement("fa fa-code", "Console", "/console");
-  NavigationService.addNavBarElement("fa fa-table", "Tables", "/tables");
-  NavigationService.addNavBarElement("fa fa-sitemap", "Cluster", "/nodes");
+commons.run(function(NavigationService, $translate, $rootScope) {
+
+  $translate(['NAVIGATION.OVERVIEW','NAVIGATION.CONSOLE','NAVIGATION.TABLE','NAVIGATION.CLUSTER']).then(function(i18n) {
+    NavigationService.addNavBarElement("fa fa-th-large", i18n['NAVIGATION.OVERVIEW'], "/");
+    NavigationService.addNavBarElement("fa fa-code", i18n['NAVIGATION.CONSOLE'], "/console");
+    NavigationService.addNavBarElement("fa fa-table", i18n['NAVIGATION.TABLE'], "/tables");
+    NavigationService.addNavBarElement("fa fa-sitemap", i18n['NAVIGATION.CLUSTER'], "/nodes");
+  });
+
+  // Update Navbar Elements if Language is Changed
+  $rootScope.$on('$translateChangeSuccess', function () {
+    $translate(['NAVIGATION.OVERVIEW','NAVIGATION.CONSOLE','NAVIGATION.TABLE','NAVIGATION.CLUSTER']).then(function(i18n) {
+      NavigationService.updateNavBarElement("/", i18n['NAVIGATION.OVERVIEW']);
+      NavigationService.updateNavBarElement("/console", i18n['NAVIGATION.CONSOLE']);
+      NavigationService.updateNavBarElement("/tables", i18n['NAVIGATION.TABLE']);
+      NavigationService.updateNavBarElement("/nodes", i18n['NAVIGATION.CLUSTER']);
+    });
+  });
 });

@@ -83,7 +83,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
     var empty = {
-      'name': 'Cluster is not reachable',
+      'name': '',
       'id': '',
       'summary': [],
       'health': '--',

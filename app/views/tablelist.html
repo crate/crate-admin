@@ -26,7 +26,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <span>{{ table.records_total|roundWithUnit:1 }}
-                  Records ({{ table.size|bytes }})</span>
+                  {{ 'TABLE.RECORDS' | translate }} ({{ table.size|bytes }})</span>
                 <span class="hide-md"><br/>{{ table.summary }}</span>
               </div>
             </div>

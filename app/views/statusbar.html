@@ -1,37 +1,47 @@
 <div class="statusbar" ng-controller="StatusBarController">
   <ul class="nav navbar-nav navbar-right navbar-user">
 
-    <li>Cluster: <span class="label label-cluster">{{ cluster_name }}</span></li>
-    <li>Version: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-SNAPSHOT-{{ version.hash.substr(0,7) }}</span></span></li>
-    <li>Nodes: <span class="label">{{ num_nodes }}</span></li>
+    <li>{{ 'STATUSBAR.CLUSTER' | translate }}: <span class="label label-cluster">{{ cluster_name }}</span></li>
+    <li>{{ 'STATUSBAR.VERSION' | translate }}: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span></span></li>
+    <li>{{ 'STATUSBAR.NODES' | translate }}: <span class="label">{{ num_nodes }}</span></li>
     <li>Health:
-      <span class="label {{ cluster_color_label }}">Data</span>
-      <span class="label {{ config_label }}"><a data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">Checks</a></span>
+      <span class="label {{ cluster_color_label }}">{{ 'STATUSBAR.DATA' | translate }}</span>
+      <span class="label {{ config_label }}"><a data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">{{ 'STATUSBAR.CHECKS' | translate }}</a></span>
     </li>
     <li>Load: <span class="label label-load1">{{ load1 }}</span>/<span class="label label-load5">{{ load5 }}</span>/<span class="label label-load15">{{ load15 }}</span></li>
 
     <li class="dropdown" ng-controller="HelpMenuController">
       <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question-circle"></i></a>
       <ul class="dropdown-menu notifications">
-        <li class="notification-header"><h3>Help</h3><hr /></li>
+        <li class="notification-header"><h3>{{ 'STATUSBAR.HELP' | translate }}</h3><hr /></li>
         <li class="news-item clearfix">
           <a href="{{ docs_url }}" target="_docs">
             <div class="icon" style="padding-top:7px;"><i class="fa fa-book"></i></div>
-            <h3>Crate Manual <span ng-show="version">({{ version.number }})</span> &raquo;</h3>
-            <div>Read the online documentation</div>
+            <h3>{{ 'STATUSBAR.CRATE_MANUAL' | translate }} <span ng-show="version">({{ version.number }})</span> &raquo;</h3>
+            <div>{{ 'STATUSBAR.DOC_MSG' | translate }}</div>
           </a>
         </li>
+      </ul>
+    </li>
+
+    <li class="dropdown" ng-controller="LanguageSwitchController">
+      <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i></a>
+      <ul class="dropdown-menu languages">
+        <li><a ng-click="changeLanguage('auto')">Auto Detect</a></li>
+        <li><a ng-click="changeLanguage('en')">English</a></li>
+        <li><a ng-click="changeLanguage('de')">Deutsch</a></li>
+        <li><a ng-click="changeLanguage('zh')">中文</a></li>
       </ul>
     </li>
 
     <li class="dropdown" ng-controller="NotificationsController">
       <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-class="{'num-unread': numUnread || showUpdate}"><i class="fa fa-bell"></i></a>
       <ul class="dropdown-menu notifications">
-        <li class="notification-header"><h3>Notifications</h3><hr /></li>
+        <li class="notification-header"><h3>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</h3><hr /></li>
         <li class="news-item unread-important" ng-show="showUpdate">
           <a href="https://crate.io/download/">
-            <h3>You're using an old version ({{ serverVersion }}) of Crate</h3>
-            <div>Please consider updating to version {{ stableVersion }}!</div>
+            <h3  translate="STATUSBAR.OLD_VERSION_TIP" translate-value-version="{{serverVersion}}"></h3>
+            <div translate="STATUSBAR.UPDATE_TIP" translate-value-version="{{stableVersion}}"></div>
           </a>
         </li>
         <li ng-repeat="item in entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
@@ -40,9 +50,9 @@
             <div ng-bind-html="item.preview"></div>
           </a>
         </li>
-        <li ng-show="noNotifications"><p>Oh no! There are no notifications yet.</p></li>
+        <li ng-show="noNotifications"><p>{{ 'STATUSBAR.NO_NOTIFICATION' | translate }}</p></li>
         <li class="notification-footer"><hr /></li>
-        <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">Mark all notifications as read.</a></li>
+        <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</a></li>
         <li ng-repeat="item in menu" class="notification-footer" ng-show="entries">
             <a ng-href="{{item.url}}" target="_menu_{{$index}}">{{item.title}}</a>
         </li>
