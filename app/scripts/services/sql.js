@@ -18,7 +18,21 @@ angular.module('sql', [])
       return obj;
     };
   })
-  .factory('SQLQuery', function ($http, $location, $log, $q) {
+  .factory('baseURI', function($location){
+    return function baseURI(path) {
+      var basePath = localStorage.getItem("crate.base_uri");
+      if (!basePath) {
+        var pluginPath = '/_plugin/crate-admin/';
+        basePath = $location.protocol() + "://" +
+                   $location.host() + ":" +
+                   $location.port() +
+                   window.location.pathname.replace(pluginPath, '');
+      }
+      // remove trailing slash from base path and append path
+      return basePath.replace(/\/+$/, '') + path;
+    };
+  })
+  .factory('SQLQuery', function ($http, $log, $q, baseURI) {
     function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
@@ -86,15 +100,11 @@ angular.module('sql', [])
         canceler.reject();
       };
 
-      var baseURI = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-      if (localStorage.getItem("crate.base_uri") != null) {
-        baseURI = localStorage.getItem("crate.base_uri");
-      }
-      $http.post(baseURI+"/_sql", data, {'timeout': canceler.promise}).
-        success(function(data, status, headers, config) {
+      $http.post(baseURI("/_sql"), data, {'timeout': canceler.promise})
+        .success(function(data, status, headers, config) {
           deferred.resolve(new SQLQuery(stmt, data, null));
-        }).
-        error(function(data, status, headers, config) {
+        })
+        .error(function(data, status, headers, config) {
           var error = null;
           if (status >= 400 && data.error) {
             error = new Error(data.error.message);

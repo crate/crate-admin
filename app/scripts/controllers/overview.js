@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('overview', ['stats'])
+angular.module('overview', ['stats', 'ngSanitize'])
   .factory('ZeroArray', function() {
     return function ZeroArray(len) {
       var res = new Array(len);
