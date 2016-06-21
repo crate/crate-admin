@@ -177,6 +177,8 @@ var commons = angular.module('common', ['stats', 'udc'])
 })
 .controller('LanguageSwitchController', function ($scope, $translate) {
   $scope.changeLanguage = function (langKey) {
+    // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
+    langKey = langKey==='auto' ? $translate.preferredLanguage() : langKey;
     $translate.use(langKey);
   };
 });

@@ -4,6 +4,7 @@
 
   var MODULES = [
     'ngRoute',
+    'ngCookies',
     'truncate',
     'sql',
     'stats',
@@ -117,6 +118,8 @@
         // Use English as default language if no matched language is found.
         .fallbackLanguage('en');
 
+        // remember language
+        $translateProvider.useCookieStorage();
       }]);
 
     app.run(function($window, $location) {
