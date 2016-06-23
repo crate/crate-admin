@@ -473,12 +473,16 @@ strong {
   padding-left: 10px;
 }
 
-.list-clusterchecks {
-  li {
-    border-bottom: 1px solid @gray-lighter;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
+.list-clusterchecks > li {
+  border-bottom: 1px solid @gray-lighter;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.list-clusterchecks > li > ul > li {
+  padding: 2px 0;
+  margin: 0;
+  font-size: @font-size-small;
 }
 
 // Form
@@ -508,14 +512,6 @@ textarea#console-statement-input {
     background-color: #cfdfdf;
     border: 1px solid #cfdfdf;
 }
-
-.btn-danger {
-    font-weight: bold;
-    background-color: #efcfcf;
-    border: 1px solid #efcfcf;
-    color: #333;
-}
-
 .btn-default.active,
 .btn-default:active,
 .btn-default:focus,
@@ -523,6 +519,22 @@ textarea#console-statement-input {
     font-weight: bold;
     background-color: #cfcfcf;
     border: 1px solid #cfcfcf;
+}
+
+.btn-danger {
+    font-weight: bold;
+    background-color: #efcfcf;
+    border: 1px solid #efcfcf;
+    color: #333;
+}
+.btn-danger.active,
+.btn-danger:active,
+.btn-danger:focus,
+.btn-danger:hover {
+    font-weight: bold;
+    background-color: #dfbfbf;
+    border: 1px solid #dfbfbf;
+    color: #333;
 }
 
 .btn-sort {

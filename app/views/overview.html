@@ -67,7 +67,7 @@
     </div><!-- /.row -->
 
     <div class="row" ng-show="chart.data">
-        <div ng-class="checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
+        <div ng-class="checks.cluster_checks.length + checks.node_checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
             <div class="page-header">
               <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
             </div>
@@ -82,26 +82,53 @@
               <svg style="height: 350px"></svg>
             </nvd3-line-chart>
         </div>
-        <div ng-show="checks.length > 0" class="col-md-4 col-sm-12 col-xs-12">
+        <div ng-show="checks.cluster_checks.length > 0 " class="col-md-4 col-sm-12 col-xs-12">
           <div class="panel">
             <div class="page-header">
-              <a ng-click="refreshConfigCheck()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
+              <a ng-click="refresh()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
               <h2>{{ 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
             </div>
             <ul class="list-unstyled list-clusterchecks">
-              <li ng-repeat="check in checks" ng-switch on="check.severity">
-                <span ng-switch-when="1" class="label label-info">{{ 'OVERVIEW.INFO' | translate }}</span>
-                <span ng-switch-when="2" class="label label-warning">{{ 'OVERVIEW.WARNING' | translate }}</span>
-                <span ng-switch-when="3" class="label label-danger">{{ 'OVERVIEW.CRITICAL' | translate }}</span>
-                <p ng-bind-html="check.description  | linky:'_blank'"></p>
+              <li ng-repeat="check in checks.cluster_checks">
+                <div ng-switch on="check.severity">
+                  <div style="float:left;margin-right:10px;">
+                    <span ng-switch-when="1" class="label label-info">{{ 'OVERVIEW.INFO' | translate }}</span>
+                    <span ng-switch-when="2" class="label label-warning">{{ 'OVERVIEW.WARNING' | translate }}</span>
+                    <span ng-switch-when="3" class="label label-danger">{{ 'OVERVIEW.CRITICAL' | translate }}</span>
+                  </div>
+                </div>
+                <p ng-bind-html="check.description | linky:'_blank'"></p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div ng-show="checks.node_checks.length > 0 " class="col-md-4 col-sm-12 col-xs-12">
+          <div class="panel">
+            <div class="page-header">
+              <a ng-click="refresh()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
+              <h2>{{ 'OVERVIEW.NODES_CHECKS' | translate }}</h2>
+            </div>
+            <ul class="list-unstyled list-clusterchecks">
+              <li ng-repeat="check in checks.node_checks" >
+                <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheck(check)">{{ 'OVERVIEW.DISMISS_ALL' | translate }}</button>
+                <div ng-switch on="check.severity">
+                  <div style="float:left;margin-right:10px;">
+                    <span ng-switch-when="1" class="label label-info">{{ 'OVERVIEW.INFO' | translate }}</span>
+                    <span ng-switch-when="2" class="label label-warning">{{ 'OVERVIEW.WARNING' | translate }}</span>
+                    <span ng-switch-when="3" class="label label-danger">{{ 'OVERVIEW.CRITICAL' | translate }}</span>
+                  </div>
+                </div>
+                <p ng-bind-html="check.description | linky:'_blank'"></p>
+                <ul class="list-unstyled">
+                  <li><b>{{ 'OVERVIEW.AFFECTED_NODES' | translate }}:</b></li>
+                  <li ng-repeat="node in check.nodes track by node.id" style="clear:both;">
+                    <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheckByNode(node, check)">{{ 'OVERVIEW.DISMISS' | translate }}</button>{{ node.name }}
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
         </div>
     </div><!-- /.row -->
-<!--
-    <div class="row" ng-if="checks.length > 0">
 
-    </div>
-  -->
 </div>

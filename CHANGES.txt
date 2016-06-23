@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Display failing node checks on overview page and allow to dismiss them.
+
  - Added German translation.
    This change also enables the possibility for further i18n.
 

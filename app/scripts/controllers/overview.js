@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('overview', ['stats', 'ngSanitize'])
+angular.module('overview', ['stats', 'checks', 'ngSanitize'])
   .factory('ZeroArray', function() {
     return function ZeroArray(len) {
       var res = new Array(len);
@@ -44,7 +44,7 @@ angular.module('overview', ['stats', 'ngSanitize'])
       };
     };
   })
-  .controller('OverviewController', function($scope, $location, $log, $timeout, ClusterState, HistoryChart, ZeroArray) {
+  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService, SQLQuery) {
     var lastUpdate = null;
     var colorMap = {
       "good": 'panel-success',
@@ -64,6 +64,41 @@ angular.module('overview', ['stats', 'ngSanitize'])
       'data': [],
     };
 
+    $scope.$watch(function() { return ChecksService; }, function(data) {
+      if (data.success === true) {
+        $scope.checks = data.checks;
+      } else {
+        $scope.checks = {node_checks: [], cluster_check: []};
+      }
+    }, true);
+
+    $scope.refresh = ChecksService.refresh;
+
+    var removeFromArray = function(arr, obj) {
+      arr.splice(arr.indexOf(obj), 1);
+    }
+
+    var removeCheck = function(check) {
+      removeFromArray($scope.checks.node_checks, check)
+    };
+
+    $scope.dismissCheckByNode = function(node, check) {
+      var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
+      SQLQuery.execute(stmt, [node.id, check.id]).success(function(query) {
+        removeFromArray(check.nodes, node)
+        if (check.nodes.length === 0) {
+          removeCheck(check);
+        }
+      });
+    };
+
+    $scope.dismissCheck = function(check) {
+      var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE id = ?';
+      SQLQuery.execute(stmt, [check.id]).success(function() {
+        removeCheck(check);
+      });
+    };
+
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       var now = new Date().getTime();
       if (lastUpdate && now - lastUpdate < 100) {
@@ -71,8 +106,6 @@ angular.module('overview', ['stats', 'ngSanitize'])
       } else {
         lastUpdate = now;
       }
-
-      $scope.checks = data.checks;
 
       $scope.cluster = {
         'name': data.name,
@@ -140,11 +173,8 @@ angular.module('overview', ['stats', 'ngSanitize'])
       $scope.chart.data = chart.update(data).data();
     };
 
-    $scope.refreshClusterCheck = function refreshClusterCheck() {
-      ClusterState.refreshClusterCheck();
-    };
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});
 
-  })
+  });
