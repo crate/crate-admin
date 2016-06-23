@@ -67,7 +67,7 @@
     </div><!-- /.row -->
 
     <div class="row" ng-show="chart.data">
-        <div ng-class="checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
+        <div ng-class="checks.count > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
             <div class="page-header">
               <h2>Cluster Load</h2>
             </div>
@@ -82,26 +82,44 @@
               <svg style="height: 350px"></svg>
             </nvd3-line-chart>
         </div>
-        <div ng-show="checks.length > 0" class="col-md-4 col-sm-12 col-xs-12">
+        <div ng-show="checks.cluster_checks.length > 0 " class="col-md-4 col-sm-12 col-xs-12">
           <div class="panel">
             <div class="page-header">
-              <a ng-click="refreshConfigCheck()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
+              <a ng-click="refresh()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
               <h2>Cluster Checks</h2>
             </div>
             <ul class="list-unstyled list-clusterchecks">
-              <li ng-repeat="check in checks" ng-switch on="check.severity">
+              <li ng-repeat="check in checks.cluster_checks" ng-switch on="check.severity">
                 <span ng-switch-when="1" class="label label-info">INFO</span>
                 <span ng-switch-when="2" class="label label-warning">WARNING</span>
                 <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
-                <p ng-bind-html="check.description  | linky:'_blank'"></p>
+                <p ng-bind-html="check.description | linky:'_blank'"></p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-show="checks.node_checks.length > 0 " class="col-md-4 col-sm-12 col-xs-12">
+          <div class="panel">
+            <div class="page-header">
+              <a ng-click="refresh()" class="btn btn-xs pull-right"><i class="fa fa-refresh"></i></a>
+              <h2>Nodes Checks</h2>
+            </div>
+            <ul class="list-unstyled list-clusterchecks">
+              <li ng-repeat="check in checks.node_checks" ng-switch on="check.severity">
+                <span ng-switch-when="1" class="label label-info">INFO</span>
+                <span ng-switch-when="2" class="label label-warning">WARNING</span>
+                <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+                <p ng-bind-html="check.description | linky:'_blank'"></p>
+                <ul class="list-unstyled list-nodeschecks">
+                  <li ng-repeat="node in check.node_ids">
+                    <p ng-bind-html="node | linky:'_blank'"></p>
+                  </li>
+              </ul>
               </li>
             </ul>
           </div>
         </div>
     </div><!-- /.row -->
-<!--
-    <div class="row" ng-if="checks.length > 0">
 
-    </div>
-  -->
 </div>

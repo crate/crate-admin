@@ -16,7 +16,7 @@
     'tableinfo',
     'shardinfo',
     'nodeinfo',
-    'clustercheck',
+    'checks',
     'udc',
     'nvd3ChartDirectives'
   ];

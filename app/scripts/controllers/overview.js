@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('overview', ['stats', 'ngSanitize'])
+angular.module('overview', ['stats', 'checks', 'ngSanitize'])
   .factory('ZeroArray', function() {
     return function ZeroArray(len) {
       var res = new Array(len);
@@ -44,7 +44,7 @@ angular.module('overview', ['stats', 'ngSanitize'])
       };
     };
   })
-  .controller('OverviewController', function($scope, $location, $log, $timeout, ClusterState, HistoryChart, ZeroArray) {
+  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService) {
     var lastUpdate = null;
     var colorMap = {
       "good": 'panel-success',
@@ -64,6 +64,13 @@ angular.module('overview', ['stats', 'ngSanitize'])
       'data': [],
     };
 
+    $scope.$watch(function() { return ChecksService; }, function(data) {
+      if (data.success === true) {
+        $scope.checks = data.checks;
+        $scope.checks.count = data.checks.node_checks.length + data.checks.cluster_checks.length;
+      }
+    }, true);
+
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       var now = new Date().getTime();
       if (lastUpdate && now - lastUpdate < 100) {
@@ -71,8 +78,6 @@ angular.module('overview', ['stats', 'ngSanitize'])
       } else {
         lastUpdate = now;
       }
-
-      $scope.checks = data.checks;
 
       $scope.cluster = {
         'name': data.name,
@@ -140,11 +145,8 @@ angular.module('overview', ['stats', 'ngSanitize'])
       $scope.chart.data = chart.update(data).data();
     };
 
-    $scope.refreshClusterCheck = function refreshClusterCheck() {
-      ClusterState.refreshClusterCheck();
-    };
 
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});
 
-  })
+  });

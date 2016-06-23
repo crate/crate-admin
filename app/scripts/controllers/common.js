@@ -1,7 +1,7 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
-  .controller('StatusBarController', function ($scope, $log, $location, $sce, ClusterState) {
+  .controller('StatusBarController', function ($scope, $log, $location, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['label-success', 'label-warning', 'label-danger', 'label-danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx){
@@ -15,6 +15,27 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
     $scope.cluster_color_label = '';
     $scope.config_label = '';
+    $scope.online = false;
+
+    $scope.$watch(function() { return ChecksService; }, function(data) {
+      if (data.success === true) {
+        var checks = [];
+        checks.push.apply(checks, data.checks.cluster_checks);
+        checks.push.apply(checks, data.checks.node_checks);
+        console.info(data, checks);
+        var severity = checks.reduce(function(memo, obj, idx) {
+          return Math.max(memo, obj.severity);
+        }, 1);
+        $scope.checks_message = $sce.trustAsHtml([checks.length, checks.length == 1 ? "check" : "checks", "failed"].join("\u00A0"));
+        $scope.config_label = LABELS[Math.min(severity - 1, LABELS.length - 1)];
+        $scope.cluster_color_label = colorMap[data.status];
+      } else {
+        $scope.checks_message = $sce.trustAsHtml('Cluster is offline');
+        $scope.config_label = '';
+        $scope.cluster_color_label = '';
+      }
+    }, true);
+
     $scope.$watch( function () { return ClusterState.data; }, function (data) {
       var hashes = [];
       var versions = data.cluster.filter(function(obj, idx){
@@ -38,15 +59,6 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.version = data.version;
       $scope.docs_url = getDocsUrl(data.version);
-      $scope.checks = data.checks;
-      var checks_msg = [data.checks.length, data.checks.length == 1 ? "check" : "checks", "failed"].join("\u00A0");
-      checks_msg = data.online ? checks_msg : "cluster is offline";
-      $scope.checks_message = $sce.trustAsHtml(checks_msg);
-      var severity = data.checks.reduce(function(memo, obj, idx) {
-        return Math.max(memo, obj.severity);
-      }, 1);
-      $scope.config_label = data.online ? LABELS[Math.min(severity-1, LABELS.length-1)] : '';
-      $scope.cluster_color_label = data.online ? colorMap[data.status] : '';
     }, true);
 
     // bind tooltips
