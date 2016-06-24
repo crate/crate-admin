@@ -89,10 +89,14 @@
               <h2>Cluster Checks</h2>
             </div>
             <ul class="list-unstyled list-clusterchecks">
-              <li ng-repeat="check in checks.cluster_checks" ng-switch on="check.severity">
-                <span ng-switch-when="1" class="label label-info">INFO</span>
-                <span ng-switch-when="2" class="label label-warning">WARNING</span>
-                <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+              <li ng-repeat="check in checks.cluster_checks">
+                <div ng-switch on="check.severity">
+                  <div style="float:left;margin-right:10px;">
+                    <span ng-switch-when="1" class="label label-info">INFO</span>
+                    <span ng-switch-when="2" class="label label-warning">WARNING</span>
+                    <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+                  </div>
+                </div>
                 <p ng-bind-html="check.description | linky:'_blank'"></p>
               </li>
             </ul>
@@ -106,16 +110,19 @@
               <h2>Nodes Checks</h2>
             </div>
             <ul class="list-unstyled list-clusterchecks">
-              <li ng-repeat="check in checks.node_checks" ng-switch on="check.severity">
-                <span ng-switch-when="1" class="label label-info">INFO</span>
-                <span ng-switch-when="2" class="label label-warning">WARNING</span>
-                <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+              <li ng-repeat="check in checks.node_checks" >
+                <div ng-switch on="check.severity">
+                  <div style="float:left;margin-right:10px;">
+                    <span ng-switch-when="1" class="label label-info">INFO</span>
+                    <span ng-switch-when="2" class="label label-warning">WARNING</span>
+                    <span ng-switch-when="3" class="label label-danger">CRITICAL</span>
+                  </div>
+                </div>
                 <p ng-bind-html="check.description | linky:'_blank'"></p>
-                <ul class="list-unstyled list-nodeschecks">
-                  <li ng-repeat="node in check.node_ids">
-                    <p ng-bind-html="node | linky:'_blank'"></p>
-                  </li>
-              </ul>
+                <ul class="list-unstyled">
+                  <li><b>Affected Nodes:</b></li>
+                  <li class="small-text" ng-repeat="node in check.node_ids track by $index">{{ node }}</li>
+                </ul>
               </li>
             </ul>
           </div>
