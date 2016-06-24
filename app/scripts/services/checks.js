@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('checks', [])
-  .factory('ClusterCheck', ['SQLQuery', 'queryResultToObjects', '$q', function(SQLQuery, queryResultToObjects, $q) {
+  .factory('ClusterCheck', ['SQLQuery', 'queryResultToObjects', '$q',
+    function(SQLQuery, queryResultToObjects, $q) {
       var self = {
         deferred: $q.defer()
       };
 
       var stmt = 'SELECT id, severity, description, passed ' +
-                 'FROM sys.checks ' + 
-                 'WHERE passed = false ' + 
+                 'FROM sys.checks ' +
+                 'WHERE passed = false ' +
                  'ORDER BY severity DESC, id';
       var cols = ['id', 'severity', 'description', 'passed'];
 
@@ -29,15 +30,17 @@ angular.module('checks', [])
       };
 
       return self;
-  }])
-  .factory('NodeCheck', ['SQLQuery', 'queryResultToObjects', '$q', function(SQLQuery, queryResultToObjects, $q) {
+    }
+  ])
+  .factory('NodeCheck', ['SQLQuery', 'queryResultToObjects', '$q',
+    function(SQLQuery, queryResultToObjects, $q) {
       var self = {
         deferred: $q.defer()
       };
 
       var stmt = 'SELECT c.id, c.severity, c.description, c.passed, c.node_id, n.name, c.acknowledged ' +
                  'FROM sys.node_checks AS c, sys.nodes AS n ' +
-                 'WHERE c.node_id = n.id ' + 
+                 'WHERE c.node_id = n.id ' +
                  'AND c.passed = false ' +
                  'ORDER BY c.severity DESC, n.name';
       var cols = ['id', 'severity', 'description', 'passed', 'node_id', 'node_name', 'acknowledged'];
@@ -72,22 +75,30 @@ angular.module('checks', [])
       };
 
       return self;
-  }])
-  .factory('ChecksService', ['$interval', '$q', 'NodeCheck', 'ClusterCheck', 'ClusterState', function($interval, $q, NodeCheck, ClusterCheck, ClusterState) {
-    var data = {
-      checks: {},
-      success: false
-    };
-
-    $interval(function() {
-      $q.all([ClusterCheck.execute(), NodeCheck.execute()]).then(function(responses) {
-        data.checks.cluster_checks = responses[0];
-        data.checks.node_checks = responses[1];
-        data.success = true;
-      }).catch(function() {
-        data.success = false;
-      });
-    }, 1000);
-
-    return data;
-  }])
+    }
+  ])
+  .factory('ChecksService', ['$timeout', '$q', 'NodeCheck', 'ClusterCheck', 'ClusterState',
+    function($timeout, $q, NodeCheck, ClusterCheck, ClusterState) {
+      var data = {
+        checks: {},
+        success: false
+      };
+      var retryCount = 0;
+      var fetch = function fetch() {
+        $q.all([ClusterCheck.execute(), NodeCheck.execute()]).then(function(responses) {
+          data.checks.cluster_checks = responses[0];
+          data.checks.node_checks = responses[1];
+          data.success = true;
+          retryCount = 0;
+          $timeout(fetch, 60000);
+        }).catch(function() {
+          data.success = false;
+          retryCount++;
+          $timeout(fetch, 500 * retryCount);
+        });
+      };
+      // Initial fetch
+      $timeout(fetch, 2000);
+      return data;
+    }
+  ])
