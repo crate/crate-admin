@@ -42,6 +42,7 @@ angular.module('checks', [])
                  'FROM sys.node_checks AS c, sys.nodes AS n ' +
                  'WHERE c.node_id = n.id ' +
                  'AND c.passed = false ' +
+                 'AND acknowledged = false ' +
                  'ORDER BY c.severity DESC, n.name';
       var cols = ['id', 'severity', 'description', 'passed', 'node_id', 'node_name', 'acknowledged'];
 
@@ -56,13 +57,12 @@ angular.module('checks', [])
             result.map(function(check) {
               var id = check.id;
               if (!(id in checks)) {
-                check["node_ids"] = [];
+                check["nodes"] = [];
                 checks[id] = check;
               }
-              checks[id].node_ids.push(check.node_name);
+              checks[id].nodes.push({name: check.node_name, id: check.node_id});
             });
             var array = Object.keys(checks).map(function(id) {
-              checks[id].node_ids.sort()
               return checks[id];
             })
             deferred.resolve(array);

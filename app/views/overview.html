@@ -67,7 +67,7 @@
     </div><!-- /.row -->
 
     <div class="row" ng-show="chart.data">
-        <div ng-class="checks.count > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
+        <div ng-class="checks.cluster_checks.length + checks.node_checks.length > 0 ? 'col-md-8 col-sm-12 col-xs-12' : 'col-md-12 col-sm-12 col-xs-12'">
             <div class="page-header">
               <h2>Cluster Load</h2>
             </div>
@@ -102,7 +102,6 @@
             </ul>
           </div>
         </div>
-
         <div ng-show="checks.node_checks.length > 0 " class="col-md-4 col-sm-12 col-xs-12">
           <div class="panel">
             <div class="page-header">
@@ -111,6 +110,7 @@
             </div>
             <ul class="list-unstyled list-clusterchecks">
               <li ng-repeat="check in checks.node_checks" >
+                <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheck(check)">Dismiss all</button>
                 <div ng-switch on="check.severity">
                   <div style="float:left;margin-right:10px;">
                     <span ng-switch-when="1" class="label label-info">INFO</span>
@@ -121,7 +121,9 @@
                 <p ng-bind-html="check.description | linky:'_blank'"></p>
                 <ul class="list-unstyled">
                   <li><b>Affected Nodes:</b></li>
-                  <li class="small-text" ng-repeat="node in check.node_ids track by $index">{{ node }}</li>
+                  <li ng-repeat="node in check.nodes track by node.id" style="clear:both;">
+                    <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheckByNode(node, check)">Dismiss</button>{{ node.name }}
+                  </li>
                 </ul>
               </li>
             </ul>

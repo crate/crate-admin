@@ -44,7 +44,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       };
     };
   })
-  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService) {
+  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService, SQLQuery) {
     var lastUpdate = null;
     var colorMap = {
       "good": 'panel-success',
@@ -66,10 +66,34 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
 
     $scope.$watch(function() { return ChecksService; }, function(data) {
       if (data.success === true) {
-        $scope.checks = data.checks;
-        $scope.checks.count = data.checks.node_checks.length + data.checks.cluster_checks.length;
+        $scope.checks = angular.copy(data.checks);
       }
     }, true);
+
+    var removeFromArray = function(arr, obj) {
+      arr.splice(arr.indexOf(obj), 1);
+    }
+
+    var removeCheck = function(check) {
+      removeFromArray($scope.checks.node_checks, check)
+    };
+
+    $scope.dismissCheckByNode = function(node, check) {
+      var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
+      SQLQuery.execute(stmt, [node.id, check.id]).success(function(query) {
+        removeFromArray(check.nodes, node)
+        if (check.nodes.length === 0) {
+          removeCheck(check);
+        }
+      });
+    };
+
+    $scope.dismissCheck = function(check) {
+      var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE id = ?';
+      SQLQuery.execute(stmt, [check.id]).success(function() {
+        removeCheck(check);
+      });
+    };
 
     $scope.$watch(function() { return ClusterState.data; }, function (data) {
       var now = new Date().getTime();

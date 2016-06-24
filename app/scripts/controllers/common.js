@@ -22,7 +22,6 @@ var commons = angular.module('common', ['stats', 'udc'])
         var checks = [];
         checks.push.apply(checks, data.checks.cluster_checks);
         checks.push.apply(checks, data.checks.node_checks);
-        console.info(data, checks);
         var severity = checks.reduce(function(memo, obj, idx) {
           return Math.max(memo, obj.severity);
         }, 1);
