@@ -110,7 +110,7 @@
             </div>
             <ul class="list-unstyled list-clusterchecks">
               <li ng-repeat="check in checks.node_checks" >
-                <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheck(check)">{{ 'OVERVIEW.DISMISS_ALL' | translate }}</button>
+                <button class="btn btn-default btn-xs pull-right" ng-click="dismissCheck(check)">{{ 'OVERVIEW.DISMISS_ALL' | translate }}</button>
                 <div ng-switch on="check.severity">
                   <div style="float:left;margin-right:10px;">
                     <span ng-switch-when="1" class="label label-info">{{ 'OVERVIEW.INFO' | translate }}</span>
@@ -122,7 +122,7 @@
                 <ul class="list-unstyled">
                   <li><b>{{ 'OVERVIEW.AFFECTED_NODES' | translate }}:</b></li>
                   <li ng-repeat="node in check.nodes track by node.id" style="clear:both;">
-                    <button class="btn btn-danger btn-xs pull-right" ng-click="dismissCheckByNode(node, check)">{{ 'OVERVIEW.DISMISS' | translate }}</button>{{ node.name }}
+                    <button class="btn btn-default btn-xs pull-right" ng-click="dismissCheckByNode(node, check)">{{ 'OVERVIEW.DISMISS' | translate }}</button>{{ node.name }}
                   </li>
                 </ul>
               </li>
