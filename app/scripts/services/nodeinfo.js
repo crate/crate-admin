@@ -22,33 +22,35 @@ angular.module('nodeinfo', [])
       var nodeInfo = {
         deferred: $q.defer()
       };
-      
-      var nodeQuery = 'select id, name, hostname, rest_url, port, load, heap, fs, os[\'cpu\'] as cpu, load, version, os[\'probe_timestamp\'] as timestamp, ' +
-          'process[\'cpu\'] as proc_cpu, os_info[\'available_processors\'] as num_cores ' +
-          'from sys.nodes';
-      nodeInfo.executeNodeQuery = function(){
+
+      var nodeQuery = "SELECT id, name, hostname, rest_url, port, heap, fs, " +
+        "os['cpu'], load, version, os['probe_timestamp'], process['cpu'], " +
+        "os_info['available_processors'] FROM sys.nodes ORDER BY id";
+      var nodeCols = ['id', 'name', 'hostname', 'rest_url', 'port', 'heap', 'fs',
+        'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores'];
+      nodeInfo.executeNodeQuery = function() {
         var d = $q.defer();
         SQLQuery.execute(nodeQuery).success(function(sqlQuery){
-          var response = queryResultToObjects(sqlQuery,
-              ['id', 'name', 'hostname', 'rest_url', 'port', 'load', 'heap', 'fs', 'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores']);
+          var response = queryResultToObjects(sqlQuery, nodeCols);
           d.resolve(response);
         }).error(function(){
           d.reject();
         })
         return d.promise;
-      }
-      
+      };
+
       var clusterQuery = 'select name, master_node from sys.cluster';
+      var clusterCols = ['name', 'master_node'];
       nodeInfo.executeClusterQuery = function(){
         var d = $q.defer();
         SQLQuery.execute(clusterQuery).success(function(sqlQuery){
-          d.resolve(queryResultToObjects(sqlQuery, ['name', 'master_node']));
+          d.resolve(queryResultToObjects(sqlQuery, clusterCols));
         }).error(function(){
           d.reject();
         })
         return d.promise;
-      }
-      
+      };
+
       return nodeInfo;
     }
   ])
