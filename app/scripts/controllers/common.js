@@ -81,7 +81,6 @@ var commons = angular.module('common', ['stats', 'udc'])
     this.navBarElements = [];
 
     this.addNavBarElement = function(iconClass, text, urlPattern, index) {
-
       if (urlPattern.charAt(0) != '/') {
         urlPattern = "/" + urlPattern;
       }
@@ -197,14 +196,13 @@ var commons = angular.module('common', ['stats', 'udc'])
 });
 
 
-commons.run(function(NavigationService, $translate, $rootScope) {
+commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  $translate(['NAVIGATION.OVERVIEW','NAVIGATION.CONSOLE','NAVIGATION.TABLE','NAVIGATION.CLUSTER']).then(function(i18n) {
-    NavigationService.addNavBarElement("fa fa-th-large", i18n['NAVIGATION.OVERVIEW'], "/");
-    NavigationService.addNavBarElement("fa fa-code", i18n['NAVIGATION.CONSOLE'], "/console");
-    NavigationService.addNavBarElement("fa fa-table", i18n['NAVIGATION.TABLE'], "/tables");
-    NavigationService.addNavBarElement("fa fa-sitemap", i18n['NAVIGATION.CLUSTER'], "/nodes");
-  });
+  NavigationService.addNavBarElement("fa fa-th-large", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
+  NavigationService.addNavBarElement("fa fa-code", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
+  NavigationService.addNavBarElement("fa fa-table", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
+  NavigationService.addNavBarElement("fa fa-sitemap", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
+
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
