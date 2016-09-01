@@ -42,6 +42,7 @@ Then enable Cross Origin Resource Sharing in your crate configuration to test
 the admin ui against crate::
 
     http.cors.enabled: true
+    http.cors.allow-origin: "*"
 
 Then visit the browser on ``http://localhost:9000/?base_uri=http://localhost:4200``.
 
