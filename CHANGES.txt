@@ -4,6 +4,7 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+ - Added translation for tutorial plugin. This enables support for i18n for any admin ui plugin.
 
  - Fix: number of underreplicated shards cannot be negative.
 

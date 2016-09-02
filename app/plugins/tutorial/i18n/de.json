@@ -1,0 +1,20 @@
+{
+    "NAVIGATION": {
+        "GET_STARTED": "Loslegen"
+    },
+    "TUTORIAL": {
+        "TITLE": "Mit Beispieldaten loslegen",
+        "PARAGRAPH_1": "Die Arbeit mit Beispieldaten hilft dir Crate etwas besser zu verstehen. Mit diesem Twitter-Importer ist das ganz einfach und du kannst schnell und mühelos deine neue Crate Instanz mit realen Daten testen. Klicke auf den Button, und beobachte wie dein Cluster in Echtzeit mit Live-Tweets gefüllt wird. Keine Sorge, diese können später immer noch gelöscht werden.",
+        "PARAGRAPH_2": "Nach der Authentifizierung werden Tweets einzeln importiert, was natürlich langsam ist. Allerdings können in einer Produktionsumgebung bis zu mehreren tausend Datensätze pro Sekunde indiziert werden.",
+        "INSTRUCTION_1": "Deine Tweets werden in der Tabelle {tweets} gespeichert",
+        "TWEETS": "tweets",
+        "INSTRUCTION_2": "Klicke in der linken Menüleiste auf {tables} um alle Tabellen und deren Statistiken zu sehen. Du müsstest sehen, wie deren Datensätze steigen während Twitter importiert.",
+        "TABLES": "TABLES",
+        "INSTRUCTION_3": "Klicke in der linken Menüleiste auf {console} um eine SQL-Abfrage zu starten. Zum Beispiel: {query}",
+        "CONSOLE": "KONSOLE",
+        "IMPORT_TWEETS": "Importiere Tweets",
+        "IMPORTING_TWEETS": "Importiere Tweets.",
+        "TWEETS_IMPORTED": "Tweets importiert.",
+        "STOP_IMPORTING_TWEETS": "Genug! Import gestoppt."
+    }
+}

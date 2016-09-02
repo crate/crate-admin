@@ -19,6 +19,7 @@
     'nodeinfo',
     'checks',
     'udc',
+    'translation',
     'nvd3ChartDirectives',
     'pascalprecht.translate'
   ];
@@ -100,14 +101,16 @@
       }]);
 
     // Configuration of i18n Internationalization
-    app.config(['$translateProvider',
-      function($translateProvider) {
+    app.config(['$translateProvider', '$translatePartialLoaderProvider',
+      function($translateProvider, $translatePartialLoaderProvider) {
 
-        // configures staticFilesLoader
-        $translateProvider.useStaticFilesLoader({
-          prefix: './i18n/',
-          suffix: '.json'
+        // add main translation part 
+        $translatePartialLoaderProvider.addPart('.');
+        // configures partialLoader
+        $translateProvider.useLoader('$translatePartialLoader', {
+          urlTemplate: '{part}/i18n/{lang}.json'
         })
+
         .registerAvailableLanguageKeys(['en', 'de', 'zh'], {
           'en_*': 'en',
           'de_*': 'de',
@@ -116,11 +119,18 @@
         // Check local language automatically
         .determinePreferredLanguage()
         // Use English as default language if no matched language is found.
-        .fallbackLanguage('en');
+        .fallbackLanguage('en')
 
+        .useSanitizeValueStrategy(null);
         // remember language
         $translateProvider.useCookieStorage();
       }]);
+
+    app.run(function($rootScope, $translate){
+      $rootScope.$on('$translatePartialLoaderStructureChanged', function(){
+        $translate.refresh();
+      });
+    });
 
     app.run(function($window, $location) {
       var url = $.url($window.location.href);

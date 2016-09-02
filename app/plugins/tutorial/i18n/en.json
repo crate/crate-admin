@@ -1,0 +1,20 @@
+{
+    "NAVIGATION": {
+        "GET_STARTED": "GET STARTED"
+    },
+    "TUTORIAL": {
+        "TITLE": "Get started with sample data",
+        "PARAGRAPH_1": "Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new Crate instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.",
+        "PARAGRAPH_2": "After authentication Twitter allows you to consume a small fraction of their public stream, hence the slow import. In a production environment you can index hundreds  of thousands of records per second.",
+        "INSTRUCTION_1": "Your imported tweets will be stored in a table called {tweets}.",
+        "TWEETS": "tweets",
+        "INSTRUCTION_2": "Click {tables} on the left to see the table and its stats. You should see its records increase as the tweets import.",
+        "TABLES": "TABLES",
+        "INSTRUCTION_3": "Click {console} to query the table directly with SQL. For starters, you can try: {query} after you have added some tweets.",
+        "CONSOLE": "CONSOLE",
+        "IMPORT_TWEETS": "Import tweets for testing",
+        "IMPORTING_TWEETS": "Importing tweets.",
+        "TWEETS_IMPORTED": "tweets imported",
+        "STOP_IMPORTING_TWEETS": "Enough! Stop importing tweets"
+    }
+}
