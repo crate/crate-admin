@@ -86,7 +86,7 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numUnderreplicatedShards = (function() {
-        return numUnassignedShards + numReplicatingShards - numMissingPrimaryShards;
+        return Math.max(0, numUnassignedShards + numReplicatingShards - numMissingPrimaryShards);
       }());
 
       var avgDocsPerPrimaryShard = (function() {
