@@ -1,7 +1,7 @@
 'use strict';
 
-var tutorialPlugin = angular.module('tutorial', ['sql'])
-  .controller('TutorialController', function ($scope, $location, $log, $timeout, $routeParams, SQLQuery) {
+var tutorialPlugin = angular.module('tutorial', ['sql', 'translation'])
+  .controller('TutorialController', function ($scope, $location, $log, $timeout, $routeParams, SQLQuery, $sce, $translate, $translatePartialLoader, $rootScope, Translation) {
 
     var base_url = "https://twitter.crate.io/api/v1";
     var redirect = [window.location.protocol,window.location.host].join("//") + window.location.pathname;
@@ -124,19 +124,58 @@ var tutorialPlugin = angular.module('tutorial', ['sql'])
         twitter.stop();
     };
 
+    $translatePartialLoader.addPart('./plugins/tutorial');
+    $translate.refresh();
+
+
+    // Update text if Language is Changed
+    $rootScope.$on('$translateChangeSuccess', function() {
+      $translate(["TUTORIAL.INSTRUCTION_1", "TUTORIAL.TWEETS"]).then(function(translations) {
+        $scope.InstructionText1 = Translation.interpolate(translations["TUTORIAL.INSTRUCTION_1"], {
+                    tweets: '<b>' + translations["TUTORIAL.TWEETS"] + '</b>'
+                })
+        if (typeof $scope.InstructionText1 === 'string'){
+          $scope.InstructionText1 = $sce.trustAsHtml($scope.InstructionText1);
+        }
+      });
+
+      $translate(["TUTORIAL.INSTRUCTION_2", "TUTORIAL.TABLES"]).then(function(translations) {
+        $scope.InstructionText2 = Translation.interpolate(translations["TUTORIAL.INSTRUCTION_2"],{
+                    tables: '<b>' + translations["TUTORIAL.TABLES"] + '</b>'
+                });
+        if (typeof $scope.InstructionText2 === 'string'){
+          $scope.InstructionText2 = $sce.trustAsHtml($scope.InstructionText2);
+        }
+      });
+
+      $translate(["TUTORIAL.INSTRUCTION_3", "TUTORIAL.CONSOLE", "TUTORIAL.QUERY"]).then(function(translations) {
+        $scope.InstructionText3 = Translation.interpolate(translations["TUTORIAL.INSTRUCTION_3"],{
+                    console: '<b>' + translations["TUTORIAL.CONSOLE"] + '</b>',
+                    query: '<code>SELECT text FROM tweets LIMIT 100</code>'
+                });
+        if (typeof $scope.InstructionText3 === 'string'){
+          $scope.InstructionText3 = $sce.trustAsHtml($scope.InstructionText3);
+        }
+      });
+    });
+    
+
     $scope.$on('$destroy', function(e){
       twitter.stop();
     });
 
   });
 
-tutorialPlugin.run(function($window, $location, NavigationService) {
+tutorialPlugin.run(function($window, $location, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
 
+    $translatePartialLoader.addPart('./plugins/tutorial');
+    $translate.refresh();
     var iconClass = "fa fa-info-circle";
-    var navElementText = "GET STARTED";
     var urlPattern = "/tutorial";
     var position = 1;
-    NavigationService.addNavBarElement(iconClass, navElementText, urlPattern, position);
+
+
+    NavigationService.addNavBarElement(iconClass, $filter('translate', 'NAVIGATION.GET_STARTED'), urlPattern, position);
 
     var url = $.url($window.location.href);
     var path = './' + url.attr("file");
@@ -145,4 +184,11 @@ tutorialPlugin.run(function($window, $location, NavigationService) {
       localStorage.setItem('crate.start_twitter', "true");
       $window.location.href = path + '#/tutorial';
     }
+
+    // Update Navbar Elements if Language Changes
+    $rootScope.$on('$translateChangeSuccess', function() {
+      $translate('NAVIGATION.GET_STARTED').then(function(translation) {
+        NavigationService.updateNavBarElement("/tutorial", translation);
+      });
+    });
 });

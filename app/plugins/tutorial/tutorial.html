@@ -3,21 +3,21 @@
     <div class="col-sm-12">
 
       <div class="page-header">
-        <h1>Get started with sample data</h1>
+        <h1>{{ 'TUTORIAL.TITLE' |translate }}</h1>
       </div>
     
-      <p>Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new Crate instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.</p>
-      <p>After authentication Twitter allows you to consume a small fraction of their public stream, hence the slow import. In a production environment you can index hundreds  of thousands of records per second.</p>
+      <p>{{ 'TUTORIAL.PARAGRAPH_1' |translate }}</p>
+      <p>{{ 'TUTORIAL.PARAGRAPH_2' |translate }}</p>
 
       <ul>
-        <li>Your imported tweets will be stored in a table called <b>tweets</b>.</li>
-        <li>Click <b>TABLES</b> on the left to see the table and its stats. You should see its records increase as the tweets import.</li>
-        <li>Click <b>CONSOLE</b> to query the table directly with SQL. For starters, you can try: <code>SELECT text FROM tweets LIMIT 100</code> after you have added some  tweets.</li>
+        <li ng-bind-html="InstructionText1"></li>
+        <li ng-bind-html="InstructionText2"></li>
+        <li ng-bind-html="InstructionText3"></li>
       </ul>
 
-      <p ng-hide="importing"><button ng-click="startImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> Import tweets for testing.</button></p>
-      <p ng-show="importing">Importing tweets. <strong id="tweets">{{ count }}</strong> tweets imported.</p>
-      <p ng-show="importing"><button ng-click="stopImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> Enough! Stop importing tweets.</button></p>
+      <p ng-hide="importing"><button ng-click="startImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> {{ 'TUTORIAL.IMPORT_TWEETS' |translate }}</button></p>
+      <p ng-show="importing">{{ 'TUTORIAL.IMPORTING_TWEETS' |translate }} <strong id="tweets">{{ count }}</strong> {{ 'TUTORIAL.TWEETS_IMPORTED' |translate }}</p>
+      <p ng-show="importing"><button ng-click="stopImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> {{ 'TUTORIAL.STOP_IMPORTING_TWEETS' |translate }}</button></p>
 
     </div>
   </div>
