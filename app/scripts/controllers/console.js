@@ -12,10 +12,14 @@ angular.module('console', ['sql'])
         var renderTable = false;
         var recentQueries = [];
         var statement = "";
+        var displayedErrorTraceHint = localStorage.getItem('crate.console.displayed_error_trace_hint') === "1";
+
+        $scope.showErrorTrace = localStorage.getItem('crate.console.error_trace') === "1";
 
         $scope.error = {
           hide: true,
-          message: ''
+          message: '',
+          error_trace:''
         };
         $scope.info = {
           hide: true,
@@ -29,7 +33,11 @@ angular.module('console', ['sql'])
         var loadingIndicator = Ladda.create(document.querySelector('button[type=submit]'));
 
         $scope.storeInLocalStorageChanged = function() {
-          localStorage.setItem('crate.console.store_queries', useLocalStorage === true ? "1" : "0");
+          localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? "1" : "0");
+        };
+
+        $scope.showErrorTraceChanged = function() {
+          localStorage.setItem('crate.console.error_trace', $scope.showErrorTrace === true ? "1" : "0");
         };
 
         var getRecentQueriesFromLocalStorage = function() {
@@ -38,13 +46,13 @@ angular.module('console', ['sql'])
         };
 
         var updateRecentQueries = function(stmt) {
-          if (useLocalStorage) {
+          if ($scope.useLocalStorage) {
             getRecentQueriesFromLocalStorage();
           }
           if (recentQueries[recentQueries.length -1] !== stmt) {
             recentQueries.push(stmt + ";");
           }
-          if (useLocalStorage) {
+          if ($scope.useLocalStorage) {
             localStorage.setItem("crate.console.query_list", JSON.stringify(recentQueries));
           }
           inputScope.recentCursor = -1;
@@ -59,6 +67,11 @@ angular.module('console', ['sql'])
           $('#console-options').slideToggle();
           $scope.info.hide = true;
           $scope.info.message = '';
+
+          if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
+            $('#show-error-trace').addClass('blink');
+          }
+
         };
 
         $scope.clearLocalStorage = function() {
@@ -76,7 +89,7 @@ angular.module('console', ['sql'])
         };
 
         var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
-        var useLocalStorage = !!parseInt(doStoreQueries);
+        $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();
 
 
@@ -90,12 +103,13 @@ angular.module('console', ['sql'])
           updateRecentQueries(stmt);
 
           loadingIndicator.start();
-
-          SQLQuery.execute(stmt)
+          $('#console-options').slideUp();
+          SQLQuery.execute(stmt, {} , $scope.showErrorTrace)
           .success(function(sqlQuery) {
             loadingIndicator.stop();
             $scope.error.hide = true;
             $scope.error.message = '';
+            $scope.error.error_trace = '';
             $scope.info.hide = true;
             $scope.info.message = '';
             $scope.renderTable = true;
@@ -114,7 +128,14 @@ angular.module('console', ['sql'])
             loadingIndicator.stop();
             $scope.error.hide = false;
             $scope.renderTable = false;
-            $scope.error.message = sqlQuery.error.message;
+            $scope.error = sqlQuery.error;
+
+            if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
+              $scope.toggleOptions();
+              displayedErrorTraceHint = true;
+              localStorage.setItem('crate.console.displayed_error_trace_hint', "1");
+            }
+
             $scope.status = sqlQuery.status();
             $scope.rows = [];
             $scope.resultHeaders = [];

@@ -4,6 +4,9 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+
+ - Added a new console option to allow users to display the error trace when an error occurs.
+
  - Added translation for tutorial plugin. This enables support for i18n for any admin ui plugin.
 
  - Fix: number of underreplicated shards cannot be negative.
