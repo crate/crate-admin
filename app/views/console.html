@@ -7,15 +7,6 @@
             <h1>{{ 'NAVIGATION.CONSOLE' | translate }}</h1>
           </div>
 
-          <div class="bs-example" ng-hide="error.hide">
-            <div class="alert alert-dismissable alert-danger">
-              <button type="button" class="close" ng-click="hide(error)">&times;</button>
-              <h4><span>Error!</span></h4>
-              <p>{{ error.message }}</p>
-            </div>
-          </div>
-
-
           <form role="form">
 
             <div class="">
@@ -26,7 +17,12 @@
             </div>
 
             <div id="console-options" class="form-group text-right">
+              <div>
               {{ 'CONSOLE.STORE_CONSOLE' | translate }} <input type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()" />
+              </div>
+              <div  id="show-error-trace">
+              {{ 'CONSOLE.SHOW_ERROR_TRACE' | translate }} <input type="checkbox" ng-model="showErrorTrace" ng-change="showErrorTraceChanged()">
+              </div>
               <br /><a ng-click="clearLocalStorage()" class="btn btn-xs">{{ 'CONSOLE.CLEAR_HISTORY' | translate }} <span class="fa fa-trash-o"></span></a>
               <div ng-hide="info.hide" class="alert-success">
                 <p>{{ info.message }}</p>
@@ -45,14 +41,31 @@
           </form>
 
         </div>
+
+
         <div class="col-lg-12">
           <label>{{ status }}</label>
         </div>
+
+        <div class="col-lg-12">
+          <div class="bs-example" ng-hide="error.hide">
+            <div >
+              <button type="button" class="close" ng-click="hide(error)">&times;</button>
+              <div class="alert alert-dismissable alert-danger">
+              <h4 ><span>{{ 'CONSOLE.ERROR' | translate }}</span></h4>
+              <p>{{ error.message }}</p>
+              </div>
+              <p class="hint" ng-if="!showErrorTrace"> {{ 'CONSOLE.SHOW_ERROR_TRACE_HINT' | translate }} </p>
+              <p class="cr-error-trace">{{ error.error_trace }}</p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div ng-show="renderTable" class="query-result-container">
         <p></p>
-        <h2>Result from query</h2>
+        <h2>{{ 'CONSOLE.RESULT_FROM_QUERY' | translate }}</h2>
         <div class="table-responsive">
           <table class="table table-bordered table-hover tablesorter table-code">
             <thead>

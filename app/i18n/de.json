@@ -50,7 +50,11 @@
         "CLEAR_HISTORY": "Verlauf löschen",
         "CLEAR_HISTORY_MSG": "Eintrag im Konsolenverlauf wurde gelöscht.",
         "CLEAR_HISTORY_MSG_PLURAL": "Einträge im Konsolenverlauf wurden gelöscht.",
-        "EXCUTE_QUERY": "Abfrage abschicken"
+        "EXCUTE_QUERY": "Abfrage abschicken",
+        "SHOW_ERROR_TRACE": "Stacktrace anzeigen",
+        "SHOW_ERROR_TRACE_HINT": "Wähle in den Konsoleoptionen `Stacktrace anzeigen` um die gesamte Fehlermeldung anzuzeigen.",
+        "ERROR": "Fehler!",
+        "RESULT_FROM_QUERY": "Ergebnis der Abfrage"
     },
     "TABLE": {
         "TITLE": "Tabellen",
