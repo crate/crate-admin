@@ -54,7 +54,8 @@
         "SHOW_ERROR_TRACE": "Show error trace",
         "SHOW_ERROR_TRACE_HINT": "Select `Show error Trace` in the console Options to display the error trace.",
         "ERROR": "Error!",
-        "RESULT_FROM_QUERY": "Result from query"
+        "RESULT_FROM_QUERY": "Result from query",
+        "ERROR_TRACE": "ERROR TRACE"
     },
     "TABLE": {
         "TITLE": "Tables",
