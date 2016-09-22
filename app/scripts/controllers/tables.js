@@ -60,7 +60,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       '--': ''
     };
     var placeholder = {
-      'name': 'Tables (0 found)',
+      'name': '',
       'summary': '',
       'health': '--',
       'health_label_class': '',
@@ -150,6 +150,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.renderSchema = false;
           $scope.renderPartitions = false;
         }
+        $scope.nr_of_tables = tables.length;
       }, true);
 
       var fetchPartitions = function fetchPartitions() {

@@ -10,7 +10,14 @@
         <div class="col-sm-6 col-xs-12">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <p class="announcement-heading"><b>{{ table_label }}</b> <span ng-show="isParted" class="small">(partitioned)<span></p>
+              <p class="announcement-heading"><b>
+                <ng-pluralize ng-init="translationKey='TABLE.TITLE'" count="nr_of_tables"
+                when="{
+                '0': '{{ translationKey | translate }} ({})',
+                '1': '{{ table_label }}',
+                'other': '{{ table_label }}'}"
+              </ng-pluralize>
+              </b> <span ng-show="isParted" class="small">(partitioned)<span></p>
               <p class="announcement-text">{{ 'TABLE.NAME' | translate }}</p>
             </div>
           </div>
