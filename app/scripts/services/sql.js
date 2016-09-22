@@ -18,10 +18,11 @@ angular.module('sql', [])
       return obj;
     };
   })
-  .factory('baseURI', function($location) {
+  .factory('baseURI', function($location, $log) {
     return function baseURI(path) {
       var basePath = localStorage.getItem("crate.base_uri");
       if (!basePath) {
+        $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
         var pluginPath = '/_plugin/crate-admin/';
         basePath = $location.protocol() + "://" +
           $location.host() + ":" +

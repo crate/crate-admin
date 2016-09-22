@@ -33,9 +33,6 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
           setReachability(true);
         } else {
           data.version = null;
-          if (!storedURI) {
-            $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
-          }
           setReachability(false);
         }
       }).error(function(data, status) {
