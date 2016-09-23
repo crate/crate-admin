@@ -1,0 +1,20 @@
+{
+    "NAVIGATION": {
+        "GET_STARTED": "COMENZAR"
+    },
+    "TUTORIAL": {
+        "TITLE": "Comenzar con datos de muestra",
+        "PARAGRAPH_1": "A veces ayuda empezar directamente con algo real. El importador de Twitter te permite testear enseguida tu nueva instancia de Crate con datos reales. Pulsa el botón, y observa   cómo tu clúster se llena rápidamente de Tweets en tiempo real. Siempre los podrás borrar luego.",
+        "PARAGRAPH_2": "Tras la autenticación Twitter permite consumir una pequeña fracción de sus fuentes públicas, de ahí la lentitud de la importación. En un entorno de producción podrás indexar cientos  de miles de registros por segundo.",
+        "INSTRUCTION_1": "Los tweets importados se almacenarán en la tabla {tweets}.",
+        "TWEETS": "tweets",
+        "INSTRUCTION_2": "Haz click en {tables} a la izquierda para ver la tabla y su inicio. Deberías ver aumentar sus registros a medida que los tweets se importan.",
+        "TABLES": "TABLAS",
+        "INSTRUCTION_3": "Haz click en {console} para hacer consultas SQL en la tabla directamente. Para empezar prueba: {query} tras haber añadido algunos tweets.",
+        "CONSOLE": "CONSOLA",
+        "IMPORT_TWEETS": "Importar tweets para probar",
+        "IMPORTING_TWEETS": "Importando tweets.",
+        "TWEETS_IMPORTED": "tweets importados",
+        "STOP_IMPORTING_TWEETS": "¡Suficiente! Parar la importación de tweets"
+    }
+}
