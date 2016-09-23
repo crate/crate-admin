@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/09/23 0.20.0
+=================
+
  - Added a new console option to allow users to display the error trace when an error occurs.
 
  - Added translation for tutorial plugin. This enables support for i18n for any admin ui plugin.
