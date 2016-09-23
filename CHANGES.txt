@@ -9,6 +9,9 @@ Unreleased
 
  - Added translation for tutorial plugin. This enables support for i18n for any admin ui plugin.
 
+2016/09/23 0.19.1
+=================
+
  - Fix: number of underreplicated shards cannot be negative.
 
  - Fix: fixed menu order.
