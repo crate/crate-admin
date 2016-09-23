@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/09/23 0.19.1
+=================
+
  - Fix: number of underreplicated shards cannot be negative.
 
  - Fix: fixed menu order.
