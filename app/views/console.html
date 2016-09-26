@@ -58,7 +58,7 @@
               <p class="hint" ng-if="!showErrorTrace"> {{ 'CONSOLE.SHOW_ERROR_TRACE_HINT' | translate }} </p>
 
               <label class="form-inline"> {{ 'CONSOLE.ERROR_TRACE' | translate }} </label>
-              <p class="cr-error-trace">{{ error.error_trace }}</p>
+              <pre><code class="cr-error-trace">{{ error.error_trace }}</code></pre>
             </div>
           </div>
         </div>
