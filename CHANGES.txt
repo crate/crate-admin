@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added Spanish translation.
+
 2016/09/23 0.20.0
 =================
 
