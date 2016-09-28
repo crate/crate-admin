@@ -104,16 +104,17 @@
     app.config(['$translateProvider', '$translatePartialLoaderProvider',
       function($translateProvider, $translatePartialLoaderProvider) {
 
-        // add main translation part 
+        // add main translation part
         $translatePartialLoaderProvider.addPart('.');
         // configures partialLoader
         $translateProvider.useLoader('$translatePartialLoader', {
           urlTemplate: '{part}/i18n/{lang}.json'
         })
 
-        .registerAvailableLanguageKeys(['en', 'de', 'zh'], {
+        .registerAvailableLanguageKeys(['en', 'de', 'es', 'zh'], {
           'en_*': 'en',
           'de_*': 'de',
+          'es_*': 'es',
           'zh_*': 'zh'
         })
         // Check local language automatically
