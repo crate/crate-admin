@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed an issue that caused the query history in the console view to be inconsistent.
+
  - Added Spanish translation.
 
 2016/09/23 0.20.0
