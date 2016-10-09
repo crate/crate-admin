@@ -89,7 +89,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         }
         cancelRequests();
         var params = $route.current.params;
-        render(params.schema_name, params.table_name);
+        render(params.table_schema, params.table_name);
         $route.current = lastRoute;
         // apply new params to old route
         $route.current.params = params;
@@ -117,7 +117,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       activeRequests = {};
     };
 
-    var render = function render(schemaName, tableName) {
+    var render = function render(tableSchema, tableName) {
       $scope.ptCtlr = new PartitionsTableController();
       $scope.nothingSelected = false;
       $scope.renderSiderbar = true;
@@ -127,15 +127,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         var tables = data.tables;
         if (tables.length > 0) {
           var current = tables.filter(function(item, idx){
-            return item.name === tableName && item.schema_name === schemaName;
+            return item.name === tableName && item.table_schema === tableSchema;
           });
           current = current.length ? current[0] : tables[0];
           $scope.table = current;
           $scope.table_label = current.name;
-          if (current.schema_name == "blob") {
+          if (current.table_schema == "blob") {
             $scope.table_label = "BLOB: " + current.name;
-          } else if (current.schema_name != "doc") {
-            $scope.table_label = current.schema_name + "." + current.name;
+          } else if (current.table_schema != "doc") {
+            $scope.table_label = current.table_schema + "." + current.name;
           }
           $scope.nothingSelected = current === null;
           $scope.renderSidebar = true;
@@ -154,22 +154,22 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       }, true);
 
       var fetchPartitions = function fetchPartitions() {
-        if (!tableName || !schemaName) return;
+        if (!tableName || !tableSchema) return;
         // Table Partitions
         var shardStmt = 'SELECT partition_ident, routing_state, state, relocating_node, "primary", SUM(num_docs), AVG(num_docs), COUNT(*), SUM(size) ' +
           'FROM sys.shards ' +
-          'WHERE schema_name = ? AND table_name = ? AND partition_ident != \'\' ' +
+          'WHERE table_schema = ? AND table_name = ? AND partition_ident != \'\' ' +
           'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
         var r1 = requestId();
-        var q1 = SQLQuery.execute(shardStmt, [schemaName, tableName]).success(function(shardQuery) {
+        var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName]).success(function(shardQuery) {
           if (typeof activeRequests[r1] == 'undefined') return;
           var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
             'from information_schema.table_partitions ' +
-            'where schema_name = ? and table_name = ?';
+            'where table_schema = ? and table_name = ?';
 
           var r2 = requestId();
-          var q2 = SQLQuery.execute(tablePartitionStmt, [schemaName, tableName]).success(function(tablePartitionQuery) {
+          var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName]).success(function(tablePartitionQuery) {
             if (typeof activeRequests[r2] == 'undefined') return;
             var partitions = [];
             var shardResult = queryResultToObjects(shardQuery,
@@ -230,11 +230,11 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         $scope.renderSchema = true;
       };
 
-      if (tableName && schemaName) {
+      if (tableName && tableSchema) {
         // Table Schema
         var tableStmt = "select column_name, data_type from information_schema.columns " +
-              "where schema_name = ? and table_name = ?";
-        SQLQuery.execute(tableStmt, [schemaName, tableName]).success(function(query) {
+              "where table_schema = ? and table_name = ?";
+        SQLQuery.execute(tableStmt, [tableSchema, tableName]).success(function(query) {
           $scope.schemaHeaders = query.cols;
           $scope.schemaRows = query.rows;
           $scope.renderSchema = true;
@@ -259,7 +259,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     };
 
-    render($route.current.params.schema_name, $route.current.params.table_name);
+    render($route.current.params.table_schema, $route.current.params.table_name);
 
   })
   .controller('TableListController', function ($scope, $route, TableList, TabNavigationInfo) {
@@ -269,11 +269,11 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     $scope.$on('$locationChangeSuccess', function(event) {
       if ($route.current.$$route.controller === 'TableDetailController') {
         var params = $route.current.params;
-        render(params.schema_name, params.table_name);
+        render(params.table_schema, params.table_name);
       }
     });
 
-    var render = function render(schemaName, tableName) {
+    var render = function render(tableSchema, tableName) {
       $scope.renderSidebar = true;
       $scope.$watch(function(){ return TableList.data; }, function(data) {
         var tables = data.tables;
@@ -281,14 +281,14 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         $scope.renderSidebar = hasTables;
         if (hasTables) {
           // use name and schema from first item
-          if (!tableName || !schemaName) {
+          if (!tableName || !tableSchema) {
             tableName = tables[0].name;
-            schemaName = tables[0].schema_name;
+            tableSchema = tables[0].table_schema;
           }
 
           var customSchemas = [];
           for (var idx in tables) {
-            var name = tables[idx].schema_name;
+            var name = tables[idx].table_schema;
             if (name == 'doc' || name == 'blob' || customSchemas.indexOf(name) > -1) {
               continue;
             }
@@ -299,34 +299,34 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.tables.push({
             "display_name": "Doc",
             "tables": tables.filter(function(item, idx){
-              return item.schema_name == 'doc';
+              return item.table_schema == 'doc';
             }),
-            "schema_name": "doc"
+            "table_schema": "doc"
           });
           for (var idx in customSchemas) {
             var name = customSchemas[idx];
             $scope.tables.push({
               "display_name": name,
               "tables": tables.filter(function(item, idx){
-                return item.schema_name == name;
+                return item.table_schema == name;
               }),
-              "schema_name": name
+              "table_schema": name
             });
           }
           $scope.tables.push({
             "display_name": "Blob",
             "tables": tables.filter(function(item, idx){
-              return item.schema_name == 'blob';
+              return item.table_schema == 'blob';
             }),
-            "schema_name": "blob"
+            "table_schema": "blob"
           });
         } else {
           $scope.tables = [];
         }
       }, true);
 
-      $scope.isActive = function (schema_name, table_name) {
-        return table_name === tableName && schema_name === schemaName;
+      $scope.isActive = function (table_schema, table_name) {
+        return table_name === tableName && table_schema === tableSchema;
       };
 
       $scope.startedShardsError = function(table) {
@@ -345,5 +345,5 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
 
-    render($route.current.params.schema_name, $route.current.params.table_name);
+    render($route.current.params.table_schema, $route.current.params.table_name);
   });

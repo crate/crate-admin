@@ -221,13 +221,13 @@ angular.module('tableinfo', ['sql'])
         for (var i=0; i<_tables.length; i++) {
           var table = _tables[i];
           var shardsForTable = _shards.filter(function(item, idx) {
-            return item.table_name === table.name && item.schema_name == table.schema_name;
+            return item.table_name === table.name && item.table_schema == table.table_schema;
           });
           var partitionsForTable = _partitions.filter(function(item, idx) {
-            return item.table_name === table.name && item.schema_name == table.schema_name;
+            return item.table_name === table.name && item.table_schema == table.table_schema;
           });
           var recoveryForTable = _recovery.filter(function(item, idx) {
-            return item.table_name === table.name && item.schema_name == table.schema_name;
+            return item.table_name === table.name && item.table_schema == table.table_schema;
           });
           if (table.partitioned_by && partitionsForTable.length === 1) {
             table.shards_configured = partitionsForTable[0].num_shards;
@@ -239,7 +239,7 @@ angular.module('tableinfo', ['sql'])
           $.extend(table, info);
           table.health_label_class = colorMapLabel[table.health];
           table.health_panel_class = colorMapPanel[table.health];
-          table.type_display_name = table.schema_name == "blob" ?  "TABLE.BLOBS" : "TABLE.RECORDS";
+          table.type_display_name = table.table_schema == "blob" ?  "TABLE.BLOBS" : "TABLE.RECORDS";
 
           // create summary
           var summary = table.shards_configured + ' Shards';

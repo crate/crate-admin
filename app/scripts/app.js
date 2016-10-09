@@ -37,7 +37,7 @@
       'templateUrl': 'views/tables.html',
       'controller': 'TableDetailController'
     },
-    '/tables/:schema_name/:table_name': {
+    '/tables/:table_schema/:table_name': {
       'templateUrl': 'views/tables.html',
       'controller': 'TableDetailController'
     },
