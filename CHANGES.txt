@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed the chart error that occured when navigating between the overview and other pages.
+
  - Fixed the logo URL which was not redirecting correctly.
 
  - Added a button to clear the search field in the table list view.
