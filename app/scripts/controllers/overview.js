@@ -147,4 +147,7 @@ angular.module('overview', ['stats', 'ngSanitize'])
     // bind tooltips
     $("[rel=tooltip]").tooltip({ placement: 'top'});
 
-  })
+    $scope.$on('$destroy', function(event) {
+      window.onresize = null;
+    });
+  });
