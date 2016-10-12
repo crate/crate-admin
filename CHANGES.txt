@@ -9,8 +9,6 @@ Unreleased
 
  - Fixed the logo URL which was not redirecting correctly.
 
- - Added a button to clear the search field in the table list view.
-
  - Fixed an issue that caused the query history in the console view to be inconsistent.
 
 2016/09/23 0.20.0
