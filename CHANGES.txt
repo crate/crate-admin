@@ -5,15 +5,18 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added a button to clear the search field in the table list view.
+
+ - Added Spanish translation.
+
+2016/10/12 0.20.1
+=================
+
  - Fixed the chart error that occured when navigating between the overview and other pages.
 
  - Fixed the logo URL which was not redirecting correctly.
 
- - Added a button to clear the search field in the table list view.
-
  - Fixed an issue that caused the query history in the console view to be inconsistent.
-
- - Added Spanish translation.
 
 2016/09/23 0.20.0
 =================
