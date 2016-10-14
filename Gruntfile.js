@@ -1,11 +1,11 @@
 'use strict';
 
-var mountFolder = function (connect, dir) {
+var mountFolder = function(connect, dir) {
   var path = require('path');
   return connect.static(path.resolve(dir));
 };
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // load all grunt tasks
   var matchDep = require('matchdep');
   matchDep.filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       dev: {
         options: {
           base: '<%= crate.app %>',
-          middleware: function (connect) {
+          middleware: function(connect) {
             return [
               mountFolder(connect, crateConf.tmp),
               mountFolder(connect, crateConf.app)
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
       components: {
         files: [{
           src: [
-            '<%= crate.dist %>/bower_components',
+            '<%= crate.dist %>/admin/bower_components',
             '!<%= crate.dist %>/bower_components/font-awesome/fonts'
           ]
         }]
@@ -88,11 +88,23 @@ module.exports = function (grunt) {
           compile: true
         },
         files: [{
-            expand: true,
-            cwd: '<%= crate.app %>/styles',
-            src: 'main.less',
-            dest: '<%= crate.tmp %>/styles/',
-            ext: '.css'
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main.less',
+          dest: '<%= crate.tmp %>/admin/styles/',
+          ext: '.css'
+        }]
+      },
+      dev: {
+        options: {
+          compile: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main.less',
+          dest: '<%= crate.tmp %>/styles/',
+          ext: '.css'
         }]
       }
     },
@@ -100,10 +112,10 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= crate.dist %>/scripts/{,*/}*.js',
-            '<%= crate.dist %>/styles/{,*/}*.css',
-            '<%= crate.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= crate.dist %>/styles/fonts/*'
+            '<%= crate.dist %>/admin/scripts/{,*/}*.js',
+            '<%= crate.dist %>/admin/styles/{,*/}*.css',
+            '<%= crate.dist %>/admin/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= crate.dist %>/admin/styles/fonts/*'
           ]
         }
       }
@@ -116,9 +128,9 @@ module.exports = function (grunt) {
     },
     usemin: {
       html: ['<%= crate.dist %>/{,*/}*.html'],
-      css: ['<%= crate.dist %>/styles/{,*/}*.css'],
+      css: ['<%= crate.dist %>/admin/styles/{,*/}*.css'],
       options: {
-        dirs: ['<%= crate.dist %>']
+        dirs: ['<%= crate.dist %>/admin']
       }
     },
     imagemin: {
@@ -127,12 +139,11 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= crate.app %>/images',
           src: '{,*/}*.{png,jpg,jpeg}',
-          dest: '<%= crate.dist %>/images'
+          dest: '<%= crate.dist %>/admin/images'
         }]
       }
     },
-    cssmin: {
-    },
+    cssmin: {},
     htmlmin: {
       dist: {
         options: {
@@ -141,8 +152,13 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= crate.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html'],
           dest: '<%= crate.dist %>'
+        }, {
+          expand: true,
+          cwd: '<%= crate.app %>',
+          src: ['views/*.html'],
+          dest: '<%= crate.dist %>/admin'
         }]
       }
     },
@@ -152,7 +168,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= crate.app %>',
-          dest: '<%= crate.dist %>',
+          dest: '<%= crate.dist %>/admin',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
@@ -166,7 +182,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '<%= crate.app %>',
-          dest: '<%= crate.dist %>/fonts',
+          dest: '<%= crate.dist %>/admin/fonts',
           src: [
             'bower_components/font-awesome/fonts/*',
             'bower_components/bootstrap/dist/fonts/*'
@@ -174,9 +190,16 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '<%= crate.tmp %>/images',
-          dest: '<%= crate.dist %>/images',
+          dest: '<%= crate.dist %>/admin/images',
           src: [
             'generated/*'
+          ]
+        }, {
+          expand: true,
+          cwd: '<%= crate.tmp %>/admin',
+          dest: '<%= crate.dist %>/admin',
+          src: [
+            'styles/**'
           ]
         }]
       },
@@ -194,10 +217,10 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: [
-        'less'
+        'less:dev'
       ],
       dist: [
-        'less',
+        'less:dist',
         'imagemin',
         'htmlmin'
       ]
@@ -208,15 +231,18 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= crate.dist %>/scripts',
           src: '*.js',
-          dest: '<%= crate.dist %>/scripts'
+          dest: '<%= crate.dist %>/admin/scripts'
         }]
       }
     },
     uglify: {
+      options: {
+        mangle: false
+      },
       dist: {
         files: {
-          '<%= crate.dist %>/scripts/scripts.js': [
-            '<%= crate.dist %>/scripts/scripts.js'
+          '<%= crate.dist %>/admin/scripts/scripts.js': [
+            '<%= crate.dist %>/admin/scripts/scripts.js'
           ]
         }
       }
@@ -224,7 +250,7 @@ module.exports = function (grunt) {
     'string-replace': {
       dist: {
         files: {
-          '<%= crate.dist %>/styles/': '<%= crate.dist %>/styles/*.css'
+          '<%= crate.dist %>/admin/styles/': '<%= crate.dist %>/admin/styles/*.css'
         },
         options: {
           replacements: [{
@@ -235,7 +261,89 @@ module.exports = function (grunt) {
             replacement: '../fonts/$1'
           }]
         }
+      },
+      replacejs: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/admin/scripts',
+          src: '*.js',
+          dest: '<%= crate.dist %>/admin/scripts'
+        }],
+        options: {
+          replacements: [{
+            pattern: /({part}\/i18n\/{lang}.json)/ig,
+            replacement: 'admin/{part}/i18n/{lang}.json'
+          }, {
+            pattern: /(conf\/plugins.json)/ig,
+            replacement: 'admin/conf/plugins.json'
+          }, {
+            pattern: /(views\/)/ig,
+            replacement: 'admin/views/'
+          }]
+        }
+      },
+      replaceconf: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/admin/conf',
+          src: '*.json',
+          dest: '<%= crate.dist %>/admin/conf'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(plugins\/tutorial\/tutorial.js)/ig,
+            replacement: 'admin/plugins/tutorial/tutorial.js'
+          }, {
+            pattern: /(plugins\/tutorial\/tutorial.html)/ig,
+            replacement: 'admin/plugins/tutorial/tutorial.html'
+          }]
+        }
+      },
+      replaceviews: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/admin/views',
+          src: '*.html',
+          dest: '<%= crate.dist %>/admin/views'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(views\/)/ig,
+            replacement: 'admin/views/'
+          }]
+        }
+      },
+      replacecss: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/admin/styles',
+          src: '*.css',
+          dest: '<%= crate.dist %>/admin/styles'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(\/bower_components\/)/ig,
+            replacement: '/fonts/bower_components/'
+          }]
+        }
+      },
+      replaceindex: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>',
+          src: '*.html',
+          dest: '<%= crate.dist %>'
+        }],
+        options: {
+          replacements: [
+            {
+              pattern: '\'views/nav.html\'',
+              replacement: '\'admin/views/nav.html\''
+            }
+          ]
+        }
       }
+
     }
   });
 
@@ -254,12 +362,17 @@ module.exports = function (grunt) {
       'uglify',
       'rev',
       'usemin',
-      'string-replace:dist',
+      'string-replace:replacejs',
+      'string-replace:replaceviews',
+      'string-replace:replaceindex',
+      'string-replace:replaceconf',
+      'string-replace:replacecss',
       'clean:components'
     ]);
   });
 
   grunt.registerTask('server', [
+    'clean:dist',
     'concurrent:server',
     'copy:i18nTmp',
     'connect:dev',
@@ -272,4 +385,3 @@ module.exports = function (grunt) {
   ]);
 
 };
-
