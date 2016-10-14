@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/10/14 0.18.2
+=================
+
  - Fixed hyperlink on logo in navigation bar which incorreclty pointed to
    the Crate HTTP root.
 

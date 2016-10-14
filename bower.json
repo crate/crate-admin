@@ -1,7 +1,7 @@
 {
   "name": "crate-admin",
   "description": "Crate Admin UI",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "author": "Crate Team",
   "homepage": "https://github.com/crate/crate-admin/",
   "license": "Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0",
