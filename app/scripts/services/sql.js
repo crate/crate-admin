@@ -19,10 +19,22 @@ angular.module('sql', [])
     };
   })
   .factory('baseURI', function($location, $log) {
-    return function baseURI(path) {
+    var isLogged = false;
+
+    var baseURI = {
+      getURI: getURI
+    }
+
+    return baseURI;
+
+    function getURI(path) {
       var basePath = localStorage.getItem("crate.base_uri");
       if (!basePath) {
-        $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
+        if (!isLogged) {
+          $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
+          isLogged = true;
+        }
+
         var pluginPath = '/_plugin/crate-admin/';
         basePath = $location.protocol() + "://" +
           $location.host() + ":" +
@@ -31,7 +43,8 @@ angular.module('sql', [])
       }
       // remove trailing slash from base path and append path
       return basePath.replace(/\/+$/, '') + path;
-    };
+    }
+
   })
   .factory('SQLQuery', function($http, $log, $q, baseURI) {
     function SQLQuery(stmt, response, error) {
@@ -58,9 +71,9 @@ angular.module('sql', [])
       var stmt_parts = this.stmt.split(' ');
       var cmd = stmt_parts[0].toUpperCase();
       if (cmd in {
-        'CREATE': '',
-        'DROP': ''
-      }) {
+          'CREATE': '',
+          'DROP': ''
+        }) {
         cmd = cmd + " " + stmt_parts[1].toUpperCase();
       }
 
@@ -108,7 +121,7 @@ angular.module('sql', [])
       };
 
       var request = {
-        url: baseURI("/_sql"),
+        url: baseURI.getURI("/_sql"),
         method: "POST",
         data: data,
         config: {
@@ -121,7 +134,7 @@ angular.module('sql', [])
           'error_trace': errorTrace
         };
       }
-      
+
       $http(request)
         .success(function(data, status, headers, config) {
           deferred.resolve(new SQLQuery(stmt, data, null));

@@ -22,7 +22,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     var historyLength = 180;
 
     var checkReachability = function checkReachability(){
-      $http.get(baseURI("/")).success(function(response) {
+      $http.get(baseURI.getURI("/")).success(function(response) {
         if (typeof response === 'object') {
           var version = response.version;
           data.version = {
