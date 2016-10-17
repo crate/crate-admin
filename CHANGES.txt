@@ -4,6 +4,8 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+  
+ - Fix : Reduced the amount of log output to browser console when issuing SQL statements.
 
  - Added a button to clear the search field in the table list view.
 
