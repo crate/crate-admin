@@ -5,13 +5,16 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Fixed broken execute button in the console view.
-  
- - Fix : Reduced the amount of log output to browser console when issuing SQL statements.
-
  - Added a button to clear the search field in the table list view.
 
  - Added Spanish translation.
+
+2016/10/18 0.20.3
+=================
+
+ - Fixed broken execute button in the console view.
+
+ - Fix : Reduced the amount of log output to browser console when issuing SQL statements.
 
 2016/10/12 0.20.2
 =================
