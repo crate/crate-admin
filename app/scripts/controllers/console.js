@@ -148,7 +148,7 @@ angular.module('console', ['sql'])
         };
 
         $scope.execute = function() {
-          execute(statement);
+          self.execute(statement);
         };
       }]
     };

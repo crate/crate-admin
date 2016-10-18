@@ -4,6 +4,8 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+
+ - Fixed broken execute button in the console view.
   
  - Fix : Reduced the amount of log output to browser console when issuing SQL statements.
 
