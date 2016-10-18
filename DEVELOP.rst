@@ -5,22 +5,23 @@ DEVELOPMENT
 Prerequisites
 =============
 
-This project uses buildout to manage its dependencies.
-Be sure have a working ``python 2.7`` installed.
+If you don't have ``npm`` and ``bower`` installed globally you
+can setup a local dev enviroment using buildout.
+You need to have ``python`` installed to do that.
 
-Set up from source
-==================
-
-This project uses buildout to set up all requirements.
 As of now, you only need `bower <http://bower.io/>`_.
 
-If you already have installer ``bower`` skip the following steps::
+Create dev enviroment using buildout
+------------------------------------
 
-    python bootstrap.py -v 2.2.5
+If you already have installed ``bower`` you can skip the following steps::
 
-Note that ``zc.buildout 2.2.5`` is required!
+    python bootstrap.py
 
     bin/buildout -Nv
+
+Build the app
+-------------
 
 To build the app simply run ``npm`` and ``bower`` in this crate-admin folder::
 
@@ -33,6 +34,9 @@ Or if you haven't used ``buildout`` and installed ``npm`` and ``bower`` globally
     npm install
 
     bower install
+
+Run the app for development
+---------------------------
 
 Start the development server on port ``9000``::
 
@@ -62,11 +66,11 @@ The "Get Started" tutorial is now loaded as a plugin.
 Distributing
 ============
 
-Before creating a new distribution, a new version and tag should be created:
+Before creating a new distribution, you need to create a new version tag
 
- - Add a new version to ``bower.json`` and ``package.json``.
+ - Add the new version to ``bower.json`` and ``package.json``.
 
- - Add a note for the new version at the ``CHANGES.txt`` file.
+ - Add a note for the new version into the ``CHANGES.txt`` file.
 
  - Commit e.g. using message 'prepare release x.x.x'.
 
