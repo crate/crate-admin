@@ -115,7 +115,8 @@
           'en_*': 'en',
           'de_*': 'de',
           'es_*': 'es',
-          'zh_*': 'zh'
+          'zh_*': 'zh',
+          '*': 'en'
         })
         // Check local language automatically
         .determinePreferredLanguage()

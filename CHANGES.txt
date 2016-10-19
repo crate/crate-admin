@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: added english as a fallback language for translation files.
+
  - Added a button to clear the search field in the table list view.
 
  - Added Spanish translation.
