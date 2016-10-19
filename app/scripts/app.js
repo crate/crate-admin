@@ -114,7 +114,9 @@
         .registerAvailableLanguageKeys(['en', 'de', 'zh'], {
           'en_*': 'en',
           'de_*': 'de',
-          'zh_*': 'zh'
+          'es_*': 'es',
+          'zh_*': 'zh',
+          '*': 'en'
         })
         // Check local language automatically
         .determinePreferredLanguage()

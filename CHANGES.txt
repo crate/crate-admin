@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: added english as a fallback language for translation files.
+
 2016/10/18 0.20.3
 =================
 
