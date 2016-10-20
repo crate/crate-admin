@@ -4,6 +4,8 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+ 
+ - Fix: removed chinese language from i18n configuration.
 
  - Fix: added english as a fallback language for translation files.
 
