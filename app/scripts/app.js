@@ -111,11 +111,10 @@
           urlTemplate: '{part}/i18n/{lang}.json'
         })
 
-        .registerAvailableLanguageKeys(['en', 'de', 'es', 'zh'], {
+        .registerAvailableLanguageKeys(['en', 'de', 'es'], {
           'en_*': 'en',
           'de_*': 'de',
           'es_*': 'es',
-          'zh_*': 'zh',
           '*': 'en'
         })
         // Check local language automatically
