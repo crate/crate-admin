@@ -4,14 +4,17 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
- 
- - Fix: removed chinese language from i18n configuration.
-
- - Fix: added english as a fallback language for translation files.
 
  - Added a button to clear the search field in the table list view.
 
  - Added Spanish translation.
+
+2016/10/21 0.20.4
+=================
+
+ - Fix: removed chinese language from i18n configuration.
+
+ - Fix: added english as a fallback language for translation files.
 
 2016/10/18 0.20.3
 =================
