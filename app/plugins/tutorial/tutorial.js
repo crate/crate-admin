@@ -23,7 +23,7 @@ var tutorialPlugin = angular.module('tutorial', ['sql', 'translation'])
         };
 
         this.createTable = function() {
-            var stmt = 'create table tweets ( \
+            var stmt = 'create table tweets if not exists( \
                     id string primary key, \
                     created_at timestamp, \
                     text string INDEX using fulltext, \
