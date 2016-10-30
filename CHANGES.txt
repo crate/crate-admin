@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix : Corrected the sql queries to display the table list in the tables view.
+
  - Corrected the sql query in the tutorial to fix the error that occured 
    when tweets table was already created.
 
