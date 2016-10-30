@@ -158,7 +158,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         // Table Partitions
         var shardStmt = 'SELECT partition_ident, routing_state, state, relocating_node, "primary", SUM(num_docs), AVG(num_docs), COUNT(*), SUM(size) ' +
           'FROM sys.shards ' +
-          'WHERE table_schema = ? AND table_name = ? AND partition_ident != \'\' ' +
+          'WHERE schema_name = ? AND table_name = ? AND partition_ident != \'\' ' +
           'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
         var r1 = requestId();
@@ -166,7 +166,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           if (typeof activeRequests[r1] == 'undefined') return;
           var tablePartitionStmt = 'select partition_ident, number_of_shards, number_of_replicas, values ' +
             'from information_schema.table_partitions ' +
-            'where table_schema = ? and table_name = ?';
+            'where schema_name = ? and table_name = ?';
 
           var r2 = requestId();
           var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName]).success(function(tablePartitionQuery) {

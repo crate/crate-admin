@@ -221,13 +221,13 @@ angular.module('tableinfo', ['sql'])
         for (var i=0; i<_tables.length; i++) {
           var table = _tables[i];
           var shardsForTable = _shards.filter(function(item, idx) {
-            return item.table_name === table.name && item.table_schema == table.table_schema;
+            return item.table_name === table.name && item.schema_name == table.table_schema;
           });
           var partitionsForTable = _partitions.filter(function(item, idx) {
-            return item.table_name === table.name && item.table_schema == table.table_schema;
+            return item.table_name === table.name && item.schema_name == table.table_schema;
           });
           var recoveryForTable = _recovery.filter(function(item, idx) {
-            return item.table_name === table.name && item.table_schema == table.table_schema;
+            return item.table_name === table.name && item.schema_name == table.table_schema;
           });
           if (table.partitioned_by && partitionsForTable.length === 1) {
             table.shards_configured = partitionsForTable[0].num_shards;
