@@ -1,11 +1,11 @@
 'use strict';
 
-var mountFolder = function (connect, dir) {
+var mountFolder = function(connect, dir) {
   var path = require('path');
   return connect.static(path.resolve(dir));
 };
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // load all grunt tasks
   var matchDep = require('matchdep');
   matchDep.filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       dev: {
         options: {
           base: '<%= crate.app %>',
-          middleware: function (connect) {
+          middleware: function(connect) {
             return [
               mountFolder(connect, crateConf.tmp),
               mountFolder(connect, crateConf.app)
@@ -79,7 +79,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= crate.app %>/scripts/{,*/}*.js'
+        '<%= crate.app %>/scripts/{,*/}*.js',
       ]
     },
     less: {
@@ -88,11 +88,11 @@ module.exports = function (grunt) {
           compile: true
         },
         files: [{
-            expand: true,
-            cwd: '<%= crate.app %>/styles',
-            src: 'main.less',
-            dest: '<%= crate.tmp %>/styles/',
-            ext: '.css'
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main.less',
+          dest: '<%= crate.tmp %>/styles/',
+          ext: '.css'
         }]
       }
     },
@@ -131,8 +131,7 @@ module.exports = function (grunt) {
         }]
       }
     },
-    cssmin: {
-    },
+    cssmin: {},
     htmlmin: {
       dist: {
         options: {
@@ -236,6 +235,36 @@ module.exports = function (grunt) {
           }]
         }
       }
+    },
+    karma: {
+      options: {
+        frameworks: ['jasmine'],
+        logLevel: 'ERROR',
+        singleRun: true,
+        reporters: ['mocha'],
+        files: [
+          'app/bower_components/jquery/dist/jquery.js',
+          'app/bower_components/angular/angular.js',
+          'app/bower_components/angular-mocks/angular-mocks.js',
+          'app/bower_components/angular-cookies/angular-cookies.js',
+          'app/bower_components/angular-route/angular-route.js',
+          'app/bower_components/angular-sanitize/angular-sanitize.js',
+          'app/bower_components/angular-translate/angular-translate.js',
+          'app/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+          'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+          'app/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+          'app/bower_components/angular-truncate-2/dist/angular-truncate-2.js',
+          'app/bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js',
+          'app/scripts/app.js',
+          'app/scripts/**/*.js',
+          'app/plugins/**/*.js',
+          'app/tests/**/*.js',
+          'app/conf/plugins.json',
+        ]
+      },
+      all_tests: {
+        browsers: ['PhantomJS']
+      },
     }
   });
 
@@ -271,5 +300,8 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-};
+  grunt.registerTask('test', [
+    'karma:all_tests'
+  ]);
 
+};

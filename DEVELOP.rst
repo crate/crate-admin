@@ -46,6 +46,9 @@ the admin ui against crate::
 
 Then visit the browser on ``http://localhost:9000/?base_uri=http://localhost:4200``.
 
+To run the tests::
+
+    bin/grunt test
 
 Inject Plugins
 ==============

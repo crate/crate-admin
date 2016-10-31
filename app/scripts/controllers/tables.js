@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
-  .provider('TabNavigationInfo', function(){
+  .provider('TabNavigationInfo', function() {
     this.collapsed = [false, true]; // must match $scope.tables of TablesController
     this.$get = function() {
       var collapsed = this.collapsed;
@@ -13,8 +13,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
   })
-  .factory('PartitionsTableController', function () {
-    return function PartitionsTableController(){
+  .factory('PartitionsTableController', function() {
+    return function PartitionsTableController() {
       this.data = [];
       this.sort = {
         col: 'partition_ident',
@@ -39,8 +39,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
   })
-  .controller('TableDetailController', function ($scope, $location, $log, $timeout, $route,
-        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
+  .controller('TableDetailController', function($scope, $location, $log, $timeout, $route,
+    SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
 
     var scopeWatcher = null;
     var activeRequests = {};
@@ -97,7 +97,9 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     });
 
     // bind tooltips
-    $("[rel=tooltip]").tooltip({ placement: 'top'});
+    $("[rel=tooltip]").tooltip({
+      placement: 'top'
+    });
 
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
@@ -123,10 +125,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       $scope.renderSiderbar = true;
       $scope.isParted = false;
 
-      scopeWatcher = $scope.$watch(function(){ return TableList.data; }, function(data) {
+      scopeWatcher = $scope.$watch(function() {
+        return TableList.data;
+      }, function(data) {
         var tables = data.tables;
         if (tables.length > 0) {
-          var current = tables.filter(function(item, idx){
+          var current = tables.filter(function(item, idx) {
             return item.name === tableName && item.table_schema === tableSchema;
           });
           current = current.length ? current[0] : tables[0];
@@ -172,10 +176,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName]).success(function(tablePartitionQuery) {
             if (typeof activeRequests[r2] == 'undefined') return;
             var partitions = [];
-            var shardResult = queryResultToObjects(shardQuery,
-              ['partition_ident', 'routing_state', 'state', 'relocating_node', 'primary', 'sum_docs', 'avg_docs', 'count', 'size']);
-            var partitionResult = queryResultToObjects(tablePartitionQuery,
-              ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
+            var shardResult = queryResultToObjects(shardQuery, ['partition_ident', 'routing_state', 'state', 'relocating_node', 'primary', 'sum_docs', 'avg_docs', 'count', 'size']);
+            var partitionResult = queryResultToObjects(tablePartitionQuery, ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
 
             var idents = shardResult.reduce(function(memo, obj, idx) {
               var ident = obj.partition_ident;
@@ -183,7 +185,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               return memo;
             }, []);
 
-            for (var i=0; i<idents.length; i++) {
+            for (var i = 0; i < idents.length; i++) {
               var ident = idents[i];
               var shardInfoForPartition = shardResult.filter(function(item, idx) {
                 return item.partition_ident === ident;
@@ -193,7 +195,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               });
               if (confInfoForPartition.length === 1) {
                 var info = new TableInfo(shardInfoForPartition,
-                                         confInfoForPartition[0].number_of_shards);
+                  confInfoForPartition[0].number_of_shards);
                 var o = info.asObject();
                 o.partition_values = confInfoForPartition[0].values;
                 o.partition_ident = ident;
@@ -223,7 +225,9 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
 
       var update = function update(success, partitions, cancelled) {
-        if (cancelled) { return; }
+        if (cancelled) {
+          return;
+        }
         $scope.ptCtlr.data = partitions;
         $scope.isParted = true;
         $scope.renderPartitions = success;
@@ -233,12 +237,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       if (tableName && tableSchema) {
         // Table Schema
         var tableStmt = "select column_name, data_type from information_schema.columns " +
-              "where table_schema = ? and table_name = ?";
+          "where table_schema = ? and table_name = ?";
         SQLQuery.execute(tableStmt, [tableSchema, tableName]).success(function(query) {
           $scope.schemaHeaders = query.cols;
           $scope.schemaRows = query.rows;
           $scope.renderSchema = true;
-        }).error(function(query){
+        }).error(function(query) {
           $scope.renderSchema = false;
         });
       }
@@ -262,7 +266,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     render($route.current.params.table_schema, $route.current.params.table_name);
 
   })
-  .controller('TableListController', function ($scope, $route, TableList, TabNavigationInfo) {
+  .controller('TableListController', function($scope, $route, TableList, TabNavigationInfo) {
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
@@ -275,7 +279,9 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
     var render = function render(tableSchema, tableName) {
       $scope.renderSidebar = true;
-      $scope.$watch(function(){ return TableList.data; }, function(data) {
+      $scope.$watch(function() {
+        return TableList.data;
+      }, function(data) {
         var tables = data.tables;
         var hasTables = tables.length > 0;
         $scope.renderSidebar = hasTables;
@@ -298,7 +304,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.tables = [];
           $scope.tables.push({
             "display_name": "Doc",
-            "tables": tables.filter(function(item, idx){
+            "tables": tables.filter(function(item, idx) {
               return item.table_schema == 'doc';
             }),
             "table_schema": "doc"
@@ -307,7 +313,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             var name = customSchemas[idx];
             $scope.tables.push({
               "display_name": name,
-              "tables": tables.filter(function(item, idx){
+              "tables": tables.filter(function(item, idx) {
                 return item.table_schema == name;
               }),
               "table_schema": name
@@ -315,7 +321,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           }
           $scope.tables.push({
             "display_name": "Blob",
-            "tables": tables.filter(function(item, idx){
+            "tables": tables.filter(function(item, idx) {
               return item.table_schema == 'blob';
             }),
             "table_schema": "blob"
@@ -325,7 +331,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         }
       }, true);
 
-      $scope.isActive = function (table_schema, table_name) {
+      $scope.isActive = function(table_schema, table_name) {
         return table_name === tableName && table_schema === tableSchema;
       };
 
@@ -335,8 +341,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
 
       $scope.toggleElements = function(index) {
-        $("#nav-tabs-"+index).collapse("toggle");
-        $("#nav-tabs-header-"+index+" i.fa").toggleClass("fa-caret-down").toggleClass("fa-caret-right");
+        $("#nav-tabs-" + index).collapse("toggle");
+        $("#nav-tabs-header-" + index + " i.fa").toggleClass("fa-caret-down").toggleClass("fa-caret-right");
         TabNavigationInfo.toggleIndex(index);
       };
 
