@@ -5,20 +5,18 @@ DEVELOPMENT
 Prerequisites
 =============
 
-If you don't have ``npm`` and ``bower`` installed globally you
-can setup a local dev enviroment using buildout.
-You need to have ``python`` installed to do that.
+This project uses buildout to manage its dependencies.
+Be sure have a working ``python3.5`` installed.
+
+Set up from source
+==================
 
 As of now, you only need `bower <http://bower.io/>`_.
 
-Create dev enviroment using buildout
-------------------------------------
-
 If you already have installed ``bower`` you can skip the following steps::
 
-    python bootstrap.py
-
-    bin/buildout -Nv
+    python3.5 bootstrap.py
+    bin/buildout -N
 
 Build the app
 -------------
@@ -26,13 +24,11 @@ Build the app
 To build the app simply run ``npm`` and ``bower`` in this crate-admin folder::
 
     bin/npm install
-
     bin/bower install
 
 Or if you haven't used ``buildout`` and installed ``npm`` and ``bower`` globally::
 
     npm install
-
     bower install
 
 Run the app for development
