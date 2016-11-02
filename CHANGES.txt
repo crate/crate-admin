@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/11/02 0.21.1
+=================
+
  - Fix : Corrected the sql queries to display the table list in the tables view.
 
  - Corrected the sql query in the tutorial to fix the error that occured 
