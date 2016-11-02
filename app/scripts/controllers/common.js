@@ -1,22 +1,24 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
-  .controller('StatusBarController', function ($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
+  .controller('StatusBarController', function($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['label-success', 'label-warning', 'label-danger', 'label-danger'];
-    var colorMap = HEALTH.reduce(function(memo, o, idx){
+    var colorMap = HEALTH.reduce(function(memo, o, idx) {
       memo[o] = LABELS[idx];
       return memo;
     }, {});
 
     var DOCS_BASE_URL = 'https://crate.io/docs';
     var getDocsUrl = function getDocsUrl(version) {
-      return $sce.trustAsResourceUrl(DOCS_BASE_URL + (version ? '/en/'+version.number : '/stable') + '/');
+      return $sce.trustAsResourceUrl(DOCS_BASE_URL + (version ? '/en/' + version.number : '/stable') + '/');
     };
     $scope.cluster_color_label = '';
     $scope.config_label = '';
 
-    $scope.$watch(function() { return ChecksService; }, function(data) {
+    $scope.$watch(function() {
+      return ChecksService;
+    }, function(data) {
       if (data.success === true) {
         var checks = [];
         checks.push.apply(checks, data.checks.cluster_checks);
@@ -36,9 +38,11 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     }, true);
 
-    $scope.$watch( function () { return ClusterState.data; }, function (data) {
+    $scope.$watch(function() {
+      return ClusterState.data;
+    }, function(data) {
       var hashes = [];
-      var versions = data.cluster.filter(function(obj, idx){
+      var versions = data.cluster.filter(function(obj, idx) {
         var contains = false;
         if (obj.version) {
           var hash = obj.version.build_hash;
@@ -46,7 +50,7 @@ var commons = angular.module('common', ['stats', 'udc'])
           hashes.push(hash);
         }
         return contains;
-      }).map(function(obj, idx){
+      }).map(function(obj, idx) {
         return obj.version.number;
       });
       $scope.versions = versions;
@@ -54,8 +58,8 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.cluster_state = data.status;
       $scope.cluster_name = data.name;
       $scope.num_nodes = data.cluster.length;
-      $scope.load1 = data.load[0]  == '-.-' ? data.load[0] : data.load[0].toFixed(2);
-      $scope.load5 = data.load[1]  == '-.-' ? data.load[1] : data.load[1].toFixed(2);
+      $scope.load1 = data.load[0] == '-.-' ? data.load[0] : data.load[0].toFixed(2);
+      $scope.load5 = data.load[1] == '-.-' ? data.load[1] : data.load[1].toFixed(2);
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.version = data.version;
       $scope.docs_url = getDocsUrl(data.version);
@@ -63,13 +67,15 @@ var commons = angular.module('common', ['stats', 'udc'])
     }, true);
 
     // bind tooltips
-    $("[rel=tooltip]").tooltip({ placement: 'bottom'});
+    $("[rel=tooltip]").tooltip({
+      placement: 'bottom'
+    });
   })
-  .controller('NavigationController', function ($scope, $location, NavigationService) {
+  .controller('NavigationController', function($scope, $location, NavigationService) {
 
     $scope.navBarElements = NavigationService.navBarElements;
 
-    $scope.isActive = function (viewLocation) {
+    $scope.isActive = function(viewLocation) {
       if (viewLocation == '/') {
         return viewLocation === $location.path();
       } else {
@@ -78,44 +84,55 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
   })
   .service('NavigationService', function() {
-    this.navBarElements = [];
+    var navBarElements = [];
 
-    this.addNavBarElement = function(iconClass, text, urlPattern, index) {
+    var navigationService = {
+      addNavBarElement: addNavBarElement,
+      updateNavBarElement: updateNavBarElement,
+      navBarElements: navBarElements
+    };
+
+    return navigationService;
+
+    ////
+
+    function addNavBarElement(iconClass, text, urlPattern, index) {
       if (urlPattern.charAt(0) != '/') {
         urlPattern = "/" + urlPattern;
       }
 
       var pluginElement = {
-        "text" : text,
-        "iconClass" : iconClass,
-        "urlPattern" : urlPattern
+        "text": text,
+        "iconClass": iconClass,
+        "urlPattern": urlPattern
       };
 
       if (typeof index === 'undefined') {
-        this.navBarElements.push(pluginElement);
-      } else if (index < 0 || index >= this.navBarElements.length) {
-        this.navBarElements.push(pluginElement);
+        navBarElements.push(pluginElement);
+      } else if (index < 0 || index >= navBarElements.length) {
+        navBarElements.push(pluginElement);
       } else {
-        this.navBarElements.splice(index, 0, pluginElement);
+        navBarElements.splice(index, 0, pluginElement);
       }
-    };
+    }
     // urlPattern is the identifier. TODO: need an actual identifier for each element
-    this.updateNavBarElement = function(urlPattern, text) {
+    function updateNavBarElement(urlPattern, text) {
 
       if (urlPattern.charAt(0) != '/') {
         urlPattern = "/" + urlPattern;
       }
 
-      var queryElements = this.navBarElements.filter(function(item) {
+      var queryElements = navBarElements.filter(function(item) {
         return item.urlPattern == urlPattern;
       });
 
-      if (queryElements.length === 0){
+      if (queryElements.length === 0) {
         return;
       }
 
       queryElements[0].text = text;
-    };
+    }
+
   })
   .directive('focus', function($timeout) {
     return {
@@ -133,67 +150,70 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
   })
-  .directive('fixBottom', function(){
-    return function(scope, element, attr){
+  .directive('fixBottom', function() {
+    return function(scope, element, attr) {
       var elem = $(element),
-          nav = $('.side-nav .navbar-nav'),
-          win = $(window);
-      var calculate = function calculate(){
+        nav = $('.side-nav .navbar-nav'),
+        win = $(window);
+      var calculate = function calculate() {
         scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
       };
       win.on("resize", calculate);
       calculate();
     };
   })
-.controller('HelpMenuController', function ($scope, UidLoader, UdcSettings) {
-  var verified = null;
+  .controller('HelpMenuController', function($scope, UidLoader, UdcSettings) {
+    var verified = null;
 
-  // set user
-  $scope.user = {
-    uid: null
-  };
+    // set user
+    $scope.user = {
+      uid: null
+    };
 
-  // 'analytics' is globally available
-  analytics.load(UdcSettings.SegmentIoToken)
-  analytics.ready(function(){
-    var user = analytics.user();
-    verified = {
-      id: user.id(),
-      traits: user.traits()
+    // 'analytics' is globally available
+    analytics.load(UdcSettings.SegmentIoToken)
+    analytics.ready(function() {
+      var user = analytics.user();
+      verified = {
+        id: user.id(),
+        traits: user.traits()
+      };
+    });
+
+    var identify = function identify(userdata) {
+      if (userdata.user.uid != null) {
+        analytics.setAnonymousId(userdata.user.uid);
+        analytics.identify(userdata.user.uid);
+        analytics.page();
+        analytics.track('visited_admin', {
+          'version': $scope.version.number,
+          'cluster_id': userdata.cluster_id
+        });
+      }
+    };
+
+    UdcSettings.availability.success(function(data) {
+      if (data.enabled === true) {
+        // load uid
+        UidLoader.load().success(function(uid) {
+          $scope.user.uid = uid.toString();
+          identify({
+            'user': $scope.user,
+            'cluster_id': data.cluster_id
+          });
+        }).error(function(error) {
+          console.warn(error);
+        });
+      }
+    });
+  })
+  .controller('LanguageSwitchController', function($scope, $translate) {
+    $scope.changeLanguage = function(langKey) {
+      // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
+      langKey = langKey === 'auto' ? $translate.preferredLanguage() : langKey;
+      $translate.use(langKey);
     };
   });
-
-  var identify = function identify(userdata){
-    if (userdata.user.uid != null) {
-      analytics.setAnonymousId(userdata.user.uid);
-      analytics.identify(userdata.user.uid);
-      analytics.page();
-      analytics.track('visited_admin', {
-        'version': $scope.version.number,
-        'cluster_id': userdata.cluster_id
-      });
-    }
-  };
-
-  UdcSettings.availability.success(function(data){
-    if (data.enabled === true) {
-      // load uid
-      UidLoader.load().success(function(uid){
-        $scope.user.uid = uid.toString();
-        identify({'user': $scope.user, 'cluster_id': data.cluster_id});
-      }).error(function(error){
-        console.warn(error);
-      });
-    }
-  });
-})
-.controller('LanguageSwitchController', function ($scope, $translate) {
-  $scope.changeLanguage = function(langKey) {
-    // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
-    langKey = langKey === 'auto' ? $translate.preferredLanguage() : langKey;
-    $translate.use(langKey);
-  };
-});
 
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
@@ -206,7 +226,7 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
-    $translate(['NAVIGATION.OVERVIEW','NAVIGATION.CONSOLE','NAVIGATION.TABLE','NAVIGATION.CLUSTER']).then(function(i18n) {
+    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.CLUSTER']).then(function(i18n) {
       NavigationService.updateNavBarElement("/", i18n['NAVIGATION.OVERVIEW']);
       NavigationService.updateNavBarElement("/console", i18n['NAVIGATION.CONSOLE']);
       NavigationService.updateNavBarElement("/tables", i18n['NAVIGATION.TABLE']);
