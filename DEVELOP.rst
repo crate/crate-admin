@@ -74,3 +74,5 @@ Before creating a new distribution, a new version and tag should be created:
 
  - Create a tag using the ``create_tag.sh`` script
    (run ``./devtools/create_tag.sh``).
+
+ - Run crate-admin_release job in jenkins
