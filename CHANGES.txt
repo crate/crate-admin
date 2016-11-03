@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/11/03 0.21.2
+=================
+
  - fixed incorrect sql query for creating the tweets table in the tutorial.
 
 2016/11/02 0.21.1
