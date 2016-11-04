@@ -1,27 +1,17 @@
 <div ng-controller="NavigationController">
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle"
-        data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-
-    <div class="collapse navbar-collapse navbar-ex1-collapse {{ cluster_color_label_bar }}">
-      <div ng-include="'views/statusbar.html'"></div>
-      <div class="side-nav">
-        <ul class="nav navbar-nav">
-          <li ng-repeat="navBarElement in navBarElements" ng-class="{ 'active': isActive(navBarElement.urlPattern) }">
-            <a ng-href="#{{ navBarElement.urlPattern }}"><i class="{{ navBarElement.iconClass }}"></i><br /><span>{{ navBarElement.text }}</span></a>
-          </li>
-        </ul>
-        <div id="crate-logo" fix-bottom ng-class="{'bottom-fixed': fixBottom }"><a class="navbar-brand" href="#/"></a></div>
+  <nav class="cr-layout" role="navigation">
+    <div class="{{ cluster_color_label_bar }}">
+      <div class="cr-side-nav" ng-class="showSideNav ? 'show-side-nav' : 'hide-side-nav'">
+          <div class="cr-side-nav__item"
+                ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
+                ng-repeat="navBarElement in navBarElements" 
+                ng-click="goToPath(navBarElement.urlPattern)"
+                data-original-title="{{ navBarElement.text }}"
+                cr-tooltip cr-tooltip-position="right">
+            <img ng-src="{{ navBarElement.iconSrc }}">
+          </div>
       </div>
+      <div ng-include="'views/statusbar.html'"></div>
     </div>
-
   </nav>
 </div>

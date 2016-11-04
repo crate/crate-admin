@@ -1,0 +1,188 @@
+.cr-console-header{
+  background-color: @block-bg--colored;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  border-bottom: 3px solid @body-bg;
+  border-top: 2px solid @body-bg;
+
+}
+
+.cr-error-header{
+  background-color: @block-bg--colored;
+  padding: 15px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+
+.cr-error-header--error-trace{
+  .cr-error-header;
+  margin-bottom: 3px;
+  margin-top: 15px;
+  word-break: break-all;
+}
+
+.cr-error-header--error-trace > h4 {
+  margin:0px; 
+}
+
+
+.cr-console-header__tip{
+  padding: 15px; 
+  min-height: 60px;
+  font-weight: bold;
+  border-top: 1px solid @body-bg;
+  flex-basis: 300px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cr-console-header__options{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end; 
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.cr-console-header__options__item{
+  padding: 15px;
+  min-height: 60px; 
+  border-left: 1px solid @body-bg;
+  border-top: 1px solid @body-bg;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-console-header__options__item > label{
+  margin: 0px !important;
+}
+
+.cr-console-header__options__item > input {
+  margin-right: 10px;
+}
+
+.cr-console-header__options__item--btn{
+  .cr-console-header__options__item;
+  justify-content: center;
+}
+
+.cr-console-header__options__item--btn > i {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+@media screen and (min-width: @max-width-xs){
+  .cr-console-header__options__item--btn{
+    max-width: 190px;
+  }
+
+  .cr-console-header__options__item--hint{
+    justify-content: flex-start;
+  }
+}
+
+
+.cr-console-header__options__item--hint{
+  .cr-console-header__options__item;
+  border-left: none;
+  justify-content: flex-end;
+}
+
+.cr-query-result{
+  margin-top: 15px;   
+}
+
+.CodeMirror-sizer{
+  padding-right: 10px;
+}
+
+.query-result-container{
+  margin-top: 13px; 
+}
+
+.query-result-container__header{
+  background: @block-bg--colored;
+  border-bottom: 3px solid @body-bg;
+  border-left: 1px solid @query-result-container__header--color;
+  border-right: 1px solid @query-result-container__header--color;
+  padding: 17px 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  min-height: 60px;
+}
+.query-result-container .table-responsive thead,
+.query-result-container .table-responsive tbody,
+{
+  background: @block-bg;
+}
+
+
+.cr-table-cell { 
+  border: @cr-table-border !important;
+}
+
+tr > .cr-table-cell {
+  border-top: @cr-table-border !important;
+}
+.cr-table-cell {
+  border-top: 1px solid @body-bg !important;
+  padding: 18px;
+
+}
+
+@media screen and (max-width: @max-width-s) {
+  .table-responsive{
+    border: 1px solid @body-bg !important;
+  }
+}
+
+@media screen and (max-width: @max-width-xs){
+  .hide-console-options{
+    display: none;
+  }
+  .show-console-options{
+    display: flex;
+  }
+}
+
+.query-result{
+  font-size: @font-size-small;
+  background: none;
+  color: @text-color;
+  border: none;
+  word-break: normal;
+}
+
+#error-trace { 
+  background-color: @block-bg; 
+  border: none;
+  color: @text-color;
+  border-radius: 0px;
+  font-size: @font-size-small;
+  word-break: break-all;
+}
+
+#console-statement-input {
+  padding: 10px !important;
+
+}
+
+.cm-s-monokai.CodeMirror {
+  padding-left: 10px;
+}
+
+.CodeMirror {
+  font-family: @font-family-monospace;
+  font-size: 16px;
+  height: 120px;
+}

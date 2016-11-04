@@ -17,7 +17,7 @@
       "OLD_VERSION_TIP": "Du verwendest eine alte Version ({{ version }}) von Crate",
       "UPDATE_TIP": "Bitte aktualisiere Crate auf die Version {{ version }}!",
       "NO_NOTIFICATION": "Keine Benachrichtigungen.",
-      "MARK_ALL_READ": "Alle Benachrichtigungen als gelesen markieren."
+      "MARK_ALL_READ": "Als gelesen markieren"
     },
     "NAVIGATION": {
       "OVERVIEW": "Übersicht",

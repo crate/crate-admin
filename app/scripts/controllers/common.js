@@ -1,9 +1,9 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
-  .controller('StatusBarController', function($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
+  .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
-    var LABELS = ['label-success', 'label-warning', 'label-danger', 'label-danger'];
+    var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx) {
       memo[o] = LABELS[idx];
       return memo;
@@ -15,6 +15,21 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
     $scope.cluster_color_label = '';
     $scope.config_label = '';
+
+    var showSideNav = false;
+    $scope.toggleSideNav = function(){
+      showSideNav = !showSideNav;
+      if (showSideNav){
+        $rootScope.$broadcast('showSideNav');
+      }else{
+        $rootScope.$broadcast('hideSideNav');
+      }
+    };
+
+    $scope.showSettings = false;
+    $scope.toggleSettings = function(){
+      $scope.showSettings = !$scope.showSettings;
+    };
 
     $scope.$watch(function() {
       return ChecksService;
@@ -71,9 +86,22 @@ var commons = angular.module('common', ['stats', 'udc'])
       placement: 'bottom'
     });
   })
-  .controller('NavigationController', function($scope, $location, NavigationService) {
+  .controller('NavigationController', function($scope, $rootScope, $location, NavigationService) {
 
     $scope.navBarElements = NavigationService.navBarElements;
+    $scope.showSideNav = false;
+
+    $rootScope.$on("showSideNav", function() {
+      $scope.showSideNav = true;
+      });
+
+    $rootScope.$on("hideSideNav", function() {
+      $scope.showSideNav = false;
+      });
+
+    $scope.goToPath = function(path) {
+      $location.path(path);
+    };
 
     $scope.isActive = function(viewLocation) {
       if (viewLocation == '/') {
@@ -103,7 +131,7 @@ var commons = angular.module('common', ['stats', 'udc'])
 
       var pluginElement = {
         "text": text,
-        "iconClass": iconClass,
+        "iconSrc": iconClass,
         "urlPattern": urlPattern
       };
 
@@ -208,20 +236,42 @@ var commons = angular.module('common', ['stats', 'udc'])
     });
   })
   .controller('LanguageSwitchController', function($scope, $translate) {
+    $scope.showDropDown = false;
+    $scope.toggleDropDown = function(){
+      $scope.showDropDown = !$scope.showDropDown;
+    };
+
+    $scope.selectedLanguage = "auto";
+
     $scope.changeLanguage = function(langKey) {
       // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
       langKey = langKey === 'auto' ? $translate.preferredLanguage() : langKey;
       $translate.use(langKey);
+      $scope.selectedLanguage = langKey;
+      $scope.toggleDropDown();
     };
+  })
+  .directive('crTooltip', function() {
+    return {
+      restrict: 'A',
+      scope: {
+        crTooltipPosition : '='
+      },
+      link: function(scope, element, attrs) {
+        $(element[0]).tooltip({
+          placement: attrs.crTooltipPosition
+        });
+      }
+    }
   });
 
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  NavigationService.addNavBarElement("fa fa-th-large", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
-  NavigationService.addNavBarElement("fa fa-code", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
-  NavigationService.addNavBarElement("fa fa-table", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
-  NavigationService.addNavBarElement("fa fa-sitemap", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
+  NavigationService.addNavBarElement("images/icons/icon-overview.svg", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
+  NavigationService.addNavBarElement("images/icons/icon-console.svg", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
+  NavigationService.addNavBarElement("images/icons/icon-table.svg", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
+  NavigationService.addNavBarElement("images/icons/icon-cluster.svg", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
 
 
   // Update Navbar Elements if Language is Changed

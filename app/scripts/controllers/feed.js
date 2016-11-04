@@ -142,11 +142,17 @@ angular.module('feed', ['stats', 'udc'])
       return false;
     };
 
+    $scope.goToUrl = function(url) {
+      $window.open(url, "_blank");
+    };
+
+    $scope.goToPost = function(item) {
+      $window.open(item.permalink + "?utm_source=adminui&utm_medium=browser&utm_term={" + item.tags.join('+') + "}&utm_content=blogpostlink&utm_campaign=newsfeed", "_news");
+    };
     // Set default menu data
-    $scope.menu = [
-        {"url": "https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link",
-         "title": "Schedule a 1-ON-1 demo with a Crate engineer"},
-        {"url": "https://crate.io/blog?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed&ajs_event=clicked_more_link",
-         "title": "More"}
+    $scope.menu = [{
+        "url": "https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link",
+        "title": "Schedule a 1-ON-1 demo with a Crate engineer"
+      }
     ];
   });

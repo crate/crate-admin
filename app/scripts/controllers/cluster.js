@@ -118,7 +118,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }
     };
     var COLORS = {
-      'used': '#55d4f5',
+      'used': '#5bd5f5',
       'free': '#e2e2e2',
     };
 
@@ -256,7 +256,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         {
           "key": "User",
           "values": [["CPU", node.cpu.user]],
-          "color": "#5987ff"
+          "color": "#5d89fe"
         },
         {
           "key": "Idle",
@@ -266,7 +266,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         {
           "key": "Stolen",
           "values": [["CPU", node.cpu.stolen]],
-          "color": "#ff814d"
+          "color": "#f6bb41"
         }];
 
       $scope.heapData = [

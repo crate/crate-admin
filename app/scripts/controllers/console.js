@@ -13,6 +13,7 @@ angular.module('console', ['sql'])
         var renderTable = false;
         var statement = "";
         var displayedErrorTraceHint = localStorage.getItem('crate.console.displayed_error_trace_hint') === "1";
+        $scope.showOptions = false;
         self.recentQueries = [];
         
         $scope.showErrorTrace = localStorage.getItem('crate.console.error_trace') === "1";
@@ -31,7 +32,7 @@ angular.module('console', ['sql'])
           inputScope = scope;
         };
 
-        var loadingIndicator = Ladda.create(document.querySelector('button[type=submit]'));
+        var loadingIndicator = Ladda.create(document.querySelector('#execute-btn'));
 
         $scope.storeInLocalStorageChanged = function() {
           localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? "1" : "0");
@@ -65,14 +66,7 @@ angular.module('console', ['sql'])
         };
 
         $scope.toggleOptions = function toggleOptions(){
-          $('#console-options').slideToggle();
-          $scope.info.hide = true;
-          $scope.info.message = '';
-
-          if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
-            $('#show-error-trace').addClass('blink');
-          }
-
+          $scope.showOptions = !$scope.showOptions;
         };
 
         $scope.clearLocalStorage = function() {
@@ -131,7 +125,6 @@ angular.module('console', ['sql'])
             $scope.error = sqlQuery.error;
 
             if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
-              $scope.toggleOptions();
               displayedErrorTraceHint = true;
               localStorage.setItem('crate.console.displayed_error_trace_hint', "1");
             }
@@ -233,11 +226,9 @@ angular.module('console', ['sql'])
             }
           } else if (event.keyCode === 13 && !!event.shiftKey) {
             // SHIFT + ENTER KEY
-            if (semicolonPos != -1) {
               event.preventDefault();
               $console.execute(statement);
               typedStatement = '';
-            }
           } else {
             $scope.recentCursor = 0;
           }

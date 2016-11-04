@@ -70,7 +70,7 @@ angular.module('nodeinfo', [])
       },
       sortClass: function(col) {
         if (this.sort.col.indexOf(col) === 0) {
-          return this.sort.desc ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
+          return this.sort.desc ? 'fa fa-caret-down' : 'fa fa-caret-up';
         } else {
           return '';
         }

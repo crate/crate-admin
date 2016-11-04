@@ -1,38 +1,45 @@
 <div ng-controller="NodeListController">
 
-  <div class="side-list" ng-show="renderSidebar">
-    <ul class="nav">
-      <li class="nav-tabs-header clearfix" style="background-color:#c4c4c4;">
-        <div class="pull-right" style="padding:5px;">
-          <a ng-click="sortBy('name')" class="btn btn-xs btn-sort"><i ng-class="sortClass('name')"></i> {{ 'NODE.NAME' | translate }}</a>
-          <a ng-click="sortBy('health_value')" class="btn btn-xs btn-sort"><i ng-class="sortClass('health_value')"></i> {{ 'NODE.HEALTH' | translate }}</a>
-        </div>
-        <a class="pull-left tabs-header">{{ 'NODE.NODES' | translate }}</a>
-      </li>
-      <ul class="nav nav-tabs">
-        <li ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
-          <a ng-href="#/nodes/{{ node.id }}">
-            <div class="row">
-              <div class="col-sm-8 col-xs-8">
+  <div class="side-bar node-side-bar" ng-show="renderSidebar">
+
+    <div class="side-bar__header node-list__header">
+      <div class="node-list__header__title">
+        {{ 'NODE.NODES' | translate }}
+      </div>
+      <div class="node-list__header__order">
+        <a ng-click="sortBy('name')" class="node-list__header__btn"><i ng-class="sortClass('name')"></i> {{ 'NODE.NAME' | translate }}</a>
+        <a ng-click="sortBy('health_value')" class="node-list__header__btn"><i ng-class="sortClass('health_value')"></i> {{ 'NODE.HEALTH' | translate }}</a>
+      </div>
+    </div>
+
+    <div class="node-list">
+      <div class="side-bar__element node-list__element" ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
+        <a ng-href="#/nodes/{{ node.id }}">
+          <div class="node-list__element__header">
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell">
                 <h3>{{ node.name }}</h3>
               </div>
-              <div class="col-sm-4 col-xs-4 text-right">
-                <span ng-if="node.master_node" class="master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
-                <span class="health-bubble {{ node.health_label_class }}" title="{{ node.health.status }}"></span>
+              <div class="node-list__element__cell">
+                <span ng-if="node.master_node" class="health-bubble node-list__element__cell--master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
+                <span class="health-bubble {{ node.health.status | healthPanelClass }}" title="{{ node.health.status }}"></span>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-8 col-xs-8">
-                <span>{{ node.hostname }}</span>
-              </div>
-              <div class="col-sm-4 col-xs-4 text-right">
-                <span ng-class="{'label-warning': !isSameVersion(node.version)}">{{ node.version.number }}</span></span>
+          </div>
+          <div class="node-list__element__body">
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell">
+                {{ node.hostname }}
               </div>
             </div>
-          </a>
-        </li>
-      </ul>
-    </ul>
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell" ng-class="{'cr-panel--warning': !isSameVersion(node.version)}">
+                {{ node.version.number }}
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
-
 </div>

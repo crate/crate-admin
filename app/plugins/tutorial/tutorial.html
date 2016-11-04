@@ -1,24 +1,26 @@
 <div class="page-container">
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="cr-page-header">
+    <h1>{{ 'TUTORIAL.TITLE' |translate }}</h1>
+  </div>
 
-      <div class="page-header">
-        <h1>{{ 'TUTORIAL.TITLE' |translate }}</h1>
-      </div>
-    
-      <p>{{ 'TUTORIAL.PARAGRAPH_1' |translate }}</p>
-      <p>{{ 'TUTORIAL.PARAGRAPH_2' |translate }}</p>
+  <div class="cr-panel-block--tutorial">
+    <p>{{ 'TUTORIAL.PARAGRAPH_1' |translate }}</p>
+    <p>{{ 'TUTORIAL.PARAGRAPH_2' |translate }}</p>
 
-      <ul>
-        <li ng-bind-html="InstructionText1"></li>
-        <li ng-bind-html="InstructionText2"></li>
-        <li ng-bind-html="InstructionText3"></li>
-      </ul>
+    <ul>
+      <li ng-bind-html="InstructionText1"></li>
+      <li ng-bind-html="InstructionText2"></li>
+      <li ng-bind-html="InstructionText3"></li>
+    </ul>
+  </div>
 
-      <p ng-hide="importing"><button ng-click="startImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> {{ 'TUTORIAL.IMPORT_TWEETS' |translate }}</button></p>
+  <div class="import-tweets__submit__panel">
+    <div class="import-tweets__button">
+      <button ng-hide="importing" ng-click="startImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> {{ 'TUTORIAL.IMPORT_TWEETS' | translate }}</button>
+      <button ng-show="importing" ng-click="stopImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> {{ 'TUTORIAL.STOP_IMPORTING_TWEETS' | translate }}</button>
+    </div>
+    <div class="import-tweets__text">
       <p ng-show="importing">{{ 'TUTORIAL.IMPORTING_TWEETS' |translate }} <strong id="tweets">{{ count }}</strong> {{ 'TUTORIAL.TWEETS_IMPORTED' |translate }}</p>
-      <p ng-show="importing"><button ng-click="stopImport()" type="submit" class="btn btn-default" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> {{ 'TUTORIAL.STOP_IMPORTING_TWEETS' |translate }}</button></p>
-
     </div>
   </div>
 </div>

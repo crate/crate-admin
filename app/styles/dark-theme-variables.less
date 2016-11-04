@@ -1,0 +1,256 @@
+//
+// Variables
+// --------------------------------------------------
+
+//
+// Body
+// --------------------------------------------------
+
+@body-bg:               #2e2e2e;
+@text-color:            rgba(255,255,255,0.9);
+@block-bg:              rgba(255,255,255,0);
+@nvd3-text-color:       @text-color;
+@block-bg--colored:     #444444;
+
+@font-size-xlarge:    20px;
+@font-size-large:     18px;
+@font-size-medium:    16px;
+
+@font-size-base:      14px;
+@font-size-small:     12px;
+@font-size-xsmall:    10px;
+
+@font-size-h1:        @font-size-xlarge;
+@font-size-h2:        @font-size-large;
+@font-size-h3:        @font-size-medium;
+@font-size-h4:        @font-size-base;
+
+@font-family-sans-serif:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-monospace:     SourceCodePro, Menlo, Monaco, Consolas, "Courier New", monospace;
+
+//
+// App Colors
+// --------------------------------------------------
+
+@lightblue :        rgb(91, 213, 2545);
+@blue :             rgb(93, 173, 255);
+@blue--faded :      rgba(93, 173, 255, 0.3);
+@darkblue :         rgb(17, 80, 151);
+
+@green:             rgb(42, 188, 80);
+@orange:            rgb(246, 187, 65);
+@red:               rgb(236, 87, 78);
+
+@green--faded:      rgba(42, 188, 80, 0.3);
+@orange--faded:     rgba(246, 187, 65, 0.3);
+@red--faded:        rgba(236, 87, 78, 0.3);
+
+
+@lightred:          rgb(249, 242, 244);
+@darkred:           rgb(199, 37, 78);
+
+
+// 
+// Checkboxes
+// --------------------------------------------------
+
+@checkbox-border--not-checked:  1px solid #000;
+@checkbox-bg--not-checked:      @block-bg--colored;
+@checkbox-color--disabled:      #aaa;
+@checkbox-border--focus:        1px solid #ccc;
+@checkbox-border--hover:        1px solid @blue;
+
+
+
+@checkbox-border-color--disabled:   #bbb;
+@checkbox-bg-color--disabled:       #ddd;
+
+
+@check-mark-color:              #fff;
+@check-mark-color--disabled:    #999;
+
+// 
+// DropDown
+// --------------------------------------------------
+
+@dropdown-menu-bg-color: #565656;
+
+
+@dropdown-list-item-hover-color:    #000;
+@dropdown-list-item-hover-bg-color: #999999; 
+
+
+// 
+// Button
+// ------------------------------------------------
+
+@cr-button-icon-color:          #afacac;
+@cr-button-bg-color--hover:     rgba(255, 255, 255, 0.08);
+@cr-button-bg-color--active:    rgba(255, 255, 255, 0.2);
+@cr-button-box-shadow--active:  0 0 3px -1px rgba(0,0,0,0.5);
+
+
+@cr-button-color--primary:      #fff;
+@cr-button-bg-color--primary:   #444;
+
+// 
+// Table 
+// -----------------------------------------------
+@cr-table-border: 1px solid #515050;
+
+
+//
+// Media queries
+// --------------------------------------------------
+
+@max-width-sm:  960px;
+@max-width-m:   1280px;
+@max-width-xs:  600px;
+@max-width-s:   840px;
+
+// 
+// Z-index
+// --------------------------------------------------
+@side-nav-z-index:          1;
+@backdrop-z-index:          1040;
+@settings-wrapper-z-index:  1050;
+
+//
+// side-nav
+// --------------------------------------------------
+
+@side-nav-background-color: #444;
+@side-nav-border:           1px solid #2e2e2e;
+@side-nav-width:            80px;
+
+@side-nav-width-xs:         60px;
+
+//
+// status-bar
+// --------------------------------------------------
+
+@status-bar-height:             40px;
+@status-bar-border-bottom:      1px solid #2e2e2e;
+@status-bar-background-color:   #444;
+@status-bar-color:              #ccc;
+@status-bar-font-size:          13px;
+
+@notifications-bg-color:        #2e2e2e;
+@notifications-border-bottom:   1px solid #3e3e3e;
+
+
+@notification-hover-color:      #000;
+@notification-hover-bg-color:   #999999; 
+
+@unread-notifications-color:    @red;
+@unread-notifications-bg-color: #fff;
+
+
+@bubble-success-border:     2px solid @green;
+@bubble-success-background: @green--faded;
+
+
+@bubble-warning-border:     2px solid @orange;
+@bubble-warning-background: @orange--faded;
+
+
+@bubble-danger-border:      2px solid  @red;
+@bubble-danger-background:  @red--faded;
+
+
+@bubble-master-border:      2px solid @blue;
+@bubble-master-background:  @blue--faded;
+
+//
+// load-graph
+// --------------------------------------------------
+
+@radiobutton-bg-lightblue:  @lightblue;
+@radiobutton-bg-blue:       @blue;
+@radiobutton-bg-darkblue:   @darkblue;
+
+
+//
+// side-bar
+// --------------------------------------------------
+
+@side-bar-bg-color:                 #444;
+@side-bar-element-bg-color:         #373737;
+@side-bar-bottom-border:            1px solid #2e2e2e;
+@side-bar-element-hover-bg-color:   #505050;
+@side-bar-element-active-bg-color:  #5d5d5d;
+
+//
+// table-side-bar
+// --------------------------------------------------
+
+@table-side-bar-search-background:  #cecece;
+@table-side-bar-search-color:       #222;
+@table-side-bar-search-box-shadow:  inset 0 0 6px 0 #222;
+
+//
+// node-graph-overlay
+//
+
+@node-graph-overlay-pattern: '/images/node-graph-pattern--dark.png';
+
+//
+// cr-panel
+// -------------------------------------------------
+
+
+@cr-panel-success-border:       2px solid @green;
+@cr-panel-success-background:   @green--faded;
+
+@cr-panel-warning-border:       2px solid @orange;
+@cr-panel-warning-background:   @orange--faded;
+
+@cr-panel-danger-border:        2px solid @red;
+@cr-panel-danger-background:    @red--faded;
+
+@cr-panel-default-border:       1px solid @body-bg;
+@cr-panel-default-background:   #242424;
+
+@cr-panel-block__item__header__icon--checks--color: #fff;
+
+@query-result-container__header--color: @block-bg--colored;
+
+
+//
+// cr-cell
+// -------------------------------------------------
+
+@cr-cell-success-border:        2px solid @green;
+@cr-cell-success-background:    @green--faded;
+
+@cr-cell-warning-border:        2px solid @orange;
+@cr-cell-warning-background:    @orange--faded;
+
+@cr-cell-danger-border:         2px solid @red;
+@cr-cell-danger-background:     @red--faded;
+
+
+//
+// severity
+//----------------------------------------------------
+
+@severity--info-color:          @text-color;
+@severity--warning-color:       @orange;
+@severity--danger-color:        @red;
+
+@cr-severity-content-border:    @body-bg;
+
+
+// 
+// Query Status 
+// ---------------------------------------------------
+
+@query-status--ok-color:    @green;
+@query-status--error-color: @red;
+
+//
+// Code
+// ---------------------------------------------------
+
+@code-bg-color: @lightred;
+@code-color:    @darkred;

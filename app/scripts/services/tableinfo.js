@@ -197,10 +197,10 @@ angular.module('tableinfo', ['sql'])
     };
 
     var colorMapPanel = {
-      'good': 'panel-success',
-      'warning': 'panel-warning',
-      'critical': 'panel-danger',
-      '--': 'panel-default'
+      'good': 'cr-panel--success',
+      'warning': 'cr-panel--warning',
+      'critical': 'cr-panel--danger',
+      '--': 'cr--panel-default'
     };
 
     var sortByHealth = function sortByHealth(a,b) {
