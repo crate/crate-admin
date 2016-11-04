@@ -27,7 +27,7 @@ describe('NavigationService', function() {
       console.log(navBarElements);
       expect(navBarElements[1]).toEqual({
         text: 'example',
-        iconClass: 'example.icon',
+        iconSrc: 'example.icon',
         urlPattern: '/test'
       });
 
@@ -47,7 +47,7 @@ describe('NavigationService', function() {
       var navBarElements = mockNavigationService.navBarElements;
       expect(navBarElements[1]).toEqual({
         text: 'example',
-        iconClass: 'example.icon',
+        iconSrc: 'example.icon',
         urlPattern: '/test'
       });
 
