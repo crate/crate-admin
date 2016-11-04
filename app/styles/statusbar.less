@@ -1,0 +1,119 @@
+.status-bar{
+  border-bottom: @status-bar-border-bottom;
+  background-color: @status-bar-background-color;
+
+  min-height: @status-bar-height;
+
+  padding-right: 10px;
+  padding-left: 10px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+
+  color: @status-bar-color;
+  font-size: @status-bar-font-size;
+
+  font-family: HelveticaNeueStd, sans-serif;
+  line-height: 16px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  z-index: @side-nav-z-index;
+}
+
+.status-bar-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+}
+.status-bar-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.status-bar-icon-menu{
+  width: 60px;
+  padding-left: 7px;
+  padding-right: 17px;
+}
+
+.status-bar-icon-crate{
+  max-height: 18px;
+}
+
+.status-bar-content-item{
+  padding-right: 10px;
+  padding-left: 10px;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.status-bar-content-item-link,
+.status-bar-content-item-link:hover,
+.status-bar-content-item-link:focus {
+  border-radius: 0;
+  line-height: 100%;
+  color: @status-bar-color;
+  border: 0 none;
+  padding: 10px;
+  margin: 0;
+  outline: 0;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : @max-width-s) {
+  .status-bar-content-item_hide-s{
+    display: none;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : @max-width-xs) {
+  .status-bar-content-item_hide-xs{
+    display: none;
+  }
+  .status-bar-content-item_hide-s{
+    display: none;
+  }
+}
+
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : @max-width-s) {
+  .status-bar-content-item_show-s{
+    display: none;
+  }
+}
+
+.cr-bubble {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.cr-bubble-success {
+  border: @bubble-success-border;
+  background-color: @bubble-success-background;
+}
+
+.cr-bubble-warning {
+  border: @bubble-warning-border;
+  background-color: @bubble-warning-background;
+}
+
+.cr-bubble-danger {
+  border: @bubble-danger-border;
+  background-color: @bubble-danger-background;
+}

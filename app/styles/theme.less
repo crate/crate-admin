@@ -21,17 +21,11 @@ strong {
   margin-top: 20px;
 }
 
-#navigation-wrapper,
-#page-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+
 
 #page-viewport {
-  padding: 30px 0 0 140px;
+  // margin-left: @side-nav-width;
+  // margin-top: @status-bar-height;
 }
 
 .page-container {
@@ -62,10 +56,6 @@ strong {
 
 .menu-toggle {
   display: none;
-}
-
-.statusbar {
-  padding-left: 140px;
 }
 
 // Logo
@@ -136,14 +126,14 @@ strong {
 
 // Statusbar
 
-.navbar-fixed-top {
-  min-height: 30px;
-  border: 0 none;
-  text-transform: uppercase;
-  font-size: @font-size-small;
-  color: #fff;
-  background-color: @gray-darker;
-}
+// .navbar-fixed-top {
+//   max-height: @status-bar-height;
+//   border: 0 none;
+//   text-transform: uppercase;
+//   font-size: @font-size-small;
+//   color: #fff;
+//   background-color: @gray-darker;
+// }
 
 .navbar-inverse {
 
@@ -220,8 +210,7 @@ strong {
   font-size: @font-size-small;
   overflow-x: hidden;
   background: @gray-lighter;
-  top: 0;
-  padding-top: 30px;
+  top: @status-bar-height;
 
   input {
     display: block;
@@ -821,9 +810,6 @@ svg .title {
     display: none !important;
   }
 
-  #page-viewport {
-    padding: 30px 0 0 60px;
-  }
 
   .side-nav {
     width: 60px;
@@ -837,10 +823,6 @@ svg .title {
     .navbar-brand {
       padding: 0;
     }
-  }
-
-  .statusbar {
-    padding-left: 60px;
   }
 
 }
@@ -869,9 +851,9 @@ svg .title {
     display: none !important;
   }
 
-  #page-viewport {
-    padding: 50px 0 0 0;
-  }
+  // #page-viewport {
+  //   padding: 50px 0 0 0;
+  // }
 
   .side-nav {
     width: auto;
@@ -887,10 +869,6 @@ svg .title {
     #crate-logo {
       display: none;
     }
-  }
-
-  .statusbar {
-    display: none;
   }
 
   .navbar-inverse {
@@ -909,18 +887,18 @@ svg .title {
   .menu-toggle {
     display: inline-block;
   }
-  #page-viewport.show-sidebar {
-    .side-list {
-      margin-left: 0;
-    }
-    .page-container-padded {
-      margin-left: 200px;
-      margin-right: -200px;
-      .panel {
-        opacity: 0.15;
-      }
-    }
-  }
+  // #page-viewport.show-sidebar {
+  //   .side-list {
+  //     margin-left: 0;
+  //   }
+  //   .page-container-padded {
+  //     margin-left: 200px;
+  //     margin-right: -200px;
+  //     .panel {
+  //       opacity: 0.15;
+  //     }
+  //   }
+  // }
 }
 
 /* Custom, iPhone Retina */
