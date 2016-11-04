@@ -1,18 +1,27 @@
-<div class="statusbar" ng-controller="StatusBarController">
-  <ul class="nav navbar-nav navbar-right navbar-user">
+<div class="status-bar" ng-controller="StatusBarController">
 
-    <li>{{ 'STATUSBAR.CLUSTER' | translate }}: <span class="label label-cluster">{{ cluster_name }}</span></li>
-    <li>{{ 'STATUSBAR.VERSION' | translate }}: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span></span></li>
-    <li>{{ 'STATUSBAR.NODES' | translate }}: <span class="label">{{ num_nodes }}</span></li>
-    <li>{{ 'STATUSBAR.HEALTH' | translate }}:
-      <span class="label {{ cluster_color_label }}">{{ 'STATUSBAR.DATA' | translate }}</span>
-      <span class="label {{ config_label }}"><a data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">{{ 'STATUSBAR.CHECKS' | translate }}</a></span>
-    </li>
-    <li>Load: <span class="label label-load1">{{ load1 }}</span>/<span class="label label-load5">{{ load5 }}</span>/<span class="label label-load15">{{ load15 }}</span></li>
+  <div class="status-bar-icon">
+    <i class="fa fa-2x fa-bars status-bar-icon-menu status-bar-content-item_show-s"></i>
+    <img class="status-bar-icon-crate"src="images/icons/CRA_logo_white.svg">
+  </div>
 
-    <li class="dropdown" ng-controller="HelpMenuController">
+  <div class="status-bar-content">
+    <div class="status-bar-content-item status-bar-content-item_hide-xs">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
+
+    <div class="status-bar-content-item status-bar-content-item_hide-s">{{ 'STATUSBAR.VERSION' | translate }}: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span></span></div>
+
+    <div class="status-bar-content-item status-bar-content-item_hide-s">{{ 'STATUSBAR.HEALTH' | translate }}:
+      <div class="cr-bubble {{ cluster_color_label }}"></div>
+      <div>{{ 'STATUSBAR.DATA' | translate }}</div>
+      <div class="cr-bubble {{ config_label }}"></div>
+      <div><a class="status-bar-content-item-link" data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">{{ 'STATUSBAR.CHECKS' | translate }}</a></div>
+    </div>
+
+    <div class="status-bar-content-item status-bar-content-item_hide-xs">Load: <span class="">{{ load1 }}</span>/<span class="">{{ load5 }}</span>/<span class="">{{ load15 }}</span></div>
+
+    <div class="dropdown status-bar-content-item" ng-controller="HelpMenuController">
       <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question-circle"></i></a>
-      <ul class="dropdown-menu notifications">
+      <ul class="dropdown-menu pull-right notifications">
         <li class="notification-header"><h3>{{ 'STATUSBAR.HELP' | translate }}</h3><hr /></li>
         <li class="news-item clearfix">
           <a href="{{ docs_url }}" target="_docs">
@@ -22,21 +31,21 @@
           </a>
         </li>
       </ul>
-    </li>
+    </div>
 
-    <li class="dropdown" ng-controller="LanguageSwitchController">
+    <div class="dropdown status-bar-content-item" ng-controller="LanguageSwitchController">
       <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i></a>
-      <ul class="dropdown-menu languages">
+      <ul class="dropdown-menu pull-right languages">
         <li><a ng-click="changeLanguage('auto')">Auto Detect</a></li>
         <li><a ng-click="changeLanguage('en')">English</a></li>
         <li><a ng-click="changeLanguage('de')">Deutsch</a></li>
         <li><a ng-click="changeLanguage('es')">Español</a></li>
       </ul>
-    </li>
+    </div>
 
-    <li class="dropdown" ng-controller="NotificationsController">
+    <div class="dropdown status-bar-content-item" ng-controller="NotificationsController">
       <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-class="{'num-unread': numUnread || showUpdate}"><i class="fa fa-bell"></i></a>
-      <ul class="dropdown-menu notifications">
+      <ul class="dropdown-menu pull-right notifications">
         <li class="notification-header"><h3>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</h3><hr /></li>
         <li class="news-item unread-important" ng-show="showUpdate">
           <a href="https://crate.io/download/">
@@ -56,9 +65,8 @@
         <li ng-repeat="item in menu" class="notification-footer" ng-show="entries">
             <a ng-href="{{item.url}}" target="_menu_{{$index}}">{{item.title}}</a>
         </li>
-
       </ul>
-    </li>
-
-  </ul>
+    </div>
+    
+  </div>
 </div>

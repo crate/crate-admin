@@ -3,7 +3,7 @@
 var commons = angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
-    var LABELS = ['label-success', 'label-warning', 'label-danger', 'label-danger'];
+    var LABELS = ['cr-bubble-success', 'cr-bubble-warning', 'cr-bubble-danger', 'cr-bubble-danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx) {
       memo[o] = LABELS[idx];
       return memo;
@@ -75,6 +75,14 @@ var commons = angular.module('common', ['stats', 'udc'])
 
     $scope.navBarElements = NavigationService.navBarElements;
 
+    $(".cr-side-nav-item").tooltip({
+      placement: 'right'
+    });
+
+    $scope.goToPath = function(path) {
+      $location.path(path);
+    };
+
     $scope.isActive = function(viewLocation) {
       if (viewLocation == '/') {
         return viewLocation === $location.path();
@@ -103,7 +111,7 @@ var commons = angular.module('common', ['stats', 'udc'])
 
       var pluginElement = {
         "text": text,
-        "iconClass": iconClass,
+        "iconSrc": iconClass,
         "urlPattern": urlPattern
       };
 
@@ -218,10 +226,10 @@ var commons = angular.module('common', ['stats', 'udc'])
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  NavigationService.addNavBarElement("fa fa-th-large", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
-  NavigationService.addNavBarElement("fa fa-code", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
-  NavigationService.addNavBarElement("fa fa-table", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
-  NavigationService.addNavBarElement("fa fa-sitemap", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
+  NavigationService.addNavBarElement("images/icons/icon-overview.svg", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
+  NavigationService.addNavBarElement("images/icons/icon-console.svg", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
+  NavigationService.addNavBarElement("images/icons/icon-table.svg", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
+  NavigationService.addNavBarElement("images/icons/icon-cluster.svg", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
 
 
   // Update Navbar Elements if Language is Changed

@@ -170,12 +170,12 @@ tutorialPlugin.run(function($window, $location, NavigationService, $translatePar
 
     $translatePartialLoader.addPart('./plugins/tutorial');
     $translate.refresh();
-    var iconClass = "fa fa-info-circle";
+    var iconSrc = "plugins/tutorial/icons/icon-getstarted.svg";
     var urlPattern = "/tutorial";
     var position = 1;
 
 
-    NavigationService.addNavBarElement(iconClass, $filter('translate', 'NAVIGATION.GET_STARTED'), urlPattern, position);
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.GET_STARTED'), urlPattern, position);
 
     var url = $.url($window.location.href);
     var path = './' + url.attr("file");
