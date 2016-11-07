@@ -56,3 +56,19 @@ angular.module('common')
     }
   };
 });
+
+angular.module('common')
+  .filter('queryStatusClass', function($filter) {
+    return function(status) {
+      if (status == undefined){
+        return '';
+      }
+      if (status.indexOf('OK') !== -1){
+        return 'query-status--ok'
+      }
+      if (status.indexOf('ERROR') !== -1){
+        return 'query-status--error'
+      }
+      return '';
+    };
+  });

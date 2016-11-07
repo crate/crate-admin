@@ -131,3 +131,4 @@ describe('healthPanelClass', function() {
 		expect(healthPanelClass("--")).toBe("cr-panel--default");
 	});
 });
+
