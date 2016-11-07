@@ -7,6 +7,12 @@ body{
     color: @text-color;
 }
 
+h1 {
+  font-weight: bold;
+  font-size: @font-size-h1;
+
+}
+
 // Structure
 // -------------------------
 
@@ -22,6 +28,80 @@ body{
   left: @side-nav-width;
   width:  calc(~"100vw -" @side-nav-width);
   height: calc(~"100vh -" @status-bar-height);
+}
+
+// 
+// Page
+// ---------------------------
+
+.cr-page-header{
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.page-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.cr-panel-block{
+  background-color: @block-bg;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.cr-panel-block__item{
+}
+
+.cr-panel-block__item__header{
+  font-weight: bold;
+}
+
+.cr-panel-block__item__content{
+  padding-left: 3px;
+  padding-right: 3px;
+  font-size: @font-size-medium;
+  width: 200px;
+}
+
+.cr-panel-success{
+  border: @cr-panel-success-border !important;
+  border-radius: 2px;
+  background-color: @cr-panel-success-background !important;
+}
+
+.cr-panel-warning{
+  border: @cr-panel-warning-border !important;
+  background-color:  @cr-panel-warning-background !important;
+}
+
+.cr-panel-danger{
+  border: @cr-panel-danger-border !important;
+  background-color: @cr-panel-danger-background !important;
+}
+
+.cr-panel-default{
+  border: @cr-panel-default-border !important;
+  background: @cr-panel-default-background !important;
+}
+
+.severity--info{
+  color: @severity--info-color;
+}
+
+.severity--warning{
+  color: @severity--warning-color;
+}
+
+.severity--danger{
+  color: @severity--danger-color;
 }
 
 // Media Queries
@@ -40,4 +120,12 @@ body{
     width:  calc(~"100vw -" @side-nav-width-xs);
   	height: calc(~"100vh -" @status-bar-height);
   }
+}
+
+
+// 
+// nvd3
+// ----------------------------------
+.nvd3.nv-noData{
+  color: @nvd3-text-color;
 }

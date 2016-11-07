@@ -47,10 +47,10 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
   .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService, SQLQuery) {
     var lastUpdate = null;
     var colorMap = {
-      "good": 'panel-success',
-      "warning": 'panel-warning',
-      "critical": 'panel-danger',
-      '--': 'panel-default'
+      "good": 'cr-panel-success',
+      "warning": 'cr-panel-warning',
+      "critical": 'cr-panel-danger',
+      '--': 'cr-panel-default'
     };
 
     $scope.available_data = '--';
