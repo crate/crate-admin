@@ -142,10 +142,9 @@ $.get("conf/plugins.json", function(plugins) {
   app.run(function($window, $location) {
     var url = $.url($window.location.href);
     var path = './' + url.attr("file");
-    var baseURI = url.param("base_uri");
+    var baseURI = $location.search().base_uri;
     if (baseURI) {
       localStorage.setItem('crate.base_uri', baseURI);
-      $window.location.href = path + '#/';
     }
   });
 
