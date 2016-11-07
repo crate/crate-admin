@@ -1,0 +1,105 @@
+.table-side-bar {
+  background-color: @table-side-bar-background-color;
+  width: 250px;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  font-size: @font-size-small;
+  line-height: 16px;
+  overflow-x: hidden;
+  top: @status-bar-height;
+}
+
+#tableFilter {
+  display: block;
+  width: 100%;
+  border: 0px;
+  border-bottom: @table-side-bar-bottom-border;
+  padding: 10px;
+  background-color: @table-side-bar-search-background;
+  color: @table-side-bar-search-color;
+  letter-spacing: 0.5px;
+  outline-offset: 0px;
+}
+
+#tableFilter:focus {
+  outline: none;
+}
+
+.table-nav-tab-header, .table-detail {
+  display: block;
+  width: 100%;
+  border-bottom: @table-side-bar-bottom-border;
+}
+
+.table-nav-tab-header {
+  font-weight: 700;
+  background-color: @table-side-bar-tab-background-color;
+}
+
+.table-list-wrapper a,
+.table-list-wrapper a:hover,
+.table-list-wrapper a:focus {
+  display: block;
+  border-radius: 0;
+  color: @text-color;
+  border: 0 none;
+  padding: 10px;
+  margin: 0;
+  outline: 0;
+  text-decoration: none;
+}
+
+.table-list-wrapper a:hover,
+.table-list-wrapper a:focus {
+  background: @table-side-bar-tab-hover-background-color;
+}
+
+.table-list-wrapper .table-name-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-list-wrapper h3 {
+    margin: 0 0 3px 0;
+    font-size: @font-size-small;
+}
+
+.health-bubble {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.health-bubble.label-success {
+  background-color: @bubble-success-background;
+  border: @bubble-success-border;
+}
+
+.health-bubble.label-warning {
+  background-color: @bubble-warning-background;
+  border: @bubble-warning-border;
+}
+
+.health-bubble.label-danger {
+  background-color: @bubble-danger-background;
+  border: @bubble-danger-border;
+}
+
+@media only screen and (max-width : @max-width-sm) {
+  .table-side-bar {
+    width: 150px;
+
+    .table-information {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width : @max-width-s) {
+  .table-side-bar {
+    display: none;
+  }
+}
