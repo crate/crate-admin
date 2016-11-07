@@ -3,7 +3,7 @@
 var commons = angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
-    var LABELS = ['cr-bubble-success', 'cr-bubble-warning', 'cr-bubble-danger', 'cr-bubble-danger'];
+    var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx) {
       memo[o] = LABELS[idx];
       return memo;

@@ -27,29 +27,29 @@
   z-index: @side-nav-z-index;
 }
 
-.status-bar-content{
+.status-bar__content{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 
 }
-.status-bar-icon {
+.status-bar__icon {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.status-bar-icon-menu{
+.status-bar__icon--menu{
   width: 60px;
   padding-left: 7px;
   padding-right: 17px;
 }
 
-.status-bar-icon-crate{
+.status-bar__icon--crate{
   max-height: 18px;
 }
 
-.status-bar-content-item{
+.status-bar__content__item{
   padding-right: 10px;
   padding-left: 10px;
   
@@ -58,9 +58,9 @@
   align-items: center;
 }
 
-.status-bar-content-item-link,
-.status-bar-content-item-link:hover,
-.status-bar-content-item-link:focus {
+.status-bar__content__item-link,
+.status-bar__content__item-link:hover,
+.status-bar__content__item-link:focus {
   border-radius: 0;
   line-height: 100%;
   color: @status-bar-color;
@@ -72,17 +72,17 @@
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : @max-width-s) {
-  .status-bar-content-item_hide-s{
+  .status-bar__content__item_hide-s{
     display: none;
   }
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : @max-width-xs) {
-  .status-bar-content-item_hide-xs{
+  .status-bar__content__item_hide-xs{
     display: none;
   }
-  .status-bar-content-item_hide-s{
+  .status-bar__content__item_hide-s{
     display: none;
   }
 }
@@ -90,7 +90,7 @@
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : @max-width-s) {
-  .status-bar-content-item_show-s{
+  .status-bar__content__item_show-s{
     display: none;
   }
 }
@@ -103,17 +103,17 @@
   margin-left: 5px;
 }
 
-.cr-bubble-success {
+.cr-bubble--success {
   border: @bubble-success-border;
   background-color: @bubble-success-background;
 }
 
-.cr-bubble-warning {
+.cr-bubble--warning {
   border: @bubble-warning-border;
   background-color: @bubble-warning-background;
 }
 
-.cr-bubble-danger {
+.cr-bubble--danger {
   border: @bubble-danger-border;
   background-color: @bubble-danger-background;
 }

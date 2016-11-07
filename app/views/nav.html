@@ -3,8 +3,8 @@
     <div class="{{ cluster_color_label_bar }}">
       <div ng-include="'views/statusbar.html'"></div>
       <div class="cr-side-nav">
-          <div class="cr-side-nav-item"
-                ng-class="{ 'cr-side-nav-item_active': isActive(navBarElement.urlPattern) }"
+          <div class="cr-side-nav__item"
+                ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
                 ng-repeat="navBarElement in navBarElements" 
                 ng-click="goToPath(navBarElement.urlPattern)"
                 data-original-title="{{ navBarElement.text }}" rel="tooltip">
