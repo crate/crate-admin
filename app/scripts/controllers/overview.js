@@ -52,7 +52,6 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       "critical": 'cr-panel--danger',
       '--': 'cr-panel--default'
     };
-
     $scope.available_data = '--';
     $scope.records_unavailable = '--';
     $scope.replicated_data = '--';

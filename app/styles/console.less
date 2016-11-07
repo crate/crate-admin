@@ -1,0 +1,169 @@
+.cr-console-header{
+  background-color: @block-bg--colored;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+}
+
+.cr-error-header{
+  background-color: @block-bg--colored;
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+
+.cr-error-header--error-trace{
+  .cr-error-header;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  word-break: break-all;
+}
+
+.cr-error-header--error-trace > h4 {
+  margin:0px; 
+}
+
+
+.cr-console-header__tip{
+  padding: 15px; 
+  min-height: 60px;
+  font-weight: bold;
+  border-top: 1px solid @body-bg;
+  flex-basis: 300px;
+  flex-grow: 1;
+}
+
+.cr-console-header__options{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end; 
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.cr-console-header__options__item{
+  padding: 15px;
+  min-height: 60px; 
+  border-left: 1px solid @body-bg;
+  border-top: 1px solid @body-bg;
+  flex-grow: 1;
+}
+
+.cr-console-header__options__item > input {
+  margin-right: 10px;
+}
+
+.cr-console-header__options__item--btn{
+  .cr-console-header__options__item;
+}
+
+.cr-console-header__options__item--btn > i {
+  font-size: 20px;
+  margin-left: 3px;
+}
+
+@media screen and (min-width: @max-width-xs){
+  .cr-console-header__options__item--btn{
+    max-width: 190px;
+  }
+
+  .cr-console-header__options__item--hint{
+    text-align: start;
+  }
+}
+
+
+.cr-console-header__options__item--hint{
+  .cr-console-header__options__item;
+  border-left: none;
+  text-align: end;
+}
+
+.cr-query-result{
+  margin-top: 15px;   
+}
+
+.CodeMirror-sizer{
+  padding-right: 10px;
+}
+
+.query-result-container{
+  margin-top: 20px; 
+}
+
+.query-result-container__header{
+  background: @block-bg--colored;
+  border-bottom: 3px solid @body-bg;
+  border-left: 2px solid @query-result-container__header--color;
+  border-right: 1px solid @query-result-container__header--color;
+  padding:10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  min-height: 60px;
+}
+.query-result-container .table-responsive thead,
+.query-result-container .table-responsive tbody,
+{
+  background: @block-bg;
+}
+
+
+.cr-table-cell { 
+  border: @cr-table-border !important;
+}
+
+tr > .cr-table-cell {
+  border-top: @cr-table-border !important;
+}
+.cr-table-cell {
+  border-top: 1px solid @body-bg !important;
+  padding: 18px;
+
+}
+
+@media screen and (max-width: @max-width-s) {
+  .table-responsive{
+    border: 1px solid @body-bg !important;
+  }
+}
+
+@media screen and (max-width: @max-width-xs){
+  .hide-console-options{
+    display: none;
+  }
+  .show-console-options{
+    display: flex;
+  }
+}
+
+.query-result{
+  font-size: @font-size-small;
+  background: none;
+  color: @text-color;
+  border: none;
+  word-break: normal;
+}
+
+#error-trace { 
+  background-color: @block-bg; 
+  border: none;
+  color: @text-color;
+  border-radius: 0px;
+  font-size: @font-size-small;
+  word-break: break-all;
+}
+
+#console-statement-input {
+  padding: 10px !important;
+
+}
+
+.cm-s-monokai.CodeMirror {
+  padding-left: 10px;
+}

@@ -10,19 +10,60 @@
 @text-color:            rgba(255,255,255,0.9);
 @block-bg:              rgba(255,255,255,0);
 @nvd3-text-color: 		@text-color;
+@block-bg--colored: 	#444444;
 
-@font-size-xlarge:    28px;
-@font-size-large:     24px;
-@font-size-medium:    20px;
+@font-size-xlarge:    24px;
+@font-size-large:     20px;
+@font-size-medium:    18px;
 
-@font-size-base:      18px;
-@font-size-small:     16px;
-@font-size-xsmall:      14px;
+@font-size-base:      16px;
+@font-size-small:     14px;
+@font-size-xsmall:    12px;
 
 @font-size-h1:        @font-size-xlarge;
-@font-size-h2:        @font-size-medium;
+@font-size-h2:        @font-size-large;
 @font-size-h3:        @font-size-medium;
-@font-size-h4:        @font-size-medium;
+@font-size-h4:        @font-size-base;
+
+@font-family-sans-serif:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+// 
+// Checkboxes
+// --------------------------------------------------
+
+
+@checkbox-border--not-checked: 1px solid #000;
+@checkbox-bg--not-checked: @block-bg--colored;
+@checkbox-color--disabled: #aaa;
+@checkbox-border--focus: 1px solid #ccc;
+@checkbox-border--hover: 1px solid #4778d9;
+
+
+
+@checkbox-border-color--disabled: #bbb;
+@checkbox-bg-color--disabled:  #ddd;
+
+
+@check-mark-color: #fff;
+@check-mark-color--disabled: #999;
+
+// 
+// Button
+// ------------------------------------------------
+
+@cr-button-icon-color: #afacac;
+@cr-button-bg-color--hover: rgba(255, 255, 255, 0.08);
+@cr-button-bg-color--active: rgba(255, 255, 255, 0.2);
+@cr-button-box-shadow--active: 0 0 3px -1px rgba(0,0,0,0.5);
+
+
+@cr-button-color--primary: #fff;
+@cr-button-bg-color--primary: #444;
+
+// 
+// Table 
+// -----------------------------------------------
+@cr-table-border: 1px solid #515050;
+
 
 //
 // Media queries
@@ -33,7 +74,7 @@
 @max-width-xs: 600px;
 @max-width-s: 840px;
 
-//
+// 
 // Z-index
 // --------------------------------------------------
 @side-nav-z-index: 1030;
@@ -112,6 +153,9 @@
 
 @cr-panel-block__item__header__icon--checks--color: #fff;
 
+@query-result-container__header--color: @block-bg--colored;
+
+
 //
 // cr-cell
 // -------------------------------------------------
@@ -135,3 +179,11 @@
 @severity--danger-color:  	rgb(236, 87, 78);
 
 @cr-severity-content-border: @body-bg;
+
+
+// 
+// Query Status 
+// ---------------------------------------------------
+
+@query-status--ok-color: #2ABC50;
+@query-status--error-color: rgb(236, 87, 78);
