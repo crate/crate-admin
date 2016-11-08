@@ -55,99 +55,121 @@ var ROUTING = {
 
 var head = document.getElementsByTagName('head')[0];
 
-var loadScript = function loadScript(url) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, false);
-  xhr.send('');
-  var script = document.createElement('script');
-  script.type = 'application/javascript';
-  script.text = xhr.responseText;
+var loadScript = function(url) {
+  var result = $.Deferred(),
+    script = document.createElement("script");
+  script.async = "async";
+  script.type = "text/javascript";
+  script.src = url;
+  script.onload = function() {
+    result.resolve();
+  };
+  script.onerror = function() {
+    result.reject();
+  };
   head.appendChild(script);
+  return result.promise();
 };
 
 // todo: load json from rest endpoint
 $.get("conf/plugins.json", function(plugins) {
 
-  console.info("Loaded Modules:", MODULES);
-  console.info("Loaded Plugins:", plugins.map(function(o) {
-    return o.name;
-  }));
-
+  var promises = [];
   for (var i = 0; i < plugins.length; i++) {
     var module = plugins[i];
-    loadScript(module.uri);
-    MODULES.push(module.name);
+    promises.push(loadScript(module.uri));
   }
 
-  app = angular.module('crate', MODULES);
+  $.when.apply($, promises).then(function() {
+    console.info("Loaded Modules:", MODULES);
+    console.info("Loaded Plugins:", plugins.map(function(o) {
+      return o.name;
+    }));
 
-  app.config(['$routeProvider', '$httpProvider',
-    function($routeProvider, $httpProvider) {
-      // Enabling CORS in Angular JS
-      $httpProvider.defaults.useXDomain = true;
-      // register default routing
-      for (var pattern in ROUTING) {
-        $routeProvider.when(pattern, ROUTING[pattern]);
-      }
-      // register routing from plugins
-      for (var i = 0; i < plugins.length; i++) {
-        var routing = plugins[i].routing;
-        if (routing) {
-          for (var pattern in routing) {
-            $routeProvider.when(pattern, routing[pattern]);
+    //onSucess: update the modules and load the app
+    for (var i = 0; i < plugins.length; i++) {
+      MODULES.push(module.name);
+    }
+    loadApp();
+  }, function() {
+    //onError: load the app without the plugins
+    console.info("Loaded Modules:", MODULES);
+    console.warn('Plugins could not be loaded. Please check your config file: plugins.json');
+    loadApp();
+  });
+
+
+  //function to create 'crate' module and bootstrap app
+  function loadApp() {
+    app = angular.module('crate', MODULES);
+
+    app.config(['$routeProvider', '$httpProvider',
+      function($routeProvider, $httpProvider) {
+        // Enabling CORS in Angular JS
+        $httpProvider.defaults.useXDomain = true;
+        // register default routing
+        for (var pattern in ROUTING) {
+          $routeProvider.when(pattern, ROUTING[pattern]);
+        }
+        // register routing from plugins
+        for (var i = 0; i < plugins.length; i++) {
+          var routing = plugins[i].routing;
+          if (routing) {
+            for (var pattern in routing) {
+              $routeProvider.when(pattern, routing[pattern]);
+            }
           }
         }
+        // register default redirect to '/' if URL not found
+        $routeProvider.otherwise({
+          redirectTo: '/'
+        });
       }
-      // register default redirect to '/' if URL not found
-      $routeProvider.otherwise({
-        redirectTo: '/'
-      });
-    }
-  ]);
+    ]);
 
-  // Configuration of i18n Internationalization
-  app.config(['$translateProvider', '$translatePartialLoaderProvider',
-    function($translateProvider, $translatePartialLoaderProvider) {
+    // Configuration of i18n Internationalization
+    app.config(['$translateProvider', '$translatePartialLoaderProvider',
+      function($translateProvider, $translatePartialLoaderProvider) {
 
-      // add main translation part
-      $translatePartialLoaderProvider.addPart('.');
-      // configures partialLoader
-      $translateProvider.useLoader('$translatePartialLoader', {
-        urlTemplate: '{part}/i18n/{lang}.json'
-      })
-
-      .registerAvailableLanguageKeys(['en', 'de', 'es'], {
-          'en_*': 'en',
-          'de_*': 'de',
-          'es_*': 'es',
-          '*': 'en'
+        // add main translation part
+        $translatePartialLoaderProvider.addPart('.');
+        // configures partialLoader
+        $translateProvider.useLoader('$translatePartialLoader', {
+          urlTemplate: '{part}/i18n/{lang}.json'
         })
-        // Check local language automatically
-        .determinePreferredLanguage()
-        // Use English as default language if no matched language is found.
-        .fallbackLanguage('en')
 
-      .useSanitizeValueStrategy(null);
-      // remember language
-      $translateProvider.useCookieStorage();
-    }
-  ]);
+        .registerAvailableLanguageKeys(['en', 'de', 'es'], {
+            'en_*': 'en',
+            'de_*': 'de',
+            'es_*': 'es',
+            '*': 'en'
+          })
+          // Check local language automatically
+          .determinePreferredLanguage()
+          // Use English as default language if no matched language is found.
+          .fallbackLanguage('en')
 
-  app.run(function($rootScope, $translate) {
-    $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
-      $translate.refresh();
+        .useSanitizeValueStrategy(null);
+        // remember language
+        $translateProvider.useCookieStorage();
+      }
+    ]);
+
+    app.run(function($rootScope, $translate) {
+      $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
+        $translate.refresh();
+      });
     });
-  });
 
-  app.run(function($window, $location) {
-    var baseURI = $location.search().base_uri;
-    if (baseURI) {
-      localStorage.setItem('crate.base_uri', baseURI);
-    }
-  });
+    app.run(function($window, $location) {
+      var baseURI = $location.search().base_uri;
+      if (baseURI) {
+        localStorage.setItem('crate.base_uri', baseURI);
+      }
+    });
 
-  angular.element(document).ready(function() {
-    angular.bootstrap(document, ['crate']);
-  });
-
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, ['crate']);
+    });
+  }
 });

@@ -19,8 +19,6 @@ angular.module('sql', [])
     };
   })
   .factory('baseURI', function($location, $log) {
-    var isLogged = false;
-
     var baseURI = {
       getURI: getURI
     }
@@ -30,11 +28,6 @@ angular.module('sql', [])
     function getURI(path) {
       var basePath = localStorage.getItem("crate.base_uri");
       if (!basePath) {
-        if (!isLogged) {
-          $log.warn('If you develop and run Crate Admin UI locally you need to set the base_uri. See README.rst for further information.');
-          isLogged = true;
-        }
-
         var pluginPath = '/_plugin/crate-admin/';
         basePath = $location.protocol() + "://" +
           $location.host() + ":" +
