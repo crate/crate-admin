@@ -59,12 +59,19 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       'critical': 'label-danger',
       '--': ''
     };
+    var colorMapCell = {
+      'good': 'cr-cell--success',
+      'warning': 'cr-cell--warning',
+      'critical': 'cr-cell--danger',
+      '--': ''
+    }
     var placeholder = {
       'name': '',
       'summary': '',
       'health': '--',
       'health_label_class': '',
       'health_panel_class': '',
+      'health_cell_class': '',
       'records_total': 0,
       'records_replicated': 0,
       'records_underreplicated': 0,
@@ -201,6 +208,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
                 o.partition_ident = ident;
                 o.replicas_configured = confInfoForPartition[0].number_of_replicas;
                 o.health_label_class = colorMapLabel[o.health];
+                o.health_cell_class = colorMapCell[o.health];
                 partitions.push(o);
               }
             }

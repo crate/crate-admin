@@ -13,6 +13,10 @@ h1 {
 
 }
 
+.small {
+  font-size: @font-size-small;
+}
+
 // Structure
 // -------------------------
 
@@ -30,7 +34,7 @@ h1 {
   height: calc(~"100vh -" @status-bar-height);
 }
 
-// 
+//
 // Page
 // ---------------------------
 
@@ -44,6 +48,10 @@ h1 {
   margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.page-container-padded {
+  padding-left: 250px;
 }
 
 .cr-panel-block{
@@ -71,25 +79,40 @@ h1 {
   width: 200px;
 }
 
+.cr-panel--default{
+  border: @cr-panel-default-border !important;
+  border-radius: 3px;
+  background: @cr-panel-default-background !important;
+}
+
 .cr-panel--success{
   border: @cr-panel-success-border !important;
-  border-radius: 2px;
+  border-radius: 3px;
   background-color: @cr-panel-success-background !important;
 }
 
 .cr-panel--warning{
   border: @cr-panel-warning-border !important;
+  border-radius: 3px;
   background-color:  @cr-panel-warning-background !important;
 }
 
 .cr-panel--danger{
   border: @cr-panel-danger-border !important;
+  border-radius: 3px;
   background-color: @cr-panel-danger-background !important;
 }
 
-.cr-panel--default{
-  border: @cr-panel-default-border !important;
-  background: @cr-panel-default-background !important;
+.cr-cell--success{
+  background-color: @cr-cell-success-background !important;
+}
+
+.cr-cell--warning{
+  background-color: @cr-cell-warning-background !important;
+}
+
+.cr-cell--danger{
+  background-color: @cr-cell-danger-background !important;
 }
 
 .severity--info{
@@ -122,8 +145,14 @@ h1 {
   }
 }
 
+@media only screen and (max-width: @max-width-sm) {
+  .page-container-padded {
+    padding-left: 150px;
+  }
+}
 
-// 
+
+//
 // nvd3
 // ----------------------------------
 .nvd3.nv-noData{
