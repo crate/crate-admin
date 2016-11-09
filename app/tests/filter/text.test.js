@@ -90,3 +90,44 @@ describe('severityText', function() {
 		expect(severityText(3)).toBe("OVERVIEW.CRITICAL");
 	});
 });
+
+describe('healthPanelClass', function() {
+	'use strict';
+
+	var $filter;
+
+	beforeEach(function() {
+		module('crate');
+		module('common');
+	});
+
+	beforeEach(function() {
+		inject(function(_$filter_) {
+			$filter = _$filter_;
+		});
+	});
+
+	it('should return panel-success', function() {
+		var healthPanelClass;
+		healthPanelClass = $filter('healthPanelClass');
+		expect(healthPanelClass("good")).toBe("cr-panel--success");
+	});
+
+	it('should return panel-warning', function() {
+		var healthPanelClass;
+		healthPanelClass = $filter('healthPanelClass');
+		expect(healthPanelClass("warning")).toBe("cr-panel--warning");
+	});
+
+	it('should return panel-danger', function() {
+		var healthPanelClass;
+		healthPanelClass = $filter('healthPanelClass');
+		expect(healthPanelClass("danger")).toBe("cr-panel--danger");
+	});
+
+	it('should return panel-default', function() {
+		var healthPanelClass;
+		healthPanelClass = $filter('healthPanelClass');
+		expect(healthPanelClass("--")).toBe("cr-panel--default");
+	});
+});
