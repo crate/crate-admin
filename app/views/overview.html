@@ -12,7 +12,7 @@
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.HEALTH' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default"
+        <div class="cr-panel-block__item__content cr-panel--default"
             ng-class="cluster_color_class">
           {{ cluster.state }}
         </div>
@@ -20,38 +20,38 @@
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.REPLICATED_DATA' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default" 
-            ng-class="{'cr-panel-warning': replicated_data < 100}">{{replicated__data | floor:1}}%
+        <div class="cr-panel-block__item__content cr-panel--default" 
+            ng-class="{'cr-panel--warning': replicated_data < 100}">{{replicated__data | floor:1}}%
         </div>
       </div>
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.AVAILABLE_DATA' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default" 
-            ng-class="{'cr-panel-danger': available_data < 100}">{{available_data | floor:1}}%
+        <div class="cr-panel-block__item__content cr-panel--default" 
+            ng-class="{'cr-panel--danger': available_data < 100}">{{available_data | floor:1}}%
         </div>
       </div>
 
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.TOTAL_RECORDS' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default">
+        <div class="cr-panel-block__item__content cr-panel--default">
           {{ records_total|roundWithUnit:1 }}
         </div>
       </div>
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default"
-          ng-class="{'cr-panel-warning': records_underreplicated > 0}">
+        <div class="cr-panel-block__item__content cr-panel--default"
+          ng-class="{'cr-panel--warning': records_underreplicated > 0}">
           {{ records_underreplicated|roundWithUnit:1 }}%
         </div>
       </div>
 
       <div class="cr-panel-block__item--info"> 
         <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel-default"
-          ng-class="{'cr-panel-danger': records_unavailable > 0}">
+        <div class="cr-panel-block__item__content cr-panel--default"
+          ng-class="{'cr-panel--danger': records_unavailable > 0}">
           {{ records_unavailable|roundWithUnit:1 }}%
         </div>
       </div>
