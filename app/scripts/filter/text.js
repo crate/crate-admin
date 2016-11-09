@@ -38,3 +38,21 @@ angular.module('common')
       }
     };
   });
+
+angular.module('common')
+.filter('healthPanelClass', function() {
+  return function(health) {
+    switch (health) {
+      case "good":
+        return "cr-panel--success";
+      case "warning":
+        return "cr-panel--warning";
+      case "danger":
+        return "cr-panel--danger";
+      case "--":
+        return "cr-panel--default";
+      default:
+        return "cr-panel--default";
+    }
+  };
+});
