@@ -1,7 +1,7 @@
 <div ng-controller="TableListController">
 
-  <div class="table-side-bar" ng-show="renderSidebar">
-    <div class="rowr">
+  <div class="side-bar table-side-bar" ng-show="renderSidebar">
+    <div>
         <input id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text" focus="true"></input>
         <a ng-if="search.$" class="cr-clear-filters" ng-click="search.$ = '' ">
             <img src="images/icons/icon-search-delete.svg"/>
@@ -11,20 +11,20 @@
     <div class="table-list-wrapper">
       <div class="table-group" ng-repeat="type in tables track by $index">
         <div class="table-nav-tab-header" id="table-nav-tab-header-{{$index}}">
-          <a class="table-tab-header" href ng-click="toggleElements($index)">
+          <a class="side-bar__header table-tab-header" href ng-click="toggleElements($index)">
             <i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i>
             {{ type.display_name }} {{ 'TABLE.TITLE' | translate }}</a>
         </div>
 
         <div class="tables-list" id="tables-list--{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-          <div class="table-detail" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
+          <div class="side-bar__element table-detail" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
             <a href="#/tables/{{ table.table_schema }}/{{ table.name }}">
               <div class="table-name-row">
                 <div class="table-name">
                   <h3>{{ table.name }}</h3>
                 </div>
                 <div class="table-health">
-                  <span class="health-bubble {{ table.health_label_class }}" title="{{ table.health.status }}"></span>
+                  <span class="health-bubble {{ table.health_panel_class }}" title="{{ table.health.status }}"></span>
                 </div>
               </div>
               <div class="table-information">

@@ -115,6 +115,13 @@ h1 {
   background-color: @cr-cell-danger-background !important;
 }
 
+.health-bubble {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
 .severity--info{
   color: @severity--info-color;
 }
@@ -125,6 +132,47 @@ h1 {
 
 .severity--danger{
   color: @severity--danger-color;
+}
+
+// Side Bar
+// -------------------------
+
+.side-bar {
+  background-color: @side-bar-bg-color;
+  width: 250px;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  font-size: @font-size-small;
+  line-height: 16px;
+  overflow-x: hidden;
+  top: @status-bar-height;
+}
+
+.side-bar a,
+.side-bar a:hover,
+.side-bar a:focus {
+  color: @text-color;
+  text-decoration: none;
+}
+
+.side-bar__header,
+.side-bar__element {
+  padding: 10px;
+  border-bottom: @side-bar-bottom-border;
+}
+
+.side-bar__element {
+  background: @side-bar-element-bg-color;
+}
+
+.side-bar__element:hover {
+  background: @side-bar-element-hover-bg-color;
+}
+
+.side-bar__element.active {
+  background-color: @side-bar-element-active-bg-color;
 }
 
 // Media Queries
@@ -146,6 +194,10 @@ h1 {
 }
 
 @media only screen and (max-width: @max-width-sm) {
+  .side-bar {
+    width: 150px;
+  }
+  
   .page-container-padded {
     padding-left: 150px;
   }
