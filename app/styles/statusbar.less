@@ -40,6 +40,7 @@
 }
 
 .status-bar__icon--menu{
+  cursor: pointer;
   width: 60px;
   padding-left: 7px;
   padding-right: 17px;
@@ -82,15 +83,15 @@
   .status-bar__content__item_hide-xs{
     display: none;
   }
-  .status-bar__content__item_hide-s{
-    display: none;
-  }
 }
 
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : @max-width-s) {
   .status-bar__content__item_show-s{
+    display: none;
+  }
+  .status-bar__content__item_hide-s{
     display: none;
   }
 }

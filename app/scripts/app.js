@@ -146,6 +146,16 @@ $.get("conf/plugins.json", function(plugins) {
     }
   });
 
+  app.run(function($rootScope) {
+    $rootScope.$on("showSideNav", function() {
+      $rootScope.showSideNav = true;
+      });
+
+    $rootScope.$on("hideSideNav", function() {
+      $rootScope.showSideNav = false;
+      });
+  });
+
   angular.element(document).ready(function() {
     angular.bootstrap(document, ['crate']);
   });
