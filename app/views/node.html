@@ -56,6 +56,7 @@
           {{ 'NODE.CPU_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
+          <span class="node-graph-overlay"></span>
           <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
             data="cpuData"
             margin="{left: 0, top: 0, bottom: 0, right: 0}"
@@ -75,6 +76,7 @@
           {{ 'NODE.HEAP_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
+          <span class="node-graph-overlay"></span>
           <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
             data="heapData"
             margin="{left: 0, top: 0, bottom: 0, right: 0}"
@@ -94,6 +96,7 @@
           {{ 'NODE.DISK_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
+          <span class="node-graph-overlay"></span>
           <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
             data="diskUsageData"
             margin="{left: 0, top: 0, bottom: 0, right: 0}"
@@ -113,6 +116,7 @@
           {{ 'NODE.CRATE_CPU_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
+          <span class="node-graph-overlay"></span>
           <nvd3-multi-bar-horizontal-chart id="chart-process-cpu"
             data="processCpuData"
             margin="{left: 0, top: 0, bottom: 0, right: 0}"
