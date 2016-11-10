@@ -3,203 +3,285 @@
 <div ng-class="{'page-container-padded': renderSidebar}">
 <div class="page-container" ng-show="node">
 
-      <div class="row row-first">
-        <div class="col-sm-12">
-          <a class="btn btn-default menu-toggle" ng-click="toggleSidebar()"><i class="fa fa-angle-double-right"></i></a>
+  <h1>{{ 'NODE.NODES' | translate }}</h1>
+
+  <div class="node-detail cr-panel-block">
+    <div class="node-detail__row">
+      <div class="node-detail__cell">
+        <p class="cr-panel-block__item__header">
+          {{ 'NODE.NAME' | translate }}
+        </p>
+        <p class="cr-panel-block__item__content--full-width cr-panel--default">
+          <b ng-if="node.name">{{ node.name }}</b>
+          <b ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</b>
+        </p>
+      </div>
+      <div class="node-detail__cell">
+        <p class="cr-panel-block__item__header">
+          {{ 'NODE.HOSTNAME' | translate }}
+        </p>
+        <p class="cr-panel-block__item__content--full-width cr-panel--default">
+          {{ node.hostname }}
+        </p>
+      </div>
+    </div>
+
+    <div class="node-detail__row">
+      <div class="node-detail__cell">
+        <p class="cr-panel-block__item__header">
+          {{ 'NODE.CRATE_VERSION' | translate }}
+        </p>
+        <p class="cr-panel-block__item__content--full-width cr-panel--default">
+          {{ node.version.number }}
+        </p>
+      </div>
+      <div class="node-detail__cell">
+        <p class="cr-panel-block__item__header">
+          {{ 'NODE.REST_URL' | translate }}
+        </p>
+        <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node">
+          <a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="{{ node.rest_url }}" target="_blank">
+            {{ node.rest_url }}
+          </a>
+        </p>
+        <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="node.rest_url">
+          --
+        </p>
+      </div>
+    </div>
+
+    <div class="node-detail__row">
+      <div class="node-detail__graph__wrapper">
+        <div class="cr-panel-block__item__header">
+          {{ 'NODE.CPU_USAGE' | translate }}
         </div>
-        <div class="col-lg-3 col-sm-6 col-xs-6">
-          <div class="panel">
-            <p class="announcement-heading">
-              <b ng-if="node.name">{{ node.name }}</b>
-              <b ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</b>
-            </p>
-            <p class="announcement-text">{{ 'NODE.NAME' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-xs-6">
-          <div class="panel">
-            <p class="announcement-heading">{{ node.hostname }}</p>
-            <p class="announcement-text">{{ 'NODE.HOSTNAME' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-xs-6">
-          <div class="panel" ng-class="{'panel-warning':!isSameVersion(node.version)}">
-            <p class="announcement-heading">{{node.version.number}}<span ng-show="node.version.build_snapshot">-{{ 'NODE.SNAPSHOT' | translate }}-{{ node.version.build_hash.substr(0,7) }}</span></p>
-            <p class="announcement-text">{{ 'NODE.CRATE_VERSION' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-xs-6">
-          <div class="panel">
-            <p class="announcement-heading" ng-show="node"><a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="{{ node.rest_url }}" target="_blank">{{ node.rest_url }}</a></p>
-            <p class="announcement-heading" ng-hide="node.rest_url">--</p>
-            <p class="announcement-text">{{ 'NODE.REST_URL' | translate }}</p>
-          </div>
+        <div class="node-detail__graph__container cr-panel--default">
+          <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
+            data="cpuData"
+            margin="{left: 0, top: 0, bottom: 0, right: 0}"
+            stacked="true"
+            forcey="[0,100]"
+            tooltips="true"
+            tooltipcontent="toolTipUsedPercentFunction()">
+            <svg style="height: 20px"></svg>
+          </nvd3-multi-bar-horizontal-chart>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.CPU_USAGE' | translate }}</h3>
-            <div class="chart-container">
-              <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
-                data="cpuData"
-                margin="{left: 0, top: 0, bottom: 0, right: 0}"
-                stacked="true"
-                forcey="[0,100]"
-                tooltips="true"
-                tooltipcontent="toolTipUsedPercentFunction()">
-                <svg style="height: 20px"></svg>
-              </nvd3-multi-bar-horizontal-chart>
-            </div>
-          </div>
+    <div class="node-detail__row">
+      <div class="node-detail__graph__wrapper">
+        <div class="cr-panel-block__item__header">
+          {{ 'NODE.HEAP_USAGE' | translate }}
         </div>
-        <div class="col-sm-6">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.HEAP_USAGE' | translate }}</h3>
-            <div class="chart-container">
-              <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
-                data="heapData"
-                margin="{left: 0, top: 0, bottom: 0, right: 0}"
-                yAxisTickFormat="yAxisByteFormatFunction()"
-                stacked="true"
-                tooltips="true"
-                tooltipcontent="toolTipUsedBytesFunction()">
-                <svg style="height: 20px"></svg>
-              </nvd3-multi-bar-horizontal-chart>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.DISK_USAGE' | translate }}</h3>
-            <div class="chart-container">
-              <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
-                data="diskUsageData"
-                margin="{left: 0, top: 0, bottom: 0, right: 0}"
-                yAxisTickFormat="yAxisByteFormatFunction()"
-                stacked="true"
-                tooltips="true"
-                tooltipcontent="toolTipUsedBytesFunction()">
-                <svg style="height: 20px"></svg>
-              </nvd3-multi-bar-horizontal-chart>
-            </div>
-          </div>
+        <div class="node-detail__graph__container cr-panel--default">
+          <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
+            data="heapData"
+            margin="{left: 0, top: 0, bottom: 0, right: 0}"
+            yAxisTickFormat="yAxisByteFormatFunction()"
+            stacked="true"
+            tooltips="true"
+            tooltipcontent="toolTipUsedBytesFunction()">
+            <svg style="height: 20px"></svg>
+          </nvd3-multi-bar-horizontal-chart>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-sm-4 col-xs-8">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.LOAD' | translate }}</h3>
-            <p class="announcement-heading" ng-show="node.load['1'] >= 0">
-              <span class="load-value">{{ node.load['1']|number:2 }}</span>
-              <span class="load-value">{{ node.load['5']|number:2 }}</span>
-              <span class="load-value">{{ node.load['15']|number:2 }}</span>
-            </p>
-            <p class="announcement-heading" ng-hide="node.load['1'] >= 0">-</p>
-            <p class="announcement-text">
-              <span class="load-label">1{{ 'NODE.MINUTES' | translate }}</span>
-              <span class="load-label">5{{ 'NODE.MINUTES' | translate }}</span>
-              <span class="load-label">15{{ 'NODE.MINUTES' | translate }}</span>
-            </p>
-          </div>
+    <div class="node-detail__row">
+      <div class="node-detail__graph__wrapper">
+        <div class="cr-panel-block__item__header">
+          {{ 'NODE.DISK_USAGE' | translate }}
         </div>
-        <div class="col-sm-2 col-xs-4">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.CPU_CORES' | translate }}</h3>
-            <p class="announcement-heading" ng-show="node.num_cores > 0">
-              <span class="load-value">{{ node.num_cores }}</span>
-            </p>
-            <p class="announcement-heading" ng-hide="node.num_cores > 0">-</p>
-            <p class="announcement-text">
-              <span class="load-label">{{ 'NODE.CORES' | translate }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-          <div class="panel">
-            <h3 class="panel-headline">{{ 'NODE.CRATE_CPU_USAGE' | translate }}</h3>
-            <div class="chart-container">
-              <nvd3-multi-bar-horizontal-chart id="chart-process-cpu"
-                data="processCpuData"
-                margin="{left: 0, top: 0, bottom: 0, right: 0}"
-                stacked="true"
-                tooltips="true"
-                tooltipcontent="toolTipUsedPercentFunction()">
-                <svg style="height: 20px"></svg>
-              </nvd3-multi-bar-horizontal-chart>
-            </div>
-          </div>
+        <div class="node-detail__graph__container cr-panel--default">
+          <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
+            data="diskUsageData"
+            margin="{left: 0, top: 0, bottom: 0, right: 0}"
+            yAxisTickFormat="yAxisByteFormatFunction()"
+            stacked="true"
+            tooltips="true"
+            tooltipcontent="toolTipUsedBytesFunction()">
+            <svg style="height: 20px"></svg>
+          </nvd3-multi-bar-horizontal-chart>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <h3 class="panel-headline">{{ 'NODE.SHARDS' | translate }}</h3>
+    <div class="node-detail__row">
+      <div class="node-detail__graph__wrapper">
+        <div class="cr-panel-block__item__header">
+          {{ 'NODE.CRATE_CPU_USAGE' | translate }}
         </div>
-        <div class="col-md-3 col-xs-3">
-          <div class="panel">
-            <p class="announcement-heading inline-block" ng-show="shardInfo.initializing > -1">{{ shardInfo.initializing }}</p>
-            <p class="announcement-heading inline-block" ng-hide="shardInfo.initializing > -1">-</p>
-            <p class="announcement-text">{{ 'NODE.INITIALIZING' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-xs-3">
-          <div class="panel">
-            <p class="announcement-heading inline-block" ng-show="shardInfo.started > -1">{{ shardInfo.started }}</p>
-            <p class="announcement-heading inline-block" ng-hide="shardInfo.started > -1">-</p>
-            <p class="announcement-text">{{ 'NODE.STARTED' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-3">
-          <div class="panel">
-            <p class="announcement-heading inline-block" ng-show="shardInfo.reallocating > -1">{{ shardInfo.reallocating }}</p>
-            <p class="announcement-heading inline-block" ng-hide="shardInfo.reallocating > -1">-</p>
-            <p class="announcement-text">{{ 'NODE.REALLOCATING' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-3">
-          <div class="panel">
-            <p class="announcement-heading inline-block" ng-show="shardInfo.postrecovery> -1">{{ shardInfo.postrecovery }}</p>
-            <p class="announcement-heading inline-block" ng-hide="shardInfo.postrecovery> -1">-</p>
-            <p class="announcement-text">{{ 'NODE.POST_RECOVERY' | translate }}</p>
-          </div>
+        <div class="node-detail__graph__container cr-panel--default">
+          <nvd3-multi-bar-horizontal-chart id="chart-process-cpu"
+            data="processCpuData"
+            margin="{left: 0, top: 0, bottom: 0, right: 0}"
+            stacked="true"
+            tooltips="true"
+            tooltipcontent="toolTipUsedPercentFunction()">
+            <svg style="height: 20px"></svg>
+          </nvd3-multi-bar-horizontal-chart>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <h3 class="panel-headline">{{ 'NODE.DISK_OPERATIONS' | translate }}</h3>
+  <div class="node-detail__subsection">
+    <div class="node-detail__subsection--small">
+      <h2 class="">{{ 'NODE.LOAD' | translate }}</h2>
+      <div class="node-detail__subsection__detail cr-panel-block">
+        <div class="node-detail__subsection__cell--small">
+          <p class="cr-panel-block__item__header">
+            1{{ 'NODE.MINUTES' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
+            {{ node.load['1']|number:2 }}
+          </p>
         </div>
-        <div class="col-sm-6 col-xs-6">
-          <div class="panel">
-              <p class="announcement-heading" ng-show="node.iostats.rps > -1">
-                <span class="iops-value">{{ node.iostats.rps|number:1 }}</span>
-                <span class="iops-value">{{ node.iostats.wps|number:1 }}</span>
-              </p>
-              <p class="announcement-heading" ng-hide="node.iostats.rps > -1">-</p>
-              <p class="announcement-text">
-                <span class="iops-label">{{ 'NODE.READ' | translate }} {{ 'NODE.OPS' | translate }}</span>
-                <span class="iops-label">{{ 'NODE.WRITE' | translate }} {{ 'NODE.OPS' | translate }}</span>
-              </p>
-          </div>
+
+        <div class="node-detail__subsection__cell--small">
+          <p class="cr-panel-block__item__header">
+            5{{ 'NODE.MINUTES' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
+            {{ node.load['5']|number:2 }}
+          </p>
         </div>
-        <div class="col-sm-6 col-xs-6">
-          <div class="panel">
-              <p class="announcement-heading" ng-show="node.iostats.rbps > -1">
-                <span class="iops-value">{{ node.iostats.rbps|bytes }}/s</span>
-                <span class="iops-value">{{ node.iostats.wbps|bytes }}/s</span>
-              </p>
-              <p class="announcement-heading" ng-hide="node.iostats.rbps > -1">-</p>
-              <p class="announcement-text">
-                <span class="iops-label">{{ 'NODE.READS' | translate }}</span>
-                <span class="iops-label">{{ 'NODE.WRITES' | translate }}</span>
-              </p>
-          </div>
+
+        <div class="node-detail__subsection__cell--small">
+          <p class="cr-panel-block__item__header">
+            15{{ 'NODE.MINUTES' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
+            {{ node.load['15']|number:2 }}
+          </p>
         </div>
       </div>
+    </div>
 
-      </div><!-- /.row -->
+    <div class="node-detail__subsection--small">
+      <h2 class="">{{ 'NODE.CPU_CORES' | translate }}</h2>
+      <div class="node-detail__subsection__detail cr-panel-block">
+        <div class="node-detail__subsection__cell--small">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.CORES' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.num_cores > 0">
+            {{ node.num_cores }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="node-detail__subsection--medium">
+      <h2 class="">{{ 'NODE.SHARDS' | translate }}</h2>
+      <div class="node-detail__subsection__detail cr-panel-block">
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.INITIALIZING' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.initializing > -1">
+            {{ shardInfo.initializing }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="shardInfo.initializing > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.STARTED' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.started > -1">
+            {{ shardInfo.started }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="shardInfo.started > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.REALLOCATING' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.reallocating > -1">
+            {{ shardInfo.reallocating }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="shardInfo.reallocating > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.POST_RECOVERY' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.postrecovery > -1">
+            {{ shardInfo.postrecovery }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="shardInfo.postrecovery > -1">
+            -
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="node-detail__subsection--medium">
+      <h2 class="">{{ 'NODE.DISK_OPERATIONS' | translate }}</h2>
+      <div class="node-detail__subsection__detail cr-panel-block">
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.READ' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rps > -1">
+            {{ node.iostats.rps|number:1 }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="node.iostats.rps > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.WRITE' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wps > -1">
+            {{ node.iostats.wps|number:1 }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="node.iostats.wps > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.READS' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rbps > -1">
+            {{ node.iostats.rbps|bytes }}/s
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="node.iostats.rbps > -1">
+            -
+          </p>
+        </div>
+
+        <div class="node-detail__subsection__cell">
+          <p class="cr-panel-block__item__header">
+            {{ 'NODE.WRITES' | translate }}
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wbps > -1">
+            {{ node.iostats.wbps|bytes }}/s
+          </p>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-hide="node.iostats.wbps > -1">
+            -
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
 </div>
 </div>
