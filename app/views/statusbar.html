@@ -1,8 +1,10 @@
 <div class="status-bar" ng-controller="StatusBarController">
 
   <div class="status-bar__icon">
-    <i class="fa fa-2x fa-bars status-bar__icon--menu status-bar__content__item_show-s"></i>
-    <img class="status-bar__icon--crate"src="images/icons/CRA_logo_white.svg">
+    <div ng-click="toggleSideNav()">
+      <i class="fa fa-2x fa-bars status-bar__icon--menu status-bar__content__item_show-s"></i>
+    </div>
+    <img class="status-bar__icon--crate" src="images/icons/CRA_logo_white.svg">
   </div>
 
   <div class="status-bar__content">

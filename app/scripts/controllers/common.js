@@ -1,7 +1,7 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
-  .controller('StatusBarController', function($scope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
+  .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx) {
@@ -15,6 +15,16 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
     $scope.cluster_color_label = '';
     $scope.config_label = '';
+
+    var showSideNav = false;
+    $scope.toggleSideNav = function(){
+      showSideNav = !showSideNav;
+      if (showSideNav){
+        $rootScope.$broadcast('showSideNav');
+      }else{
+        $rootScope.$broadcast('hideSideNav');
+      }
+    };
 
     $scope.$watch(function() {
       return ChecksService;
@@ -71,13 +81,22 @@ var commons = angular.module('common', ['stats', 'udc'])
       placement: 'bottom'
     });
   })
-  .controller('NavigationController', function($scope, $location, NavigationService) {
+  .controller('NavigationController', function($scope, $rootScope, $location, NavigationService) {
 
     $scope.navBarElements = NavigationService.navBarElements;
+    $scope.showSideNav = false;
 
     $(".cr-side-nav-item").tooltip({
       placement: 'right'
     });
+
+    $rootScope.$on("showSideNav", function() {
+      $scope.showSideNav = true;
+      });
+
+    $rootScope.$on("hideSideNav", function() {
+      $scope.showSideNav = false;
+      });
 
     $scope.goToPath = function(path) {
       $location.path(path);

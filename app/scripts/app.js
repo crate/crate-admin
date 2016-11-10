@@ -163,12 +163,28 @@ $.get("conf/plugins.json", function(plugins) {
       var search = window.location.search
         .substr(1)
         .split('&')
-        .map(function(item, idx) { return item.split('='); })
-        .reduce(function(a, b) { if (b.length === 2) a[b[0]] = b[1]; return a; }, {});
+        .map(function(item, idx) {
+          return item.split('=');
+        })
+        .reduce(function(a, b) {
+          if (b.length === 2) a[b[0]] = b[1];
+          return a;
+        }, {});
       if (search.base_uri) {
         localStorage.setItem('crate.base_uri', search.base_uri);
       }
     });
+
+    app.run(function($rootScope) {
+      $rootScope.$on("showSideNav", function() {
+        $rootScope.showSideNav = true;
+      });
+
+      $rootScope.$on("hideSideNav", function() {
+        $rootScope.showSideNav = false;
+      });
+    });
+
 
     angular.element(document).ready(function() {
       angular.bootstrap(document, ['crate']);

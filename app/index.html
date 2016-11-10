@@ -99,7 +99,7 @@
       <div id="navigation-wrapper">
         <div id="navigation-viewport" ng-include="'views/nav.html'"></div>
       </div>
-      <div id="page-wrapper">
+      <div id="page-wrapper" ng-class="$root.showSideNav ? '' : 'page-wrapper--no-side-nav'">
         <div id="page-viewport" ng-view></div>
       </div>
     </div>
