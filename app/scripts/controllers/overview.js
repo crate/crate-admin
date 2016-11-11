@@ -18,11 +18,11 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     };
     var chartConf = [{
       "key": "Load 1",
-      "color": "#55d4f5",
+      "color": "#5bd5f5",
       "area": true
     }, {
       "key": "Load 5",
-      "color": "#5987ff"
+      "color": "#5d89fe"
     }, {
       "key": "Load 15",
       "color": "#115097"
