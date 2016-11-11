@@ -1,50 +1,14 @@
 'use strict';
 
 angular.module('overview', ['stats', 'checks', 'ngSanitize'])
-  .factory('ZeroArray', function() {
-    return function ZeroArray(len) {
+  .factory('NullArray', function() {
+    return function NullArray(len) {
       var res = new Array(len);
-      for (var i=0; i<res.length; i++) {
-        res[i] = 0;
-      }
+      for (var i = 0; i < res.length; i++) res[i] = null;
       return res;
     };
   })
-  .factory('HistoryChart', function() {
-    return function HistoryChart(size){
-      var _data = [{
-          "key": "Load 1",
-          "values": [],
-          "color": "#55d4f5",
-          "area": true
-        }, {
-          "key": "Load 5",
-          "values": [],
-          "color": "#5987ff"
-        }, {
-          "key": "Load 15",
-          "values": [],
-          "color": "#115097"
-        }];
-      this.size = size;
-      this.data = function(){
-        return _data;
-      };
-      this.update = function(data){
-        var graphData = [[], [], []];
-        for (var i=0; i<this.size; i++) {
-          graphData[0][i] = [i, data[0][i]];
-          graphData[1][i] = [i, data[1][i]];
-          graphData[2][i] = [i, data[2][i]];
-        }
-        for (var i=0; i<graphData.length; i++) {
-          _data[i].values = graphData[i];
-        }
-        return this;
-      };
-    };
-  })
-  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, HistoryChart, ZeroArray, ChecksService, SQLQuery) {
+  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, NullArray, ChecksService, SQLQuery) {
     var lastUpdate = null;
     var colorMap = {
       "good": 'cr-panel--success',
@@ -52,6 +16,19 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       "critical": 'cr-panel--danger',
       '--': 'cr-panel--default'
     };
+    var chartConf = [{
+      "key": "Load 1",
+      "color": "#55d4f5",
+      "area": true
+    }, {
+      "key": "Load 5",
+      "color": "#5987ff"
+    }, {
+      "key": "Load 15",
+      "color": "#115097"
+    }];
+    var chartCache = [[], [], []];
+
     $scope.available_data = '--';
     $scope.records_unavailable = '--';
     $scope.replicated_data = '--';
@@ -60,7 +37,11 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     $scope.cluster_state = '--';
     $scope.cluster_color_class = 'cr-panel--default';
     $scope.chart = {
-      'data': [],
+      data: [],
+      toggleLoad: function(e, idx) {
+        $('span span', e.originalTarget).toggleClass('cr-radio-button__load__toggle--inactive');
+        $('#cluster-load .nv-series-' + idx).toggle();
+      }
     };
 
     $scope.$watch(function() { return ChecksService; }, function(data) {
@@ -79,6 +60,32 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
 
     var removeCheck = function(check) {
       removeFromArray($scope.checks.node_checks, check)
+    };
+
+    var drawGraph = function(history) {
+      chartCache = history;
+      var data,
+          len = history[0].length; // assuming all load arrays have the same length!
+      if (len < ClusterState.HISTORY_LENGTH) {
+        var missing = ClusterState.HISTORY_LENGTH - len;
+        data = [
+          NullArray(missing),
+          NullArray(missing),
+          NullArray(missing)
+        ];
+        for (var i = 0; i < data.length; i++){
+          data[i].push.apply(data[i], history[i]);
+        }
+      } else {
+        data = history;
+      }
+      $scope.chart.data = data.map(function(lineData, i){
+        var line = angular.copy(chartConf[i]);
+        line.values = lineData.map(function(val, j) {
+          return [j, val];
+        });
+        return line;
+      });
     };
 
     $scope.dismissCheckByNode = function(node, check) {
@@ -154,23 +161,6 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
         $scope.available_data = 100.0;
       }
     }, true);
-
-    // create chart instance that holds meta information and data
-    var chart = new HistoryChart(ClusterState.HISTORY_LENGTH);
-
-    var drawGraph = function drawGraph(history) {
-      var len = history[0].length;
-      // Create Arrays with Zeroes in it
-      var data = [
-        ZeroArray(ClusterState.HISTORY_LENGTH-len),
-        ZeroArray(ClusterState.HISTORY_LENGTH-len),
-        ZeroArray(ClusterState.HISTORY_LENGTH-len)
-      ];
-      for (var i=0; i<data.length; i++){
-        data[i].push.apply(data[i], history[i]);
-      }
-      $scope.chart.data = chart.update(data).data();
-    };
 
 
     // bind tooltips

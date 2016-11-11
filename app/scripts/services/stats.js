@@ -19,7 +19,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
 
     var diskIoHistory = {};
     var refreshInterval = 5000;
-    var historyLength = 180;
+    var historyLength = 60;
 
     var checkReachability = function checkReachability(){
       $http.get(baseURI.getURI("/")).success(function(response) {
