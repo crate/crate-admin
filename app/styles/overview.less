@@ -1,3 +1,7 @@
+@radiobutton-bg-lightblue:  #55d4f5;
+@radiobutton-bg-blue:       #5987ff;
+@radiobutton-bg-darkblue:   #115097;
+
 .cr-panel-block--info{
   .cr-panel-block;
   margin-right: 5px;
@@ -17,6 +21,7 @@
   padding: 0px;
 }
 
+.cr-panel-block__item--load,
 .cr-panel-block__item--checks{
   .cr-panel-block__item;
   flex-grow: 1;
@@ -25,6 +30,7 @@
   margin: 5px;
 }
 
+.cr-panel-block__item__header--load,
 .cr-panel-block__item__header--checks{
   .cr-panel-block__item__header;
   border-bottom: 3px solid @body-bg;
@@ -34,22 +40,38 @@
   justify-content: space-between;
 }
 
-.cr-panel-block__item__header--checks h2{
+.cr-panel-block__item__header--load > h2,
+.cr-panel-block__item__header--checks h2 {
+  width: 100%;
   margin: 15px 0px;
 }
 
-.cr-panel-block__item__header__icon--checks{
+.cr-panel-block__item__header__icon {
   border-left: 2px solid @body-bg;
-  padding: 10px;
   cursor: pointer;
   color: @cr-panel-block__item__header__icon--checks--color;
 }
 
-.cr-panel-block__item__header__icon--checks > i{
-  margin-top: 75%;
+.cr-panel-block__item__header__icon--checks {
+  .cr-panel-block__item__header__icon;
+  display: inline-block;
+  flex: 0 0 54px;
+  padding: 18px 20px 0;
 }
 
-#cluser-load > svg {
+.cr-panel-block__item__header__icon--load {
+  .cr-panel-block__item__header__icon;
+  display: inline-block;
+  flex: 0 0 110px;
+  padding: 18px 10px 0;
+}
+
+.cr-panel-block__item__header__icon--load:hover,
+.cr-panel-block__item__header__icon--load:focus {
+  text-decoration: none;
+}
+
+#cluster-load > svg {
   height: 350px;
 }
 
@@ -79,7 +101,6 @@
   text-decoration: underline
 }
 
-
 .cr-severity-list__item__header {
   .cr-severity-content;
   display: flex;
@@ -98,4 +119,38 @@
 .cr-severity-list__item__header__btn:focus,{
   color: @text-color;
   text-decoration: underline
+}
+
+.cr-radio-button__load {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid @body-bg;
+  margin: 0 10px 0 0;
+  padding: 2px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.cr-radio-button__load__toggle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+}
+
+.cr-radio-button__load__toggle--inactive {
+  background-color: transparent !important;
+}
+
+.cr-radio-button__load__toggle--one {
+  background-color: @radiobutton-bg-lightblue;
+}
+
+.cr-radio-button__load__toggle--five {
+  background-color: @radiobutton-bg-blue;
+}
+
+.cr-radio-button__load__toggle--fifteen {
+  background-color: @radiobutton-bg-darkblue;
 }

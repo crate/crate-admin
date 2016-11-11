@@ -10,46 +10,46 @@
 
     <div class="cr-panel-block--info">
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.HEALTH' | translate }}</div>         
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.HEALTH' | translate }}</div>
         <div class="cr-panel-block__item__content cr-panel--default"
             ng-class="cluster_color_class">
           {{ cluster.state }}
         </div>
       </div>
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.REPLICATED_DATA' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel--default" 
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.REPLICATED_DATA' | translate }}</div>
+        <div class="cr-panel-block__item__content cr-panel--default"
             ng-class="{'cr-panel--warning': replicated_data < 100}">{{replicated__data | floor:1}}%
         </div>
       </div>
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.AVAILABLE_DATA' | translate }}</div>         
-        <div class="cr-panel-block__item__content cr-panel--default" 
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.AVAILABLE_DATA' | translate }}</div>
+        <div class="cr-panel-block__item__content cr-panel--default"
             ng-class="{'cr-panel--danger': available_data < 100}">{{available_data | floor:1}}%
         </div>
       </div>
 
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.TOTAL_RECORDS' | translate }}</div>         
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.TOTAL_RECORDS' | translate }}</div>
         <div class="cr-panel-block__item__content cr-panel--default">
           {{ records_total|roundWithUnit:1 }}
         </div>
       </div>
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>         
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>
         <div class="cr-panel-block__item__content cr-panel--default"
           ng-class="{'cr-panel--warning': records_underreplicated > 0}">
           {{ records_underreplicated|roundWithUnit:1 }}%
         </div>
       </div>
 
-      <div class="cr-panel-block__item--info"> 
-        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>         
+      <div class="cr-panel-block__item--info">
+        <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>
         <div class="cr-panel-block__item__content cr-panel--default"
           ng-class="{'cr-panel--danger': records_unavailable > 0}">
           {{ records_unavailable|roundWithUnit:1 }}%
@@ -59,22 +59,34 @@
     </div><!-- /.row -->
 
     <div class="cr-panel-block--checks" ng-show="chart.data">
-        <div class="cr-panel-block__item--checks">
-            <div class="cr-panel-block__item__header--checks">
-              <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
-            </div>
-            <nvd3-line-chart id="cluser-load" data="chart.data"
-              showXAxis="false"
-              showYAxis="true"
-              yaxisshowmaxmin="false"
-              objectequality="true"
-              forcey="[0,1]"
-              interactive="false"
-              showLegend="true">
-              <svg></svg>
-            </nvd3-line-chart>
+        <div class="cr-panel-block__item--load">
+          <div class="cr-panel-block__item__header--load">
+            <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
+            <a ng-click="chart.toggleLoad($event, 0)" class="cr-panel-block__item__header__icon--load">
+              <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--one"></span></span>
+              Load 1
+            </a>
+            <a ng-click="chart.toggleLoad($event, 1)" class="cr-panel-block__item__header__icon--load">
+              <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--five"></span></span>
+              Load 5</a>
+            <a ng-click="chart.toggleLoad($event, 2)" class="cr-panel-block__item__header__icon--load">
+              <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--fifteen"></span></span>
+              Load 15</a>
+          </div>
+          <nvd3-line-chart id="cluster-load"
+                           data="chart.data"
+                           showXAxis="false"
+                           showYAxis="true"
+                           yaxisshowmaxmin="false"
+                           objectequality="true"
+                           forcey="[0,1]"
+                           interactive="false"
+                           margin="{top: 20, right: 2, bottom: 40, left: 40}"
+                           showLegend="false">
+            <svg></svg>
+          </nvd3-line-chart>
         </div>
-        
+
         <div ng-show="checks.cluster_checks.length > 0" class="cr-panel-block__item--checks">
           <div>
             <div class="cr-panel-block__item__header--checks">
