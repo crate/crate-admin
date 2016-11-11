@@ -168,7 +168,7 @@ label:hover:before {
   position: absolute;
   top: @status-bar-height;
   left: @side-nav-width;
-  width:  calc(~"100vw -" @side-nav-width + 15px);
+  width:  calc(~"100% -" @side-nav-width);
   height: calc(~"100vh -" @status-bar-height);
 }
 
@@ -338,7 +338,7 @@ label:hover:before {
 @media only screen and (max-width:  @max-width-s){
   #page-wrapper {
     left: @side-nav-width-xs;
-    width:  calc(~"100vw -" @side-nav-width-xs + 15px);
+    width:  calc(~"100% -" @side-nav-width-xs);
   	height: calc(~"100vh -" @status-bar-height);
   }
 }
