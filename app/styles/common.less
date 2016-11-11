@@ -192,6 +192,7 @@ label:hover:before {
 
 .page-container-padded {
   padding-left: 250px;
+  overflow-y: scroll;
 }
 
 .cr-panel-block{
@@ -351,9 +352,21 @@ label:hover:before {
     display: none !important;
   }
 
+  .hide-table-list {
+    display: none !important;
+  }
+
+  .hide-node-list {
+    display: none !important;
+    }
+    
   .page-wrapper--no-side-nav{
     left: 0px !important;
     width: 100vw !important;
+  }
+
+  .page-container--no-list{
+    padding-left: 0px !important;
   }
 
 }
@@ -370,9 +383,37 @@ label:hover:before {
 
 @media screen and (min-width: @max-width-xs){
   .hide-gt-xs {
-    display: none;
+    display: none !important;
   }
 }
+
+@media screen and (min-width: @max-width-sm){
+  .hide-gt-s {
+    display: none !important;
+  }
+}
+
+/* Small Devices, Tablets */
+@media screen and (max-width : @max-width-s) {
+  .hide-s{
+    display: none !important;
+  }
+}
+
+/* Small Devices, Tablets */
+@media screen and (max-width : @max-width-xs) {
+  .hide-xs{
+    display: none !important;
+  }
+}
+
+/* Small Devices, Tablets */
+@media screen and (max-width : @max-width-m) {
+  .hide-m{
+    display: none !important;
+  }
+}
+
 // 
 // nvd3
 // ----------------------------------

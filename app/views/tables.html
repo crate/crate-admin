@@ -1,6 +1,6 @@
-<div ng-include="'views/tablelist.html'"></div>
+<div ng-include="'views/tablelist.html'" ng-class="$root.showTableList ? '' : 'hide-table-list'"></div>
 
-<div ng-class="{'page-container-padded': renderSidebar}">
+<div ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showTableList}">
 <div class="page-container" ng-show="table">
 
   <h1>{{ 'NAVIGATION.TABLE' | translate }}</h1>
@@ -17,7 +17,7 @@
               '0': '{{ translationKey | translate }} ({})',
               '1': '{{ table_label }}',
               'other': '{{ table_label }}'}">
-        </ng-pluralize>
+          </ng-pluralize>
         <span class="small" ng-show="isParted">(partitioned)<span>
         </p>
       </div>

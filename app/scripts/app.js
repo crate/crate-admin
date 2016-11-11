@@ -175,6 +175,7 @@ $.get("conf/plugins.json", function(plugins) {
       }
     });
 
+
     app.run(function($rootScope) {
       $rootScope.$on("showSideNav", function() {
         $rootScope.showSideNav = true;
@@ -185,6 +186,19 @@ $.get("conf/plugins.json", function(plugins) {
       });
     });
 
+    app.run(function($rootScope) {
+      $rootScope.$on("showSideNav", function() {
+        $rootScope.showSideNav = true;
+        $rootScope.showTableList = true;
+        $rootScope.showNodeList = true;
+      });
+
+      $rootScope.$on("hideSideNav", function() {
+        $rootScope.showSideNav = false;
+        $rootScope.showTableList = false;
+        $rootScope.showNodeList = false;
+      });
+    });
 
     angular.element(document).ready(function() {
       angular.bootstrap(document, ['crate']);
