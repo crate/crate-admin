@@ -39,7 +39,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     $scope.chart = {
       data: [],
       toggleLoad: function(e, idx) {
-        $('span span', e.originalTarget).toggleClass('cr-radio-button__load__toggle--inactive');
+        $('#load-btn-' + idx).toggleClass('cr-radio-button__load__toggle--inactive');
         $('#cluster-load .nv-series-' + idx).toggle();
       }
     };
