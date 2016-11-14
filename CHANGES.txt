@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - ``base_uri`` url parameter for development mode was not always recognized
+   correctly
+
  - fixed bug that caused the cluster REST URL link in nodes view page to be unsafe.
 
 2016/11/03 0.21.2

@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var MODULES = [
   'ngRoute',
   'ngCookies',
@@ -162,9 +160,13 @@ $.get("conf/plugins.json", function(plugins) {
     });
 
     app.run(function($window, $location) {
-      var baseURI = $location.search().base_uri;
-      if (baseURI) {
-        localStorage.setItem('crate.base_uri', baseURI);
+      var search = window.location.search
+        .substr(1)
+        .split('&')
+        .map(function(item, idx) { return item.split('='); })
+        .reduce(function(a, b) { if (b.length === 2) a[b[0]] = b[1]; return a; }, {});
+      if (search.base_uri) {
+        localStorage.setItem('crate.base_uri', search.base_uri);
       }
     });
 
