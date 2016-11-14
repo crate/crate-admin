@@ -1,25 +1,27 @@
 'use strict';
 
 angular.module('feed', ['stats', 'udc'])
-  .factory('FeedService', function($http){
+  .factory('FeedService', function($http) {
     return {
       parse: function(feed) {
-        return $http.jsonp(feed, {cache: false});
+        return $http.jsonp(feed, {
+          cache: false
+        });
       }
     };
   })
-  .factory('NotificationService', function($http){
+  .factory('NotificationService', function($http) {
     var readItems = null;
     var key = 'crate.readNotifications';
     return {
-      readItems: function(){
+      readItems: function() {
         if (readItems === null) {
           var v = localStorage.getItem(key);
           readItems = v ? JSON.parse(v) : [];
         }
         return readItems;
       },
-      markAsRead: function(id){
+      markAsRead: function(id) {
         var items = this.readItems();
         items.push(id);
         readItems = items;
@@ -27,9 +29,10 @@ angular.module('feed', ['stats', 'udc'])
       }
     };
   })
-  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings, UidLoader) {
-    var appendQueryString = function(base, qs){
-        return base.indexOf('?') > -1 ? base + '&' + qs : base + '?' + qs;
+  .controller('NotificationsController', function($scope, $sce, $http, $filter, $window, FeedService,
+    NotificationService, ClusterState, UdcSettings, UidLoader) {
+    var appendQueryString = function(base, qs) {
+      return base.indexOf('?') > -1 ? base + '&' + qs : base + '?' + qs;
     };
 
     var MAX_ITEMS = 5;
@@ -56,11 +59,15 @@ angular.module('feed', ['stats', 'udc'])
       $scope.entries = [];
 
       var stableVersion;
-      $http.get($scope.version_url, { withCredentials: true }).success(function(response){
+      $http.get($scope.version_url, {
+        withCredentials: true
+      }).success(function(response) {
         if (response && response.crate) stableVersion = response.crate;
       });
 
-      $scope.$watch(function(){ return ClusterState.data; }, function(data) {
+      $scope.$watch(function() {
+        return ClusterState.data;
+      }, function(data) {
         $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
         $scope.stableVersion = stableVersion;
         $scope.serverVersion = data.version ? data.version.number : '';
@@ -69,12 +76,12 @@ angular.module('feed', ['stats', 'udc'])
 
       $scope.noNotifications = true;
 
-      FeedService.parse($scope.feed_url).then(function(result){
+      FeedService.parse($scope.feed_url).then(function(result) {
         var trunc = $filter('characters');
         if (result.status === 200 && result.data.length > 0) {
           var entries = result.data.splice(0, MAX_ITEMS);
           var unread = entries.length;
-          entries.map(function(item, idx){
+          entries.map(function(item, idx) {
             item.title = $sce.trustAsHtml(item.title);
             item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
             item.timestamp = new Date(item.date);
@@ -86,11 +93,11 @@ angular.module('feed', ['stats', 'udc'])
         }
       });
 
-      $http.get(appendQueryString($scope.menu_url, 'callback=JSON_CALLBACK')).success(function(response){
+      $http.get(appendQueryString($scope.menu_url, 'callback=JSON_CALLBACK')).success(function(response) {
         if (response && response.data) {
-            $scope.menu = response.data;
+          $scope.menu = response.data;
         }
-        UidLoader.load().success(function(uid){
+        UidLoader.load().success(function(uid) {
           if (uid !== null && data.enabled === true) {
             $scope.menu.map(function(item, idx) {
               item.url = appendQueryString(item.url, 'ajs_uid=' + uid.toString());
@@ -101,34 +108,39 @@ angular.module('feed', ['stats', 'udc'])
       });
     });
 
-    $scope.markAsRead = function markAsRead(item){
+    $scope.markAsRead = function markAsRead(item) {
       if (item === 'all') {
         var all = $scope.entries;
-        for (var i=0; i<all.length; i++) {
+        for (var i = 0; i < all.length; i++) {
           NotificationService.markAsRead(all[i].id);
         }
         $scope.numUnread = 0;
       } else if (item) {
         NotificationService.markAsRead(item.id);
-        $scope.numUnread = Math.max(0, $scope.numUnread-1);
+        $scope.numUnread = Math.max(0, $scope.numUnread - 1);
       }
     };
 
-    $scope.isRead = function isRead(item){
+    $scope.isRead = function isRead(item) {
       var items = NotificationService.readItems();
       var id = item.id;
-      for (var i=0; i<items.length; i++) {
+      for (var i = 0; i < items.length; i++) {
         if (items[i] === id) return true;
       }
       return false;
     };
 
-    // Set default menu data
-    $scope.menu = [
-        {"url": "https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link",
-         "title": "Schedule a 1-ON-1 demo with a Crate engineer"},
-        {"url": "https://crate.io/blog?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed&ajs_event=clicked_more_link",
-         "title": "More"}
-    ];
+    $scope.goToUrl = function(url) {
+      $window.open(url, "_blank");
+    };
 
+    $scope.goToPost = function(item) {
+      $window.open(item.permalink + "?utm_source=adminui&utm_medium=browser&utm_term={" + item.tags.join('+') + "}&utm_content=blogpostlink&utm_campaign=newsfeed", "_news");
+    };
+    // Set default menu data
+    $scope.menu = [{
+        "url": "https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link",
+        "title": "Schedule a 1-ON-1 demo with a Crate engineer"
+      }
+    ];
   });

@@ -26,6 +26,11 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
 
+    $scope.showSettings = false;
+    $scope.toggleSettings = function(){
+      $scope.showSettings = !$scope.showSettings;
+    };
+
     $scope.$watch(function() {
       return ChecksService;
     }, function(data) {
@@ -235,10 +240,19 @@ var commons = angular.module('common', ['stats', 'udc'])
     });
   })
   .controller('LanguageSwitchController', function($scope, $translate) {
+    $scope.showDropDown = false;
+    $scope.toggleDropDown = function(){
+      $scope.showDropDown = !$scope.showDropDown;
+    };
+
+    $scope.selectedLanguage = "auto";
+
     $scope.changeLanguage = function(langKey) {
       // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
       langKey = langKey === 'auto' ? $translate.preferredLanguage() : langKey;
       $translate.use(langKey);
+      $scope.selectedLanguage = langKey;
+      $scope.toggleDropDown();
     };
   });
 
