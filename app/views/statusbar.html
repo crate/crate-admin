@@ -21,53 +21,82 @@
 
     <div class="status-bar__content__item hide-xs">Load: <span class="">{{ load1 }}</span>/<span class="">{{ load5 }}</span>/<span class="">{{ load15 }}</span></div>
 
-    <div class="dropdown status-bar__content__item" ng-controller="HelpMenuController">
-      <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question-circle"></i></a>
-      <ul class="dropdown-menu pull-right notifications">
-        <li class="notification-header"><h3>{{ 'STATUSBAR.HELP' | translate }}</h3><hr /></li>
-        <li class="news-item clearfix">
-          <a href="{{ docs_url }}" target="_docs">
-            <div class="icon" style="padding-top:7px;"><i class="fa fa-book"></i></div>
-            <h3>{{ 'STATUSBAR.CRATE_MANUAL' | translate }} <span ng-show="version">({{ version.number }})</span> &raquo;</h3>
-            <div>{{ 'STATUSBAR.DOC_MSG' | translate }}</div>
-          </a>
-        </li>
-      </ul>
-    </div>
 
-    <div class="dropdown status-bar__content__item" ng-controller="LanguageSwitchController">
-      <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i></a>
-      <ul class="dropdown-menu pull-right languages">
-        <li><a ng-click="changeLanguage('auto')">Auto Detect</a></li>
-        <li><a ng-click="changeLanguage('en')">English</a></li>
-        <li><a ng-click="changeLanguage('de')">Deutsch</a></li>
-        <li><a ng-click="changeLanguage('es')">Español</a></li>
-      </ul>
-    </div>
+    <div ng-controller="NotificationsController">
+      <div id="settings-icon" class="status-bar__content__item" ng-click="toggleSettings()">
+        <i class="fa fa-2x fa-cog"></i>
+        <i id="unread-notifications-bg" ng-if="numUnread || showUpdate" class="fa fa-circle"></i>
+        <i id="unread-notifications" ng-if="numUnread || showUpdate" class="fa fa-exclamation-circle"></i>
 
-    <div class="dropdown status-bar__content__item" ng-controller="NotificationsController">
-      <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-class="{'num-unread': numUnread || showUpdate}"><i class="fa fa-bell"></i></a>
-      <ul class="dropdown-menu pull-right notifications">
-        <li class="notification-header"><h3>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</h3><hr /></li>
-        <li class="news-item unread-important" ng-show="showUpdate">
-          <a href="https://crate.io/download/">
-            <h3  translate="STATUSBAR.OLD_VERSION_TIP" translate-value-version="{{serverVersion}}"></h3>
-            <div translate="STATUSBAR.UPDATE_TIP" translate-value-version="{{stableVersion}}"></div>
-          </a>
-        </li>
-        <li ng-repeat="item in entries" class="news-item" id="{{ item.id }}" ng-class="{'unread': !isRead(item)}">
-          <a ng-href="{{ item.permalink }}?utm_source=adminui&utm_medium=browser&utm_term={{ item.tags.join('+') }}&utm_content=blogpostlink&utm_campaign=newsfeed" target="_news" ng-click="markAsRead(item)">
-            <h3 ng-bind-html="item.title"></h3>
-            <div ng-bind-html="item.preview"></div>
-          </a>
-        </li>
-        <li ng-show="noNotifications"><p>{{ 'STATUSBAR.NO_NOTIFICATION' | translate }}</p></li>
-        <li class="notification-footer"><hr /></li>
-        <li class="notification-footer" ng-show="entries"><a href="" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</a></li>
-        <li ng-repeat="item in menu" class="notification-footer" ng-show="entries">
-            <a ng-href="{{item.url}}" target="_menu_{{$index}}">{{item.title}}</a>
-        </li>
-      </ul>
+      </div>
+      <div id="settings-wrapper"  class="cr-settings" ng-if="showSettings" >
+          <div class="cr-settings__item--language" ng-controller="LanguageSwitchController">
+            <div class="cr-settings__item__label">Select language</div>
+            <div class="cr-dropdown">
+              <div class="cr-dropdown__menu" ng-click="toggleDropDown()">
+                <div>{{selectedLanguage | languageFilter}}</div>
+                <div class="cr-dropdown__menu__icon"><i class="fa fa-caret-down"></i></div>
+              </div>
+              <div class="cr-dropdown__list" ng-if="showDropDown">
+                <div class="cr-dropdown__list__item" ng-click="changeLanguage('auto')"> Auto detect</div>
+                <div class="cr-dropdown__list__item" ng-click="changeLanguage('en')"> English</div>
+                <div class="cr-dropdown__list__item" ng-click="changeLanguage('de')"> Deutsch</div>
+                <div class="cr-dropdown__list__item" ng-click="changeLanguage('es')"> Español</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cr-settings__item">
+            <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{ 'STATUSBAR.CRATE_MANUAL' | translate }} ({{ version.number }})</a>
+          </div>
+
+
+          <div class="cr-settings__item"  ng-repeat="item in menu">
+            <a class="cr-settings__item__label" ng-href="{{item.url}}" target="_menu_{{$index}}">
+              {{item.title}}
+            </a>
+          </div>
+
+          <div class="notifications-wrapper">
+            <div class="notifications-wrapper__header">
+              <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div> 
+              <div class="notifications-wrapper__header--btn" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</div> 
+            </div>
+            
+
+            <div class="notification" ng-show="showUpdate">
+              <div class="notification__item" ng-click="goToUrl('https://crate.io/download/')">
+                <div class="notification__status">
+                 <div class="cr-bubble cr-bubble--blue"></div>
+                </div>
+                <div class="notification__content">
+                  <p translate="STATUSBAR.OLD_VERSION_TIP" translate-value-version="{{serverVersion}}"></p>
+                  <p translate="STATUSBAR.UPDATE_TIP" translate-value-version="{{stableVersion}}"></p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="notification" ng-repeat="item in mentries" ng-click="goToPost(item)">
+              <div class="notification__item">
+                <div class="notification__status"></div>
+                <div class="notification__content">
+                  <b>{{item.timestamp | date}}</b>
+                  <div ng-bind-html="item.title"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="no-notification" ng-show="noNotifications">
+              <div class="notification__item">
+                <div class="notification__status"></div>
+                <div class="notification__content">
+                  {{ 'STATUSBAR.NO_NOTIFICATION' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
     </div>
     
   </div>

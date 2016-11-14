@@ -95,3 +95,161 @@
   background-color: @bubble-danger-background;
 }
 
+.cr-bubble--blue {
+  background-color: @bubble-master-background;
+  border: @bubble-master-border;
+}
+
+#settings-wrapper{
+  position: absolute;
+  top: @status-bar-height;
+  right: 0px;
+  background:  @status-bar-background-color;
+  height:  calc(~"100vh -" @status-bar-height);
+  width: 300px;
+  z-index: @settings-wrapper-z-index;
+  font-weight: normal;
+}
+
+.cr-settings__item{
+  border-bottom: @status-bar-border-bottom; 
+  padding: 10px;
+  font-weight: normal;
+}
+
+.cr-settings__item__label,
+.cr-settings__item__label:hover,
+.cr-settings__item__label:active,
+.cr-settings__item__label:link,
+.cr-settings__item__label:visited{
+  color: @status-bar-color;
+  text-decoration: none;
+}
+
+.cr-settings__item--language{
+  .cr-settings__item;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cr-dropdown{
+  position: relative;
+}
+
+#settings-icon{
+  position: relative;
+  cursor: pointer;
+}
+
+.cr-dropdown__menu{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  padding: 5px 10px;
+  width: 140px;
+  border: @status-bar-border-bottom; 
+  background-color: @dropdown-menu-bg-color; 
+
+  color: @status-bar-color;
+  font-weight: normal;
+  font-size: @font-size-small;
+}
+
+.cr-dropdown__menu__icon{
+  margin-left: 5px;
+}
+.cr-dropdown__list{
+  position: absolute;
+
+  border:  @status-bar-border-bottom; 
+  border-top: none; 
+  background-color: @dropdown-menu-bg-color; 
+  font-size: @font-size-small;
+  width: 140px;
+  color: @status-bar-color;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.cr-dropdown__list__item:hover{
+  color: @dropdown-list-item-hover-color;
+  background-color: @dropdown-list-item-hover-bg-color; 
+}
+
+.cr-dropdown__list__item{
+  padding: 5px 10px;
+}
+
+.notifications-wrapper {
+  height: 100%;
+  background-color: @notifications-bg-color; 
+}
+
+.notifications-wrapper__header{
+  border-bottom: @notifications-border-bottom;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 5px 10px;
+
+}
+
+.notifications-wrapper__header--btn{
+  cursor: pointer;
+}
+
+
+.notification{
+  padding: 5px 10px;
+  color: #ccc;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: @notifications-border-bottom;
+
+}
+
+.notification:hover{
+  color: @notification-hover-color;
+  background-color: @notification-hover-bg-color; 
+}
+
+.no-notification{
+  padding: 5px 10px;
+  color: #ccc;
+  text-decoration: none;
+  border-bottom:  @notifications-border-bottom;
+}
+
+
+.notification__item{
+  display: flex;
+  flex-direction: row;
+
+  padding: 5px 10px;
+
+}
+
+.notification__status{
+  flex: 0 0 20px;
+  margin-top: 5px;
+}
+
+#unread-notifications{
+  color: @unread-notifications-color;
+  position: absolute;
+  right: 9px;
+  top: -1px;
+}
+
+#unread-notifications-bg{
+  color: @unread-notifications-bg-color;
+  position: absolute;
+  right: 9px;
+  top: -1px;
+}
