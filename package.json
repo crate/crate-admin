@@ -19,7 +19,7 @@
     "grunt-concurrent": "~0.3.0",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-cssmin": "~0.6.0",
     "grunt-contrib-htmlmin": "~0.2.0",
@@ -39,7 +39,8 @@
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "~0.2.5",
     "karma-phantomjs-launcher": "^1.0.0",
-    "matchdep": "~0.1.2"
+    "matchdep": "~0.1.2",
+    "serve-static": "^1.11.1"
   },
   "peerDependencies": {
     "grunt-cli": "~0.1.13"
