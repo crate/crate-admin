@@ -58,14 +58,14 @@
       <div class="cr-panel-block__item__header--load">
         <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
         <a ng-click="chart.toggleLoad($event, 0)" class="cr-panel-block__item__header__icon--load">
-          <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--one"></span></span>
+          <span class="cr-radio-button__load"><span id="load-btn-0" class="cr-radio-button__load__toggle cr-radio-button__load__toggle--one"></span></span>
           Load 1
         </a>
         <a ng-click="chart.toggleLoad($event, 1)" class="cr-panel-block__item__header__icon--load">
-          <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--five"></span></span>
+          <span class="cr-radio-button__load"><span id="load-btn-1" class="cr-radio-button__load__toggle cr-radio-button__load__toggle--five"></span></span>
           Load 5</a>
         <a ng-click="chart.toggleLoad($event, 2)" class="cr-panel-block__item__header__icon--load">
-          <span class="cr-radio-button__load"><span class="cr-radio-button__load__toggle cr-radio-button__load__toggle--fifteen"></span></span>
+          <span class="cr-radio-button__load"><span id="load-btn-2" class="cr-radio-button__load__toggle cr-radio-button__load__toggle--fifteen"></span></span>
           Load 15</a>
       </div>
       <nvd3-line-chart id="cluster-load"
