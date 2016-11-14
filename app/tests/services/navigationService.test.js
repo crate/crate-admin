@@ -24,7 +24,6 @@ describe('NavigationService', function() {
 
 
       var navBarElements = mockNavigationService.navBarElements;
-      console.log(navBarElements);
       expect(navBarElements[1]).toEqual({
         text: 'example',
         iconClass: 'example.icon',

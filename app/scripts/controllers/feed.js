@@ -1,10 +1,21 @@
 'use strict';
 
 angular.module('feed', ['stats', 'udc'])
-  .factory('FeedService', function($http){
+  .factory('QueryStringAppender', function(){
     return {
-      parse: function(feed) {
-        return $http.jsonp(feed, {cache: false});
+      append: function(url, k, v) {
+        var qs = k + '=' + v;
+        return url.indexOf('?') > -1 ? url + '&' + qs : url + '?' + qs;
+      }
+    };
+  })
+  .factory('FeedService', function($http, QueryStringAppender) {
+    return {
+      parse: function(url) {
+        var fullUrl = QueryStringAppender.append(url, 'callback', 'JSON_CALLBACK');
+        return $http.jsonp(fullUrl, {
+          cache: false
+        });
       }
     };
   })
@@ -27,14 +38,15 @@ angular.module('feed', ['stats', 'udc'])
       }
     };
   })
-  .controller('NotificationsController', function ($scope, $sce, $http, $filter, FeedService, NotificationService, ClusterState, UdcSettings, UidLoader) {
-    var appendQueryString = function(base, qs){
-        return base.indexOf('?') > -1 ? base + '&' + qs : base + '?' + qs;
-    };
+  .controller('NotificationsController', function($scope, $sce, $http, $filter, $window,
+    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader) {
 
     var MAX_ITEMS = 5;
     var CRATE_IO = 'https://crate.io'
-    var DISABLE_UDC = 'udc.enabled=false';
+
+    var doNotTrackURL= function(url) {
+      return QueryStringAppender.append(url, 'udc.enabled', 'false');
+    };
 
     $scope.blog_url = CRATE_IO + '/blog';
     $scope.demo_url = CRATE_IO + '/demo';
@@ -44,11 +56,11 @@ angular.module('feed', ['stats', 'udc'])
 
     UdcSettings.availability.success(function(data) {
       if (data.enabled !== true) {
-        $scope.blog_url = appendQueryString($scope.blog_url, DISABLE_UDC);
-        $scope.demo_url = appendQueryString($scope.demo_url, DISABLE_UDC);
-        $scope.version_url = appendQueryString($scope.version_url, DISABLE_UDC);
-        $scope.feed_url = appendQueryString($scope.feed_url, DISABLE_UDC);
-        $scope.menu_url = appendQueryString($scope.menu_url, DISABLE_UDC);
+        $scope.blog_url = doNotTrackUrl($scope.blog_url);
+        $scope.demo_url = doNotTrackUrl($scope.demo_url);
+        $scope.version_url = doNotTrackUrl($scope.version_url);
+        $scope.feed_url = doNotTrackUrl($scope.feed_url);
+        $scope.menu_url = doNotTrackUrl($scope.menu_url);
       }
 
       $scope.showUpdate = false;
@@ -56,9 +68,10 @@ angular.module('feed', ['stats', 'udc'])
       $scope.entries = [];
 
       var stableVersion;
-      $http.get($scope.version_url, { withCredentials: true }).success(function(response){
-        if (response && response.crate) stableVersion = response.crate;
-      });
+      FeedService.parse($scope.version_url)
+        .success(function(response) {
+          if (response && response.crate) stableVersion = response.crate;
+        });
 
       $scope.$watch(function(){ return ClusterState.data; }, function(data) {
         $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
@@ -69,36 +82,42 @@ angular.module('feed', ['stats', 'udc'])
 
       $scope.noNotifications = true;
 
-      FeedService.parse($scope.feed_url).then(function(result){
-        var trunc = $filter('characters');
-        if (result.status === 200 && result.data.length > 0) {
-          var entries = result.data.splice(0, MAX_ITEMS);
-          var unread = entries.length;
-          entries.map(function(item, idx){
-            item.title = $sce.trustAsHtml(item.title);
-            item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
-            item.timestamp = new Date(item.date);
-            item.id = item.timestamp.getTime().toString(32);
-            if (isRead(item)) unread--;
-          });
-          $scope.entries = entries;
-          $scope.numUnread = unread;
-        }
-      });
-
-      $http.get(appendQueryString($scope.menu_url, 'callback=JSON_CALLBACK')).success(function(response){
-        if (response && response.data) {
-            $scope.menu = response.data;
-        }
-        UidLoader.load().success(function(uid){
-          if (uid !== null && data.enabled === true) {
-            $scope.menu.map(function(item, idx) {
-              item.url = appendQueryString(item.url, 'ajs_uid=' + uid.toString());
-              item.url = appendQueryString(item.url, 'ajs_aid=' + uid.toString());
+      FeedService.parse($scope.feed_url)
+        .success(function(response) {
+          if (response && response.length > 0) {
+            var trunc = $filter('characters');
+            var entries = response.splice(0, MAX_ITEMS);
+            var unread = entries.length;
+            entries.map(function(item, idx) {
+              item.title = $sce.trustAsHtml(item.title);
+              item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
+              item.timestamp = new Date(item.date);
+              item.id = item.timestamp.getTime().toString(32);
+              if ($scope.isRead(item)) unread--;
             });
+            $scope.entries = entries;
+            $scope.numUnread = unread;
           }
+        })
+        .error(function() {
+          $scope.entries = [];
+          $scope.numUnread = 0;
         });
-      });
+
+      FeedService.parse($scope.menu_url)
+        .success(function(response) {
+          if (response && response.data) {
+            $scope.menu = response.data;
+          }
+          UidLoader.load().success(function(uid) {
+            if (uid !== null && data.enabled === true) {
+              $scope.menu.map(function(item, idx) {
+                item.url = QueryStringAppender.append(item.url, 'ajs_uid', uid.toString());
+                item.url = QueryStringAppender.append(item.url, 'ajs_aid', uid.toString());
+              });
+            }
+          });
+        });
     });
 
     $scope.markAsRead = function markAsRead(item){
@@ -130,5 +149,4 @@ angular.module('feed', ['stats', 'udc'])
         {"url": "https://crate.io/blog?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=morelink&utm_campaign=newsfeed&ajs_event=clicked_more_link",
          "title": "More"}
     ];
-
   });
