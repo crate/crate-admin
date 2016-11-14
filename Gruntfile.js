@@ -1,11 +1,7 @@
 'use strict';
 
-var mountFolder = function(connect, dir) {
-  var path = require('path');
-  return connect.static(path.resolve(dir));
-};
-
 module.exports = function(grunt) {
+  var serveStatic = require('serve-static');
   // load all grunt tasks
   var matchDep = require('matchdep');
   matchDep.filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -38,16 +34,15 @@ module.exports = function(grunt) {
     connect: {
       options: {
         port: 9000,
-        hostname: 'localhost',
         path: '/'
       },
       dev: {
         options: {
           base: '<%= crate.app %>',
-          middleware: function(connect) {
+          middleware: function() {
             return [
-              mountFolder(connect, crateConf.tmp),
-              mountFolder(connect, crateConf.app)
+              serveStatic(crateConf.tmp),
+              serveStatic(crateConf.app)
             ];
           }
         }
