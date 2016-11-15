@@ -28,6 +28,28 @@
 @font-family-sans-serif:    "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-monospace:     SourceCodePro, Menlo, Monaco, Consolas, "Courier New", monospace;
 
+//
+// App Colors
+// --------------------------------------------------
+
+@lightblue : rgb(91, 213, 2545);
+@blue : rgb(93, 173, 255);
+@blue--faded : rgba(93, 173, 255, 0.3);
+@darkblue : rgb(17, 80, 151);
+
+@green: rgb(42, 188, 80);
+@orange: rgb(246, 187, 65);
+@red: rgb(236, 87, 78);
+
+@green--faded: rgba(42, 188, 80, 0.3);
+@orange--faded: rgba(246, 187, 65, 0.3);
+@red--faded: rgba(236, 87, 78, 0.3);
+
+
+@lightred: rgb(249, 242, 244);
+@darkred: rgb(199, 37, 78);
+
+
 // 
 // Checkboxes
 // --------------------------------------------------
@@ -36,7 +58,7 @@
 @checkbox-bg--not-checked: @block-bg--colored;
 @checkbox-color--disabled: #aaa;
 @checkbox-border--focus: 1px solid #ccc;
-@checkbox-border--hover: 1px solid #4778d9;
+@checkbox-border--hover: 1px solid @blue;
 
 
 
@@ -120,32 +142,32 @@
 @notification-hover-color: #000;
 @notification-hover-bg-color: #999999; 
 
-@unread-notifications-color: #ec574e;
+@unread-notifications-color: @red;
 @unread-notifications-bg-color: #fff;
 
 
-@bubble-success-border: 2px solid #2abc50;
-@bubble-success-background: rgba(42, 188, 80, .3);
+@bubble-success-border: 2px solid @green;
+@bubble-success-background: @green--faded;
 
 
-@bubble-warning-border: 2px solid #f6bb41;
-@bubble-warning-background: rgba(246,187,65,0.3);
+@bubble-warning-border: 2px solid @orange;
+@bubble-warning-background: @orange--faded;
 
 
-@bubble-danger-border: 2px solid  rgb(236, 87, 78);
-@bubble-danger-background: rgba(236, 87, 78,0.3);
+@bubble-danger-border: 2px solid  @red;
+@bubble-danger-background: @red--faded;
 
 
-@bubble-master-border: 2px solid #5d89fe;
-@bubble-master-background: rgba(93, 137, 254, 0.3);
+@bubble-master-border: 2px solid @blue;
+@bubble-master-background: @blue--faded;
 
 //
 // load-graph
 // --------------------------------------------------
 
-@radiobutton-bg-lightblue:  #5bd5f5;
-@radiobutton-bg-blue:       #5d89fe;
-@radiobutton-bg-darkblue:   #115097;
+@radiobutton-bg-lightblue:  @lightblue;
+@radiobutton-bg-blue:       @blue;
+@radiobutton-bg-darkblue:   @darkblue;
 
 
 //
@@ -177,14 +199,14 @@
 // -------------------------------------------------
 
 
-@cr-panel-success-border: 2px solid #2ABC50;
-@cr-panel-success-background: rgba(42, 188, 80, .3);
+@cr-panel-success-border: 2px solid @green;
+@cr-panel-success-background: @green--faded;
 
-@cr-panel-warning-border: 2px solid #f6bb41;
-@cr-panel-warning-background: rgba(246,187,65,0.3);
+@cr-panel-warning-border: 2px solid @orange;
+@cr-panel-warning-background: @orange--faded;
 
-@cr-panel-danger-border: 2px solid rgb(236, 87, 78);
-@cr-panel-danger-background: rgba(236, 87, 78, 0.3);
+@cr-panel-danger-border: 2px solid @red;
+@cr-panel-danger-background: @red--faded;
 
 @cr-panel-default-border: 1px solid @body-bg;
 @cr-panel-default-background: #242424;
@@ -198,14 +220,14 @@
 // cr-cell
 // -------------------------------------------------
 
-@cr-cell-success-border: 2px solid #2ABC50;
-@cr-cell-success-background: rgba(42, 188, 80, .3);
+@cr-cell-success-border: 2px solid @green;
+@cr-cell-success-background: @green--faded;
 
-@cr-cell-warning-border: 2px solid #f6bb41;
-@cr-cell-warning-background: rgba(246,187,65,0.3);
+@cr-cell-warning-border: 2px solid @orange;
+@cr-cell-warning-background: @orange--faded;
 
-@cr-cell-danger-border: 2px solid rgb(236, 87, 78);
-@cr-cell-danger-background: rgba(236, 87, 78, 0.3);
+@cr-cell-danger-border: 2px solid @red;
+@cr-cell-danger-background: @red--faded;
 
 
 //
@@ -213,8 +235,8 @@
 //----------------------------------------------------
 
 @severity--info-color:		 @text-color;
-@severity--warning-color: 	 #f6bb41;
-@severity--danger-color:  	rgb(236, 87, 78);
+@severity--warning-color: 	 @orange;
+@severity--danger-color:  	@red;
 
 @cr-severity-content-border: @body-bg;
 
@@ -223,12 +245,12 @@
 // Query Status 
 // ---------------------------------------------------
 
-@query-status--ok-color: #2ABC50;
-@query-status--error-color: rgb(236, 87, 78);
+@query-status--ok-color: @green;
+@query-status--error-color: @red;
 
 //
 // Code
 // ---------------------------------------------------
 
-@code-bg-color: #232323;
-@code-color: #c7254e;
+@code-bg-color: @lightred;
+@code-color: @darkred;
