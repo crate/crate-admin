@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Implemented new layout for the admin-ui.
+
  - developer news from crate.io website are now loaded correctly into newsfeed
 
  - ``base_uri`` url parameter for development mode was not always recognized
