@@ -91,10 +91,6 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.navBarElements = NavigationService.navBarElements;
     $scope.showSideNav = false;
 
-    $(".cr-side-nav-item").tooltip({
-      placement: 'right'
-    });
-
     $rootScope.$on("showSideNav", function() {
       $scope.showSideNav = true;
       });
@@ -254,6 +250,19 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.selectedLanguage = langKey;
       $scope.toggleDropDown();
     };
+  })
+  .directive('crTooltip', function() {
+    return {
+      restrict: 'A',
+      scope: {
+        crTooltipPosition : '='
+      },
+      link: function(scope, element, attrs) {
+        $(element[0]).tooltip({
+          placement: attrs.crTooltipPosition
+        });
+      }
+    }
   });
 
 

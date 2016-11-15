@@ -7,7 +7,8 @@
                 ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
                 ng-repeat="navBarElement in navBarElements" 
                 ng-click="goToPath(navBarElement.urlPattern)"
-                data-original-title="{{ navBarElement.text }}" rel="tooltip">
+                data-original-title="{{ navBarElement.text }}"
+                cr-tooltip cr-tooltip-position="right">
             <img ng-src="{{ navBarElement.iconSrc }}">
           </div>
       </div>
