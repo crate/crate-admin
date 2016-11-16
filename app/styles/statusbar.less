@@ -129,8 +129,15 @@
 .cr-settings__item__label:link,
 .cr-settings__item__label:visited{
   color: @status-bar-color;
-  text-decoration: none;
 }
+
+
+.cr-settings__item:hover  .cr-settings__item__label,
+.cr-settings__item:active  .cr-settings__item__label{
+  color: @status-bar-color;
+  text-decoration: underline;
+}
+
 
 .cr-settings__item--language{
   .cr-settings__item;
