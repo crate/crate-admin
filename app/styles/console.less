@@ -39,6 +39,8 @@
   border-top: 1px solid @body-bg;
   flex-basis: 300px;
   flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 
 .cr-console-header__options{
@@ -56,6 +58,12 @@
   border-left: 1px solid @body-bg;
   border-top: 1px solid @body-bg;
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cr-console-header__options__item > label{
+  margin: 0px !important;
 }
 
 .cr-console-header__options__item > input {
@@ -64,11 +72,12 @@
 
 .cr-console-header__options__item--btn{
   .cr-console-header__options__item;
+  justify-content: center;
 }
 
 .cr-console-header__options__item--btn > i {
   font-size: 20px;
-  margin-left: 3px;
+  margin-right: 5px;
 }
 
 @media screen and (min-width: @max-width-xs){
@@ -77,7 +86,7 @@
   }
 
   .cr-console-header__options__item--hint{
-    text-align: start;
+    justify-content: flex-start;
   }
 }
 
@@ -85,7 +94,7 @@
 .cr-console-header__options__item--hint{
   .cr-console-header__options__item;
   border-left: none;
-  text-align: end;
+  justify-content: flex-end;
 }
 
 .cr-query-result{
