@@ -29,12 +29,12 @@
 
 
     <div ng-controller="NotificationsController">
-      <div id="settings-icon" class="status-bar__content__item" ng-click="toggleSettings()">
+      <div id="settings-icon" class="status-bar__content__item" ng-click="toggleSettings()" data-original-title="Settings" cr-tooltip cr-tooltip-position="bottom">
         <i class="fa fa-2x fa-cog"></i>
         <i id="unread-notifications-bg" ng-if="numUnread || showUpdate" class="fa fa-circle"></i>
         <i id="unread-notifications" ng-if="numUnread || showUpdate" class="fa fa-exclamation-circle"></i>
-
       </div>
+
       <div id="settings-wrapper"  class="cr-settings" ng-if="showSettings" >
           <div class="cr-settings__item--language" ng-controller="LanguageSwitchController">
             <div class="cr-settings__item__label--language">Select language:</div>
