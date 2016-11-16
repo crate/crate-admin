@@ -10,7 +10,13 @@
   <div class="status-bar__content">
     <div class="status-bar__content__item hide-s">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
 
-    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}: <span ng-class="{'label-danger':version_warning}" ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">{{ version.number }}<span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span></span></div>
+    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}: 
+      <div ng-if="version_warning " class="cr-bubble cr-bubble--danger"></div>
+      <span ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">
+        {{ version.number }}
+        <span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span>
+      </span>
+    </div>
 
     <div class="status-bar__content__item hide-s">{{ 'STATUSBAR.HEALTH' | translate }}:
       <div class="cr-bubble {{ cluster_color_label }}"></div>
