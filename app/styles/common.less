@@ -222,7 +222,7 @@ label:hover:before {
 .cr-panel-block{
   background-color: @block-bg;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -236,6 +236,7 @@ label:hover:before {
 .cr-panel-block__item__header{
   font-weight: bold;
   background-color: @block-bg; 
+  font-size: @font-size-xsmall;
 }
 
 .cr-panel-block__item__content{
@@ -250,7 +251,7 @@ label:hover:before {
 .cr-panel-block__item__content--full-width {
   padding-left: 3px;
   padding-right: 3px;
-  font-size: @font-size-base;
+  font-size: @font-size-large;
   overflow: hidden;
 }
 
@@ -324,6 +325,7 @@ label:hover:before {
   line-height: 16px;
   overflow-x: hidden;
   top: @status-bar-height;
+  left: @side-nav-width;
 }
 
 .side-bar a,
@@ -368,6 +370,9 @@ label:hover:before {
     width:  calc(~"100% -" @side-nav-width-xs);
   	height: calc(~"100vh -" @status-bar-height);
   }
+
+
+
 }
 
 @media screen and (max-width: @max-width-sm){
@@ -396,6 +401,9 @@ label:hover:before {
     padding-left: 0px !important;
   }
 
+  .side-bar {
+    left: @side-nav-width-xs;
+  }
 }
 
 @media only screen and (max-width: @max-width-sm) {
@@ -405,6 +413,10 @@ label:hover:before {
   
   .page-container-padded {
     padding-left: 150px;
+  }
+  .page-container{
+    padding: 10px;
+    margin-top: 0px;
   }
 }
 
