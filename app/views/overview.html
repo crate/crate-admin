@@ -39,7 +39,7 @@
       <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--warning': records_underreplicated > 0}">
-        {{ records_underreplicated|roundWithUnit:1 }}%
+        {{ records_underreplicated|roundWithUnit:1 }}
       </div>
     </div>
 
@@ -47,7 +47,7 @@
       <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--danger': records_unavailable > 0}">
-        {{ records_unavailable|roundWithUnit:1 }}%
+        {{ records_unavailable|roundWithUnit:1 }}
       </div>
     </div>
 
