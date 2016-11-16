@@ -4,7 +4,11 @@
   border: 0px;
   border-left: 1px solid @body-bg;
   border-top: 1px solid @body-bg;
-  flex-grow: 1;
+  width: 100%;
+}
+
+.import-tweets__button {
+  width: 320px;
 }
 
 .import-tweets__submit__panel {
@@ -17,8 +21,21 @@
 
 .import-tweets__text {
   padding: 15px;
+  min-height: 50px;
 }
 
 .import-tweets__text p {
   margin: 0px;
+}
+
+@media screen and (max-width: @max-width-xs) {
+  .import-tweets__button,
+  .import-tweets__text {
+    width: 100%;
+  }
+
+  .import-tweets__submit__panel {
+    flex-wrap: wrap-reverse;
+    text-align: center;
+  }
 }

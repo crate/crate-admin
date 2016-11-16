@@ -228,17 +228,19 @@ label:hover:before {
 }
 
 .cr-panel-block__item__content{
-  padding-left: 3px;
-  padding-right: 3px;
-  font-size: @font-size-base;
   width: 200px;
 }
 
 .cr-panel-block__item__content--full-width{
+  width: 100%;
+}
+
+.cr-panel-block__item__content,
+.cr-panel-block__item__content--full-width {
   padding-left: 3px;
   padding-right: 3px;
-  font-size: @font-size-medium;
-  width: 100%;
+  font-size: @font-size-base;
+  overflow: hidden;
 }
 
 .cr-panel--default{

@@ -7,6 +7,7 @@
 .table-detail__row {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 50%;
 }
 
@@ -103,4 +104,12 @@
     width: 100%;
   }
 
+}
+
+@media only screen and (max-width : @max-width-xs) {
+
+  .table-detail__cell {
+    width: 100%;
+  }
+  
 }
