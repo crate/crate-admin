@@ -63,7 +63,7 @@
             </a>
           </div>
 
-          <div class="notifications-wrapper">
+          <div class="notifications-wrapper" ng-if="entries">
             <div class="notifications-wrapper__header">
               <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div> 
               <div class="notifications-wrapper__header--btn" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</div> 
