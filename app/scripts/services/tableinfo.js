@@ -253,7 +253,7 @@ angular.module('tableinfo', ['sql'])
             summary = table.records_underreplicated + ' Underreplicated Records / ' + summary;
           }
           table.summary = summary;
-        };
+        }
 
         // sort tables by health and name
         data.tables = _tables.sort(sortByHealth);

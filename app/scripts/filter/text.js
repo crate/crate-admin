@@ -64,10 +64,10 @@ angular.module('common')
         return '';
       }
       if (status.indexOf('OK') !== -1) {
-        return 'query-status--ok'
+        return 'query-status--ok';
       }
       if (status.indexOf('ERROR') !== -1) {
-        return 'query-status--error'
+        return 'query-status--error';
       }
       return '';
     };

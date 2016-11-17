@@ -21,7 +21,7 @@ angular.module('sql', [])
   .factory('baseURI', function($location, $log) {
     var baseURI = {
       getURI: getURI
-    }
+    };
 
     return baseURI;
 

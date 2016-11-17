@@ -64,7 +64,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       'warning': 'cr-cell--warning',
       'critical': 'cr-cell--danger',
       '--': ''
-    }
+    };
     var placeholder = {
       'name': '',
       'summary': '',

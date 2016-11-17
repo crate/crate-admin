@@ -35,7 +35,7 @@ angular.module('nodeinfo', [])
           d.resolve(response);
         }).error(function(){
           d.reject();
-        })
+        });
         return d.promise;
       };
 
@@ -47,7 +47,7 @@ angular.module('nodeinfo', [])
           d.resolve(queryResultToObjects(sqlQuery, clusterCols));
         }).error(function(){
           d.reject();
-        })
+        });
         return d.promise;
       };
 

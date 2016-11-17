@@ -42,7 +42,7 @@ angular.module('feed', ['stats', 'udc'])
     FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader) {
 
     var MAX_ITEMS = 5;
-    var CRATE_IO = 'https://crate.io'
+    var CRATE_IO = 'https://crate.io';
 
     var doNotTrackURL= function(url) {
       return QueryStringAppender.append(url, 'udc.enabled', 'false');

@@ -112,8 +112,20 @@ module.exports = function(grunt) {
     usemin: {
       html: ['<%= crate.dist %>/{,*/}*.html'],
       css: ['<%= crate.dist %>/styles/{,*/}*.css'],
+      js: '<%= crate.dist %>/scripts/{,*/}*js',
       options: {
-        dirs: ['<%= crate.dist %>']
+        assetDirs: [
+          '<%= crate.dist %>',
+          '<%= crate.dist %>/images'
+        ],
+        patterns: {
+          js: [
+            [
+              /(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm,
+              'Update the JS to reference our revved images'
+            ]
+          ]
+        }
       }
     },
     imagemin: {

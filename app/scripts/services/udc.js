@@ -96,4 +96,4 @@ angular.module('udc', [])
       return promise;
     }
   };
-})
+});

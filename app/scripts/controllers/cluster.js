@@ -230,20 +230,20 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.toolTipUsedPercentFunction = function(){
       return function(key, x, y, e, graph) {
         return '<p>' + key +'<br /><b>' + y + '%</b></p>';
-      }
-    }
+      };
+    };
 
     $scope.toolTipUsedBytesFunction = function(){
       return function(key, x, y, e, graph) {
         return '<p>' + key +'<br /><b>' + y + '</b></p>';
-      }
-    }
+      };
+    };
 
     $scope.yAxisByteFormatFunction = function(){
       return function(d) {
         return byteFormatFunction(d, 2);
-      }
-    }
+      };
+    };
 
     var drawGraph = function drawGraph(node) {
 

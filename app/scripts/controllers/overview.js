@@ -56,10 +56,10 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
 
     var removeFromArray = function(arr, obj) {
       arr.splice(arr.indexOf(obj), 1);
-    }
+    };
 
     var removeCheck = function(check) {
-      removeFromArray($scope.checks.node_checks, check)
+      removeFromArray($scope.checks.node_checks, check);
     };
 
     var drawGraph = function(history) {
@@ -91,7 +91,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     $scope.dismissCheckByNode = function(node, check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
       SQLQuery.execute(stmt, [node.id, check.id]).success(function(query) {
-        removeFromArray(check.nodes, node)
+        removeFromArray(check.nodes, node);
         if (check.nodes.length === 0) {
           removeCheck(check);
         }
@@ -132,7 +132,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
         $scope.records_total_with_replicas = 0;
         $scope.records_underreplicated = 0;
         return;
-      };
+      }
 
       // Aggregate date across all tables
       var tables = data.tables;
@@ -145,7 +145,6 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       $scope.records_total = tables.reduce(function(memo, tableInfo, idx) {
         return tableInfo.records_total + memo;
       }, 0);
-
       $scope.records_total_with_replicas = tables.reduce(function(memo, tableInfo, idx) {
         return tableInfo.records_total_with_replicas + memo;
       }, 0);

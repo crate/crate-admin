@@ -52,7 +52,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
         data.tables = [];
         data.cluster = [];
         data.name = '--';
-        data.load = ['-.-', '-.-', '-.-'],
+        data.load = ['-.-', '-.-', '-.-'];
         data.loadHistory = [[],[],[]];
         data.version = null;
         reachabilityInterval = $interval(checkReachability, refreshInterval);
@@ -161,7 +161,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
             name: data.name,
             master_node: data.master_node,
             nodes: data.cluster.length
-          }
+          };
           NodeInfo.deferred.resolve(result);
         }, onErrorResponse);
       }, onErrorResponse);

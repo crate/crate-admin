@@ -53,7 +53,7 @@ angular.module('checks', [])
         SQLQuery.execute(stmt)
           .success(function(query) {
             var result = queryResultToObjects(query, cols);
-            var checks = {}
+            var checks = {};
             result.map(function(check) {
               var id = check.id;
               if (!(id in checks)) {
@@ -64,7 +64,7 @@ angular.module('checks', [])
             });
             var array = Object.keys(checks).map(function(id) {
               return checks[id];
-            })
+            });
             deferred.resolve(array);
           })
           .error(function() {
@@ -108,4 +108,4 @@ angular.module('checks', [])
       $timeout(fetch, 2000);
       return data;
     }
-  ])
+  ]);

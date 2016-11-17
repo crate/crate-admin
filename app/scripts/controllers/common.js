@@ -199,7 +199,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
 
     // 'analytics' is globally available
-    analytics.load(UdcSettings.SegmentIoToken)
+    analytics.load(UdcSettings.SegmentIoToken);
     analytics.ready(function() {
       var user = analytics.user();
       verified = {
@@ -262,7 +262,7 @@ var commons = angular.module('common', ['stats', 'udc'])
           placement: attrs.crTooltipPosition
         });
       }
-    }
+    };
   });
 
 
