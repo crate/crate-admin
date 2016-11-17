@@ -1,7 +1,6 @@
 <div ng-controller="NavigationController">
   <nav class="cr-layout" role="navigation">
     <div class="{{ cluster_color_label_bar }}">
-      <div ng-include="'views/statusbar.html'"></div>
       <div class="cr-side-nav" ng-class="showSideNav ? 'show-side-nav' : 'hide-side-nav'">
           <div class="cr-side-nav__item"
                 ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
@@ -12,6 +11,7 @@
             <img ng-src="{{ navBarElement.iconSrc }}">
           </div>
       </div>
+      <div ng-include="'views/statusbar.html'"></div>
     </div>
   </nav>
 </div>

@@ -34,7 +34,7 @@
         <i id="unread-notifications-bg" ng-if="numUnread || showUpdate" class="fa fa-circle"></i>
         <i id="unread-notifications" ng-if="numUnread || showUpdate" class="fa fa-exclamation-circle"></i>
       </div>
-
+      <div id="settings-backdrop" ng-if="showSettings" ng-click="toggleSettings()"></div>
       <div id="settings-wrapper"  class="cr-settings" ng-if="showSettings" >
           <div class="cr-settings__item--language" ng-controller="LanguageSwitchController">
             <div class="cr-settings__item__label--language">Select language:</div>
