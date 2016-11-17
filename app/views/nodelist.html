@@ -16,20 +16,26 @@
       <div class="side-bar__element node-list__element" ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }">
         <a ng-href="#/nodes/{{ node.id }}">
           <div class="node-list__element__header">
-            <div class="node-list__element__name">
-              <h3>{{ node.name }}</h3>
-            </div>
-            <div class="node-list__element__health">
-              <span ng-if="node.master_node" class="health-bubble node-list__element__master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
-              <span class="health-bubble {{ node.health.status | healthPanelClass }}" title="{{ node.health.status }}"></span>
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell">
+                <h3>{{ node.name }}</h3>
+              </div>
+              <div class="node-list__element__cell">
+                <span ng-if="node.master_node" class="health-bubble node-list__element__cell--master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
+                <span class="health-bubble {{ node.health.status | healthPanelClass }}" title="{{ node.health.status }}"></span>
+              </div>
             </div>
           </div>
-          <div class="node-list__element__host">
-            <div class="node-list__element__hostname">
-              {{ node.hostname }}
+          <div class="node-list__element__body">
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell">
+                {{ node.hostname }}
+              </div>
             </div>
-            <div class="node-list__element__version" ng-class="{'label-warning': !isSameVersion(node.version)}">
-              {{ node.version.number }}
+            <div class="node-list__element__row">
+              <div class="node-list__element__cell" ng-class="{'cr-panel--warning': !isSameVersion(node.version)}">
+                {{ node.version.number }}
+              </div>
             </div>
           </div>
         </a>
