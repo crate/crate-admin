@@ -82,21 +82,6 @@
       </nvd3-line-chart>
     </div>
 
-    <div ng-show="checks.cluster_checks.length > 0" class="cr-panel-block__item--checks">
-      <div class="cr-panel-block__item__header--checks">
-        <h2>{{ 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
-        <a ng-click="refresh()" class="cr-panel-block__item__header__icon--checks">
-          <i class="fa fa-refresh"></i>
-        </a>
-      </div>
-        <div class="checks" ng-repeat="check in checks.cluster_checks" >
-          <div class="cr-severity-content {{ check.severity  | severityClass }}">
-            <span>{{ check.severity | severityText }}</span>
-            <p ng-bind-html="check.description | linky:'_blank'"></p>
-          </div>
-        </div>
-    </div>
-
     <div ng-show="checks.node_checks.length > 0" class="cr-panel-block__item--checks">
       <div class="cr-panel-block__item__header--checks">
         <h2>{{ 'OVERVIEW.NODES_CHECKS' | translate }}</h2>
@@ -119,6 +104,23 @@
             </div>
         </div>
     </div>
+    
+    <div ng-show="checks.cluster_checks.length > 0" class="cr-panel-block__item--checks">
+      <div class="cr-panel-block__item__header--checks">
+        <h2>{{ 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
+        <a ng-click="refresh()" class="cr-panel-block__item__header__icon--checks">
+          <i class="fa fa-refresh"></i>
+        </a>
+      </div>
+        <div class="checks" ng-repeat="check in checks.cluster_checks" >
+          <div class="cr-severity-content {{ check.severity  | severityClass }}">
+            <span>{{ check.severity | severityText }}</span>
+            <p ng-bind-html="check.description | linky:'_blank'"></p>
+          </div>
+        </div>
+    </div>
+
+
   </div>
 
 </div>
