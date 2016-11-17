@@ -226,11 +226,9 @@ angular.module('console', ['sql'])
             }
           } else if (event.keyCode === 13 && !!event.shiftKey) {
             // SHIFT + ENTER KEY
-            if (semicolonPos != -1) {
               event.preventDefault();
               $console.execute(statement);
               typedStatement = '';
-            }
           } else {
             $scope.recentCursor = 0;
           }
