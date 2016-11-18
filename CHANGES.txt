@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - The first table in the table list is selected by default.
+
  - Implemented new layout for the admin-ui.
 
  - developer news from crate.io website are now loaded correctly into newsfeed

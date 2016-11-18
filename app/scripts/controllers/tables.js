@@ -274,7 +274,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     render($route.current.params.table_schema, $route.current.params.table_name);
 
   })
-  .controller('TableListController', function($scope, $route, TableList, TabNavigationInfo) {
+  .controller('TableListController', function($scope, $route, TableList, TabNavigationInfo, $location) {
 
     // http://stackoverflow.com/a/14329570/1143231
     // http://stackoverflow.com/a/12429133/1143231
@@ -334,6 +334,20 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             }),
             "table_schema": "blob"
           });
+
+          var docSchema = $scope.tables.filter(function(item, idx) {
+            return item.table_schema == 'doc';
+          })[0];
+          var firstTable;
+
+          if (docSchema && docSchema.tables) {
+            firstTable = docSchema.tables[0];
+          } else {
+            firstTable = tables[0];
+          }
+
+          $location.url('/tables/' + firstTable.table_schema + '/' + firstTable.name);
+
         } else {
           $scope.tables = [];
         }
