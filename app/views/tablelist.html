@@ -4,7 +4,7 @@
     <div>
         <input id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text" focus="true"></input>
         <a ng-if="search.$" class="cr-clear-filters" ng-click="search.$ = '' ">
-            <img src="images/icons/icon-search-delete.svg"/>
+            <img src="images/icons/icon-search-delete.svg">
         </a>
     </div>
 
@@ -30,7 +30,7 @@
               <div class="table-information">
                 <span>{{ table.records_total|roundWithUnit:1 }}
                   {{ 'TABLE.RECORDS' | translate }} ({{ table.size|bytes }})</span>
-                <span><br/>{{ table.summary }}</span>
+                <span><br>{{ table.summary }}</span>
               </div>
             </a>
           </div>

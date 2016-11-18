@@ -30,6 +30,7 @@
     "grunt-contrib-watch": "~1.0.0",
     "grunt-string-replace": "~0.2.7",
     "grunt-ng-annotate": "~1.0.0",
+    "grunt-w3c-html-validation": "~0.1.8",
     "grunt-rev": "~0.1.0",
     "grunt-usemin": "~0.1.11",
     "grunt-karma": "^2.0.0",

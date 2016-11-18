@@ -7,14 +7,14 @@
         <div>
           <div class="cr-console-header">
             <div class="cr-console-header__tip">{{ 'CONSOLE.TIP' | translate }}</div>
-            
+
             <div class="cr-console-header__options__item--btn cr-button hide-gt-xs" ng-click="toggleOptions()">
                 <i class="fa fa-cog"></i>
             </div>
 
             <div class="cr-console-header__options" ng-class="showOptions ? 'show-console-options' : 'hide-console-options'">
               <div class="cr-console-header__options__item">
-                  <input  id="use-local-storage" type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()" /> 
+                  <input id="use-local-storage" type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()">
                   <label for="use-local-storage">{{ 'CONSOLE.STORE_CONSOLE' | translate }}</label>
               </div>
               <div class="cr-console-header__options__item">
@@ -24,7 +24,7 @@
 
               <div class="cr-console-header__options__item--btn cr-button" ng-click="clearLocalStorage()">
                 <i class="fa fa-trash-o"></i>
-                {{ 'CONSOLE.CLEAR_HISTORY' | translate }} 
+                {{ 'CONSOLE.CLEAR_HISTORY' | translate }}
               </div>
             </div>
           </div>
@@ -58,13 +58,13 @@
     </div>
 
     <div ng-show="renderTable" class="query-result-container">
-      
+
       <h2  class="query-result-container__header">{{ 'CONSOLE.RESULT_FROM_QUERY' | translate }}</h2>
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th class="cr-table-cell" ng-repeat="header in resultHeaders track by $index" class="header">{{ header }}</th>
+              <th class="header cr-table-cell" ng-repeat="header in resultHeaders track by $index">{{ header }}</th>
             </tr>
           </thead>
           <tbody>

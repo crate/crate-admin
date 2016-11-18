@@ -77,6 +77,17 @@ module.exports = function(grunt) {
         '<%= crate.app %>/scripts/{,*/}*.js',
       ]
     },
+    validation: {
+      options: {
+        wrapfile: 'validator.html'
+      },
+      files: {
+        src: [
+          '<%= crate.app %>/index.html',
+          '<%= crate.app %>/views/{,*/}*.html'
+        ]
+      }
+    },
     less: {
       dist: {
         options: {
