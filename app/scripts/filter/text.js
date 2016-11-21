@@ -5,9 +5,7 @@ angular.module('common')
     return function(input, scope) {
       return input.substring(0, 1).toUpperCase() + input.substring(1);
     };
-  });
-
-angular.module('common')
+  })
   .filter('severityClass', function() {
     return function(severity) {
       switch (severity) {
@@ -21,9 +19,7 @@ angular.module('common')
           return "severity--info";
       }
     };
-  });
-
-angular.module('common')
+  })
   .filter('severityText', function($filter) {
     return function(severity) {
       switch (severity) {
@@ -37,9 +33,7 @@ angular.module('common')
           return $filter('translate')("OVERVIEW.INF'");
       }
     };
-  });
-
-angular.module('common')
+  })
   .filter('healthPanelClass', function() {
     return function(health) {
       switch (health) {
@@ -55,9 +49,7 @@ angular.module('common')
           return "cr-panel--default";
       }
     };
-  });
-
-angular.module('common')
+  })
   .filter('queryStatusClass', function($filter) {
     return function(status) {
       if (status == undefined) {
@@ -71,9 +63,7 @@ angular.module('common')
       }
       return '';
     };
-  });
-
-angular.module('common')
+  })
   .filter('languageFilter', function($filter) {
     return function(langkey) {
       switch (langkey) {

@@ -4,13 +4,13 @@
     <div ng-click="toggleSideNav()">
       <i class="fa fa-2x fa-bars status-bar__icon--menu hide-gt-s"></i>
     </div>
-    <img class="status-bar__icon--crate" src="images/icons/CRA_logo_white.svg">
+    <img class="status-bar__icon--crate" src="/images/icons/CRA_logo_white.svg">
   </div>
 
   <div class="status-bar__content">
     <div class="status-bar__content__item hide-s">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
 
-    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}: 
+    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}:
       <div ng-if="version_warning " class="cr-bubble cr-bubble--danger"></div>
       <span ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">
         {{ version.number }}
@@ -65,10 +65,9 @@
 
           <div class="notifications-wrapper" ng-if="entries">
             <div class="notifications-wrapper__header">
-              <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div> 
-              <div class="notifications-wrapper__header--btn" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</div> 
+              <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div>
+              <div class="notifications-wrapper__header--btn" ng-click="markAsRead('all')">{{ 'STATUSBAR.MARK_ALL_READ' | translate }}</div>
             </div>
-            
 
             <div class="notification" ng-show="showUpdate">
               <div class="notification__item" ng-click="goToUrl('https://crate.io/download/')">
@@ -104,6 +103,6 @@
           </div>
       </div>
     </div>
-    
+
   </div>
 </div>

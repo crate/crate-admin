@@ -102,16 +102,14 @@ module.exports = function(grunt) {
         }]
       }
     },
-    rev: {
+    filerev: {
       dist: {
-        files: {
-          src: [
-            '<%= crate.dist %>/scripts/{,*/}*.js',
-            '<%= crate.dist %>/styles/{,*/}*.css',
-            '<%= crate.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= crate.dist %>/styles/fonts/*'
-          ]
-        }
+        src: [
+          '<%= crate.dist %>/scripts/{,*/}*.js',
+          '<%= crate.dist %>/styles/{,*/}*.css',
+          '<%= crate.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= crate.dist %>/styles/fonts/*'
+        ]
       }
     },
     useminPrepare: {
@@ -121,18 +119,31 @@ module.exports = function(grunt) {
       }
     },
     usemin: {
-      html: ['<%= crate.dist %>/{,*/}*.html'],
-      css: ['<%= crate.dist %>/styles/{,*/}*.css'],
-      js: '<%= crate.dist %>/scripts/{,*/}*js',
+      html: [
+        '<%= crate.dist %>/index.html',
+        '<%= crate.dist %>/views/**/*.html'
+      ],
+      css: [
+        '<%= crate.dist %>/styles/**/*.css'
+      ],
+      js: [
+        '<%= crate.dist %>/scripts/**/*.js'
+      ],
       options: {
-        assetDirs: [
+        root: [
+          '<%= crate.dist %>'
+        ],
+        assetsDirs: [
           '<%= crate.dist %>',
-          '<%= crate.dist %>/images'
+          '<%= crate.dist %>/views',
+          '<%= crate.dist %>/styles',
+          '<%= crate.dist %>/fonts',
+          '<%= crate.dist %>/scripts'
         ],
         patterns: {
           js: [
             [
-              /(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm,
+              /['"](\/images\/[^'"]+\.(?:gif|jpg|png|svg))['"]/gm,
               'Update the JS to reference our revved images'
             ]
           ]
@@ -149,7 +160,18 @@ module.exports = function(grunt) {
         }]
       }
     },
-    cssmin: {},
+    ngAnnotate: {
+      generated: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= crate.tmp %>/concat/scripts',
+            src: '*.js',
+            dest: '<%= crate.tmp %>/concat/scripts'
+          }
+        ]
+      }
+    },
     htmlmin: {
       dist: {
         options: {
@@ -219,25 +241,6 @@ module.exports = function(grunt) {
         'htmlmin'
       ]
     },
-    ngAnnotate: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= crate.dist %>/scripts',
-          src: '*.js',
-          dest: '<%= crate.dist %>/scripts'
-        }]
-      }
-    },
-    uglify: {
-      dist: {
-        files: {
-          '<%= crate.dist %>/scripts/scripts.js': [
-            '<%= crate.dist %>/scripts/scripts.js'
-          ]
-        }
-      }
-    },
     'string-replace': {
       dist: {
         files: {
@@ -294,12 +297,12 @@ module.exports = function(grunt) {
       'clean:dist',
       'useminPrepare',
       'concurrent:dist',
-      'concat',
+      'concat:generated',
       'copy:dist',
-      'ngAnnotate',
-      'cssmin',
-      'uglify',
-      'rev',
+      'ngAnnotate:generated',
+      'cssmin:generated',
+      'uglify:generated',
+      'filerev',
       'usemin',
       'string-replace:dist',
       'clean:components'
