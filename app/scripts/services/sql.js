@@ -1,45 +1,40 @@
 'use strict';
 
 angular.module('sql', [])
-  .factory('queryResultToObjects', function(_object) {
-    return function queryResultToObjects(sqlQuery, headers) {
-      return $.map(sqlQuery.rows, function(obj, idx) {
-        return _object(headers, obj);
-      });
-    };
-  })
-  .factory('_object', function() {
-    return function _object(headers, row) {
-      if (headers.length != row.length) return {};
+  .factory('queryResultToObjects', function() {
+    var toObject = function(headers, row) {
       var obj = {};
-      for (var i = 0; i < headers.length; i++) {
-        obj[headers[i]] = row[i];
+      if (headers.length == row.length) {
+        for (var i = 0; i < headers.length; i++) {
+          obj[headers[i]] = row[i];
+        }
       }
       return obj;
     };
-  })
-  .factory('baseURI', function($location, $log) {
-    var baseURI = {
-      getURI: getURI
+    return function(sqlQuery, headers) {
+      return sqlQuery.rows.map(function(obj) {
+        return toObject(headers, obj);
+      });
     };
-
-    return baseURI;
-
-    function getURI(path) {
-      var basePath = localStorage.getItem("crate.base_uri");
-      if (!basePath) {
-        var pluginPath = '/_plugin/crate-admin/';
-        basePath = $location.protocol() + "://" +
-          $location.host() + ":" +
-          $location.port() +
-          window.location.pathname.replace(pluginPath, '');
-      }
-      // remove trailing slash from base path and append path
-      return basePath.replace(/\/+$/, '') + path;
-    }
-
   })
-  .factory('SQLQuery', function($http, $log, $q, baseURI) {
+  .factory('baseURI', function($location) {
+    var pluginPath = '/_plugin/crate-admin/';
+    var key = 'crate.base_uri';
+    return {
+      getURI: function(path) {
+        var basePath = localStorage.getItem(key);
+        if (!basePath) {
+          basePath = $location.protocol() + '://' +
+            $location.host() + ':' +
+            $location.port() +
+            window.location.pathname.replace(pluginPath, '');
+        }
+        // remove trailing slash from base path and append path
+        return basePath.replace(/\/+$/, '') + path;
+      }
+    };
+  })
+  .factory('SQLQuery', function($http, $q, $log, baseURI) {
     function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
@@ -60,22 +55,22 @@ angular.module('sql', [])
     }
 
     SQLQuery.prototype.status = function() {
-      var status_string = "";
+      var status_string = '';
       var stmt_parts = this.stmt.split(' ');
       var cmd = stmt_parts[0].toUpperCase();
       if (cmd in {
           'CREATE': '',
           'DROP': ''
         }) {
-        cmd = cmd + " " + stmt_parts[1].toUpperCase();
+        cmd = cmd + ' ' + stmt_parts[1].toUpperCase();
       }
 
-      if (this.failed == false) {
-        status_string = cmd + " OK (" + (this.duration / 1000).toFixed(3) + " sec)";
-        $log.info("Query status: " + status_string);
+      if (this.failed === false) {
+        status_string = cmd + ' OK (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        $log.info('Query status: ' + status_string);
       } else {
-        status_string = cmd + " ERROR (" + (this.duration / 1000).toFixed(3) + " sec)";
-        $log.warn("Query status: " + status_string);
+        status_string = cmd + ' ERROR (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        $log.warn('Query status: ' + status_string);
       }
 
       return status_string;
@@ -87,7 +82,7 @@ angular.module('sql', [])
         'stmt': stmt
       };
 
-      if (args != undefined && !$.isEmptyObject(args)) {
+      if (args !== undefined && !$.isEmptyObject(args)) {
         data.args = args;
       }
 
@@ -114,8 +109,8 @@ angular.module('sql', [])
       };
 
       var request = {
-        url: baseURI.getURI("/_sql"),
-        method: "POST",
+        url: baseURI.getURI('/_sql'),
+        method: 'POST',
         data: data,
         config: {
           'timeout': canceler.promise
@@ -129,10 +124,10 @@ angular.module('sql', [])
       }
 
       $http(request)
-        .success(function(data, status, headers, config) {
+        .success(function(data) {
           deferred.resolve(new SQLQuery(stmt, data, null));
         })
-        .error(function(data, status, headers, config) {
+        .error(function(data, status) {
           var error = null;
           if (status >= 400 && data.error) {
             error = new Error(data.error.message);

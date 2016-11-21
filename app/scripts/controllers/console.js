@@ -1,22 +1,19 @@
 'use strict';
 
 angular.module('console', ['sql'])
-  .directive('console', function(SQLQuery, $timeout){
+  .directive('console', function(SQLQuery){
     return {
       restrict: 'A',
       controller: ['$scope', '$translate', function($scope, $translate){
         var self = this;
 
         var inputScope = null;
-        var rows = [];
-        var resultHeaders = [];
-        var renderTable = false;
-        var statement = "";
-        var displayedErrorTraceHint = localStorage.getItem('crate.console.displayed_error_trace_hint') === "1";
+        var statement = '';
+        var displayedErrorTraceHint = localStorage.getItem('crate.console.displayed_error_trace_hint') === '1';
         $scope.showOptions = false;
         self.recentQueries = [];
-        
-        $scope.showErrorTrace = localStorage.getItem('crate.console.error_trace') === "1";
+
+        $scope.showErrorTrace = localStorage.getItem('crate.console.error_trace') === '1';
 
         $scope.error = {
           hide: true,
@@ -35,15 +32,15 @@ angular.module('console', ['sql'])
         var loadingIndicator = Ladda.create(document.querySelector('#execute-btn'));
 
         $scope.storeInLocalStorageChanged = function() {
-          localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? "1" : "0");
+          localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? '1' : '0');
         };
 
         $scope.showErrorTraceChanged = function() {
-          localStorage.setItem('crate.console.error_trace', $scope.showErrorTrace === true ? "1" : "0");
+          localStorage.setItem('crate.console.error_trace', $scope.showErrorTrace === true ? '1' : '0');
         };
 
         var getRecentQueriesFromLocalStorage = function() {
-          var queryList = localStorage.getItem("crate.console.query_list");
+          var queryList = localStorage.getItem('crate.console.query_list');
           self.recentQueries = queryList ? JSON.parse(queryList) : [];
         };
 
@@ -52,10 +49,10 @@ angular.module('console', ['sql'])
             getRecentQueriesFromLocalStorage();
           }
           if (self.recentQueries[self.recentQueries.length -1] !== stmt) {
-            self.recentQueries.push(stmt + ";");
+            self.recentQueries.push(stmt + ';');
           }
           if ($scope.useLocalStorage) {
-            localStorage.setItem("crate.console.query_list", JSON.stringify(self.recentQueries));
+            localStorage.setItem('crate.console.query_list', JSON.stringify(self.recentQueries));
           }
           inputScope.recentCursor = -1;
         };
@@ -71,18 +68,18 @@ angular.module('console', ['sql'])
 
         $scope.clearLocalStorage = function() {
           $translate(['CONSOLE.CLEAR_HISTORY_MSG', 'CONSOLE.CLEAR_HISTORY_MSG_PLURAL']).then(function(i18n) {
-            var history = JSON.parse(localStorage.getItem("crate.console.query_list") || '[]');
-            localStorage.setItem("crate.console.query_list", JSON.stringify([]));
+            var history = JSON.parse(localStorage.getItem('crate.console.query_list') || '[]');
+            localStorage.setItem('crate.console.query_list', JSON.stringify([]));
             inputScope.recentCursor = 0;
             self.recentQueries = [];
-            var msg = history.length ? 0 : history.length + ' '; 
-            msg += ( history.length == 0 || history.length == 1 ) ? i18n['CONSOLE.CLEAR_HISTORY_MSG'] : i18n['CONSOLE.CLEAR_HISTORY_MSG_PLURAL'] ;
+            var msg = history.length ? 0 : history.length + ' ';
+            msg += ( history.length === 0 || history.length === 1 ) ? i18n['CONSOLE.CLEAR_HISTORY_MSG'] : i18n['CONSOLE.CLEAR_HISTORY_MSG_PLURAL'] ;
             $scope.info.message = msg;
             $scope.info.hide = false;
           });
         };
 
-        var doStoreQueries = localStorage.getItem("crate.console.store_queries") || '1';
+        var doStoreQueries = localStorage.getItem('crate.console.store_queries') || '1';
         $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();
 
@@ -90,9 +87,13 @@ angular.module('console', ['sql'])
         self.execute = function(sql) {
           var stmt = sql.replace(/^\s+|\s+$/g, '');
 
-          if (stmt === "") return;
-          stmt = stmt.replace(/([^;]);+$/, "$1");
-          if (stmt.match(/^\s*select\s/ig) && !stmt.match(/limit\s+\d+/ig)) stmt += " limit 100";
+          if (stmt === '') {
+            return;
+          }
+          stmt = stmt.replace(/([^;]);+$/, '$1');
+          if (stmt.match(/^\s*select\s/ig) && !stmt.match(/limit\s+\d+/ig)) {
+            stmt += ' limit 100';
+          }
 
           updateRecentQueries(stmt);
 
@@ -115,7 +116,7 @@ angular.module('console', ['sql'])
 
             $scope.rows = sqlQuery.rows;
             $scope.status = sqlQuery.status();
-            $scope.statement = stmt + ";";
+            $scope.statement = stmt + ';';
             inputScope.updateInput($scope.statement);
           })
           .error(function(sqlQuery) {
@@ -126,7 +127,7 @@ angular.module('console', ['sql'])
 
             if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
               displayedErrorTraceHint = true;
-              localStorage.setItem('crate.console.displayed_error_trace_hint', "1");
+              localStorage.setItem('crate.console.displayed_error_trace_hint', '1');
             }
 
             $scope.status = sqlQuery.status();
@@ -137,7 +138,7 @@ angular.module('console', ['sql'])
 
         
         self.updateStatement = function(stmt) {
-          statement = stmt || "";
+          statement = stmt || '';
         };
 
         $scope.execute = function() {
@@ -158,19 +159,20 @@ angular.module('console', ['sql'])
       require: '^console',
       link: function($scope, element, attrs, $console) {
 
-        $console.setInputScope($scope);
-
-        $scope.recentCursor = 0;
-
-        $scope.updateInput = function(stmt){
-          selectStatementInput(stmt);
-        };
-
-        var statement = "";
-        var typedStatement = "";
-
+        var statement = '';
+        var typedStatement = '';
         var input = $('textarea',element)[0];
 
+        var editor = CodeMirror.fromTextArea(input, {
+          mode: attrs.mimeType,
+          theme: attrs.theme
+        });
+
+        // input change event
+        editor.on('change', function(instance){
+          statement = instance.getValue();
+          $console.updateStatement(statement);
+        });
         var selectStatementInput = function(stmt) {
           if (stmt) {
             editor.setValue(stmt);
@@ -180,30 +182,17 @@ angular.module('console', ['sql'])
           }, 10);
         };
 
-        var editor = CodeMirror.fromTextArea(input, {
-          mode: attrs.mimeType,
-          theme: attrs.theme
-        });
-
-        // input change event
-        editor.on('change', function(instance, changeObj){
-          statement = instance.getValue();
-          $console.updateStatement(statement);
-        });
-
         // function to get the recentQueries index
-        function getRecentQueriesIndex(queryCount,recentCursor ){
+        var getRecentQueriesIndex = function(queryCount, recentCursor) {
           return (queryCount + recentCursor) > 0 ? queryCount + recentCursor : 0;
-        }
+        };
 
         // key down event
         editor.on('keydown', function(instance, event){
           var cursorPos = event.target.selectionStart,
               queryCount = $console.recentQueries.length,
-              semicolonPos = statement.indexOf(';'),
               cursor = instance.getCursor(),
               selection = instance.getSelection();
-
 
           if (!event.shiftKey && event.keyCode === 38) {
             // UP KEY
@@ -212,7 +201,7 @@ angular.module('console', ['sql'])
                 typedStatement = statement;
               }
               $scope.recentCursor--;
-              statement = $console.recentQueries[getRecentQueriesIndex(queryCount, $scope.recentCursor)] || "";
+              statement = $console.recentQueries[getRecentQueriesIndex(queryCount, $scope.recentCursor)] || '';
               selectStatementInput(statement);
             }
           } else if (!event.shiftKey && event.keyCode === 40) {
@@ -234,8 +223,14 @@ angular.module('console', ['sql'])
           }
         });
 
+        $console.setInputScope($scope);
+        $scope.recentCursor = 0;
+        $scope.updateInput = function(stmt){
+          selectStatementInput(stmt);
+        };
+
       }
     };
   })
-  .controller('ConsoleController', function ($scope, $http, $location, SQLQuery, $log, $timeout) {
+  .controller('ConsoleController', function() {
   });

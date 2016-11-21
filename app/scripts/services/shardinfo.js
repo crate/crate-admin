@@ -1,32 +1,31 @@
 'use strict';
 
-angular.module('shardinfo', [])
-  .factory('ShardInfo', ['SQLQuery', 'queryResultToObjects', '$q',
-    function (SQLQuery, queryResultToObjects, $q) {
+angular.module('shardinfo', ['sql'])
+  .factory('ShardInfo', function(SQLQuery, queryResultToObjects, $q) {
       var shardInfo = {
         deferred: $q.defer()
       };
 
       // table info statement
-      var tableStmt = 'select table_name, table_schema, format(\'%s.%s\', table_schema, table_name) as fqn, number_of_shards, number_of_replicas, partitioned_by ' +
-          'from information_schema.tables ' +
-          'where table_schema not in (\'information_schema\', \'sys\', \'pg_catalog\')';
+      var tableStmt = 'SELECT table_name, table_schema, format(\'%s.%s\', table_schema, table_name) AS fqn, number_of_shards, number_of_replicas, partitioned_by ' +
+          'FROM information_schema.tables ' +
+          'WHERE table_schema NOT IN (\'information_schema\', \'sys\', \'pg_catalog\')';
 
       // shard info statement
-      var shardStmt = "SELECT table_name, schema_name, format('%s.%s', schema_name, table_name) AS fqn, _node['id'] AS node_id, state, routing_state, relocating_node, count(*), \"primary\", sum(num_docs), avg(num_docs), sum(size) " +
-          "FROM sys.shards " +
-          "GROUP BY table_name, schema_name, fqn, node_id, state, routing_state, relocating_node, \"primary\"";
+      var shardStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, _node[\'id\'] AS node_id, state, routing_state, relocating_node, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
+          'FROM sys.shards ' +
+          'GROUP BY table_name, schema_name, fqn, node_id, state, routing_state, relocating_node, "primary"';
 
       // table partitions statement
-      var partStmt = 'select table_name, schema_name, format(\'%s.%s\', schema_name, table_name) as fqn, sum(number_of_shards) as num_shards ' +
-          'from information_schema.table_partitions ' +
-          'group by table_name, schema_name, fqn';
+      var partStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, SUM(number_of_shards) AS num_shards ' +
+          'FROM information_schema.table_partitions ' +
+          'GROUP BY table_name, schema_name, fqn';
 
-      var recoveryStmt = "SELECT table_name, schema_name, recovery['stage'] AS recovery_stage, avg(recovery['size']['percent']), count(*) as count " +
-          "FROM sys.shards " +
-          "GROUP BY table_name, schema_name, recovery_stage";
+      var recoveryStmt = 'SELECT table_name, schema_name, recovery[\'stage\'] AS recovery_stage, AVG(recovery[\'size\'][\'percent\']), COUNT(*) AS count ' +
+          'FROM sys.shards ' +
+          'GROUP BY table_name, schema_name, recovery_stage';
 
-      shardInfo.executeTableStmt = function () {
+      shardInfo.executeTableStmt = function() {
         var deferred = $q.defer(),
             promise = deferred.promise;
 
@@ -43,7 +42,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      shardInfo.executeShardStmt = function () {
+      shardInfo.executeShardStmt = function() {
         var deferred = $q.defer(),
            promise = deferred.promise;
 
@@ -60,7 +59,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      shardInfo.executePartStmt = function () {
+      shardInfo.executePartStmt = function() {
         var deferred = $q.defer(),
             promise = deferred.promise;
 
@@ -77,7 +76,7 @@ angular.module('shardinfo', [])
         return promise;
       };
 
-      shardInfo.executeRecoveryStmt = function () {
+      shardInfo.executeRecoveryStmt = function() {
         var deferred = $q.defer(),
            promise = deferred.promise;
 
@@ -97,4 +96,4 @@ angular.module('shardinfo', [])
       return shardInfo;
     }
 
-  ]);
+  );

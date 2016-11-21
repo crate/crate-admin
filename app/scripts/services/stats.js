@@ -1,8 +1,20 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
-  .factory('ClusterState', function ($http, $interval, $timeout, $log, baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, $q) {
-    var healthInterval, statusInterval, reachabilityInterval, shardsInterval, checkInterval;
+  .factory('ClusterState', function($http, $interval, $timeout, $log, $q,
+  baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo) {
+    var healthInterval,
+      statusInterval,
+      reachabilityInterval,
+      shardsInterval,
+      checkInterval;
+
+    // definition of function variables
+    var refreshShardInfo,
+      refreshState,
+      refreshHealth,
+      checkReachability,
+      setReachability;
 
     var data = {
       online: true,
@@ -21,29 +33,10 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     var refreshInterval = 5000;
     var historyLength = 60;
 
-    var checkReachability = function checkReachability(){
-      $http.get(baseURI.getURI("/")).success(function(response) {
-        if (typeof response === 'object') {
-          var version = response.version;
-          data.version = {
-            'number': version.number,
-            'hash': version.build_hash,
-            'snapshot': version.build_snapshot
-          };
-          setReachability(true);
-        } else {
-          data.version = null;
-          setReachability(false);
-        }
-      }).error(function(data, status) {
-        setReachability(false);
-      });
-    };
-
-    var setReachability = function setReachability(online) {
+    setReachability = function(online) {
       if (data.online && !online) {
         data.online = false;
-        $log.warn("Cluster is offline.");
+        $log.warn('Cluster is offline.');
         $interval.cancel(healthInterval);
         $interval.cancel(statusInterval);
         $interval.cancel(shardsInterval);
@@ -59,7 +52,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
       } else if (!data.online && online) {
         $interval.cancel(reachabilityInterval);
         data.online = true;
-        $log.info("Cluster is online.");
+        $log.info('Cluster is online.');
         healthInterval = $interval(refreshHealth, refreshInterval);
         refreshHealth();
         statusInterval = $interval(refreshState, refreshInterval);
@@ -69,24 +62,47 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
       }
     };
 
+    checkReachability = function() {
+      $http.get(baseURI.getURI('/'))
+        .success(function(response) {
+          if (typeof response === 'object') {
+            var version = response.version;
+            data.version = {
+              number: version.number,
+              hash: version.build_hash,
+              snapshot: version.build_snapshot
+            };
+            setReachability(true);
+          } else {
+            data.version = null;
+            setReachability(false);
+          }
+        }).error(function() {
+          setReachability(false);
+        });
+    };
+
     var addToLoadHistory = function(load) {
-      if (load.length != data.loadHistory.length) return;
       var lh = data.loadHistory;
-      for (var i=0; i<load.length; i++) {
+      if (load.length == lh.length) {
+        for (var i = 0; i < load.length; i++) {
           lh[i].push(load[i]);
           lh[i] = lh[i].splice(-historyLength, historyLength);
+        }
       }
     };
 
     var onErrorResponse = function(query) {
-        if (query && query.error) var status = query.error.status;
-        if (status === 0 || status === 404) setReachability(false);
+      if (query && query.error) {
+        var status = query.error.status;
+        setReachability(!(status === 0 || status === 404));
+      }
     };
 
     var prepareLoadInfo = function(nodeInfo) {
       var numNodes = nodeInfo.length;
       var load = [0.0, 0.0, 0.0];
-      for (var i=0; i<numNodes; i++) {
+      for (var i = 0; i < numNodes; i++) {
         var nodeLoad = nodeInfo[i].load;
         load[0] += nodeLoad['1'] / numNodes;
         load[1] += nodeLoad['5'] / numNodes;
@@ -98,11 +114,11 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
 
     var prepareIoStats = function(nodeInfo) {
       var numNodes = nodeInfo.length;
-      for (var i=0; i<numNodes; i++) {
+      for (var i = 0; i < numNodes; i++) {
         var node = nodeInfo[i];
         var currentValue = {
-          'timestamp': node.timestamp,
-          'data': node.fs.total
+          timestamp: node.timestamp,
+          data: node.fs.total
         };
         if (diskIoHistory[node.id]) {
           var lastValue = diskIoHistory[node.id];
@@ -130,86 +146,106 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
       return nodeInfo;
     };
 
-    var refreshHealth = function() {
+    refreshHealth = function() {
       // We want to get the tables as soon as they become available so we use the promise object.
-      TableList.execute().then(null, null, function(res){
-        if (res.success || !data.online) {
-          var h = res.data.tables.reduce(function(memo, obj, idx){
-            var level = Health.fromString(obj.health).level;
-            return Math.max(level, memo);
-          }, 0);
-          data.status = new Health(h).name;
-          data.tables = res.data.tables;
-        } else {
-          data.status = '--';
-          data.tables = [];
-        }
-      });
+      TableList.execute()
+        .then(null, null, function(res){
+          if (res.success || !data.online) {
+            var h = res.data.tables.reduce(function(memo, obj){
+              var health = Health.fromString(obj.health);
+              return Math.max(health.level, memo);
+            }, 0);
+            data.status = new Health(h).name;
+            data.tables = res.data.tables;
+          } else {
+            data.status = '--';
+            data.tables = [];
+          }
+        });
     };
 
-    var refreshState = function() {
-      NodeInfo.executeNodeQuery().then(function(response){
-        if (!data.online) return;
-        data.load = prepareLoadInfo(response);
-        data.cluster = prepareIoStats(response);
-        NodeInfo.executeClusterQuery().then(function(response){
-          if (!data.online) return;
-          data.name = response[0].name;
-          data.master_node = response[0].master_node;
-          // resolve global NodeInfo deferred object
-          var result = {
-            name: data.name,
-            master_node: data.master_node,
-            nodes: data.cluster.length
-          };
-          NodeInfo.deferred.resolve(result);
+    refreshState = function() {
+      NodeInfo.executeNodeQuery()
+        .then(function(response){
+          if (!data.online) {
+            return;
+          }
+          data.load = prepareLoadInfo(response);
+          data.cluster = prepareIoStats(response);
+          NodeInfo.executeClusterQuery()
+            .then(function(response){
+              if (!data.online) {
+                return;
+              }
+              data.name = response[0].name;
+              data.master_node = response[0].master_node;
+              // resolve global NodeInfo deferred object
+              var result = {
+                name: data.name,
+                master_node: data.master_node,
+                nodes: data.cluster.length
+              };
+              NodeInfo.deferred.resolve(result);
+            }, onErrorResponse);
         }, onErrorResponse);
-      }, onErrorResponse);
     };
 
-    var refreshShardInfo = function() {
-      if (!data.online) return;
+    refreshShardInfo = function() {
+      if (!data.online) {
+        return;
+      }
 
-      ShardInfo.executeTableStmt().then(function(tables) {
-          ShardInfo.executeShardStmt().then(function(shards) {
-              ShardInfo.executePartStmt().then(function(partitions) {
-                  ShardInfo.executeRecoveryStmt().then(function(recovery) {
-                    data.shards = shards;
-                    data.tables = tables;
-                    data.partitions = partitions;
-                    data.recovery = recovery;
-                    // resolve global ShardInfo deferred object
-                    var result = {
-                      tables: data.tables,
-                      shards: data.shards,
-                      partitions: data.partitions,
-                      recovery: data.recovery
-                    };
-                    ShardInfo.deferred.resolve(result);
-                  }).catch(function() {
-                    var result = {
-                      tables: data.tables,
-                      shards: data.shards,
-                      partitions: data.partitions
-                    };
-                    ShardInfo.deferred.reject(result);
-                  });
-              }).catch(function() {
+      // table statement
+      ShardInfo.executeTableStmt()
+        .then(function(tables) {
+
+          // shard statement
+          ShardInfo.executeShardStmt()
+            .then(function(shards) {
+
+              // partition statement
+              ShardInfo.executePartStmt()
+                .then(function(partitions) {
+
+                  // recovery statement
+                  ShardInfo.executeRecoveryStmt()
+                    .then(function(recovery) {
+                      data.shards = shards;
+                      data.tables = tables;
+                      data.partitions = partitions;
+                      data.recovery = recovery;
+                      // resolve global ShardInfo deferred object
+                      var result = {
+                        tables: data.tables,
+                        shards: data.shards,
+                        partitions: data.partitions,
+                        recovery: data.recovery
+                      };
+                      ShardInfo.deferred.resolve(result);
+                    }).catch(function() {
+                      var result = {
+                        tables: data.tables,
+                        shards: data.shards,
+                        partitions: data.partitions
+                      };
+                      ShardInfo.deferred.reject(result);
+                    });
+                }).catch(function() {
                   var result = {
                     tables: data.tables,
                     shards: data.shards
                   };
                   ShardInfo.deferred.reject(result);
-              });
-          }).catch(function() {
+                });
+            }).catch(function() {
               var result = {
                 tables: data.tables
               };
               ShardInfo.deferred.reject(result);
-          });
-      }).catch(function () {
+            });
+        }).catch(function () {
           ShardInfo.deferred.reject({});
-      });
+        });
     };
 
     checkReachability();

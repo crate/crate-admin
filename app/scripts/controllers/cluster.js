@@ -2,32 +2,24 @@
 
 angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
   .controller('NodeListController', function($scope, $route,
-        ClusterState, prepareNodeList, NodeHealth, NodeListInfo, compareByHealth){
+    ClusterState, prepareNodeList, NodeListInfo, compareByHealth){
 
     $scope.nodes = [];
     $scope.selected = null;
-    $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
-    $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
     var currentWatcher = null;
     var version = null;
     var nodeId = null;
 
-    // http://stackoverflow.com/a/14329570/1143231
-    // http://stackoverflow.com/a/12429133/1143231
-    $scope.$on('$locationChangeSuccess', function(event) {
-      if ($route.current.$$route.controller === 'NodeDetailController') {
-        render($route.current.params.node_id);
-      }
-    });
-
-    var render = function render(_nodeId) {
+    var render = function(_nodeId) {
       nodeId = _nodeId;
       if (currentWatcher) {
         // de-register
         currentWatcher();
       }
-      currentWatcher = $scope.$watch(function() { return ClusterState.data; }, function (data) {
+      currentWatcher = $scope.$watch(function() {
+        return ClusterState.data;
+      }, function(data) {
         var cluster = angular.copy(data.cluster);
         version = data.version;
         var showSidebar = cluster.length > 0;
@@ -44,7 +36,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             return obj.id;
           });
           if (nodeId && nodeIds.indexOf(nodeId)>=0) {
-            var selectedNode = nodeList.filter(function(node, idx) {
+            var selectedNode = nodeList.filter(function(node) {
               return node.id === nodeId;
             });
             $scope.selected = selectedNode.length ? selectedNode[0] : nodeList[0];
@@ -60,27 +52,29 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     $scope.sort = NodeListInfo.sort;
     $scope.sortBy = NodeListInfo.sortBy;
     $scope.sortClass = NodeListInfo.sortClass;
-
     $scope.isActive = function(node) {
       return node.id === nodeId;
     };
-
-    $scope.isSameVersion = function(nodeVersion){
+    $scope.isSameVersion = function(nodeVersion) {
       return version ? nodeVersion.build_hash === version.hash : true;
     };
 
+    // http://stackoverflow.com/a/14329570/1143231
+    // http://stackoverflow.com/a/12429133/1143231
+    $scope.$on('$locationChangeSuccess', function() {
+      if ($route.current.$$route.controller === 'NodeDetailController') {
+        render($route.current.params.node_id);
+      }
+    });
     render($route.current.params.node_id);
-
   })
-  .controller('NodeDetailController', function ($scope, $interval, $route, $http, $filter,
-        ClusterState, prepareNodeList, NodeHealth, compareByHealth) {
+  .controller('NodeDetailController', function($scope, $interval, $route, $http, $filter,
+    ClusterState, prepareNodeList, compareByHealth) {
 
     // Needed to format tooltip byte-values in div. graphs
     var byteFormatFunction = $filter('bytes');
 
     $scope.node = null;
-    $scope.percentageLimitYellow = NodeHealth.THRESHOLD_WARNING;
-    $scope.percentageLimitRed = NodeHealth.THRESHOLD_CRITICAL;
 
     var empty = {
       'name': '',
@@ -125,20 +119,8 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     var version = null;
     var currentWatcher = null;
 
-    // http://stackoverflow.com/a/14329570/1143231
-    // http://stackoverflow.com/a/12429133/1143231
-    var lastRoute = $route.current;
-    $scope.$on('$locationChangeSuccess', function(event) {
-      if ($route.current.$$route.controller === 'NodeDetailController') {
-        var params = $route.current.params;
-        render(params.node_id);
-        $route.current = lastRoute;
-        // apply new params to old route
-        $route.current.params = params;
-      }
-    });
 
-    var aggregateDataDiskUtilisation = function aggregateDataDiskUtilisation(node) {
+    var aggregateDataDiskUtilisation = function(node) {
       var fs = {
         total: 0,
         available: 0,
@@ -174,7 +156,71 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }, 0);
     };
 
-    var render = function render(nodeId){
+    var drawGraph = function(node) {
+
+      $scope.cpuData = [
+        {
+          'key': 'System',
+          'values': [['CPU', node.cpu.system]],
+          'color': COLORS.used
+        },
+        {
+          'key': 'User',
+          'values': [['CPU', node.cpu.user]],
+          'color': '#5d89fe'
+        },
+        {
+          'key': 'Idle',
+          'values': [['CPU', Math.max(0, 100-node.cpu.system-node.cpu.user-node.cpu.stolen)]],
+          'color': COLORS.free
+        },
+        {
+          'key': 'Stolen',
+          'values': [['CPU', node.cpu.stolen]],
+          'color': '#f6bb41'
+        }];
+
+      $scope.heapData = [
+        {
+          'key': 'Used',
+          'values': [['HEAP', node.heap.used]],
+          'color': COLORS.used
+        },
+        {
+          'key': 'Free',
+          'values': [['HEAP', node.heap.max - node.heap.used]],
+          'color': COLORS.free
+        }
+      ];
+
+      $scope.diskUsageData = [
+        {
+          'key': 'Used',
+          'values': [['Disk Usage', node.fs.used]],
+          'color': COLORS.used
+        },
+        {
+          'key': 'Free',
+          'values': [['Disk Usage', node.fs.available]],
+          'color': COLORS.free
+        }
+      ];
+
+      $scope.processCpuData = [
+        {
+          'key': 'Used',
+          'values': [['Process CPU', Math.min(100.0, node.proc_cpu.percent / node.num_cores)]],
+          'color': COLORS.used
+        },
+        {
+          'key': 'Idle',
+          'values': [['Process CPU', Math.max(0, 100.0 - node.proc_cpu.percent / node.num_cores)]],
+          'color': COLORS.free
+        }
+      ];
+    };
+
+    var render = function(nodeId){
       if (currentWatcher) {
         // de-register
         currentWatcher();
@@ -204,7 +250,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             return obj.id;
           });
           if (nodeId && nodeIds.indexOf(nodeId)>=0) {
-            var selectedNode = nodeList.filter(function(node, idx) {
+            var selectedNode = nodeList.filter(function(node) {
               return node.id == nodeId;
             });
             $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
@@ -218,23 +264,23 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             return shard.node_id === $scope.node.id;
           });
           $scope.shardInfo = {
-            'started': getShardsCountPerState(shardInfoPerNode, "STARTED"),
-            'initializing': getShardsCountPerState(shardInfoPerNode, "INITIALIZING"),
-            'reallocating': getShardsCountPerState(shardInfoPerNode, "REALLOCATING"),
-            'postrecovery': getShardsCountPerState(shardInfoPerNode, "POST_RECOVERY")
+            'started': getShardsCountPerState(shardInfoPerNode, 'STARTED'),
+            'initializing': getShardsCountPerState(shardInfoPerNode, 'INITIALIZING'),
+            'reallocating': getShardsCountPerState(shardInfoPerNode, 'REALLOCATING'),
+            'postrecovery': getShardsCountPerState(shardInfoPerNode, 'POST_RECOVERY')
           };
         }
       }, true);
     };
 
     $scope.toolTipUsedPercentFunction = function(){
-      return function(key, x, y, e, graph) {
+      return function(key, x, y) {
         return '<p>' + key +'<br /><b>' + y + '%</b></p>';
       };
     };
 
     $scope.toolTipUsedBytesFunction = function(){
-      return function(key, x, y, e, graph) {
+      return function(key, x, y) {
         return '<p>' + key +'<br /><b>' + y + '</b></p>';
       };
     };
@@ -245,83 +291,31 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       };
     };
 
-    var drawGraph = function drawGraph(node) {
-
-      $scope.cpuData = [
-        {
-          "key": "System",
-          "values": [["CPU", node.cpu.system]],
-          "color": COLORS.used
-        },
-        {
-          "key": "User",
-          "values": [["CPU", node.cpu.user]],
-          "color": "#5d89fe"
-        },
-        {
-          "key": "Idle",
-          "values": [["CPU", Math.max(0, 100-node.cpu.system-node.cpu.user-node.cpu.stolen)]],
-          "color": COLORS.free
-        },
-        {
-          "key": "Stolen",
-          "values": [["CPU", node.cpu.stolen]],
-          "color": "#f6bb41"
-        }];
-
-      $scope.heapData = [
-        {
-          "key": "Used",
-          "values": [["HEAP", node.heap.used]],
-          "color": COLORS.used
-        },
-        {
-          "key": "Free",
-          "values": [["HEAP", node.heap.max - node.heap.used]],
-          "color": COLORS.free
-        }
-      ];
-
-      $scope.diskUsageData = [
-        {
-          "key": "Used",
-          "values": [["Disk Usage", node.fs.used]],
-          "color": COLORS.used
-        },
-        {
-          "key": "Free",
-          "values": [["Disk Usage", node.fs.available]],
-          "color": COLORS.free
-        }
-      ];
-
-      $scope.processCpuData = [
-        {
-          "key": "Used",
-          "values": [["Process CPU", Math.min(100.0, node.proc_cpu.percent / node.num_cores)]],
-          "color": COLORS.used
-        },
-        {
-          "key": "Idle",
-          "values": [["Process CPU", Math.max(0, 100.0 - node.proc_cpu.percent / node.num_cores)]],
-          "color": COLORS.free
-        }
-      ];
-    }
-
     // bind tooltips
-    $("[rel=tooltip]").tooltip({ placement: 'top'});
+    $('[rel=tooltip]').tooltip({ placement: 'top'});
 
     // sidebar button handler (mobile view)
     $scope.toggleSidebar = function() {
-      $("#page-viewport").toggleClass("show-sidebar");
-      $(".menu-toggle i.fa").toggleClass("fa-angle-double-right").toggleClass("fa-angle-double-left");
+      $('#page-viewport').toggleClass('show-sidebar');
+      $('.menu-toggle i.fa').toggleClass('fa-angle-double-right').toggleClass('fa-angle-double-left');
     };
 
     $scope.isSameVersion = function(nodeVersion){
       return version ? nodeVersion.build_hash === version.hash : true;
     };
 
+    // http://stackoverflow.com/a/14329570/1143231
+    // http://stackoverflow.com/a/12429133/1143231
+    var lastRoute = $route.current;
+    $scope.$on('$locationChangeSuccess', function() {
+      if ($route.current.$$route.controller === 'NodeDetailController') {
+        var params = $route.current.params;
+        render(params.node_id);
+        $route.current = lastRoute;
+        // apply new params to old route
+        $route.current.params = params;
+      }
+    });
     render($route.current.params.node_id);
 
   });

@@ -29,6 +29,10 @@ module.exports = function(grunt) {
       i18n: {
         files: ['<%= crate.app %>/i18n/**'],
         tasks: ['copy:i18nTmp']
+      },
+      hint: {
+        files: ['<%= crate.app %>/scripts/{,*/}*.js'],
+        tasks: ['jshint']
       }
     },
     connect: {
@@ -70,12 +74,15 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+        ignores: [
+          '<%= crate.app %>/scripts/services/segmentio.js'
+        ]
       },
       all: [
         'Gruntfile.js',
-        '<%= crate.app %>/scripts/{,*/}*.js',
-      ]
+        '<%= crate.app %>/scripts/{,*/}*.js'
+      ],
     },
     validation: {
       options: {
@@ -289,9 +296,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', function(target) {
+  grunt.registerTask('build', function() {
+    grunt.log.ok('Building CrateDB Admin UI.');
     if (bower.version != pkg.version) {
-      throw new Error("Version numbers in bower.json and package.json do not match!");
+      throw new Error('Version numbers in bower.json and package.json do not match!');
     }
     grunt.task.run([
       'clean:dist',
@@ -316,12 +324,8 @@ module.exports = function(grunt) {
     'watch'
   ]);
 
-  grunt.registerTask('default', [
-    'jshint',
-    'build'
-  ]);
-
   grunt.registerTask('test', [
+    'jshint',
     'karma:all_tests'
   ]);
 

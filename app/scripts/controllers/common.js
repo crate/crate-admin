@@ -1,7 +1,9 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
-  .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce, ClusterState, ChecksService) {
+  .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
+    ClusterState, ChecksService) {
+
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
     var colorMap = HEALTH.reduce(function(memo, o, idx) {
@@ -38,11 +40,11 @@ var commons = angular.module('common', ['stats', 'udc'])
         var checks = [];
         checks.push.apply(checks, data.checks.cluster_checks);
         checks.push.apply(checks, data.checks.node_checks);
-        var severity = checks.reduce(function(memo, obj, idx) {
+        var severity = checks.reduce(function(memo, obj) {
           return Math.max(memo, obj.severity);
         }, 1);
         $translate(['STATUSBAR.CHECK', 'STATUSBAR.CHECKS', 'STATUSBAR.FAILED']).then(function(i18n) {
-          $scope.checks_message = $sce.trustAsHtml([checks.length, checks.length == 1 ? i18n['STATUSBAR.CHECK'] : i18n['STATUSBAR.CHECKS'], i18n['STATUSBAR.FAILED']].join("\u00A0"));
+          $scope.checks_message = $sce.trustAsHtml([checks.length, checks.length == 1 ? i18n['STATUSBAR.CHECK'] : i18n['STATUSBAR.CHECKS'], i18n['STATUSBAR.FAILED']].join('\u00A0'));
           $scope.config_label = LABELS[Math.min(severity - 1, LABELS.length - 1)];
         });
       } else {
@@ -57,7 +59,7 @@ var commons = angular.module('common', ['stats', 'udc'])
       return ClusterState.data;
     }, function(data) {
       var hashes = [];
-      var versions = data.cluster.filter(function(obj, idx) {
+      var versions = data.cluster.filter(function(obj) {
         var contains = false;
         if (obj.version) {
           var hash = obj.version.build_hash;
@@ -65,7 +67,7 @@ var commons = angular.module('common', ['stats', 'udc'])
           hashes.push(hash);
         }
         return contains;
-      }).map(function(obj, idx) {
+      }).map(function(obj) {
         return obj.version.number;
       });
       $scope.versions = versions;
@@ -82,7 +84,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     }, true);
 
     // bind tooltips
-    $("[rel=tooltip]").tooltip({
+    $('[rel=tooltip]').tooltip({
       placement: 'bottom'
     });
   })
@@ -91,11 +93,11 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.navBarElements = NavigationService.navBarElements;
     $scope.showSideNav = false;
 
-    $rootScope.$on("showSideNav", function() {
+    $rootScope.$on('showSideNav', function() {
       $scope.showSideNav = true;
       });
 
-    $rootScope.$on("hideSideNav", function() {
+    $rootScope.$on('hideSideNav', function() {
       $scope.showSideNav = false;
       });
 
@@ -114,25 +116,15 @@ var commons = angular.module('common', ['stats', 'udc'])
   .service('NavigationService', function() {
     var navBarElements = [];
 
-    var navigationService = {
-      addNavBarElement: addNavBarElement,
-      updateNavBarElement: updateNavBarElement,
-      navBarElements: navBarElements
-    };
-
-    return navigationService;
-
-    ////
-
-    function addNavBarElement(iconClass, text, urlPattern, index) {
+    var addNavBarElement = function(iconClass, text, urlPattern, index) {
       if (urlPattern.charAt(0) != '/') {
-        urlPattern = "/" + urlPattern;
+        urlPattern = '/' + urlPattern;
       }
 
       var pluginElement = {
-        "text": text,
-        "iconSrc": iconClass,
-        "urlPattern": urlPattern
+        'text': text,
+        'iconSrc': iconClass,
+        'urlPattern': urlPattern
       };
 
       if (typeof index === 'undefined') {
@@ -142,12 +134,13 @@ var commons = angular.module('common', ['stats', 'udc'])
       } else {
         navBarElements.splice(index, 0, pluginElement);
       }
-    }
+    };
+
     // urlPattern is the identifier. TODO: need an actual identifier for each element
-    function updateNavBarElement(urlPattern, text) {
+    var updateNavBarElement = function(urlPattern, text) {
 
       if (urlPattern.charAt(0) != '/') {
-        urlPattern = "/" + urlPattern;
+        urlPattern = '/' + urlPattern;
       }
 
       var queryElements = navBarElements.filter(function(item) {
@@ -159,8 +152,13 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
 
       queryElements[0].text = text;
-    }
+    };
 
+    return {
+      addNavBarElement: addNavBarElement,
+      updateNavBarElement: updateNavBarElement,
+      navBarElements: navBarElements
+    };
   })
   .directive('focus', function($timeout) {
     return {
@@ -179,14 +177,14 @@ var commons = angular.module('common', ['stats', 'udc'])
     };
   })
   .directive('fixBottom', function() {
-    return function(scope, element, attr) {
+    return function(scope, element) {
       var elem = $(element),
         nav = $('.side-nav .navbar-nav'),
         win = $(window);
-      var calculate = function calculate() {
+      var calculate = function() {
         scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
       };
-      win.on("resize", calculate);
+      win.on('resize', calculate);
       calculate();
     };
   })
@@ -208,8 +206,8 @@ var commons = angular.module('common', ['stats', 'udc'])
       };
     });
 
-    var identify = function identify(userdata) {
-      if (userdata.user.uid != null) {
+    var identify = function(userdata) {
+      if (userdata.user.uid !== null) {
         analytics.setAnonymousId(userdata.user.uid);
         analytics.identify(userdata.user.uid);
         analytics.page();
@@ -241,7 +239,7 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.showDropDown = !$scope.showDropDown;
     };
 
-    $scope.selectedLanguage = "auto";
+    $scope.selectedLanguage = 'auto';
 
     $scope.changeLanguage = function(langKey) {
       // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.
@@ -268,19 +266,19 @@ var commons = angular.module('common', ['stats', 'udc'])
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  NavigationService.addNavBarElement("/images/icons/icon-overview.svg", $filter('translate', 'NAVIGATION.OVERVIEW'), "/");
-  NavigationService.addNavBarElement("/images/icons/icon-console.svg", $filter('translate', 'NAVIGATION.CONSOLE'), "/console");
-  NavigationService.addNavBarElement("/images/icons/icon-table.svg", $filter('translate', 'NAVIGATION.TABLE'), "/tables");
-  NavigationService.addNavBarElement("/images/icons/icon-cluster.svg", $filter('translate', 'NAVIGATION.CLUSTER'), "/nodes");
+  NavigationService.addNavBarElement('/images/icons/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/');
+  NavigationService.addNavBarElement('/images/icons/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console');
+  NavigationService.addNavBarElement('/images/icons/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables');
+  NavigationService.addNavBarElement('/images/icons/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes');
 
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
     $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.CLUSTER']).then(function(i18n) {
-      NavigationService.updateNavBarElement("/", i18n['NAVIGATION.OVERVIEW']);
-      NavigationService.updateNavBarElement("/console", i18n['NAVIGATION.CONSOLE']);
-      NavigationService.updateNavBarElement("/tables", i18n['NAVIGATION.TABLE']);
-      NavigationService.updateNavBarElement("/nodes", i18n['NAVIGATION.CLUSTER']);
+      NavigationService.updateNavBarElement('/', i18n['NAVIGATION.OVERVIEW']);
+      NavigationService.updateNavBarElement('/console', i18n['NAVIGATION.CONSOLE']);
+      NavigationService.updateNavBarElement('/tables', i18n['NAVIGATION.TABLE']);
+      NavigationService.updateNavBarElement('/nodes', i18n['NAVIGATION.CLUSTER']);
     });
   });
 });

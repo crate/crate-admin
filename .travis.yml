@@ -6,7 +6,8 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - "npm install -g bower karma grunt-cli"
   - "bower install"
-script: grunt test
+script:
+  - grunt test
 branches:
   except:
     - /.*\/.*/

@@ -22,8 +22,6 @@ var MODULES = [
   'pascalprecht.translate'
 ];
 
-var app = angular.module('crate', MODULES);
-
 var ROUTING = {
   '/': {
     'templateUrl': 'views/overview.html',
@@ -51,13 +49,16 @@ var ROUTING = {
   }
 };
 
+// this is required for the test setup!
+var app = angular.module('crate', MODULES);
+
 var head = document.getElementsByTagName('head')[0];
 
 var loadScript = function(url) {
-  var result = $.Deferred(),
-    script = document.createElement("script");
-  script.async = "async";
-  script.type = "text/javascript";
+  var result = $.Deferred();
+  var script = document.createElement('script');
+  script.async = 'async';
+  script.type = 'text/javascript';
   script.src = url;
   script.onload = function() {
     result.resolve();
@@ -70,35 +71,11 @@ var loadScript = function(url) {
 };
 
 // todo: load json from rest endpoint
-$.get("conf/plugins.json", function(plugins) {
-
-  var promises = [];
-  for (var i = 0; i < plugins.length; i++) {
-    var module = plugins[i];
-    promises.push(loadScript(module.uri));
-  }
-
-  $.when.apply($, promises).then(function() {
-    console.info("Loaded Modules:", MODULES);
-    console.info("Loaded Plugins:", plugins.map(function(o) {
-      return o.name;
-    }));
-
-    //onSucess: update the modules and load the app
-    for (var i = 0; i < plugins.length; i++) {
-      MODULES.push(module.name);
-    }
-    loadApp();
-  }, function() {
-    //onError: load the app without the plugins
-    console.info("Loaded Modules:", MODULES);
-    console.warn('Plugins could not be loaded. Please check your config file: plugins.json');
-    loadApp();
-  });
+$.get('conf/plugins.json', function(plugins) {
 
 
   //function to create 'crate' module and bootstrap app
-  function loadApp() {
+  var loadApp = function() {
     app = angular.module('crate', MODULES);
 
     app.config(['$routeProvider', '$httpProvider',
@@ -106,14 +83,15 @@ $.get("conf/plugins.json", function(plugins) {
         // Enabling CORS in Angular JS
         $httpProvider.defaults.useXDomain = true;
         // register default routing
-        for (var pattern in ROUTING) {
+        var pattern;
+        for (pattern in ROUTING) {
           $routeProvider.when(pattern, ROUTING[pattern]);
         }
         // register routing from plugins
         for (var i = 0; i < plugins.length; i++) {
           var routing = plugins[i].routing;
           if (routing) {
-            for (var pattern in routing) {
+            for (pattern in routing) {
               $routeProvider.when(pattern, routing[pattern]);
             }
           }
@@ -159,15 +137,17 @@ $.get("conf/plugins.json", function(plugins) {
       });
     });
 
-    app.run(function($window, $location) {
+    app.run(function() {
       var search = window.location.search
         .substr(1)
         .split('&')
-        .map(function(item, idx) {
+        .map(function(item) {
           return item.split('=');
         })
         .reduce(function(a, b) {
-          if (b.length === 2) a[b[0]] = b[1];
+          if (b.length === 2) {
+            a[b[0]] = b[1];
+          }
           return a;
         }, {});
       if (search.base_uri) {
@@ -177,23 +157,23 @@ $.get("conf/plugins.json", function(plugins) {
 
 
     app.run(function($rootScope) {
-      $rootScope.$on("showSideNav", function() {
+      $rootScope.$on('showSideNav', function() {
         $rootScope.showSideNav = true;
       });
 
-      $rootScope.$on("hideSideNav", function() {
+      $rootScope.$on('hideSideNav', function() {
         $rootScope.showSideNav = false;
       });
     });
 
     app.run(function($rootScope) {
-      $rootScope.$on("showSideNav", function() {
+      $rootScope.$on('showSideNav', function() {
         $rootScope.showSideNav = true;
         $rootScope.showTableList = true;
         $rootScope.showNodeList = true;
       });
 
-      $rootScope.$on("hideSideNav", function() {
+      $rootScope.$on('hideSideNav', function() {
         $rootScope.showSideNav = false;
         $rootScope.showTableList = false;
         $rootScope.showNodeList = false;
@@ -203,5 +183,31 @@ $.get("conf/plugins.json", function(plugins) {
     angular.element(document).ready(function() {
       angular.bootstrap(document, ['crate']);
     });
+
+  };
+
+  var promises = [];
+  for (var i = 0; i < plugins.length; i++) {
+    var module = plugins[i];
+    promises.push(loadScript(module.uri));
   }
+
+  $.when.apply($, promises).then(function() {
+    console.info('Loaded Modules:', MODULES);
+    console.info('Loaded Plugins:', plugins.map(function(o) {
+      return o.name;
+    }));
+
+    //onSucess: update the modules and load the app
+    for (var i = 0; i < plugins.length; i++) {
+      MODULES.push(module.name);
+    }
+    loadApp();
+  }, function() {
+    //onError: load the app without the plugins
+    console.info('Loaded Modules:', MODULES);
+    console.warn('Plugins could not be loaded. Please check your config file: plugins.json');
+    loadApp();
+  });
+
 });

@@ -2,7 +2,7 @@
 
 angular.module('common')
   .filter('capitalize', function() {
-    return function(input, scope) {
+    return function(input) {
       return input.substring(0, 1).toUpperCase() + input.substring(1);
     };
   })
@@ -10,49 +10,50 @@ angular.module('common')
     return function(severity) {
       switch (severity) {
         case 1:
-          return "severity--info";
+          return 'severity--info';
         case 2:
-          return "severity--warning";
+          return 'severity--warning';
         case 3:
-          return "severity--danger";
+          return 'severity--danger';
         default:
-          return "severity--info";
+          return 'severity--info';
       }
     };
   })
   .filter('severityText', function($filter) {
     return function(severity) {
+      var translate = $filter('translate');
       switch (severity) {
         case 1:
-          return $filter('translate')("OVERVIEW.INFO");
+          return translate('OVERVIEW.INFO');
         case 2:
-          return $filter('translate')("OVERVIEW.WARNING");
+          return translate('OVERVIEW.WARNING');
         case 3:
-          return $filter('translate')("OVERVIEW.CRITICAL");
+          return translate('OVERVIEW.CRITICAL');
         default:
-          return $filter('translate')("OVERVIEW.INF'");
+          return translate('OVERVIEW.INF');
       }
     };
   })
   .filter('healthPanelClass', function() {
     return function(health) {
       switch (health) {
-        case "good":
-          return "cr-panel--success";
-        case "warning":
-          return "cr-panel--warning";
-        case "danger":
-          return "cr-panel--danger";
-        case "--":
-          return "cr-panel--default";
+        case 'good':
+          return 'cr-panel--success';
+        case 'warning':
+          return 'cr-panel--warning';
+        case 'danger':
+          return 'cr-panel--danger';
+        case '--':
+          return 'cr-panel--default';
         default:
-          return "cr-panel--default";
+          return 'cr-panel--default';
       }
     };
   })
-  .filter('queryStatusClass', function($filter) {
+  .filter('queryStatusClass', function() {
     return function(status) {
-      if (status == undefined) {
+      if (status === undefined) {
         return '';
       }
       if (status.indexOf('OK') !== -1) {
@@ -64,17 +65,17 @@ angular.module('common')
       return '';
     };
   })
-  .filter('languageFilter', function($filter) {
+  .filter('languageFilter', function() {
     return function(langkey) {
       switch (langkey) {
-        case "en":
-          return "English";
-        case "de":
-          return "Deutsch";
-        case "es":
-          return "Español";
+        case 'en':
+          return 'English';
+        case 'de':
+          return 'Deutsch';
+        case 'es':
+          return 'Español';
         default:
-          return "Auto";
+          return 'Auto';
       }
     };
   });

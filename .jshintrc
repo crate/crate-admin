@@ -20,6 +20,9 @@
   "smarttabs": true,
   "jquery": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "analytics": false,
+    "CodeMirror": false,
+    "Ladda": false
   }
 }

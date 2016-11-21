@@ -1,59 +1,55 @@
 'use strict';
 
-angular.module('nodeinfo', [])
-  .factory('NodeHealth', function(){
-    var NodeHealth = function NodeHealth(node) {
-      var getStatus = function getStatus(val){
-        if (val > NodeHealth.THRESHOLD_CRITICAL) return 2;
-        if (val > NodeHealth.THRESHOLD_WARNING) return 1;
-        return 0;
-      };
-      var value = Math.max(node.fs.used_percent, node.heap.used_percent);
-      var status = getStatus(value);
-      this.value = status;
-      this.status = ['good','warning','critical'][status];
+angular.module('nodeinfo', ['sql'])
+  .factory('NodeHealth', function() {
+    var state = function(val){
+      if (val > 98) {
+        return 2;
+      } else if (val > 90) {
+        return 1;
+      }
+      return 0;
     };
-    NodeHealth.THRESHOLD_CRITICAL = 98;
-    NodeHealth.THRESHOLD_WARNING = 90;
-    return NodeHealth;
+    return function(node) {
+      this.value = state(Math.max(node.fs.used_percent, node.heap.used_percent));
+      this.status = ['good','warning','critical'][this.value];
+    };
   })
-  .factory('NodeInfo', ['SQLQuery', 'queryResultToObjects', '$q',
-    function (SQLQuery, queryResultToObjects, $q) {
-      var nodeInfo = {
-        deferred: $q.defer()
-      };
+  .factory('NodeInfo', function(SQLQuery, queryResultToObjects, $q) {
+    var nodeInfo = {
+      deferred: $q.defer()
+    };
 
-      var nodeQuery = "SELECT id, name, hostname, rest_url, port, heap, fs, " +
-        "os['cpu'], load, version, os['probe_timestamp'], process['cpu'], " +
-        "os_info['available_processors'] FROM sys.nodes ORDER BY id";
-      var nodeCols = ['id', 'name', 'hostname', 'rest_url', 'port', 'heap', 'fs',
-        'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores'];
-      nodeInfo.executeNodeQuery = function() {
-        var d = $q.defer();
-        SQLQuery.execute(nodeQuery).success(function(sqlQuery){
-          var response = queryResultToObjects(sqlQuery, nodeCols);
-          d.resolve(response);
-        }).error(function(){
-          d.reject();
-        });
-        return d.promise;
-      };
+    var nodeQuery = 'SELECT id, name, hostname, rest_url, port, heap, fs, ' +
+      'os[\'cpu\'], load, version, os[\'probe_timestamp\'], process[\'cpu\'], ' +
+      'os_info[\'available_processors\'] FROM sys.nodes ORDER BY id';
+    var nodeCols = ['id', 'name', 'hostname', 'rest_url', 'port', 'heap', 'fs',
+      'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores'];
+    nodeInfo.executeNodeQuery = function() {
+      var d = $q.defer();
+      SQLQuery.execute(nodeQuery).success(function(sqlQuery){
+        var response = queryResultToObjects(sqlQuery, nodeCols);
+        d.resolve(response);
+      }).error(function(){
+        d.reject();
+      });
+      return d.promise;
+    };
 
-      var clusterQuery = 'select name, master_node from sys.cluster';
-      var clusterCols = ['name', 'master_node'];
-      nodeInfo.executeClusterQuery = function(){
-        var d = $q.defer();
-        SQLQuery.execute(clusterQuery).success(function(sqlQuery){
-          d.resolve(queryResultToObjects(sqlQuery, clusterCols));
-        }).error(function(){
-          d.reject();
-        });
-        return d.promise;
-      };
+    var clusterQuery = 'select name, master_node from sys.cluster';
+    var clusterCols = ['name', 'master_node'];
+    nodeInfo.executeClusterQuery = function(){
+      var d = $q.defer();
+      SQLQuery.execute(clusterQuery).success(function(sqlQuery){
+        d.resolve(queryResultToObjects(sqlQuery, clusterCols));
+      }).error(function(){
+        d.reject();
+      });
+      return d.promise;
+    };
 
-      return nodeInfo;
-    }
-  ])
+    return nodeInfo;
+  })
   .provider('NodeListInfo', function() {
     var sortInfo = {
       sort: {
@@ -81,20 +77,20 @@ angular.module('nodeinfo', [])
     };
   })
   .factory('prepareNodeList', function(NodeHealth){
-    var colorMapLabel = {
-      "good": 'label-success',
-      "warning": 'label-warning',
-      "critical": 'label-danger',
+    var LABEL_COLOR_MAP = {
+      good: 'label-success',
+      warning: 'label-warning',
+      critical: 'label-danger',
       '--': ''
     };
-    return function prepareNodeList(cluster, master_node) {
+    return function(cluster, master_node) {
       var nodeList = [];
-      for (var i=0; i<cluster.length; i++) {
+      for (var i = 0; i < cluster.length; i++) {
         var node = angular.copy(cluster[i]);
         node.health = new NodeHealth(node);
         node.health_value = node.health.value;
-        node.health_label_class = colorMapLabel[node.health.status];
-        node.health_panel_class = colorMapLabel[node.health.status];
+        node.health_label_class = LABEL_COLOR_MAP[node.health.status];
+        node.health_panel_class = LABEL_COLOR_MAP[node.health.status];
         node.heap.used_percent = node.heap.used * 100 / node.heap.max;
         node.heap.free_percent = 100.0 - node.heap.used_percent;
         node.master_node = node.id === master_node;
@@ -103,12 +99,17 @@ angular.module('nodeinfo', [])
       return nodeList;
     };
   })
-  .factory('compareByHealth', function(){
-    return function compareByHealth(a,b) {
-      if (a.health.value < b.health.value) return -1;
-      if (a.health.value > b.health.value) return 1;
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
+  .factory('compareByHealth', function() {
+    return function(a, b) {
+      if (a.health.value < b.health.value) {
+        return -1;
+      } else if (a.health.value > b.health.value) {
+        return 1;
+      } else if (a.name < b.name) {
+        return -1;
+      } else if (a.name > b.name) {
+        return 1;
+      }
       return 0;
     };
   });

@@ -2,30 +2,34 @@
 
 angular.module('overview', ['stats', 'checks', 'ngSanitize'])
   .factory('NullArray', function() {
-    return function NullArray(len) {
-      var res = new Array(len);
-      for (var i = 0; i < res.length; i++) res[i] = null;
-      return res;
+    return {
+      create: function(len) {
+        var res = new Array(len);
+        for (var i = 0; i < res.length; i++) {
+          res[i] = null;
+        }
+        return res;
+      }
     };
   })
   .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, NullArray, ChecksService, SQLQuery) {
     var lastUpdate = null;
     var colorMap = {
-      "good": 'cr-panel--success',
-      "warning": 'cr-panel--warning',
-      "critical": 'cr-panel--danger',
+      'good': 'cr-panel--success',
+      'warning': 'cr-panel--warning',
+      'critical': 'cr-panel--danger',
       '--': 'cr-panel--default'
     };
     var chartConf = [{
-      "key": "Load 1",
-      "color": "#5bd5f5",
-      "area": true
+      'key': 'Load 1',
+      'color': '#5bd5f5',
+      'area': true
     }, {
-      "key": "Load 5",
-      "color": "#5d89fe"
+      'key': 'Load 5',
+      'color': '#5d89fe'
     }, {
-      "key": "Load 15",
-      "color": "#115097"
+      'key': 'Load 15',
+      'color': '#115097'
     }];
     var chartCache = [[], [], []];
 
@@ -69,9 +73,9 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       if (len < ClusterState.HISTORY_LENGTH) {
         var missing = ClusterState.HISTORY_LENGTH - len;
         data = [
-          NullArray(missing),
-          NullArray(missing),
-          NullArray(missing)
+          NullArray.create(missing),
+          NullArray.create(missing),
+          NullArray.create(missing)
         ];
         for (var i = 0; i < data.length; i++){
           data[i].push.apply(data[i], history[i]);
@@ -90,22 +94,26 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
 
     $scope.dismissCheckByNode = function(node, check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
-      SQLQuery.execute(stmt, [node.id, check.id]).success(function(query) {
-        removeFromArray(check.nodes, node);
-        if (check.nodes.length === 0) {
-          removeCheck(check);
-        }
-      });
+      SQLQuery.execute(stmt, [node.id, check.id])
+        .success(function() {
+          removeFromArray(check.nodes, node);
+          if (check.nodes.length === 0) {
+            removeCheck(check);
+          }
+        });
     };
 
     $scope.dismissCheck = function(check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE id = ?';
-      SQLQuery.execute(stmt, [check.id]).success(function() {
-        removeCheck(check);
-      });
+      SQLQuery.execute(stmt, [check.id])
+        .success(function() {
+          removeCheck(check);
+        });
     };
 
-    $scope.$watch(function() { return ClusterState.data; }, function (data) {
+    $scope.$watch(function() {
+      return ClusterState.data;
+    }, function(data) {
       var now = new Date().getTime();
       if (lastUpdate && now - lastUpdate < 100) {
         return;
@@ -136,36 +144,32 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
 
       // Aggregate date across all tables
       var tables = data.tables;
-      $scope.records_underreplicated = tables.reduce(function(memo, tableInfo, idx) {
+      $scope.records_underreplicated = tables.reduce(function(memo, tableInfo) {
         return tableInfo.records_underreplicated + memo;
       }, 0);
-      $scope.records_unavailable = tables.reduce(function(memo, tableInfo, idx) {
+      $scope.records_unavailable = tables.reduce(function(memo, tableInfo) {
         return tableInfo.records_unavailable + memo;
       }, 0);
-      $scope.records_total = tables.reduce(function(memo, tableInfo, idx) {
+      $scope.records_total = tables.reduce(function(memo, tableInfo) {
         return tableInfo.records_total + memo;
       }, 0);
-      $scope.records_total_with_replicas = tables.reduce(function(memo, tableInfo, idx) {
+      $scope.records_total_with_replicas = tables.reduce(function(memo, tableInfo) {
         return tableInfo.records_total_with_replicas + memo;
       }, 0);
 
       if ($scope.records_total_with_replicas > 0) {
-        $scope.replicated_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_underreplicated)
-          / $scope.records_total_with_replicas * 100.0;
-
-        $scope.available_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_unavailable)
-          / $scope.records_total_with_replicas * 100.0;
+        $scope.replicated_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_underreplicated) / $scope.records_total_with_replicas * 100.0;
+        $scope.available_data = Math.max(0, $scope.records_total_with_replicas - $scope.records_unavailable) / $scope.records_total_with_replicas * 100.0;
       } else {
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
       }
     }, true);
 
-
     // bind tooltips
-    $("[rel=tooltip]").tooltip({ placement: 'top'});
+    $('[rel=tooltip]').tooltip({ placement: 'top'});
 
-    $scope.$on('$destroy', function(event) {
+    $scope.$on('$destroy', function() {
       window.onresize = null;
     });
   });
