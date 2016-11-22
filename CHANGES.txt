@@ -7,7 +7,7 @@ Unreleased
 
  - Implemented new layout for the admin-ui.
 
-2016/11/16 0.21.3
+2016/11/22 0.21.3
 =================
 
  - The first table in the table list is selected by default.
