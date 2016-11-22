@@ -127,6 +127,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     };
 
     var render = function render(tableSchema, tableName) {
+
       $scope.ptCtlr = new PartitionsTableController();
       $scope.nothingSelected = false;
       $scope.renderSiderbar = true;
@@ -153,6 +154,14 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           if ($scope.table.partitioned) {
             fetchPartitions();
           }
+
+          // redirect to URL of first table in list
+          // if URL does not match expected table URL
+          var expectedUrl = '/tables/' + current.table_schema + '/' + current.name;
+          if ($location.$$url !== expectedUrl) {
+            $location.url(expectedUrl);
+          }
+
         } else {
           $scope.table = placeholder;
           $scope.table_label = placeholder.name;
@@ -334,19 +343,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             }),
             "table_schema": "blob"
           });
-
-          var docSchema = $scope.tables.filter(function(item, idx) {
-            return item.table_schema == 'doc';
-          })[0];
-          var firstTable;
-
-          if (docSchema && docSchema.tables) {
-            firstTable = docSchema.tables[0];
-          } else {
-            firstTable = tables[0];
-          }
-
-          $location.url('/tables/' + firstTable.table_schema + '/' + firstTable.name);
 
         } else {
           $scope.tables = [];
