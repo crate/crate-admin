@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - The first node in the node list is selected by default.
+
  - The first table in the table list is selected by default.
 
  - Implemented new layout for the admin-ui.

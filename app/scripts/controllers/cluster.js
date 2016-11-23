@@ -68,7 +68,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     });
     render($route.current.params.node_id);
   })
-  .controller('NodeDetailController', function($scope, $interval, $route, $http, $filter,
+  .controller('NodeDetailController', function($scope, $interval, $route, $http, $filter, $location,
     ClusterState, prepareNodeList, compareByHealth) {
 
     // Needed to format tooltip byte-values in div. graphs
@@ -118,7 +118,6 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
     var version = null;
     var currentWatcher = null;
-
 
     var aggregateDataDiskUtilisation = function(node) {
       var fs = {
@@ -225,7 +224,9 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         // de-register
         currentWatcher();
       }
-      currentWatcher = $scope.$watch(function() { return ClusterState.data; }, function (data) {
+      currentWatcher = $scope.$watch(function() {
+        return ClusterState.data;
+      }, function(data) {
         var cluster = angular.copy(data.cluster);
         var shards = angular.copy(data.shards);
 
@@ -246,20 +247,29 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           // sort nodes by health and hostname
           nodeList = nodeList.sort(compareByHealth);
           // show sidebar
-          var nodeIds = nodeList.map(function(obj){
+          var nodeIds = nodeList.map(function(obj) {
             return obj.id;
           });
-          if (nodeId && nodeIds.indexOf(nodeId)>=0) {
+          var currentNode;
+          if (nodeId && nodeIds.indexOf(nodeId) >= 0) {
             var selectedNode = nodeList.filter(function(node) {
               return node.id == nodeId;
             });
-            $scope.node = selectedNode.length ? selectedNode[0] : nodeList[0];
+            currentNode = selectedNode.length ? selectedNode[0] : nodeList[0];
           } else {
-            $scope.node = nodeList[0];
+            currentNode = nodeList[0];
           }
-          drawGraph($scope.node);
+          // redirect to URL of first node in list
+          // if URL does not match expected node URL
+          var expectedUrl = '/nodes/' + currentNode.id;
+          if ($location.$$url !== expectedUrl) {
+            $location.url(expectedUrl);
+          } else {
+            $scope.node = currentNode;
+            drawGraph($scope.node);
+          }
         }
-        if (shards && shards.length) {
+        if ($scope.node && shards && shards.length) {
           var shardInfoPerNode = shards.filter(function (shard) {
             return shard.node_id === $scope.node.id;
           });
@@ -270,6 +280,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             'postrecovery': getShardsCountPerState(shardInfoPerNode, 'POST_RECOVERY')
           };
         }
+
       }, true);
     };
 
