@@ -81,7 +81,8 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= crate.app %>/scripts/{,*/}*.js'
+        '<%= crate.app %>/scripts/{,*/}*.js',
+        '<%= crate.app %>/plugins/**/*.js'
       ],
     },
     validation: {
