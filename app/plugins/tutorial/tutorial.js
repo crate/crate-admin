@@ -171,24 +171,22 @@ tutorialPlugin.run(function($window, $location, NavigationService, $translatePar
     $translatePartialLoader.addPart('./plugins/tutorial');
     $translate.refresh();
     var iconSrc = "plugins/tutorial/icons/icon-getstarted.svg";
-    var urlPattern = "/tutorial";
+    var url = "/tutorial";
     var position = 1;
+    var re = /[\?|&]start_twitter=true/;
 
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.GET_STARTED'), url, position);
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.GET_STARTED'), urlPattern, position);
-
-    var url = $.url($window.location.href);
-    var path = './' + url.attr("file");
-    var startTwitter = url.param("start_twitter");
-    if (startTwitter) {
+    if ($window.location.search.match(re) !== null) {
+      var path = $window.location.pathname;
       localStorage.setItem('crate.start_twitter', "true");
-      $window.location.href = path + '#/tutorial';
+      $window.location.href = path + $window.location.search.replace(re, '') + '#' + url;
     }
 
     // Update Navbar Elements if Language Changes
     $rootScope.$on('$translateChangeSuccess', function() {
       $translate('NAVIGATION.GET_STARTED').then(function(translation) {
-        NavigationService.updateNavBarElement("/tutorial", translation);
+        NavigationService.updateNavBarElement(url, translation);
       });
     });
 });
