@@ -5,7 +5,7 @@ angular.module('tutorial', ['sql', 'translation'])
 
     var base_url = 'https://twitter.crate.io/api/v1';
     var loc = $window.location;
-    var redirect = loc.protocol + '//' + loc.host + loc.pathname;
+    var redirect = loc.protocol + '//' + loc.host + loc.pathname + loc.search;
 
     $scope.count = 0;
     $scope.importing = false;

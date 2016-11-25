@@ -17,17 +17,19 @@ angular.module('sql', [])
       });
     };
   })
-  .factory('baseURI', function($location) {
+  .factory('baseURI', function() {
     var pluginPath = '/_plugin/crate-admin/';
-    var key = 'crate.base_uri';
     return {
       getURI: function(path) {
-        var basePath = localStorage.getItem(key);
-        if (!basePath) {
-          basePath = $location.protocol() + '://' +
-            $location.host() + ':' +
-            $location.port() +
-            window.location.pathname.replace(pluginPath, '');
+        var basePath;
+        var loc = window.location;
+        var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
+        if (!uriParam) {
+          basePath = loc.protocol + '://' +
+            loc.host +
+            loc.pathname.replace(pluginPath, '');
+        } else {
+          basePath = uriParam[2];
         }
         // remove trailing slash from base path and append path
         return basePath.replace(/\/+$/, '') + path;

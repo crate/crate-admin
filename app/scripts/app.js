@@ -137,25 +137,6 @@ $.get('conf/plugins.json', function(plugins) {
       });
     });
 
-    app.run(function() {
-      var search = window.location.search
-        .substr(1)
-        .split('&')
-        .map(function(item) {
-          return item.split('=');
-        })
-        .reduce(function(a, b) {
-          if (b.length === 2) {
-            a[b[0]] = b[1];
-          }
-          return a;
-        }, {});
-      if (search.base_uri) {
-        localStorage.setItem('crate.base_uri', search.base_uri);
-      }
-    });
-
-
     app.run(function($rootScope) {
       $rootScope.$on('showSideNav', function() {
         $rootScope.showSideNav = true;

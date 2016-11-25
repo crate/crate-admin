@@ -5,7 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - added Pepper contact widget which displays various Crate.IO 
+ - Local development: do not store ``base_uri`` permanently in localStorage
+   but keep it in URL
+
+ - added Pepper contact widget which displays various Crate.IO
    support Channels in a user friendly way.
 
  - The first node in the node list is selected by default.
