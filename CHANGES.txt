@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: do not try to show load history when load information from node is
+   missing
+
  - Local development: do not store ``base_uri`` permanently in localStorage
    but keep it in URL
 

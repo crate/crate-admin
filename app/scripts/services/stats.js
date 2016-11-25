@@ -104,9 +104,11 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
       var load = [0.0, 0.0, 0.0];
       for (var i = 0; i < numNodes; i++) {
         var nodeLoad = nodeInfo[i].load;
-        load[0] += nodeLoad['1'] / numNodes;
-        load[1] += nodeLoad['5'] / numNodes;
-        load[2] += nodeLoad['15'] / numNodes;
+        if (nodeLoad) {
+          load[0] += nodeLoad['1'] / numNodes;
+          load[1] += nodeLoad['5'] / numNodes;
+          load[2] += nodeLoad['15'] / numNodes;
+        }
       }
       addToLoadHistory(load);
       return load;
