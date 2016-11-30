@@ -170,14 +170,12 @@ module.exports = function(grunt) {
     },
     ngAnnotate: {
       generated: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= crate.tmp %>/concat/scripts',
-            src: '*.js',
-            dest: '<%= crate.tmp %>/concat/scripts'
-          }
-        ]
+        files: [{
+          expand: true,
+          cwd: '<%= crate.tmp %>/concat/scripts',
+          src: '*.js',
+          dest: '<%= crate.tmp %>/concat/scripts'
+        }]
       }
     },
     htmlmin: {
@@ -270,7 +268,7 @@ module.exports = function(grunt) {
         frameworks: ['jasmine'],
         logLevel: 'ERROR',
         singleRun: true,
-        reporters: ['mocha'],
+        reporters: ['mocha','progress', 'coverage'],
         files: [
           'app/bower_components/jquery/dist/jquery.js',
           'app/bower_components/angular/angular.js',
@@ -289,7 +287,10 @@ module.exports = function(grunt) {
           'app/plugins/**/*.js',
           'app/tests/**/*.js',
           'app/conf/plugins.json',
-        ]
+        ],
+        preprocessors: {
+          'app/scripts/**/*.js': ['coverage']
+        }
       },
       all_tests: {
         browsers: ['PhantomJS']
