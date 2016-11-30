@@ -268,7 +268,7 @@ module.exports = function(grunt) {
         frameworks: ['jasmine'],
         logLevel: 'ERROR',
         singleRun: true,
-        reporters: ['mocha','progress', 'coverage'],
+        reporters: ['mocha', 'progress', 'coverage'],
         files: [
           'app/bower_components/jquery/dist/jquery.js',
           'app/bower_components/angular/angular.js',
@@ -290,7 +290,13 @@ module.exports = function(grunt) {
         ],
         preprocessors: {
           'app/scripts/**/*.js': ['coverage']
-        }
+        },
+        coverageReporter: {
+          // specify a common output directory
+          dir: 'app/tests/coverage',
+          type: 'lcov',
+          subdir: '.'
+        },
       },
       all_tests: {
         browsers: ['PhantomJS']
