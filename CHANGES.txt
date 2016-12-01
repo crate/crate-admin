@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed bug that caused the error trace to be displayed even when 
+   the error trace option was not selected.
+
 2016/11/22 0.21.3
 =================
 
