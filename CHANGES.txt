@@ -5,26 +5,23 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Fix: do not try to show load history when load information from node is
-   missing
+2016/12/02 1.0.0
+=================
+
+ - Implemented new layout for the admin-ui.
 
  - Local development: do not store ``base_uri`` permanently in localStorage
-   but keep it in URL
+   but keep it in URL.
 
- - added Pepper contact widget which displays various Crate.IO
+ - Added Pepper contact widget which displays various Crate.IO
    support Channels in a user friendly way.
 
  - The first node in the node list is selected by default.
 
  - The first table in the table list is selected by default.
 
- - Implemented new layout for the admin-ui.
-
- - developer news from crate.io website are now loaded correctly into newsfeed
-
- - ``base_uri`` url parameter for development mode was not always recognized
-   correctly
-
+ - Developer news from crate.io website are now loaded correctly into newsfeed.
+ 
 2016/11/22 0.21.3
 =================
 
