@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('console', ['sql'])
-  .directive('console', function(SQLQuery){
+angular.module('console', ['sql', 'datatypechecks'])
+  .directive('console', function(SQLQuery, ColumnTypeCheck){
     return {
       restrict: 'A',
       controller: ['$scope', '$translate', function($scope, $translate){
@@ -14,6 +14,7 @@ angular.module('console', ['sql'])
         self.recentQueries = [];
 
         $scope.showErrorTrace = localStorage.getItem('crate.console.error_trace') === '1';
+        $scope.formatResults = (localStorage.getItem('crate.console.format_results') || '1') === '1';
 
         $scope.error = {
           hide: true,
@@ -37,6 +38,10 @@ angular.module('console', ['sql'])
 
         $scope.showErrorTraceChanged = function() {
           localStorage.setItem('crate.console.error_trace', $scope.showErrorTrace === true ? '1' : '0');
+        };
+
+        $scope.formatReturnedResults = function () {
+          localStorage.setItem('crate.console.format_results', $scope.formatResults === true ? '1' : '0');
         };
 
         var getRecentQueriesFromLocalStorage = function() {
@@ -79,6 +84,12 @@ angular.module('console', ['sql'])
           });
         };
 
+        $scope.ColumnTypeCheck = ColumnTypeCheck;
+
+        $scope.loadMoreRows = function loadMoreRows(amount) {
+            $scope.limitToAmount += amount;
+        };
+
         var doStoreQueries = localStorage.getItem('crate.console.store_queries') || '1';
         $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();
@@ -99,7 +110,7 @@ angular.module('console', ['sql'])
 
           loadingIndicator.start();
           $('#console-options').slideUp();
-          SQLQuery.execute(stmt, {} , $scope.showErrorTrace)
+          SQLQuery.execute(stmt, {} , $scope.showErrorTrace, true)
           .success(function(sqlQuery) {
             loadingIndicator.stop();
             $scope.error.hide = true;
@@ -114,7 +125,14 @@ angular.module('console', ['sql'])
               $scope.resultHeaders.push(sqlQuery.cols[i]);
             }
 
+            $scope.resultHeaderTypes = [];
+            for (i = 0; i < sqlQuery.col_types.length; i++) {
+              $scope.resultHeaderTypes.push(sqlQuery.col_types[i]);
+            }
+
             $scope.rows = sqlQuery.rows;
+            $scope.limitToAmount = 0;
+            $scope.loadMoreRows(100);
             $scope.status = sqlQuery.status();
             $scope.statement = stmt + ';';
             inputScope.updateInput($scope.statement);
@@ -136,7 +154,7 @@ angular.module('console', ['sql'])
           });
         };
 
-        
+
         self.updateStatement = function(stmt) {
           statement = stmt || '';
         };
@@ -229,6 +247,80 @@ angular.module('console', ['sql'])
           selectStatementInput(stmt);
         };
 
+      }
+    };
+  })
+  .directive('lazyLoadScroll', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        var e = element[0];
+        $(window).scroll(function () {
+          if (this.pageYOffset + this.innerHeight > e.scrollHeight) {
+              scope.$apply(attrs.lazyLoadScroll);
+          }
+        });
+      }
+    };
+  })
+  .directive('formattedArray', function (ObjectTypeCheck) {
+    return {
+      restrict: 'E',
+      scope: {
+        array: '=',
+        typesarray: '=',
+        expand: '='
+      },
+      templateUrl: 'views/formatted-array-template.html',
+      link: function(scope) {
+
+        scope.isExpanded = scope.expand;
+
+        scope.ObjectTypeCheck = ObjectTypeCheck;
+
+        scope.getArrayLength = function getArrayLength() {
+          return scope.array.length;
+        };
+
+        scope.formatArrayindex = function formatArrayIndex(index) {
+          return index + 1;
+        };
+
+        scope.getArrayType = function getArrayType() {
+          return scope.typesarray[0] == 101 ? 'Set' : 'Array';
+        };
+
+        scope.toggleExpand = function toggleExpand() {
+          scope.isExpanded = !scope.isExpanded;
+        };
+      }
+    };
+  })
+  .directive('formattedObject', function (ObjectTypeCheck) {
+    return {
+      restrict: 'E',
+      scope: {
+        object: '=',
+        expand: '='
+      },
+      templateUrl: 'views/formatted-object-template.html',
+      link: function(scope) {
+
+        scope.isExpanded = scope.expand;
+
+        scope.ObjectTypeCheck = ObjectTypeCheck;
+
+        scope.getKeys = function getKeys() {
+          return Object.keys(scope.object);
+        };
+
+        scope.getField = function getField(key) {
+          return scope.object[key];
+        };
+
+        scope.toggleExpand = function toggleExpand() {
+          scope.isExpanded = !scope.isExpanded;
+        };
       }
     };
   })

@@ -41,6 +41,7 @@ angular.module('sql', [])
       this.stmt = stmt;
       this.rows = [];
       this.cols = [];
+      this.col_types = [];
       this.rowCount = 0;
       this.duration = 0;
       this.error = error;
@@ -49,6 +50,7 @@ angular.module('sql', [])
       if (!this.error && response) {
         this.rows = response.rows;
         this.cols = response.cols;
+        this.col_types = response.col_types;
         this.rowCount = response.rowcount;
         this.duration = response.duration;
       } else {
@@ -79,7 +81,7 @@ angular.module('sql', [])
     };
 
 
-    SQLQuery.execute = function(stmt, args, errorTrace) {
+    SQLQuery.execute = function(stmt, args, errorTrace, getTypes) {
       var data = {
         'stmt': stmt
       };
@@ -111,7 +113,7 @@ angular.module('sql', [])
       };
 
       var request = {
-        url: baseURI.getURI('/_sql'),
+        url: baseURI.getURI('/_sql' + (getTypes ? '?types' : '')),
         method: 'POST',
         data: data,
         config: {

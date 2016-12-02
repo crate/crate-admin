@@ -55,7 +55,8 @@
         "SHOW_ERROR_TRACE_HINT": "Wähle `Stacktrace anzeigen` in den Konsoleoptionen um die gesamte Fehlermeldung anzuzeigen.",
         "ERROR": "Fehler!",
         "RESULT_FROM_QUERY": "Ergebnis",
-        "ERROR_TRACE":"STACKTRACE"
+        "ERROR_TRACE":"STACKTRACE",
+        "FORMAT_RESULTS": "Ergebnisse formatieren"
     },
     "TABLE": {
         "TITLE": "Tabellen",

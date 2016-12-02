@@ -1,0 +1,13 @@
+<div class="formatted-array">
+  <div class="formatted-array__title"><a ng-click="toggleExpand()"><i class="fa fa-caret-right" ng-class="isExpanded ? 'expanded-icon' : ''"></i> {{ getArrayType() }}<span class="formatted-array__length">[{{ getArrayLength() }}]</span></a></div>
+  <div class="formatted-array__elements" ng-if="isExpanded">
+    <div ng-repeat="element in array track by $index">
+      <span ng-if="ObjectTypeCheck.isObject(array[$index])" class="formatted-array__element">
+        <div class="formatted-array__element__key">{{ formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <formatted-object object="element" expand="false"></formatted-object>
+      </span>
+      <span ng-if="ObjectTypeCheck.isValue(array[$index])" class="formatted-array__element">
+        <div class="formatted-array__element__key">{{ formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <div class="{{ ObjectTypeCheck.getArrayBaseType(array, typesarray) }}">{{ element }}</div>
+      </span>
+    </div>
+  </div>
+</div>

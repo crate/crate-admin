@@ -55,7 +55,8 @@
         "SHOW_ERROR_TRACE_HINT": "Selecciona `Ver Traza de error` en las Opciones de consola para mostrar la traza de error.",
         "ERROR": "¡Error!",
         "RESULT_FROM_QUERY": "Resultado de consulta",
-        "ERROR_TRACE": "TRAZA DE ERROR"
+        "ERROR_TRACE": "TRAZA DE ERROR",
+        "FORMAT RESULTS": "Formatear resultados"
     },
     "TABLE": {
         "TITLE": "Tablas",

@@ -18,6 +18,7 @@ var MODULES = [
   'checks',
   'udc',
   'translation',
+  'datatypechecks',
   'nvd3ChartDirectives',
   'pascalprecht.translate'
 ];

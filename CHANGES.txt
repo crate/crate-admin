@@ -5,6 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Improved console results table, including data type based colorization,
+   alternating row colorization, structured object/array formatting, human-readable
+   timestamps, Google Maps link on geo-point results & lazy loading on result sets
+   larger than 100 rows.
+
  - Fixed getting started display issue on very wide screens.
 
 2016/12/12 1.0.2

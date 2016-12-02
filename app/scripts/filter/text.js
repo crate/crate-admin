@@ -78,4 +78,46 @@ angular.module('common')
           return 'Auto';
       }
     };
+  })
+  .filter('columnTypeClass', function() {
+    return function(colType) {
+      switch (colType) {
+        // Byte
+        case 2:
+        // Double
+        case 6:
+        // Float
+        case 7:
+        // Short
+        case 8:
+        // Integer
+        case 9:
+        // Long
+        case 10:
+          return 'number';
+
+        // String
+        case 4:
+        // IP
+        case 5:
+          return 'string';
+
+        // Boolean
+        case 3:
+          return 'boolean';
+
+        // Timestamp
+        case 11:
+        // Geopoint
+        case 13:
+        // Geoshape
+        case 14:
+          return 'object';
+      }
+    };
+  })
+  .filter('formatTimestamp', function() {
+    return function(timestamp) {
+      return new Date(timestamp).toUTCString();
+    };
   });
