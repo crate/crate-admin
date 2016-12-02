@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed an issue that caused incorrect URL paths if the project gets built.
+
 2016/12/02 1.0.0
 =================
 
@@ -21,7 +23,7 @@ Unreleased
  - The first table in the table list is selected by default.
 
  - Developer news from crate.io website are now loaded correctly into newsfeed.
- 
+
 2016/11/22 0.21.3
 =================
 

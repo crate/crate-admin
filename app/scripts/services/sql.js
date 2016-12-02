@@ -25,7 +25,7 @@ angular.module('sql', [])
         var loc = window.location;
         var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
         if (!uriParam) {
-          basePath = loc.protocol + '://' +
+          basePath = loc.protocol + '//' +
             loc.host +
             loc.pathname.replace(pluginPath, '');
         } else {
