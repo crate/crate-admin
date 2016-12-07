@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Updated link to support website in contact widget.
+
 2016/12/02 1.0.1
 ================
 
