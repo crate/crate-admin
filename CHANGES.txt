@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix Radio button position in load overview.
+
  - Made schema tabs more distinguishable from tables in the table list.
  
  - Updated link to support website in contact widget.
