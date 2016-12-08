@@ -2,7 +2,7 @@
 
 var commons = angular.module('common', ['stats', 'udc'])
   .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService) {
+    ClusterState, ChecksService, UidLoader, UdcSettings) {
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -86,6 +86,50 @@ var commons = angular.module('common', ['stats', 'udc'])
     // bind tooltips
     $('[rel=tooltip]').tooltip({
       placement: 'bottom'
+    });
+
+    var verified = null;
+
+    // set user
+    $scope.user = {
+      uid: null
+    };
+
+    // 'analytics' is globally available
+    analytics.load(UdcSettings.SegmentIoToken);
+    analytics.ready(function() {
+      var user = analytics.user();
+      verified = {
+        id: user.id(),
+        traits: user.traits()
+      };
+    });
+
+    var identify = function(userdata) {
+      if (userdata.user.uid !== null) {
+        analytics.setAnonymousId(userdata.user.uid);
+        analytics.identify(userdata.user.uid);
+        analytics.page();
+        analytics.track('visited_admin', {
+          'version': $scope.version.number,
+          'cluster_id': userdata.cluster_id
+        });
+      }
+    };
+
+    UdcSettings.availability.success(function(data) {
+      if (data.enabled === true) {
+        // load uid
+        UidLoader.load().success(function(uid) {
+          $scope.user.uid = uid.toString();
+          identify({
+            'user': $scope.user,
+            'cluster_id': data.cluster_id
+          });
+        }).error(function(error) {
+          console.warn(error);
+        });
+      }
     });
   })
   .controller('NavigationController', function($scope, $rootScope, $location, NavigationService) {
@@ -187,51 +231,6 @@ var commons = angular.module('common', ['stats', 'udc'])
       win.on('resize', calculate);
       calculate();
     };
-  })
-  .controller('HelpMenuController', function($scope, UidLoader, UdcSettings) {
-    var verified = null;
-
-    // set user
-    $scope.user = {
-      uid: null
-    };
-
-    // 'analytics' is globally available
-    analytics.load(UdcSettings.SegmentIoToken);
-    analytics.ready(function() {
-      var user = analytics.user();
-      verified = {
-        id: user.id(),
-        traits: user.traits()
-      };
-    });
-
-    var identify = function(userdata) {
-      if (userdata.user.uid !== null) {
-        analytics.setAnonymousId(userdata.user.uid);
-        analytics.identify(userdata.user.uid);
-        analytics.page();
-        analytics.track('visited_admin', {
-          'version': $scope.version.number,
-          'cluster_id': userdata.cluster_id
-        });
-      }
-    };
-
-    UdcSettings.availability.success(function(data) {
-      if (data.enabled === true) {
-        // load uid
-        UidLoader.load().success(function(uid) {
-          $scope.user.uid = uid.toString();
-          identify({
-            'user': $scope.user,
-            'cluster_id': data.cluster_id
-          });
-        }).error(function(error) {
-          console.warn(error);
-        });
-      }
-    });
   })
   .controller('LanguageSwitchController', function($scope, $translate) {
     $scope.showDropDown = false;
