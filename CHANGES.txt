@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Lowered opacity of placeholder query in the console.
+
  - Fix Radio button position in load overview.
 
  - Made schema tabs more distinguishable from tables in the table list.
