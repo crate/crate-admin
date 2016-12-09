@@ -119,5 +119,18 @@
         "OPS": "OPS",
         "READS": "Lesen",
         "WRITES": "Schreiben"
+    },
+    "HELP": {
+        "TITLE": "Wie können wir Dir helfen?",
+        "STACK_OVERFLOW_TITLE": "Stack Overflow",
+        "STACK_OVERFLOW_MSG": "Hilf' anderen mit Fragen auf Stack Overflow.",
+        "SLACK_TITLE": "Slack",
+        "SLACK_MSG": "Diskutiere mit uns auf Slack.",
+        "GITHUB_TITLE": "GitHub",
+        "GITHUB_MSG": "Das Crate Repository auf Github.",
+        "DOCUMENTATION_TITLE": "Crate Dokumentation",
+        "DOCUMENTATION_MSG": "Die Crate Online Dokumentation.",
+        "ENTERPRISE_TITLE": "Enterprise Support",
+        "ENTERPRISE_MSG": "Mehr über den Crate.io Enterprise Support."
     }
 }

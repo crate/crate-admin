@@ -3,7 +3,7 @@
     "name": "tutorial",
     "uri": "plugins/tutorial/tutorial.js",
     "routing": {
-      "/tutorial": {
+      "/help": {
         "templateUrl": "plugins/tutorial/tutorial.html",
         "controller": "TutorialController"
       }

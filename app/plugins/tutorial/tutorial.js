@@ -179,11 +179,11 @@ angular.module('tutorial', ['sql', 'translation'])
     $translatePartialLoader.addPart('./plugins/tutorial');
     $translate.refresh();
     var iconSrc = 'plugins/tutorial/icons/icon-getstarted.svg';
-    var url = '/tutorial';
-    var position = 1;
+    var url = '/help';
+    var position = 4;
     var re = /[\?|&]start_twitter=true/;
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.GET_STARTED'), url, position);
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.HELP'), url, position);
 
     if ($window.location.search.match(re) !== null) {
       var path = $window.location.pathname;
@@ -193,7 +193,7 @@ angular.module('tutorial', ['sql', 'translation'])
 
     // Update Navbar Elements if Language Changes
     $rootScope.$on('$translateChangeSuccess', function() {
-      $translate('NAVIGATION.GET_STARTED').then(function(translation) {
+      $translate('NAVIGATION.HELP').then(function(translation) {
         NavigationService.updateNavBarElement(url, translation);
       });
     });
