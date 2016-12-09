@@ -4,7 +4,10 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
- 
+
+ - Removed pepper widget, support links are now in a Help section along width
+   the Get Started tutorial.
+
  - Changed read notification behaviour so that all items are marked as
    read upon opening the settings.
 
@@ -16,7 +19,7 @@ Unreleased
  - Fix Radio button position in load overview.
 
  - Made schema tabs more distinguishable from tables in the table list.
- 
+
  - Updated link to support website in contact widget.
 
 2016/12/02 1.0.1
