@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2016/12/12 1.0.2
+================
+
  - Removed pepper widget, support links are now in a Help section along width
    the Get Started tutorial.
 
