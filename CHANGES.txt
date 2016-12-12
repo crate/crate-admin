@@ -4,6 +4,8 @@ Changes for Crate Admin Interface
 
 Unreleased
 ==========
+
+ - Removed the pepper widget.
  
  - Changed read notification behaviour so that all items are marked as
    read upon opening the settings.
