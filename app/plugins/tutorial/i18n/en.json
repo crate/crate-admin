@@ -4,7 +4,7 @@
     },
     "TUTORIAL": {
         "TITLE": "Get started with sample data",
-        "PARAGRAPH_1": "Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new Crate instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.",
+        "PARAGRAPH_1": "Sometimes it helps just to test with something real. The Twitter importer lets you quickly test your new CrateDB instance with real data. Press the button, and watch  your cluster quickly fill up in real time with live Tweets. You can always delete them later.",
         "PARAGRAPH_2": "After authentication Twitter allows you to consume a small fraction of their public stream, hence the slow import. In a production environment you can index hundreds  of thousands of records per second.",
         "INSTRUCTION_1": "Your imported tweets will be stored in a table called {tweets}.",
         "TWEETS": "tweets",

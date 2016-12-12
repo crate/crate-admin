@@ -4,7 +4,7 @@
     },
     "TUTORIAL": {
         "TITLE": "Mit Beispieldaten loslegen",
-        "PARAGRAPH_1": "Die Arbeit mit Beispieldaten hilft dir Crate etwas besser zu verstehen. Mit diesem Twitter-Importer ist das ganz einfach und du kannst schnell und mühelos deine neue Crate Instanz mit realen Daten testen. Klicke auf den Button, und beobachte wie dein Cluster in Echtzeit mit Live-Tweets gefüllt wird. Keine Sorge, diese können später immer noch gelöscht werden.",
+        "PARAGRAPH_1": "Die Arbeit mit Beispieldaten hilft dir CrateDB etwas besser zu verstehen. Mit diesem Twitter-Importer ist das ganz einfach und du kannst schnell und mühelos deine neue CrateDB Instanz mit realen Daten testen. Klicke auf den Button, und beobachte wie dein Cluster in Echtzeit mit Live-Tweets gefüllt wird. Keine Sorge, diese können später immer noch gelöscht werden.",
         "PARAGRAPH_2": "Nach der Authentifizierung werden Tweets einzeln importiert, was natürlich langsam ist. Allerdings können in einer Produktionsumgebung bis zu mehreren tausend Datensätze pro Sekunde indiziert werden.",
         "INSTRUCTION_1": "Deine Tweets werden in der Tabelle {tweets} gespeichert",
         "TWEETS": "tweets",

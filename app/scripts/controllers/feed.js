@@ -158,7 +158,7 @@ angular.module('feed', ['stats', 'udc'])
     // Set default menu data
     $scope.menu = [{
         'url': 'https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link',
-        'title': 'Schedule a 1-ON-1 demo with a Crate engineer'
+        'title': 'Schedule a 1-ON-1 demo with a Crate.io engineer'
       }
     ];
   });
