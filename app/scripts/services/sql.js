@@ -12,6 +12,9 @@ angular.module('sql', [])
       return obj;
     };
     return function(sqlQuery, headers) {
+      if (!sqlQuery.rows){
+        return [];
+      }
       return sqlQuery.rows.map(function(obj) {
         return toObject(headers, obj);
       });

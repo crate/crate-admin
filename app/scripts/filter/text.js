@@ -31,7 +31,7 @@ angular.module('common')
         case 3:
           return translate('OVERVIEW.CRITICAL');
         default:
-          return translate('OVERVIEW.INF');
+          return translate('OVERVIEW.INFO');
       }
     };
   })

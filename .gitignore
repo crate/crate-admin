@@ -12,3 +12,4 @@ eggs/
 .idea/
 .tmp/
 dist/
+/app/tests/coverage/
