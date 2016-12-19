@@ -42,7 +42,11 @@
 
             <div class="cr-console-header__options">
               <div class="cr-console-header__options__item--hint">{{ 'CONSOLE.HINT' | translate }}</div>
-              <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--primary" ng-click="execute()" type="submit" class="ladda-button" data-style="expand-left" translate>{{ 'CONSOLE.EXCUTE_QUERY' }}</div>
+              <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--primary"
+               ng-click="execute()" type="submit">
+               <i ng-if="loading" class="fa fa-spinner fa-spin cr-loading"></i> {{ 'CONSOLE.EXCUTE_QUERY' | translate}} 
+               </div>
+
             </div>
           </div>
       </div>
