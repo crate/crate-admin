@@ -18,7 +18,6 @@ angular.module('sql', [])
     };
   })
   .factory('baseURI', function() {
-    var pluginPath = '/_plugin/crate-admin/';
     return {
       getURI: function(path) {
         var basePath;
@@ -26,8 +25,7 @@ angular.module('sql', [])
         var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
         if (!uriParam) {
           basePath = loc.protocol + '//' +
-            loc.host +
-            loc.pathname.replace(pluginPath, '');
+            loc.host;
         } else {
           basePath = uriParam[2];
         }
