@@ -18,23 +18,30 @@ angular.module('sql', [])
     };
   })
   .factory('baseURI', function() {
-    var pluginPath = '/_plugin/crate-admin/';
-    return {
-      getURI: function(path) {
-        var basePath;
-        var loc = window.location;
-        var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
-        if (!uriParam) {
-          basePath = loc.protocol + '//' +
-            loc.host +
-            loc.pathname.replace(pluginPath, '');
-        } else {
-          basePath = uriParam[2];
-        }
-        // remove trailing slash from base path and append path
-        return basePath.replace(/\/+$/, '') + path;
-      }
+    var pluginPathDeprecated = '/_plugin/crate-admin/';
+    var pluginPath = '/admin/';
+
+    var baseURI = {};
+
+    baseURI.getWindowLocation = function() {
+      return window.location;
     };
+    baseURI.getURI = function(path) {
+      var basePath;
+      var loc = baseURI.getWindowLocation();
+      var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
+      if (!uriParam) {
+        basePath = loc.protocol + '//' +
+          loc.host +
+          loc.pathname.replace(pluginPath, '').replace(pluginPathDeprecated, '');
+      } else {
+        basePath = uriParam[2];
+      }
+      // remove trailing slash from base path and append path
+      return basePath.replace(/\/+$/, '') + path;
+    };
+
+    return baseURI;
   })
   .factory('SQLQuery', function($http, $q, $log, baseURI) {
     function SQLQuery(stmt, response, error) {
