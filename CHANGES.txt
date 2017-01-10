@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Breaking: Updated the admin-ui build to be compatible with future crate 
+   versions which will serve the admin-ui from root `/`.
+
  - Improved console results table, including data type based colorization,
    alternating row colorization, structured object/array formatting, human-readable
    timestamps, Google Maps link on geo-point results & lazy loading on result sets

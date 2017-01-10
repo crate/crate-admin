@@ -18,9 +18,6 @@ angular.module('sql', [])
     };
   })
   .factory('baseURI', function() {
-    var pluginPathDeprecated = '/_plugin/crate-admin/';
-    var pluginPath = '/admin/';
-
     var baseURI = {};
 
     baseURI.getWindowLocation = function() {
@@ -31,9 +28,7 @@ angular.module('sql', [])
       var loc = baseURI.getWindowLocation();
       var uriParam = loc.search.match(/([\?|&])base_uri=([^&]+)/);
       if (!uriParam) {
-        basePath = loc.protocol + '//' +
-          loc.host +
-          loc.pathname.replace(pluginPath, '').replace(pluginPathDeprecated, '');
+        basePath = loc.protocol + '//' + loc.host + loc.pathname;
       } else {
         basePath = uriParam[2];
       }

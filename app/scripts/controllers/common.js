@@ -265,10 +265,10 @@ var commons = angular.module('common', ['stats', 'udc'])
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  NavigationService.addNavBarElement('images/icons/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/');
-  NavigationService.addNavBarElement('images/icons/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console');
-  NavigationService.addNavBarElement('images/icons/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables');
-  NavigationService.addNavBarElement('images/icons/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes');
+  NavigationService.addNavBarElement('static/assets/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/');
+  NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console');
+  NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables');
+  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes');
 
 
   // Update Navbar Elements if Language is Changed

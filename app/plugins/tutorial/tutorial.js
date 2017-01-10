@@ -178,7 +178,7 @@ angular.module('tutorial', ['sql', 'translation'])
 
     $translatePartialLoader.addPart('./plugins/tutorial');
     $translate.refresh();
-    var iconSrc = 'plugins/tutorial/icons/icon-getstarted.svg';
+    var iconSrc = 'plugins/tutorial/static/icons/icon-getstarted.svg';
     var url = '/help';
     var position = 4;
     var re = /[\?|&]start_twitter=true/;

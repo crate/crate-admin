@@ -112,7 +112,7 @@ $.get('conf/plugins.json', function(plugins) {
         $translatePartialLoaderProvider.addPart('.');
         // configures partialLoader
         $translateProvider.useLoader('$translatePartialLoader', {
-          urlTemplate: '{part}/i18n/{lang}.json'
+          urlTemplate: '{part}/static/i18n/{lang}.json'
         })
 
         .registerAvailableLanguageKeys(['en', 'de', 'es'], {

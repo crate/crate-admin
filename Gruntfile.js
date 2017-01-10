@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         tasks: ['less:dist']
       },
       i18n: {
-        files: ['<%= crate.app %>/i18n/**'],
+        files: ['<%= crate.app %>/static/i18n/**'],
         tasks: ['copy:i18nTmp']
       },
       hint: {
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
       components: {
         files: [{
           src: [
-            '<%= crate.dist %>/bower_components',
+            '<%= crate.dist %>/static/bower_components',
             '!<%= crate.dist %>/bower_components/font-awesome/fonts'
           ]
         }]
@@ -105,6 +105,18 @@ module.exports = function(grunt) {
           expand: true,
           cwd: '<%= crate.app %>/styles',
           src: 'main.less',
+          dest: '<%= crate.tmp %>/static/styles/',
+          ext: '.css'
+        }]
+      },
+      dev: {
+        options: {
+          compile: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main.less',
           dest: '<%= crate.tmp %>/styles/',
           ext: '.css'
         }]
@@ -113,10 +125,10 @@ module.exports = function(grunt) {
     filerev: {
       dist: {
         src: [
-          '<%= crate.dist %>/scripts/{,*/}*.js',
-          '<%= crate.dist %>/styles/{,*/}*.css',
-          '<%= crate.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= crate.dist %>/styles/fonts/*'
+          '<%= crate.dist %>/static/scripts/{,*/}*.js',
+          '<%= crate.dist %>/static/styles/{,*/}*.css',
+          '<%= crate.dist %>/static/assets/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= crate.dist %>/static/styles/fonts/*'
         ]
       }
     },
@@ -129,13 +141,13 @@ module.exports = function(grunt) {
     usemin: {
       html: [
         '<%= crate.dist %>/index.html',
-        '<%= crate.dist %>/views/**/*.html'
+        '<%= crate.dist %>/static/views/**/*.html'
       ],
       css: [
-        '<%= crate.dist %>/styles/**/*.css'
+        '<%= crate.dist %>/static/styles/**/*.css'
       ],
       js: [
-        '<%= crate.dist %>/scripts/**/*.js'
+        '<%= crate.dist %>/static/scripts/**/*.js'
       ],
       options: {
         root: [
@@ -143,17 +155,29 @@ module.exports = function(grunt) {
         ],
         assetsDirs: [
           '<%= crate.dist %>',
-          '<%= crate.dist %>/views',
-          '<%= crate.dist %>/styles',
-          '<%= crate.dist %>/fonts',
-          '<%= crate.dist %>/scripts'
+          '<%= crate.dist %>/static/views',
+          '<%= crate.dist %>/static/styles',
+          '<%= crate.dist %>/static/fonts',
+          '<%= crate.dist %>/static/scripts'
         ],
         patterns: {
           js: [
             [
-              /['"](images\/[^'"]+\.(?:gif|jpg|png|svg))['"]/gm,
+              /['"](static\/assets\/[^'"]+\.(?:gif|jpg|png|svg))['"]/gm,
               'Update the JS to reference our revved images'
             ]
+          ]
+        }
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      dist: {
+        files: {
+          '<%= crate.dist %>/static/scripts/scripts.js': [
+            '<%= crate.dist %>/static/scripts/scripts.js'
           ]
         }
       }
@@ -162,9 +186,9 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= crate.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg}',
-          dest: '<%= crate.dist %>/images'
+          cwd: '<%= crate.app %>/static/assets',
+          src: '{,*/}*.{png,jpg,jpeg,svg}',
+          dest: '<%= crate.dist %>/static/assets'
         }]
       }
     },
@@ -186,8 +210,13 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= crate.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html'],
           dest: '<%= crate.dist %>'
+        }, {
+          expand: true,
+          cwd: '<%= crate.app %>',
+          src: ['views/*.html'],
+          dest: '<%= crate.dist %>/static'
         }]
       }
     },
@@ -197,31 +226,51 @@ module.exports = function(grunt) {
           expand: true,
           dot: true,
           cwd: '<%= crate.app %>',
-          dest: '<%= crate.dist %>',
+          dest: '<%= crate.dist %>/static',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
             'bower_components/**/*',
-            'images/{,*/}*.{gif,webp,svg}',
-            'fonts/**',
             'plugins/**',
-            'conf/**',
+            'conf/**'
+          ]
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '<%= crate.app %>/static',
+          dest: '<%= crate.dist %>/static',
+          src: [
             'i18n/**'
           ]
         }, {
           expand: true,
+          dot: true,
+          cwd: '<%= crate.app %>/static',
+          dest: '<%= crate.dist %>/static',
+          src: [
+            'fonts/**'
+          ]
+        }, {
+          expand: true,
           cwd: '<%= crate.app %>',
-          dest: '<%= crate.dist %>/fonts',
+          dest: '<%= crate.dist %>/static/fonts',
           src: [
             'bower_components/font-awesome/fonts/*',
             'bower_components/bootstrap/dist/fonts/*'
           ]
         }, {
           expand: true,
-          cwd: '<%= crate.tmp %>/images',
-          dest: '<%= crate.dist %>/images',
+          cwd: '<%= crate.tmp %>/static/assets',
+          dest: '<%= crate.dist %>/static/assets',
           src: [
             'generated/*'
+          ]
+        }, {
+          expand: true,
+          cwd: '<%= crate.tmp %>/static',
+          dest: '<%= crate.dist %>/static',
+          src: [
+            'styles/**'
           ]
         }]
       },
@@ -229,20 +278,31 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= crate.app %>',
-          dest: '<%= crate.tmp %>',
+          cwd: '<%= crate.app %>/static',
+          dest: '<%= crate.tmp %>/static',
           src: [
             'i18n/**'
           ]
         }]
       },
+      fontsTmp: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.app %>',
+          dest: '<%= crate.tmp %>/static',
+          src: [
+            'bower_components/font-awesome/fonts/*',
+            'bower_components/bootstrap/dist/fonts/*'
+          ]
+        }]
+      }
     },
     concurrent: {
       server: [
-        'less'
+        'less:dev'
       ],
       dist: [
-        'less',
+        'less:dist',
         'imagemin',
         'htmlmin'
       ]
@@ -250,15 +310,119 @@ module.exports = function(grunt) {
     'string-replace': {
       dist: {
         files: {
-          '<%= crate.dist %>/styles/': '<%= crate.dist %>/styles/*.css'
+          '<%= crate.dist %>/static/styles/': '<%= crate.dist %>/static/styles/*.css'
         },
         options: {
           replacements: [{
             pattern: /\.{2}\/(bower_components\/font-awesome\/fonts)/ig,
-            replacement: '../fonts/$1'
+            replacement: '../$1'
           }, {
             pattern: /\.{2}\/(bower_components\/bootstrap\/dist\/fonts)/ig,
-            replacement: '../fonts/$1'
+            replacement: '../$1'
+          }]
+        }
+      },
+      replacejs: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/scripts',
+          src: '*.js',
+          dest: '<%= crate.dist %>/static/scripts'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(conf\/plugins.json)/ig,
+            replacement: 'static/conf/plugins.json'
+          }, {
+            pattern: /(views\/)/ig,
+            replacement: 'static/views/'
+          }]
+        }
+      },
+      replacepluginsjs: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/plugins/tutorial',
+          src: '*.js',
+          dest: '<%= crate.dist %>/static/plugins/tutorial'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(plugins\/tutorial)/ig,
+            replacement: 'static/plugins/tutorial'
+          }]
+        }
+      },
+      replacepluginshtml: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/plugins/tutorial',
+          src: '*.html',
+          dest: '<%= crate.dist %>/static/plugins/tutorial'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(plugins\/tutorial)/ig,
+            replacement: 'static/plugins/tutorial'
+          }]
+        }
+      },
+      replaceconf: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/conf',
+          src: '*.json',
+          dest: '<%= crate.dist %>/static/conf'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(plugins\/tutorial\/tutorial.js)/ig,
+            replacement: 'static/plugins/tutorial/tutorial.js'
+          }, {
+            pattern: /(plugins\/tutorial\/tutorial.html)/ig,
+            replacement: 'static/plugins/tutorial/tutorial.html'
+          }]
+        }
+      },
+      replaceviews: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/views',
+          src: '*.html',
+          dest: '<%= crate.dist %>/static/views'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(views\/)/ig,
+            replacement: 'static/views/'
+          }]
+        }
+      },
+      replacecss: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>/static/styles',
+          src: '*.css',
+          dest: '<%= crate.dist %>/static/styles'
+        }],
+        options: {
+          replacements: [{
+            pattern: /(\/bower_components\/)/ig,
+            replacement: '/fonts/bower_components/'
+          }]
+        }
+      },
+      replaceindex: {
+        files: [{
+          expand: true,
+          cwd: '<%= crate.dist %>',
+          src: '*.html',
+          dest: '<%= crate.dist %>'
+        }],
+        options: {
+          replacements: [{
+            pattern: '\'views/nav.html\'',
+            replacement: '\'static/views/nav.html\''
           }]
         }
       }
@@ -268,7 +432,7 @@ module.exports = function(grunt) {
         frameworks: ['jasmine'],
         logLevel: 'ERROR',
         singleRun: true,
-        reporters: ['mocha','progress', 'coverage'],
+        reporters: ['mocha', 'progress', 'coverage'],
         files: [
           'app/bower_components/jquery/dist/jquery.js',
           'app/bower_components/angular/angular.js',
@@ -315,6 +479,13 @@ module.exports = function(grunt) {
       'filerev',
       'usemin',
       'string-replace:dist',
+      'string-replace:replacejs',
+      'string-replace:replaceviews',
+      'string-replace:replaceindex',
+      'string-replace:replaceconf',
+      'string-replace:replacecss',
+      'string-replace:replacepluginsjs',
+      'string-replace:replacepluginshtml',
       'clean:components'
     ]);
   });
@@ -322,6 +493,7 @@ module.exports = function(grunt) {
   grunt.registerTask('server', [
     'concurrent:server',
     'copy:i18nTmp',
+    'copy:fontsTmp',
     'connect:dev',
     'watch'
   ]);
