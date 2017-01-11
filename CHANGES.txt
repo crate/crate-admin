@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/01/11 1.1.0
+================
+
  - Breaking: Updated the admin-ui build to be compatible with future crate 
    versions which will serve the admin-ui from root `/`.
 
