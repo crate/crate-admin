@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/01/11 1.0.4
+================
+
  - Fixed getting started display issue on very wide screens.
 
 2017/01/02 1.0.3
