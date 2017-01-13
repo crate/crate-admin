@@ -38,7 +38,10 @@
 
             <div class="cr-console-header__options">
               <div class="cr-console-header__options__item--hint">{{ 'CONSOLE.HINT' | translate }}</div>
-              <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--primary" ng-click="execute()" type="submit" class="ladda-button" data-style="expand-left" translate>{{ 'CONSOLE.EXCUTE_QUERY' }}</div>
+              <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="execute()" type="submit" >
+                <div ng-class="loading ? 'faded-text' : ''" translate>{{ 'CONSOLE.EXCUTE_QUERY' }}</div>
+                <div ng-if="loading" class="cr-loading-indicator"><i class="fa fa-spinner pulse fa-2x fa-fw cr-loading-indicator-icon"></i></div>
+              </div>
             </div>
           </div>
       </div>

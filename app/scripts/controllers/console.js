@@ -29,8 +29,6 @@ angular.module('console', ['sql'])
           inputScope = scope;
         };
 
-        var loadingIndicator = Ladda.create(document.querySelector('#execute-btn'));
-
         $scope.storeInLocalStorageChanged = function() {
           localStorage.setItem('crate.console.store_queries', $scope.useLocalStorage === true ? '1' : '0');
         };
@@ -97,11 +95,11 @@ angular.module('console', ['sql'])
 
           updateRecentQueries(stmt);
 
-          loadingIndicator.start();
+          $scope.loading = true;
           $('#console-options').slideUp();
           SQLQuery.execute(stmt, {} , $scope.showErrorTrace)
           .success(function(sqlQuery) {
-            loadingIndicator.stop();
+            $scope.loading = false;
             $scope.error.hide = true;
             $scope.error.message = '';
             $scope.error.error_trace = '';
@@ -120,7 +118,7 @@ angular.module('console', ['sql'])
             inputScope.updateInput($scope.statement);
           })
           .error(function(sqlQuery) {
-            loadingIndicator.stop();
+            $scope.loading = false;
             $scope.error.hide = false;
             $scope.renderTable = false;
             $scope.error = sqlQuery.error;

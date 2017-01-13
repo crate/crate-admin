@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix: Show loading indicator when `Execute Query ` is in progress.
+
 2017/01/11 1.0.4
 ================
 
