@@ -92,9 +92,34 @@ code {
   background-color: @cr-button-bg-color--primary;
   text-align:center;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: normal;
 }
 
+.cr-button--console {
+  color: @cr-button-console-color--primary;
+  background-color: @cr-button-console-bg-color--primary;
+  text-align:center;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.cr-button--console > i {
+  margin-left: 5px;
+  color: @cr-button-console-icon-color;
+}
+
+.cr-button--console:hover { 
+  background-color: @cr-button-console-bg-color--hover; 
+}
+
+.cr-button--console:active { 
+  background-color: @cr-button-console-bg-color--active; 
+  box-shadow: @cr-button-console-box-shadow--active;
+}
+
+.faded-text {
+  opacity: 0.2;
+}
 
 // 
 // Checkbox

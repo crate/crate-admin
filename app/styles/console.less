@@ -237,6 +237,43 @@ tr > .cr-table-cell {
 
 .formatted-array__element, .formatted-object__element {
   display: flex;
-  margin: 5px 0px;
-  margin-left: 5px;
+}
+
+.pulse {
+  -webkit-animation: spin 1s infinite steps(8);
+  animation: spin 1s infinite steps(8);
+}
+#execute-btn {
+  position: relative;
+}
+.cr-loading-indicator{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -45%);
+}
+
+.cr-loading-indicator-icon {
+  color: @cr-button-console-color--primary;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }
