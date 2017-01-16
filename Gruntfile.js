@@ -459,6 +459,7 @@ module.exports = function(grunt) {
           'app/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
           'app/bower_components/angular-truncate-2/dist/angular-truncate-2.js',
           'app/bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js',
+          'app/bower_components/angularjs-mocks/angular-mocks.js',
           'app/scripts/app.js',
           'app/scripts/**/*.js',
           'app/plugins/**/*.js',
