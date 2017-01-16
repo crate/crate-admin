@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 
   var bower = require('./bower.json');
   var pkg = require('./package.json');
+  var fs = require('fs');
 
   var crateConf = {
     version: bower.version,
@@ -16,6 +17,9 @@ module.exports = function(grunt) {
     tmp: '.tmp'
   };
 
+  var pluginPath = grunt.option('plugin-path');
+  var pluginFolderName = grunt.option('plugin-folder');
+
   grunt.initConfig({
     crate: crateConf,
     watch: {
@@ -23,7 +27,7 @@ module.exports = function(grunt) {
         livereload: true
       },
       less: {
-        files: ['<%= crate.app %>/styles/{,*/}*.less'],
+        files: ['<%= crate.app %>/styles/{,*/}*.less', '<%= crate.app %>/plugins/{,*/}*.less'],
         tasks: ['less:dist']
       },
       i18n: {
@@ -295,6 +299,14 @@ module.exports = function(grunt) {
             'bower_components/bootstrap/dist/fonts/*'
           ]
         }]
+      },
+      plugin: {
+        files: [{
+          expand: true,
+          cwd: pluginPath,
+          src: pluginFolderName + '/**',
+          dest: '<%= crate.app %>/plugins'
+        }]
       }
     },
     concurrent: {
@@ -503,4 +515,37 @@ module.exports = function(grunt) {
     'karma:all_tests'
   ]);
 
+  grunt.registerTask('update_plugins_conf', function() {
+    var app_conf = require('./app/conf/plugins.json');
+    var plugin_conf = require('./app/plugins/' + pluginFolderName + '/conf.json');
+    app_conf.push(plugin_conf);
+    // appending the plugins configuration to plugins.json
+    fs.writeFileSync('./app/conf/plugins.json', JSON.stringify(app_conf, null, 2));
+    grunt.log.ok('Sucessfully Updated: plugins.json');
+  });
+
+  grunt.registerTask('update_less', function() {
+    var plugin_conf = require('./app/plugins/' + pluginFolderName + '/conf.json');
+    var stylesheetImport = '@import("' + plugin_conf.stylesheet + '")';
+    //appending main.less with the plugin less file
+    fs.writeFileSync('./app/styles/main.less', stylesheetImport, {
+      'flag': 'a'
+    }, function(err) {
+      if (err) {
+        grunt.log.error('Error while updating: main.less' + err);
+      }
+    });
+    
+    grunt.log.ok('Sucessfully Imported: ' + plugin_conf.stylesheet + ' to main.less');
+  });
+
+  grunt.registerTask('installPlugin', function() {
+    grunt.log.ok('Installing: ' + pluginFolderName);
+    grunt.log.ok('From: ' + pluginPath);
+    grunt.task.run([
+      'copy:plugin',
+      'update_plugins_conf',
+      'update_less'
+    ]);
+  });
 };

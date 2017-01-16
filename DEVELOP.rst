@@ -50,6 +50,18 @@ To run the tests::
 
     bin/grunt test
 
+
+Install Plugins
+===============
+
+to install specific plugins, use the grunt task `installPLugins`
+
+`grunt installPlugin --plugin-path=/Users/../Projects/ --plugin-folder=crate-admin-monitoring`
+
+this task, will copy the plugin to the plugins location in the admin-ui, 
+then it will inject the plugin in ``conf/plugins.json`` and finally if the plugin 
+has a ``.less``stylesheet, it will be imported in the admin-ui's ``main.less``
+
 Inject Plugins
 ==============
 
