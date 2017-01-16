@@ -80,7 +80,8 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc',
         ignores: [
-          '<%= crate.app %>/scripts/services/segmentio.js'
+          '<%= crate.app %>/scripts/services/segmentio.js',
+          '<%= crate.app %>/plugins/**/*.test.js'
         ]
       },
       all: [
