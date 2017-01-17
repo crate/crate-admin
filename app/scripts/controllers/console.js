@@ -77,6 +77,17 @@ angular.module('console', ['sql'])
           });
         };
 
+        $scope.isSafe = function(number) {
+          if (Number.isInteger(number)) {
+            return Number.isSafeInteger(number);
+          }
+          return true;
+        };
+
+        $scope.loadMoreRows = function loadMoreRows(amount) {
+            $scope.limitToAmount += amount;
+        };
+
         var doStoreQueries = localStorage.getItem('crate.console.store_queries') || '1';
         $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();

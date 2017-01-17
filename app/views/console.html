@@ -73,7 +73,7 @@
           <tbody>
             <tr ng-repeat="row in rows">
               <td class="cr-table-cell" ng-repeat="column in row track by $index">
-                <pre class="query-result" ng-if="column != null">{{ column }}</pre>
+                <pre class="query-result" ng-if="column != null">{{ column }}<span class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></pre>
                 <pre class="query-result" ng-if="column == null">NULL</pre>
               </td>
             </tr>

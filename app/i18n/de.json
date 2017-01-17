@@ -55,7 +55,8 @@
         "SHOW_ERROR_TRACE_HINT": "Wähle `Stacktrace anzeigen` in den Konsoleoptionen um die gesamte Fehlermeldung anzuzeigen.",
         "ERROR": "Fehler!",
         "RESULT_FROM_QUERY": "Ergebnis",
-        "ERROR_TRACE":"STACKTRACE"
+        "ERROR_TRACE":"STACKTRACE",
+        "UNSAFE_INTEGER": "This number exceeds the JavaScript max safe integer. To be sure to have the right number cast it in your SQL query to string using 'field::string'."
     },
     "TABLE": {
         "TITLE": "Tabellen",
