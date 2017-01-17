@@ -61,7 +61,7 @@ code {
 
 
 .page-container > h1 {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 //
@@ -78,12 +78,12 @@ code {
   color: @cr-button-icon-color;
 }
 
-.cr-button:hover { 
-  background-color: @cr-button-bg-color--hover; 
+.cr-button:hover {
+  background-color: @cr-button-bg-color--hover;
 }
 
-.cr-button:active { 
-  background-color: @cr-button-bg-color--active; 
+.cr-button:active {
+  background-color: @cr-button-bg-color--active;
   box-shadow: @cr-button-box-shadow--active;
 }
 
@@ -108,12 +108,12 @@ code {
   color: @cr-button-console-icon-color;
 }
 
-.cr-button--console:hover { 
-  background-color: @cr-button-console-bg-color--hover; 
+.cr-button--console:hover {
+  background-color: @cr-button-console-bg-color--hover;
 }
 
-.cr-button--console:active { 
-  background-color: @cr-button-console-bg-color--active; 
+.cr-button--console:active {
+  background-color: @cr-button-console-bg-color--active;
   box-shadow: @cr-button-console-box-shadow--active;
 }
 
@@ -121,7 +121,7 @@ code {
   opacity: 0.2;
 }
 
-// 
+//
 // Checkbox
 // ----------------------------
 
@@ -140,7 +140,7 @@ code {
   cursor: pointer;
 }
 
-//checkbox notchecked 
+//checkbox notchecked
 [type="checkbox"]:not(:checked) + label:before,
 [type="checkbox"]:checked + label:before {
   content: '';
@@ -197,7 +197,7 @@ label:hover:before {
 }
 
 
-// 
+//
 // Structure
 // -------------------------
 
@@ -216,7 +216,7 @@ label:hover:before {
 }
 
 
-// 
+//
 // Page
 // ---------------------------
 
@@ -235,7 +235,7 @@ label:hover:before {
   padding-left: 40px;
   padding-right: 40px;
   margin-top: 30px;
-  padding-bottom: 40px; 
+  padding-bottom: 40px;
 }
 
 
@@ -265,7 +265,7 @@ label:hover:before {
 
 .cr-panel-block__item__header{
   font-weight: bold;
-  background-color: @block-bg; 
+  background-color: @block-bg;
   font-size: @font-size-xsmall;
 }
 
@@ -420,7 +420,7 @@ label:hover:before {
   .hide-node-list {
     display: none !important;
     }
-    
+
   .page-wrapper--no-side-nav{
     left: 0px !important;
     width: 100vw !important;
@@ -439,7 +439,7 @@ label:hover:before {
   .side-bar {
     width: 150px;
   }
-  
+
   .page-container-padded {
     padding-left: 150px;
   }
@@ -482,24 +482,49 @@ label:hover:before {
   }
 }
 
-// 
+//
 // nvd3
 // ----------------------------------
 .nvd3.nv-noData{
   color: @nvd3-text-color;
 }
 
+.nvd3 text {
+  fill: @text-color;
+}
 
-// 
+.nvtooltip {
+  background-color: @graph-tooltip-background;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  color: @text-color;
+}
+
+.nvtooltip table td.legend-color-guide div {
+    width: 12px;
+    height: 4px;
+    border: 0px;
+}
+
+.nvd3 line.nv-guideline {
+    stroke: @red;
+}
+
+.nvd3 .nv-bars text {
+    fill: @text-color;
+}
+.nvd3 .nv-axis line {
+  opacity: @chart-axis-line-opacity !important;
+}
+
+//
 // Query Status
 // -----------------------------------
 
 
-.query-status--ok{  
+.query-status--ok{
   color: @query-status--ok-color;
 }
 
 .query-status--error{
   color: @query-status--error-color;
 }
-

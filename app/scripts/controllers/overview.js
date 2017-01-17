@@ -49,7 +49,6 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
           enabled: false
         },
         yAxis: {
-          axisLabel: 'Load',
           tickFormat: function(d) {
             return d3.format('.2f')(d);
           },

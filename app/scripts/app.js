@@ -71,6 +71,23 @@ var loadScript = function(url) {
   return result.promise();
 };
 
+var loadStylesheet = function(url) {
+  var result = $.Deferred();
+  var link = document.createElement('link');
+  link.async = 'async';
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = url;
+  link.onload = function() {
+    result.resolve();
+  };
+  link.onerror = function() {
+    result.reject();
+  };
+  head.appendChild(link);
+  return result.promise();
+};
+
 // todo: load json from rest endpoint
 $.get('conf/plugins.json', function(plugins) {
 
@@ -170,8 +187,10 @@ $.get('conf/plugins.json', function(plugins) {
 
   var promises = [];
   for (var i = 0; i < plugins.length; i++) {
-    var module = plugins[i];
-    promises.push(loadScript(module.uri));
+    promises.push(loadScript(plugins[i].uri));
+    if (plugins[i].stylesheet) {
+      promises.push(loadStylesheet(plugins[i].stylesheet));
+    }
   }
 
   $.when.apply($, promises).then(function() {
