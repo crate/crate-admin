@@ -81,7 +81,6 @@ angular.module('console', ['sql', 'datatypechecks'])
             $scope.info.hide = false;
           });
         };
-
         $scope.ColumnTypeCheck = ColumnTypeCheck;
 
         $scope.loadMoreRows = function loadMoreRows(amount) {

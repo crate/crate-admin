@@ -56,7 +56,8 @@
         "ERROR": "Error!",
         "RESULT_FROM_QUERY": "Result from query",
         "ERROR_TRACE": "ERROR TRACE",
-        "FORMAT_RESULTS": "Format results"
+        "FORMAT_RESULTS": "Format results",
+        "UNSAFE_INTEGER": "This number exceeds the JavaScript max safe integer. To be sure to have the right number cast it in your SQL query to string using 'field::string'."
     },
     "TABLE": {
         "TITLE": "Tables",

@@ -29,9 +29,16 @@ angular.module('datatypechecks', [])
       return !(formattedDataTypes.indexOf(dataType) != -1 || Array.isArray(dataType));
     };
 
+    ColumnTypeCheck.isSafe = function(number) {
+      if (Number.isInteger(number)) {
+        return Number.isSafeInteger(number);
+      }
+      return true;
+    };
+
     return ColumnTypeCheck;
   })
-  .factory('ObjectTypeCheck', function ($filter) {
+  .factory('ObjectTypeCheck', function($filter) {
     var ObjectTypeCheck = {};
 
     ObjectTypeCheck.isArray = function(object) {
