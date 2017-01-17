@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Relocated the help resources section to be underneath the tweet import tutorial.
+
  - Fix: Show loading indicator when `Execute Query ` is in progress.
 
 2017/01/11 1.1.0

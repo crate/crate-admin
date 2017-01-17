@@ -2,14 +2,6 @@
   display: block;
 }
 
-.tutorial__wrapper {
-  flex: 1;
-}
-.help__wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
 .cr-import-tweets__button {
   padding: 15px;
   min-height: 60px;
@@ -41,15 +33,22 @@
 }
 
 .cr-panel-block--help {
-  margin-left: 10px;
-  flex: 0 0 300px;
+  width: 100%;
+}
+
+.help-sources__wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .help__item {
-  width: 100%;
+  min-width: 300px;
   margin: 20px 10px;
   display: flex;
   align-items: center;
+  flex-basis: 0;
+  justify-content: flex-start;
 }
 
 .help__item__icon {
@@ -80,6 +79,10 @@
 
   .help__wrapper {
     flex-wrap: wrap;
+  }
+
+  .help__item {
+    min-width: 100%;
   }
 }
 
