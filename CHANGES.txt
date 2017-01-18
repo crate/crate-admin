@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed plugins loading to load multiple plugins.
+
  - Added: display warning in the console view when the query result contains 
    an unsafe integer.
 
