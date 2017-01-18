@@ -454,7 +454,13 @@ module.exports = function(grunt) {
         ],
         preprocessors: {
           'app/scripts/**/*.js': ['coverage']
-        }
+        },
+        coverageReporter: {
+          // specify a common output directory
+          dir: 'app/tests/coverage',
+          type: 'lcov',
+          subdir: '.'
+        },
       },
       all_tests: {
         browsers: ['PhantomJS']
