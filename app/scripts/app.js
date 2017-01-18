@@ -181,7 +181,7 @@ $.get('conf/plugins.json', function(plugins) {
 
     //onSucess: update the modules and load the app
     for (var i = 0; i < plugins.length; i++) {
-      MODULES.push(module.name);
+      MODULES.push(plugins[i].name);
     }
     loadApp();
   }, function() {
