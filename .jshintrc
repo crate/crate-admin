@@ -23,6 +23,7 @@
     "angular": false,
     "analytics": false,
     "CodeMirror": false,
-    "Ladda": false
+    "Ladda": false,
+    "d3": false
   }
 }
