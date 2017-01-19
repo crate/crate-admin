@@ -31,7 +31,38 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       'key': 'Load 15',
       'color': '#115097'
     }];
-    var chartCache = [[], [], []];
+
+    $scope.options = {
+      chart: {
+        type: 'lineChart',
+        height: 350,
+        margin: {
+          'top': 20,
+          'right': 2,
+          'bottom': 10,
+          'left': 40
+        },
+        showXAxis: false,
+        showYAxis: true,
+        showLegend: false,
+        tooltip: {
+          enabled: false
+        },
+        yAxis: {
+          axisLabel: 'Load',
+          tickFormat: function(d) {
+            return d3.format('.2f')(d);
+          },
+          axisLabelDistance: -10,
+          showMaxMin: false
+        }
+      }
+    };
+    var chartCache = [
+      [],
+      [],
+      []
+    ];
 
     $scope.available_data = '--';
     $scope.records_unavailable = '--';
@@ -48,11 +79,16 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     };
 
-    $scope.$watch(function() { return ChecksService; }, function(data) {
+    $scope.$watch(function() {
+      return ChecksService;
+    }, function(data) {
       if (data.success === true) {
         $scope.checks = data.checks;
       } else {
-        $scope.checks = {node_checks: [], cluster_check: []};
+        $scope.checks = {
+          node_checks: [],
+          cluster_check: []
+        };
       }
     }, true);
 
@@ -69,7 +105,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     var drawGraph = function(history) {
       chartCache = history;
       var data,
-          len = history[0].length; // assuming all load arrays have the same length!
+        len = history[0].length; // assuming all load arrays have the same length!
       if (len < ClusterState.HISTORY_LENGTH) {
         var missing = ClusterState.HISTORY_LENGTH - len;
         data = [
@@ -77,16 +113,19 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
           NullArray.create(missing),
           NullArray.create(missing)
         ];
-        for (var i = 0; i < data.length; i++){
+        for (var i = 0; i < data.length; i++) {
           data[i].push.apply(data[i], history[i]);
         }
       } else {
         data = history;
       }
-      $scope.chart.data = data.map(function(lineData, i){
+      $scope.chart.data = data.map(function(lineData, i) {
         var line = angular.copy(chartConf[i]);
         line.values = lineData.map(function(val, j) {
-          return [j, val];
+          return {
+            x: j,
+            y: val
+          };
         });
         return line;
       });
@@ -101,6 +140,9 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
             removeCheck(check);
           }
         });
+    };
+    $scope.callback = function() {
+      $scope.api.clearElement();
     };
 
     $scope.dismissCheck = function(check) {
@@ -167,9 +209,15 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     }, true);
 
     // bind tooltips
-    $('[rel=tooltip]').tooltip({ placement: 'top'});
-
+    $('[rel=tooltip]').tooltip({
+      placement: 'top'
+    });
+    $scope.$on('$viewContentLoaded', function() {
+      $timeout(function() {
+        $scope.api.refresh();
+      }, 100);
+    });
     $scope.$on('$destroy', function() {
-      window.onresize = null;
+      $scope.api.clearElement();
     });
   });
