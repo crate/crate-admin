@@ -68,7 +68,9 @@
           <span class="cr-radio-button__load"><span id="load-btn-2" class="cr-radio-button__load__toggle cr-radio-button__load__toggle--fifteen"></span></span>
           Load 15</a>
       </div>
-      <nvd3 id="cluster-load" on-ready="callback" api="api" options="options" data="chart.data"></nvd3>
+      <div class="cr-panel-block__chart">
+        <nvd3 id="cluster-load" on-ready="callback" api="api" options="options" data="chart.data"></nvd3>
+      </div>
     </div>
 
     <div ng-show="checks.node_checks.length > 0" class="cr-panel-block__item--checks">

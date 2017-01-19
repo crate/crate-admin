@@ -499,24 +499,27 @@ label:hover:before {
   color: @text-color;
 }
 
-.nvtooltip thead {
-  border-bottom: 1px solid rgba(148, 148, 148, 0.15);
-}
-
 .nvtooltip table td.legend-color-guide div {
-  height: 2px;
+    width: 12px;
+    height: 4px;
+    border: 0px;
 }
 
-.nvd3 .nv-axis path {
-   fill: none;
-   stroke: red;
-   stroke-opacity: .75;
-   shape-rendering: crispEdges;
- }
+.nvd3 line.nv-guideline {
+    stroke: @red;
+}
 
- .nvd3 .nv-axis line {
-   stroke: @graph-gridline-color;
- }
+.nvd3 .nv-bars text {
+    fill: @text-color;
+}
+.nvd3 .nv-axis line {
+  opacity: @chart-axis-line-opacity !important;
+}
+
+.faded-text{
+  color: rgba(204, 204, 204, 0.54) !important;
+}
+
 
 //
 // Query Status
