@@ -57,15 +57,7 @@
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
-          <nvd3-multi-bar-horizontal-chart id="chart-cpu-usage"
-            data="cpuData"
-            margin="{left: 0, top: 0, bottom: 0, right: 0}"
-            stacked="true"
-            forcey="[0,100]"
-            tooltips="true"
-            tooltipcontent="toolTipUsedPercentFunction()">
-            <svg style="height: 20px"></svg>
-          </nvd3-multi-bar-horizontal-chart>
+          <nvd3 id="chart-cpu-usage" data="cpuData" options="percent_options"></nvd3>
         </div>
       </div>
     </div>
@@ -77,15 +69,7 @@
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
-          <nvd3-multi-bar-horizontal-chart id="chart-heap-usage"
-            data="heapData"
-            margin="{left: 0, top: 0, bottom: 0, right: 0}"
-            yAxisTickFormat="yAxisByteFormatFunction()"
-            stacked="true"
-            tooltips="true"
-            tooltipcontent="toolTipUsedBytesFunction()">
-            <svg style="height: 20px"></svg>
-          </nvd3-multi-bar-horizontal-chart>
+          <nvd3 id="chart-heap-usage" data="heapData" options="bytes_options"></nvd3>
         </div>
       </div>
     </div>
@@ -97,15 +81,7 @@
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
-          <nvd3-multi-bar-horizontal-chart id="chart-disk-usage"
-            data="diskUsageData"
-            margin="{left: 0, top: 0, bottom: 0, right: 0}"
-            yAxisTickFormat="yAxisByteFormatFunction()"
-            stacked="true"
-            tooltips="true"
-            tooltipcontent="toolTipUsedBytesFunction()">
-            <svg style="height: 20px"></svg>
-          </nvd3-multi-bar-horizontal-chart>
+          <nvd3 id="chart-disk-usage" data="diskUsageData" options="bytes_options"></nvd3>
         </div>
       </div>
     </div>
@@ -117,14 +93,7 @@
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
-          <nvd3-multi-bar-horizontal-chart id="chart-process-cpu"
-            data="processCpuData"
-            margin="{left: 0, top: 0, bottom: 0, right: 0}"
-            stacked="true"
-            tooltips="true"
-            tooltipcontent="toolTipUsedPercentFunction()">
-            <svg style="height: 20px"></svg>
-          </nvd3-multi-bar-horizontal-chart>
+          <nvd3 id="chart-process-cpu" data="processCpuData" options="percent_options"></nvd3>
         </div>
       </div>
     </div>
