@@ -85,11 +85,11 @@
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}">{{ column }}<span  class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></pre>
                   </div>
                   <div ng-if="column != null && !ColumnTypeCheck.requiresNoFormatting(resultHeaderTypes[$index])">
-                    <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isGeopoint(resultHeaderTypes[$index])">{{ column }} <a href="https://www.google.com/maps/place/{{column[1]}},{{column[0]}}" target="_blank"><i class="fa fa-external-link"></i></a></pre>
+                    <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isGeopoint(resultHeaderTypes[$index])">{{ column }} <a ng-href="https://www.openstreetmap.org/?mlat={{column[1]}}&mlon={{column[0]}}&layers=H" target="_blank"><i class="fa fa-external-link"></i></a></pre>
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isTimestamp(resultHeaderTypes[$index])">{{ column }} <span class="formatted-timestamp">({{ column | formatTimestamp }})</span></pre>
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.requiresArrayFormatting(resultHeaderTypes[$index])"><formatted-array array="column" typesarray="resultHeaderTypes[$index]" expand="true"></formatted-array></pre>
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.requiresJSONFormatting(resultHeaderTypes[$index])"><formatted-object object="column" expand="true"></formatted-object></pre>
-                    <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isGeoarea(resultHeaderTypes[$index])"><span>Type</span>: {{ column['type']}}<br/><span>Coordinates</span>: {{ column['coordinates'] }}</pre>
+                    <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isGeoarea(resultHeaderTypes[$index])"><span>Type</span>: {{ column['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{ column | urlEncodedJson }}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column['coordinates'] }} </pre>
                   </div>
                 </div>
                 <div ng-if="!formatResults">

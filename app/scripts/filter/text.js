@@ -120,4 +120,9 @@ angular.module('common')
     return function(timestamp) {
       return new Date(timestamp).toUTCString();
     };
+  })
+  .filter('urlEncodedJson', function() {
+    return function(json) {
+      return encodeURIComponent(JSON.stringify(json));
+    };
   });

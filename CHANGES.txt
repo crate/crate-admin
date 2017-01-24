@@ -5,11 +5,14 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Improved formatted results of the `geo_area` datatype to include an external
+   link to a visualisation of that geo_area.
+
  - Keywords in the SQL console are capitalised.
 
  - Fixed plugins loading to load multiple plugins.
 
- - Added: display warning in the console view when the query result contains 
+ - Added: display warning in the console view when the query result contains
    an unsafe integer.
 
  - Relocated the help resources section to be underneath the tweet import tutorial.
@@ -19,7 +22,7 @@ Unreleased
 2017/01/11 1.1.0
 ================
 
- - Breaking: Updated the admin-ui build to be compatible with future crate 
+ - Breaking: Updated the admin-ui build to be compatible with future crate
    versions which will serve the admin-ui from root `/`.
 
  - Improved console results table, including data type based colorization,

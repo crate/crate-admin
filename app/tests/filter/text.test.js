@@ -301,3 +301,34 @@ describe('formatTimestamp', function() {
 		expect(formatTimestamp(milliseconds)).toBe(new Date(milliseconds).toUTCString());
 	});
 });
+
+describe('formatGeoshape', function() {
+	'use strict';
+
+	var $filter;
+
+	beforeEach(function() {
+		module('crate');
+		module('common');
+	});
+
+	beforeEach(function() {
+		inject(function(_$filter_) {
+			$filter = _$filter_;
+		});
+	});
+
+	it('should return encoded URI of geoshape', function () {
+		var urlEncodedJson;
+		urlEncodedJson = $filter('urlEncodedJson');
+
+		var geoshape = {
+		  "type": 'Polygon',
+		  "coordinates": [
+		     [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]
+		  ]
+		}
+
+		expect(urlEncodedJson(geoshape)).toBe(encodeURIComponent(JSON.stringify(geoshape)));
+	});
+});
