@@ -56,6 +56,13 @@ describe('severityClass', function() {
 		expect(severityClass(3)).toBe("severity--danger");
 	});
 
+	it('should return severity-info', function() {
+		var severityClass;
+		severityClass = $filter('severityClass');
+		expect(severityClass(0)).toBe("severity--info");
+	});
+
+
 });
 
 describe('severityText', function() {
@@ -139,9 +146,10 @@ describe('healthPanelClass', function() {
 		expect(healthPanelClass("--")).toBe("cr-panel--default");
 		expect(healthPanelClass("")).toBe("cr-panel--default");
 	});
+
 });
 
-describe('queryStatusClass', function () {
+describe('queryStatusClass', function() {
 	'use strict';
 
 	var $filter;
@@ -157,26 +165,26 @@ describe('queryStatusClass', function () {
 		});
 	});
 
-	it('should return nothing', function () {
+	it('should return nothing', function() {
 		var queryStatusClass;
 		queryStatusClass = $filter('queryStatusClass');
 		expect(queryStatusClass(undefined)).toBe("");
 	});
 
-	it('should return OK', function () {
+	it('should return OK', function() {
 		var queryStatusClass;
 		queryStatusClass = $filter('queryStatusClass');
 		expect(queryStatusClass("OK")).toBe("query-status--ok");
 	});
 
-	it('should return ERROR', function () {
+	it('should return ERROR', function() {
 		var queryStatusClass;
 		queryStatusClass = $filter('queryStatusClass');
 		expect(queryStatusClass("ERROR")).toBe("query-status--error");
 	});
 });
 
-describe('languageFilter', function () {
+describe('languageFilter', function() {
 	'use strict';
 
 	var $filter;
@@ -192,25 +200,25 @@ describe('languageFilter', function () {
 		});
 	});
 
-	it('should return English', function () {
+	it('should return English', function() {
 		var languageFilter;
 		languageFilter = $filter('languageFilter');
 		expect(languageFilter("en")).toBe("English");
 	});
 
-	it('should return Deutsch', function () {
+	it('should return Deutsch', function() {
 		var languageFilter;
 		languageFilter = $filter('languageFilter');
 		expect(languageFilter("de")).toBe("Deutsch");
 	});
 
-	it('should return Español', function () {
+	it('should return Español', function() {
 		var languageFilter;
 		languageFilter = $filter('languageFilter');
 		expect(languageFilter("es")).toBe("Español");
 	});
 
-	it('should return Auto', function () {
+	it('should return Auto', function() {
 		var languageFilter;
 		languageFilter = $filter('languageFilter');
 		expect(languageFilter("")).toBe("Auto");
@@ -233,7 +241,7 @@ describe('columnTypeClass', function() {
 		});
 	});
 
-	it('should return number', function () {
+	it('should return number', function() {
 		var columnTypeClass;
 		columnTypeClass = $filter('columnTypeClass');
 		// Byte
@@ -250,7 +258,7 @@ describe('columnTypeClass', function() {
 		expect(columnTypeClass(10)).toBe("number");
 	});
 
-	it('should return string', function () {
+	it('should return string', function() {
 		var columnTypeClass;
 		columnTypeClass = $filter('columnTypeClass');
 		// String
@@ -259,14 +267,14 @@ describe('columnTypeClass', function() {
 		expect(columnTypeClass(5)).toBe("string");
 	});
 
-	it('should return boolean', function () {
+	it('should return boolean', function() {
 		var columnTypeClass;
 		columnTypeClass = $filter('columnTypeClass');
 		// Boolean
 		expect(columnTypeClass(3)).toBe("boolean");
 	});
 
-	it('should return object', function () {
+	it('should return object', function() {
 		var columnTypeClass;
 		columnTypeClass = $filter('columnTypeClass');
 		// Byte
@@ -294,7 +302,7 @@ describe('formatTimestamp', function() {
 		});
 	});
 
-	it('should return UTC time', function () {
+	it('should return UTC time', function() {
 		var formatTimestamp;
 		formatTimestamp = $filter('formatTimestamp');
 		var milliseconds = Date.now();
@@ -318,15 +326,21 @@ describe('formatGeoshape', function() {
 		});
 	});
 
-	it('should return encoded URI of geoshape', function () {
+	it('should return encoded URI of geoshape', function() {
 		var urlEncodedJson;
 		urlEncodedJson = $filter('urlEncodedJson');
 
 		var geoshape = {
-		  "type": 'Polygon',
-		  "coordinates": [
-		     [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]
-		  ]
+			"type": 'Polygon',
+			"coordinates": [
+				[
+					[100.0, 0.0],
+					[101.0, 0.0],
+					[101.0, 1.0],
+					[100.0, 1.0],
+					[100.0, 0.0]
+				]
+			]
 		}
 
 		expect(urlEncodedJson(geoshape)).toBe(encodeURIComponent(JSON.stringify(geoshape)));

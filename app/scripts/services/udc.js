@@ -20,7 +20,7 @@ angular.module('udc', [])
         var result = queryResultToObjects(query, ['enabled','cluster_id']);
         deferred.resolve(result[0]);
       }).error(function() {
-        deferred.reject(null, 'Could not load udc setting');
+        deferred.reject('Could not load udc setting');
       });
 
     return {

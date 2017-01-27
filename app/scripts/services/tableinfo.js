@@ -305,6 +305,7 @@ angular.module('tableinfo', ['sql'])
 
     return {
       'data': data,
+      'fetch': fetch,
       'execute': function() {
         return deferred.promise;
       }

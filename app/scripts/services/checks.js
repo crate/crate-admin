@@ -81,9 +81,10 @@ angular.module('checks', ['sql'])
     var data = {
       checks: {},
       success: false,
+
     };
     var retryCount = 0;
-    var fetch = function(force) {
+    data.fetch = function(force) {
       $q.all([ClusterCheck.execute(), NodeCheck.execute()])
         .then(function(responses) {
           data.checks.cluster_checks = responses[0];
@@ -91,20 +92,20 @@ angular.module('checks', ['sql'])
           data.success = true;
           retryCount = 0;
           if (force !== true) {
-            $timeout(fetch, 60000);
+            $timeout(data.fetch, 60000);
           }
         }).catch(function() {
           data.success = false;
           retryCount++;
           if (force !== true) {
-            $timeout(fetch, 500 * retryCount);
+            $timeout(data.fetch, 500 * retryCount);
           }
         });
     };
     // Initial fetch
-    $timeout(fetch, 2000);
+    $timeout(data.fetch, 2000);
     data.refresh = function() {
-      fetch(true);
+      data.fetch(true);
     };
     return data;
   });

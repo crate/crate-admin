@@ -47,6 +47,16 @@ describe('shardinfo', function() {
       $httpBackend.flush();
     }));
 
+
+    it('should executeTableStmt - error response', inject(function(ShardInfo, baseURI) {
+      var data;
+      $httpBackend.whenPOST(baseURI.getURI("/_sql"))
+        .respond(500, {});
+      mockShardInfoService.executeTableStmt().then(function(response) {}, function(error) {});
+      $httpBackend.flush();
+    }));
+
+
     it('should executeShardStmt', inject(function(ShardInfo, baseURI) {
       var data;
       $httpBackend.whenPOST(baseURI.getURI("/_sql"))
@@ -127,4 +137,3 @@ describe('shardinfo', function() {
     }));
   });
 });
-

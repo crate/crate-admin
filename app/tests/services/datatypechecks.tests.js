@@ -35,7 +35,7 @@ describe('ColumnTypeCheck', function() {
     }));
 
     it('should return true', inject(function() {
-      var datatypecheck = mockColumnTypeChecksService.requiresArrayFormatting([1,1,1]);
+      var datatypecheck = mockColumnTypeChecksService.requiresArrayFormatting([1, 1, 1]);
       expect(datatypecheck).toEqual(true);
     }));
 
@@ -50,7 +50,7 @@ describe('ColumnTypeCheck', function() {
     }));
 
     it('should return false', inject(function() {
-      var datatypecheck = mockColumnTypeChecksService.requiresNoFormatting([1,1,1]);
+      var datatypecheck = mockColumnTypeChecksService.requiresNoFormatting([1, 1, 1]);
       expect(datatypecheck).toEqual(false);
     }));
   });
@@ -74,12 +74,14 @@ describe('ColumnTypeCheck', function() {
   describe('mockObjectTypeChecksService', function() {
 
     it('should return true', inject(function() {
-      var objecttypecheck = mockObjectTypeChecksService.isArray([1,1,1]);
+      var objecttypecheck = mockObjectTypeChecksService.isArray([1, 1, 1]);
       expect(objecttypecheck).toEqual(true);
     }));
 
     it('should return true', inject(function() {
-      var objecttypecheck = mockObjectTypeChecksService.isObject({name: 'A really nice object'});
+      var objecttypecheck = mockObjectTypeChecksService.isObject({
+        name: 'A really nice object'
+      });
       expect(objecttypecheck).toEqual(true);
     }));
 
@@ -100,6 +102,21 @@ describe('ColumnTypeCheck', function() {
 
     it('should return number', inject(function() {
       var objecttypecheck = mockObjectTypeChecksService.getType(3.14159);
+      expect(objecttypecheck).toEqual('number');
+    }));
+
+    it('should return number', inject(function() {
+      var objecttypecheck = mockObjectTypeChecksService.getArrayBaseType([1, 2, 3], [100, 1]);
+      expect(objecttypecheck).toEqual('number');
+    }));
+
+    it('should return number', inject(function() {
+      var objecttypecheck = mockObjectTypeChecksService.getArrayBaseType(['test', 2, 3], [101, 10]);
+      expect(objecttypecheck).toEqual('number');
+    }));
+
+    it('should return number', inject(function() {
+      var objecttypecheck = mockObjectTypeChecksService.getArrayBaseType(['test', true, 3], [100, 9]);
       expect(objecttypecheck).toEqual('number');
     }));
   });

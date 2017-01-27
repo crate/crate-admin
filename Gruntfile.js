@@ -452,6 +452,7 @@ module.exports = function(grunt) {
           'app/tests/**/*.js',
           'app/conf/plugins.json',
         ],
+        exclude: ['app/scripts/services/segmentio.js',],
         preprocessors: {
           'app/scripts/**/*.js': ['coverage']
         },
