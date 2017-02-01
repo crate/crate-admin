@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - SQL console keywords are now CrateDB specific.
+
  - Improved formatted results of the `geo_area` datatype to include an external
    link to a visualisation of that geo_area.
 

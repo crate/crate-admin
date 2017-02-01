@@ -1,6 +1,16 @@
 'use strict';
 
 angular.module('console', ['sql', 'datatypechecks'])
+  .factory('KeywordObjectCreator', function() {
+    return {
+      create: function(arr) {
+        return arr.reduce(function(accumulator, currentValue) {
+          accumulator[currentValue.toLowerCase()] = true;
+          return accumulator;
+        }, {});
+      }
+    };
+  })
   .directive('console', function(SQLQuery, ColumnTypeCheck){
     return {
       restrict: 'A',
@@ -162,7 +172,7 @@ angular.module('console', ['sql', 'datatypechecks'])
       }]
     };
   })
-  .directive('cli', function($timeout){
+  .directive('cli', function($timeout, KeywordObjectCreator){
     return {
       restrict: 'E',
       transclude: true,
@@ -177,6 +187,36 @@ angular.module('console', ['sql', 'datatypechecks'])
         var statement = '';
         var typedStatement = '';
         var input = $('textarea',element)[0];
+
+        CodeMirror.defineMIME('text/x-cratedb', {
+          name: 'sql',
+          keywords: KeywordObjectCreator.create([
+            'select', 'from', 'to', 'as', 'all', 'any', 'some',
+            'directory', 'distinct', 'where', 'group', 'by', 'order', 'having',
+            'limit', 'offset', 'or', 'and', 'in', 'not', 'exists', 'between',
+            'like', 'is', 'null', 'true', 'false', 'nulls', 'first', 'last',
+            'escape', 'asc', 'desc', 'substring', 'for', 'date', 'time',
+            'year', 'month', 'day', 'hour', 'minute', 'second', 'current_date',
+            'current_time', 'current_timestamp', 'extract', 'case', 'when',
+            'join', 'cross', 'outer', 'inner', 'left', 'right', 'full',
+            'natural', 'using', 'on', 'over', 'partition', 'range', 'rows',
+            'unbounded', 'preceding', 'row', 'with', 'create',
+            'blob', 'table', 'repository', 'snapshot', 'alter', 'kill',
+            'add', 'column', 'boolean', 'byte', 'short', 'integer', 'int',
+            'long', 'float', 'double', 'timestamp', 'ip', 'object', 'string',
+            'geo_point', 'geo_shape', 'global', 'constraint', 'describe', 'explain',
+            'format', 'type', 'text', 'distributed', 'cast', 'try_cast', 'show',
+            'tables', 'schemas', 'catalogs', 'columns', 'partitions', 'functions',
+            'view', 'refresh', 'restore', 'drop', 'alias', 'union',
+            'except', 'intersect', 'system', 'insert', 'into', 'values',
+            'delete', 'update', 'key', 'duplicate', 'set', 'reset', 'copy',
+            'clustered', 'shards', 'primary key', 'off', 'fulltext', 'plain',
+            'index', 'dynamic', 'strict', 'ignored', 'array', 'analyzer', 'extends',
+            'tokenizer', 'token_filters', 'char_filters', 'partitioned', 'transient',
+            'persistent', 'match', 'generated', 'always'
+        ]),
+          operatorChars: /^[*+\-%<>!=~]/,
+        });
 
         var editor = CodeMirror.fromTextArea(input, {
           mode: attrs.mimeType,
