@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div ng-show="renderTable" class="query-result-container" ng-class="{colourised: formatResults}">
+    <div ng-if="renderTable" class="query-result-container" ng-class="{colourised: formatResults}">
 
       <h2  class="query-result-container__header">{{ 'CONSOLE.RESULT_FROM_QUERY' | translate }}</h2>
       <div class="table-responsive">

@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix console results issue that caused the results table not to be displayed
+   after horizontal scrolling.
+
  - SQL console keywords are now CrateDB specific.
 
  - Improved formatted results of the `geo_area` datatype to include an external
