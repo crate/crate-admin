@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fix console results issue that caused the results table not to be displayed
+   after horizontal scrolling.
+
  - Fixed plugins loading to load multiple plugins.
 
  - Added: display warning in the console view when the query result contains 
