@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - The console now expands vertically to show the whole query if its size
+   is larger than the standard size of the console.
+
  - Fix console results issue that caused the results table not to be displayed
    after horizontal scrolling.
 
