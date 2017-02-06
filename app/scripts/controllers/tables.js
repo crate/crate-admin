@@ -9,6 +9,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         'collapsed': collapsed,
         'toggleIndex': function toggleIndex(index) {
           collapsed[index] = !collapsed[index];
+        },
+        'collapseIndex': function collapseIndex(index) {
+          collapsed[index] = true;
+        },
+        'unCollapseIndex': function collapseIndex(index) {
+          collapsed[index] = false;
         }
       };
     };
@@ -135,10 +141,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               return;
             }
             var partitions = [];
-            var shardResult = queryResultToObjects(shardQuery,
-              ['partition_ident', 'routing_state', 'state', 'relocating_node', 'primary', 'sum_docs', 'avg_docs', 'count', 'size']);
-            var partitionResult = queryResultToObjects(tablePartitionQuery,
-              ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
+            var shardResult = queryResultToObjects(shardQuery, ['partition_ident', 'routing_state', 'state', 'relocating_node', 'primary', 'sum_docs', 'avg_docs', 'count', 'size']);
+            var partitionResult = queryResultToObjects(tablePartitionQuery, ['partition_ident', 'number_of_shards', 'number_of_replicas', 'values']);
 
             var idents = shardResult.reduce(function(memo, obj) {
               var ident = obj.partition_ident;
@@ -308,7 +312,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           }
 
           var idx,
-              name;
+            name;
           var customSchemas = [];
           for (idx in tables) {
             name = tables[idx].table_schema;
@@ -366,6 +370,21 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
       $scope.isCollapsed = function(index) {
         return TabNavigationInfo.collapsed[index];
+      };
+      var table;
+      $scope.collapseAll = function() {
+        for (table in $scope.tables) {
+          $('#nav-tabs-' + table).collapse('toggle');
+          $('#nav-tabs-header-' + table + ' i.fa').toggleClass('fa-caret-down').toggleClass('fa-caret-right');
+          TabNavigationInfo.collapseIndex(table);
+        }
+      };
+      $scope.unCollapseAll = function() {
+        for (table in $scope.tables) {
+          $('#nav-tabs-' + table).collapse('toggle');
+          $('#nav-tabs-header-' + table + ' i.fa').toggleClass('fa-caret-down').toggleClass('fa-caret-right');
+          TabNavigationInfo.unCollapseIndex(table);
+        }
       };
     };
 

@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added buttons to collapse and expand all schemas in the tables view.
+
  - The console now expands vertically to show the whole query if its size
    is larger than the standard size of the console.
 

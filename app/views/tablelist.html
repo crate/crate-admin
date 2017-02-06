@@ -7,11 +7,18 @@
             <img src="static/assets/icon-search-delete.svg">
         </a>
     </div>
-
+    <div class="table__list__btn__wrapper">
+      <div class="table__list__btn" ng-click="collapseAll()">
+      <i class="fa fa-caret-right table__list__btn__icon"></i>
+      <span class="hide-m">Collapse All</span></div>
+      <div class="table__list__btn " ng-click="unCollapseAll()">
+      <i class="fa fa-caret-down table__list__btn__icon"></i>
+      <span class="hide-m">Expand all</span></div>
+    </div>
     <div class="table-list-wrapper">
       <div class="table-group" ng-repeat="type in tables track by $index">
-        <div class="table-nav-tab-header" id="table-nav-tab-header-{{$index}}">
-          <a class="side-bar__header table-tab-header" href ng-click="toggleElements($index)">
+        <div class="table__tab__header" id="table-nav-tab-header-{{$index}}" ng-class="isCollapsed($index) ? '' : 'table__tab__tab-header--selected'">
+          <a class="side-bar__header table__tab__header" href ng-click="toggleElements($index)">
             <i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i>
             {{ type.display_name }} {{ 'TABLE.TITLE' | translate }}</a>
         </div>
