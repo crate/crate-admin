@@ -1,5 +1,6 @@
 .cr-panel-block--info{
   .cr-panel-block;
+  border: 1px solid @block-border;
 }
 
 .cr-panel-block__item--info{
@@ -53,12 +54,13 @@
 }
 .cr-panel-block__item__header--checks{
   .cr-panel-block__item__header;
-  border-bottom: 5px solid #ececec;
-  border-top: 2px solid #ececec;
+  border: 1px solid @block-border;
+  border-bottom: none;
   padding-left: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-bottom: 0px;
 }
 
 .cr-panel-block__item__header--load{
@@ -75,7 +77,7 @@
 }
 
 .cr-panel-block__item__header__icon {
-  border-left: 2px solid @body-bg;
+  border-left: 1px solid @block-border;
   cursor: pointer;
   color: @cr-panel-block__item__header__icon--checks--color;
 }
@@ -94,7 +96,6 @@
   padding: 18px 10px;
   border: 1px solid @block-border;
   border-left:none;
-  background-color: @block-bg;
   display: flex;
   align-items: center;
   background-color: @block-bg--colored !important;
@@ -111,13 +112,12 @@
 
 .cr-severity-content {
   padding: 10px;
-  border-bottom: 1px solid @cr-severity-content-border;
+  border: 1px solid @block-border;
 }
 
 .cr-severity-header {
   .cr-severity-content;
-  border-top: 3px solid @body-bg;
-  border-bottom: 3px solid @body-bg;
+  border-top: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -140,7 +140,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid @body-bg;
+  border-bottom: 1px solid @block-border;
+  border-top: none; 
 }
 
 .cr-severity-list__item__header__title{

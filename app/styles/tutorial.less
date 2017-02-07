@@ -1,13 +1,13 @@
 .cr-panel-block--tutorial {
   display: block;
+  border: 1px solid @block-border;
 }
 
 .cr-import-tweets__button {
   padding: 15px;
   min-height: 60px;
   border: 0px;
-  border-left: 1px solid @body-bg;
-  border-top: 1px solid @body-bg;
+  border-left: 1px solid @block-border;
   width: 100%;
 }
 
@@ -21,6 +21,7 @@
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+  border: 1px solid @block-border;
 }
 
 .import-tweets__text {
@@ -34,6 +35,7 @@
 
 .cr-panel-block--help {
   width: 100%;
+  border: 1px solid @block-border;
 }
 
 .help-sources__wrapper {
@@ -43,24 +45,25 @@
 }
 
 .help__item {
-  min-width: 300px;
-  margin: 20px 10px;
+  max-width: 250px;
+  margin: 10px 10px;
   display: flex;
   align-items: center;
-  flex-basis: 0;
   justify-content: flex-start;
 }
 
-.help__item__icon {
-  flex: 0 0 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.help__item__icon > img {
+  width: 32px;
+  max-height: 32px;
 }
 
 .help__item__content {
-  margin-left: 30px;
+  margin-left: 10px;
   color: @text-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 61px;
 }
 
 .help__item__content_title {

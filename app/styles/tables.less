@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  border: 1px solid @block-border;
 }
 
 .table-detail__row {
@@ -23,7 +24,7 @@
 .table-detail__cell-content {
   padding: 6px;
   border-radius: 3px;
-  border: 1px solid @body-bg;
+  border: 1px solid @block-border;
 }
 
 .partitions {
@@ -38,11 +39,12 @@
 .partitions__table th,
 .partitions__table td {
   background-color: @block-bg;
-  border: 1px solid @body-bg;
+  border: 1px solid @block-border;
 }
 
 .partitions__table th {
-  border-bottom: 3px solid @body-bg;
+  border-bottom: 1px solid @block-border;
+  margin-bottom: 2px;
 }
 
 .partitions__table th,
@@ -53,6 +55,7 @@
 .partitions__header {
   display: flex;
   justify-content: space-between;
+  border: 1px solid @block-border;
 }
 
 .partitions__header h2,
@@ -77,6 +80,7 @@
 .table-schema h2 {
   margin-bottom: 3px;
   padding: 15px 10px;
+  border: 1px solid @block-border;
 }
 
 .table-schema__headers, .table-schema__detail__row {
@@ -87,6 +91,7 @@
 .table-schema__header, .table-schema__detail__cell {
   padding: 10px;
   width: ~"calc(50% - 1.5px)";
+  border: 1px solid @block-border;
 }
 
 .table-schema__headers {

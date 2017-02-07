@@ -1,20 +1,22 @@
 <div ng-controller="TableListController">
 
   <div class="side-bar table-side-bar" ng-show="renderSidebar">
-    <div>
+    <div class="filter__wrapper">
         <input id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text" focus="true"></input>
         <a ng-if="search.$" class="cr-clear-filters" ng-click="search.$ = '' ">
-            <img src="static/assets/icon-search-delete.svg">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
         </a>
+        <div>
+          <div ng-if="!collapsed" class="table__list__btn" ng-click="collapseAll()">
+            <img  class="collapse_btn" src="static/assets/icon-collapse-all.svg"/>
+          </div>
+          <div ng-if="collapsed" class="table__list__btn" ng-click="unCollapseAll()">
+            <img class="collapse_btn" src="static/assets/icon-expand-all.svg"/>
+          </div>          
+        </div>
     </div>
-    <div class="table__list__btn__wrapper">
-      <div class="table__list__btn" ng-click="collapseAll()">
-      <i class="fa fa-caret-right table__list__btn__icon"></i>
-      <span class="hide-m">Collapse All</span></div>
-      <div class="table__list__btn " ng-click="unCollapseAll()">
-      <i class="fa fa-caret-down table__list__btn__icon"></i>
-      <span class="hide-m">Expand all</span></div>
-    </div>
+
+    
     <div class="table-list-wrapper">
       <div class="table-group" ng-repeat="type in tables track by $index">
         <div class="table__tab__header" id="table-nav-tab-header-{{$index}}" ng-class="isCollapsed($index) ? '' : 'table__tab__tab-header--selected'">
@@ -24,7 +26,7 @@
         </div>
 
         <div class="tables-list" id="tables-list--{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-          <div class="side-bar__element table-detail" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
+          <div class="side-bar__element" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
             <a href="#/tables/{{ table.table_schema }}/{{ table.name }}">
               <div class="table-name-row">
                 <div class="table-name">

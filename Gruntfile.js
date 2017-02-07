@@ -107,6 +107,12 @@ module.exports = function(grunt) {
           src: 'main.less',
           dest: '<%= crate.tmp %>/static/styles/',
           ext: '.css'
+        },{
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main-enterprise.less',
+          dest: '<%= crate.tmp %>/static/styles/',
+          ext: '.css'
         }]
       },
       dev: {
@@ -117,6 +123,12 @@ module.exports = function(grunt) {
           expand: true,
           cwd: '<%= crate.app %>/styles',
           src: 'main.less',
+          dest: '<%= crate.tmp %>/static/styles/',
+          ext: '.css'
+        }, {
+          expand: true,
+          cwd: '<%= crate.app %>/styles',
+          src: 'main-enterprise.less',
           dest: '<%= crate.tmp %>/static/styles/',
           ext: '.css'
         }]

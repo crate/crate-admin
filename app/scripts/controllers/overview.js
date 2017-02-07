@@ -29,7 +29,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       'color': '#5d89fe'
     }, {
       'key': 'Load 15',
-      'color': '#115097'
+      'color': '#44e3a6'
     }];
 
     $scope.options = {

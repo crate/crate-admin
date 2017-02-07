@@ -295,6 +295,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         return item.table_schema == name;
       };
     };
+    $scope.collapsed = true;
 
     var render = function(tableSchema, tableName) {
       $scope.renderSidebar = true;
@@ -378,6 +379,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $('#nav-tabs-header-' + table + ' i.fa').toggleClass('fa-caret-down').toggleClass('fa-caret-right');
           TabNavigationInfo.collapseIndex(table);
         }
+        $scope.collapsed = true;
       };
       $scope.unCollapseAll = function() {
         for (table in $scope.tables) {
@@ -385,6 +387,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $('#nav-tabs-header-' + table + ' i.fa').toggleClass('fa-caret-down').toggleClass('fa-caret-right');
           TabNavigationInfo.unCollapseIndex(table);
         }
+        $scope.collapsed = false;
       };
     };
 
