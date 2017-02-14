@@ -1,12 +1,11 @@
-[
-  {
-    "name": "tutorial",
-    "uri": "plugins/tutorial/tutorial.js",
-    "routing": {
-      "/help": {
-        "templateUrl": "plugins/tutorial/tutorial.html",
-        "controller": "TutorialController"
-      }
+[{
+  "name": "tutorial",
+  "uri": "plugins/tutorial/tutorial.js",
+  "enterprise": false,
+  "routing": {
+    "/help": {
+      "templateUrl": "plugins/tutorial/tutorial.html",
+      "controller": "TutorialController"
     }
   }
-]
+}]

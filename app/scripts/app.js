@@ -20,8 +20,12 @@ var MODULES = [
   'translation',
   'datatypechecks',
   'nvd3',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'oc.lazyLoad'
 ];
+
+var DEFAULT_PLUGINS = [];
+var ENTERPRISE_PLUGINS = [];
 
 var ROUTING = {
   '/': {
@@ -91,10 +95,57 @@ var loadStylesheet = function(url) {
 // todo: load json from rest endpoint
 $.get('conf/plugins.json', function(plugins) {
 
+  ENTERPRISE_PLUGINS = plugins.filter(function(p) {
+    return p.enterprise;
+  }).map(function(el) {
+    return {
+      name: el.name,
+      files: [el.uri],
+      routing: el.routing
+    };
+  });
+  DEFAULT_PLUGINS = plugins.filter(function(p) {
+    return !p.enterprise;
+  });
 
   //function to create 'crate' module and bootstrap app
   var loadApp = function() {
     app = angular.module('crate', MODULES);
+    app.config(['SQLQueryProvider', 'queryResultToObjectsProvider', '$ocLazyLoadProvider', '$routeProvider',
+      function(SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider, $routeProvider) {
+
+        var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise ' +
+          'FROM sys.cluster';
+
+        SQLQueryProvider.$get().execute(stmt)
+          .success(function(query) {
+            var result = queryResultToObjectsProvider.$get()(query, ['enterprise']);
+            if (result[0].enterprise) {
+              loadStylesheet('static/styles/main-enterprise.css');
+
+              $ocLazyLoadProvider.config({
+                modules: ENTERPRISE_PLUGINS,
+                events: true
+              });
+              for (var i = 0; i < ENTERPRISE_PLUGINS.length; i++) {
+                $ocLazyLoadProvider.$get().load(ENTERPRISE_PLUGINS[i].name);
+
+                var routing = ENTERPRISE_PLUGINS[i].routing;
+                if (routing) {
+                  for (var pattern in routing) {
+                    $routeProvider.when(pattern, routing[pattern]);
+                  }
+                }
+              }
+              console.info('Loaded Enterprise Plugins:', ENTERPRISE_PLUGINS.map(function(o) {
+                return o.name;
+              }));
+            }
+          }).error(function() {
+            console.info('Failed to load Enterprise settings');
+          });
+      }
+    ]);
 
     app.config(['$routeProvider', '$httpProvider',
       function($routeProvider, $httpProvider) {
@@ -108,7 +159,7 @@ $.get('conf/plugins.json', function(plugins) {
         // register routing from plugins
         for (var i = 0; i < plugins.length; i++) {
           var routing = plugins[i].routing;
-          if (routing) {
+          if (routing && !plugins[i].enterprise) {
             for (pattern in routing) {
               $routeProvider.when(pattern, routing[pattern]);
             }
@@ -187,7 +238,9 @@ $.get('conf/plugins.json', function(plugins) {
 
   var promises = [];
   for (var i = 0; i < plugins.length; i++) {
-    promises.push(loadScript(plugins[i].uri));
+    if (!plugins[i].enterprise) {
+      promises.push(loadScript(plugins[i].uri));
+    }
     if (plugins[i].stylesheet) {
       promises.push(loadStylesheet(plugins[i].stylesheet));
     }
@@ -195,14 +248,12 @@ $.get('conf/plugins.json', function(plugins) {
 
   $.when.apply($, promises).then(function() {
     console.info('Loaded Modules:', MODULES);
-    console.info('Loaded Plugins:', plugins.map(function(o) {
-      return o.name;
-    }));
+    console.info('Default Plugins:', DEFAULT_PLUGINS);
 
     //onSucess: update the modules and load the app
-    for (var i = 0; i < plugins.length; i++) {
-      MODULES.push(plugins[i].name);
-    }
+    MODULES.push(...DEFAULT_PLUGINS.map(function(el) {
+      return el.name;
+    }));
     loadApp();
   }, function() {
     //onError: load the app without the plugins
