@@ -1,8 +1,33 @@
 'use strict';
 
 var commons = angular.module('common', ['stats', 'udc'])
+  .provider('Settings', function() {
+    var enterprise;
+    if (localStorage.getItem('crate_setting_enterprise')) {
+      enterprise = localStorage.getItem('crate_setting_enterprise');
+    } else {
+      enterprise = false;
+    }
+
+    return {
+      setEnterprise: function(value) {
+        enterprise = value;
+        try {
+          localStorage.setItem('crate_setting_enterprise', value);
+        } catch (error) {
+          console.log('localStorage cannot be set in Safari private mode', error);
+        }
+      },
+      $get: function() {
+        console.log(enterprise);
+        return {
+          enterprise: enterprise
+        };
+      }
+    };
+  })
   .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService, UidLoader, UdcSettings) {
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings) {
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -19,17 +44,20 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.config_label = '';
 
     var showSideNav = false;
-    $scope.toggleSideNav = function(){
+
+    $scope.enterprise = Settings.enterprise;
+
+    $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;
-      if (showSideNav){
+      if (showSideNav) {
         $rootScope.$broadcast('showSideNav');
-      }else{
+      } else {
         $rootScope.$broadcast('hideSideNav');
       }
     };
 
     $scope.showSettings = false;
-    $scope.toggleSettings = function(){
+    $scope.toggleSettings = function() {
       $scope.showSettings = !$scope.showSettings;
     };
 
@@ -139,11 +167,11 @@ var commons = angular.module('common', ['stats', 'udc'])
 
     $rootScope.$on('showSideNav', function() {
       $scope.showSideNav = true;
-      });
+    });
 
     $rootScope.$on('hideSideNav', function() {
       $scope.showSideNav = false;
-      });
+    });
 
     $scope.goToPath = function(path) {
       $location.path(path);
@@ -234,7 +262,7 @@ var commons = angular.module('common', ['stats', 'udc'])
   })
   .controller('LanguageSwitchController', function($scope, $translate) {
     $scope.showDropDown = false;
-    $scope.toggleDropDown = function(){
+    $scope.toggleDropDown = function() {
       $scope.showDropDown = !$scope.showDropDown;
     };
 
@@ -252,7 +280,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     return {
       restrict: 'A',
       scope: {
-        crTooltipPosition : '='
+        crTooltipPosition: '='
       },
       link: function(scope, element, attrs) {
         $(element[0]).tooltip({

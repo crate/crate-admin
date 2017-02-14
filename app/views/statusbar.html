@@ -4,7 +4,8 @@
     <div ng-click="toggleSideNav()">
       <i class="fa fa-2x fa-bars status-bar__icon--menu hide-gt-s"></i>
     </div>
-    <img class="status-bar__icon--crate" src="static/assets/CRA_logo_white.svg">
+    <img ng-if="!enterprise" class="status-bar__icon--crate" src="static/assets/CRA_logo_white.svg">
+    <img ng-if="enterprise" class="status-bar__icon--crate" src="static/assets/logo-CrateDB@2x.png">
   </div>
 
   <div class="status-bar__content">
