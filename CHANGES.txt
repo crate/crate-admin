@@ -10,9 +10,6 @@ Unreleased
  - The console now expands vertically to show the whole query if its size
    is larger than the standard size of the console.
 
- - Fix console results issue that caused the results table not to be displayed
-   after horizontal scrolling.
-
  - SQL console keywords are now CrateDB specific.
 
  - Improved formatted results of the `geo_area` datatype to include an external
@@ -20,14 +17,21 @@ Unreleased
 
  - Keywords in the SQL console are capitalised.
 
- - Fixed plugins loading to load multiple plugins.
+2017/02/15 1.1.1
+================
 
- - Added: display warning in the console view when the query result contains
+ - Fixed a console results issue that caused the results table not to be 
+   displayed after horizontal scrolling.
+
+ - Fixed an issue that caused the admin-ui to load only one plugin.
+
+ - Display warning in the console view when the query result contains
    an unsafe integer.
 
- - Relocated the help resources section to be underneath the tweet import tutorial.
+ - Relocated the help resources section to be underneath the tweet 
+   import tutorial.
 
- - Fix: Show loading indicator when `Execute Query ` is in progress.
+ - Show loading indicator when `Execute Query ` is in progress.
 
 2017/01/11 1.1.0
 ================
