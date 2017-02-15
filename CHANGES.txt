@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/02/15 1.0.5
+================
+
  - Fix console results issue that caused the results table not to be displayed
    after horizontal scrolling.
 
