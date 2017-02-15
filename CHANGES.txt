@@ -5,15 +5,21 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Fix console results issue that caused the results table not to be displayed
-   after horizontal scrolling.
+2017/02/15 1.1.1
+================
 
- - Fixed plugins loading to load multiple plugins.
+ - Fixed a console results issue that caused the results table not to be 
+   displayed after horizontal scrolling.
 
- - Added: display warning in the console view when the query result contains 
+ - Fixed an issue that caused the admin-ui to load only one plugin.
+
+ - Display warning in the console view when the query result contains
    an unsafe integer.
 
- - Fix: Show loading indicator when `Execute Query ` is in progress.
+ - Relocated the help resources section to be underneath the tweet 
+   import tutorial.
+
+ - Show loading indicator when `Execute Query ` is in progress.
 
 2017/01/11 1.1.0
 ================
