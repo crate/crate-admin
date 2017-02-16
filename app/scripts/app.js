@@ -157,9 +157,9 @@ $.get('conf/plugins.json', function(plugins) {
           $routeProvider.when(pattern, ROUTING[pattern]);
         }
         // register routing from plugins
-        for (var i = 0; i < plugins.length; i++) {
-          var routing = plugins[i].routing;
-          if (routing && !plugins[i].enterprise) {
+        for (var i = 0; i < DEFAULT_PLUGINS.length; i++) {
+          var routing = DEFAULT_PLUGINS[i].routing;
+          if (routing) {
             for (pattern in routing) {
               $routeProvider.when(pattern, routing[pattern]);
             }
@@ -237,21 +237,21 @@ $.get('conf/plugins.json', function(plugins) {
   };
 
   var promises = [];
-  for (var i = 0; i < plugins.length; i++) {
-    if (!plugins[i].enterprise) {
-      promises.push(loadScript(plugins[i].uri));
-    }
-    if (plugins[i].stylesheet) {
-      promises.push(loadStylesheet(plugins[i].stylesheet));
+  for (var i = 0; i < DEFAULT_PLUGINS.length; i++) {
+    promises.push(loadScript(DEFAULT_PLUGINS[i].uri));
+    if (DEFAULT_PLUGINS[i].stylesheet) {
+      promises.push(loadStylesheet(DEFAULT_PLUGINS[i].stylesheet));
     }
   }
 
   $.when.apply($, promises).then(function() {
     console.info('Loaded Modules:', MODULES);
-    console.info('Default Plugins:', DEFAULT_PLUGINS);
+    console.info('Default Plugins:', DEFAULT_PLUGINS.map(function(el) {
+      return el.name;
+    }));
 
     //onSucess: update the modules and load the app
-    MODULES.push(...DEFAULT_PLUGINS.map(function(el) {
+    MODULES = MODULES.concat(DEFAULT_PLUGINS.map(function(el) {
       return el.name;
     }));
     loadApp();
