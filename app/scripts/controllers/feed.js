@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('feed', ['stats', 'udc'])
-  .factory('QueryStringAppender', function(){
+angular.module('feed', ['stats', 'udc', 'utils'])
+  .factory('QueryStringAppender', function() {
     return {
       append: function(url, k, v) {
         var qs = k + '=' + v;
@@ -19,18 +19,18 @@ angular.module('feed', ['stats', 'udc'])
       }
     };
   })
-  .factory('NotificationService', function(){
+  .factory('NotificationService', function() {
     var readItems = null;
     var key = 'crate.readNotifications';
     return {
-      readItems: function(){
+      readItems: function() {
         if (readItems === null) {
           var v = localStorage.getItem(key);
           readItems = v ? JSON.parse(v) : [];
         }
         return readItems;
       },
-      markAsRead: function(id){
+      markAsRead: function(id) {
         var items = this.readItems();
         items.push(id);
         readItems = items;
@@ -39,7 +39,7 @@ angular.module('feed', ['stats', 'udc'])
     };
   })
   .controller('NotificationsController', function($scope, $sce, $http, $filter, $window,
-    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader) {
+    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader, parseIsoDatetime) {
 
     var MAX_ITEMS = 5;
     var CRATE_IO = 'https://crate.io';
@@ -75,7 +75,9 @@ angular.module('feed', ['stats', 'udc'])
           }
         });
 
-      $scope.$watch(function(){ return ClusterState.data; }, function(data) {
+      $scope.$watch(function() {
+        return ClusterState.data;
+      }, function(data) {
         $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
         $scope.stableVersion = stableVersion;
         $scope.serverVersion = data.version ? data.version.number : '';
@@ -93,7 +95,7 @@ angular.module('feed', ['stats', 'udc'])
             entries.map(function(item) {
               item.title = $sce.trustAsHtml(item.title);
               item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
-              item.timestamp = new Date(item.date);
+              item.timestamp = parseIsoDatetime(item.date);
               item.id = item.timestamp.getTime().toString(32);
               if ($scope.isRead(item)) {
                 unread--;
@@ -127,13 +129,13 @@ angular.module('feed', ['stats', 'udc'])
     $scope.markAsRead = function(item) {
       if (item === 'all') {
         var all = $scope.entries;
-        for (var i=0; i<all.length; i++) {
+        for (var i = 0; i < all.length; i++) {
           NotificationService.markAsRead(all[i].id);
         }
         $scope.numUnread = 0;
       } else if (item) {
         NotificationService.markAsRead(item.id);
-        $scope.numUnread = Math.max(0, $scope.numUnread-1);
+        $scope.numUnread = Math.max(0, $scope.numUnread - 1);
       }
     };
 
@@ -157,8 +159,7 @@ angular.module('feed', ['stats', 'udc'])
     };
     // Set default menu data
     $scope.menu = [{
-        'url': 'https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link',
-        'title': 'Schedule a 1-ON-1 demo with a Crate.io engineer'
-      }
-    ];
+      'url': 'https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link',
+      'title': 'Schedule a 1-ON-1 demo with a Crate.io engineer'
+    }];
   });
