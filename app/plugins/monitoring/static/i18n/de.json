@@ -1,0 +1,9 @@
+{
+  "NAVIGATION": {
+    "MONITORING": "Monitoring"
+  },
+  "MONITORING": {
+    "QUERIES_PER_SECOND": "Anfragen Pro Sekunde",
+    "QUERY_SPEED": "Abfragegeschwindigkeit"
+  }
+}

@@ -107,7 +107,7 @@ module.exports = function(grunt) {
           src: 'main.less',
           dest: '<%= crate.tmp %>/static/styles/',
           ext: '.css'
-        },{
+        }, {
           expand: true,
           cwd: '<%= crate.app %>/styles',
           src: 'main-enterprise.less',
@@ -177,6 +177,10 @@ module.exports = function(grunt) {
             [
               /['"](static\/assets\/[^'"]+\.(?:gif|jpg|png|svg))['"]/gm,
               'Update the JS to reference our revved images'
+            ],
+            [
+              /['"](static\/styles\/[^'"]+\.css)['"]/gm,
+              'Update the JS to reference our revved css'
             ]
           ]
         }
@@ -354,28 +358,28 @@ module.exports = function(grunt) {
       replacepluginsjs: {
         files: [{
           expand: true,
-          cwd: '<%= crate.dist %>/static/plugins/tutorial',
-          src: '*.js',
-          dest: '<%= crate.dist %>/static/plugins/tutorial'
+          cwd: '<%= crate.dist %>/static/plugins/',
+          src: '**/*.js',
+          dest: '<%= crate.dist %>/static/plugins/'
         }],
         options: {
           replacements: [{
-            pattern: /(plugins\/tutorial)/ig,
-            replacement: 'static/plugins/tutorial'
+            pattern: /(plugins\/)/g,
+            replacement: 'static/plugins/'
           }]
         }
       },
       replacepluginshtml: {
         files: [{
           expand: true,
-          cwd: '<%= crate.dist %>/static/plugins/tutorial',
-          src: '*.html',
-          dest: '<%= crate.dist %>/static/plugins/tutorial'
+          cwd: '<%= crate.dist %>/static/plugins/',
+          src: '**/*.html',
+          dest: '<%= crate.dist %>/static/plugins/'
         }],
         options: {
           replacements: [{
-            pattern: /(plugins\/tutorial)/ig,
-            replacement: 'static/plugins/tutorial'
+            pattern: /(plugins\/)/g,
+            replacement: 'static/plugins/'
           }]
         }
       },
@@ -388,11 +392,8 @@ module.exports = function(grunt) {
         }],
         options: {
           replacements: [{
-            pattern: /(plugins\/tutorial\/tutorial.js)/ig,
-            replacement: 'static/plugins/tutorial/tutorial.js'
-          }, {
-            pattern: /(plugins\/tutorial\/tutorial.html)/ig,
-            replacement: 'static/plugins/tutorial/tutorial.html'
+            pattern: /(plugins\/)/g,
+            replacement: 'static/plugins/'
           }]
         }
       },
@@ -465,7 +466,7 @@ module.exports = function(grunt) {
           'app/tests/**/*.js',
           'app/conf/plugins.json',
         ],
-        exclude: ['app/scripts/services/segmentio.js',],
+        exclude: ['app/scripts/services/segmentio.js', ],
         preprocessors: {
           'app/scripts/**/*.js': ['coverage']
         },

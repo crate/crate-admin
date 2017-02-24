@@ -8,4 +8,15 @@
       "controller": "TutorialController"
     }
   }
+}, {
+  "name": "monitoring",
+  "uri": "plugins/monitoring/monitoring.js",
+  "stylesheet": "plugins/monitoring/monitoring.css",
+  "enterprise": true,
+  "routing": {
+    "/monitoring": {
+      "templateUrl": "plugins/monitoring/monitoring.html",
+      "controller": "MonitoringController"
+    }
+  }
 }]

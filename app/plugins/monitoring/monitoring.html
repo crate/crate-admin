@@ -1,0 +1,70 @@
+<div class="page-container">
+
+  <div class="cr-page-header">
+    <h1>{{ 'NAVIGATION.MONITORING' | translate }}</h1>
+  </div>
+  
+  <p ng-if="stats_enabled === 0"> Cluster stats are disabled. To enable stats, please run <span class="code">`SET GLOBAL stats.enabled TO TRUE`</span>. </p>
+
+  <div class="cr-panel-block--checks">
+    <div class="cr-panel-block__item--load">
+      <div class="cr-panel-block__item__header--load">
+        <h2>{{ 'MONITORING.QUERIES_PER_SECOND' | translate }}</h2>
+        <div ng-click="toggle_qps_query_type($event, 4)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="qps-query-type-btn-4" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--overall"></span></span>
+          <span id="qps-query-type-4">Overall</span>
+        </div>
+        <div ng-click="toggle_qps_query_type($event, 0)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="qps-query-type-btn-0" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--select"></span></span>
+           <span id="qps-query-type-0">Select</span>
+        </div>
+        <div ng-click="toggle_qps_query_type($event, 1)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="qps-query-type-btn-1" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--insert"></span></span>
+          <span id="qps-query-type-1">Insert</span>
+        </div>
+        <div ng-click="toggle_qps_query_type($event, 2)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="qps-query-type-btn-2" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--update"></span></span>
+          <span id="qps-query-type-2">Update</span>
+        </div>
+        <div ng-click="toggle_qps_query_type($event, 3)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="qps-query-type-btn-3" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--delete"></span></span>
+          <span id="qps-query-type-3">Delete</span>
+        </div>
+      </div>
+      <div class="cr-panel-block__chart">
+      	<nvd3 id="queries-per-second" config="{refreshDataOnly: true, deepWatchData: true}" options="qps_chart_options" data="qps"></nvd3>
+      </div>
+    </div>
+  </div>
+
+  <div class="cr-panel-block--checks">
+    <div class="cr-panel-block__item--load">
+      <div class="cr-panel-block__item__header--load">
+        <h2>{{ 'MONITORING.QUERY_SPEED' | translate }}</h2>
+        <div ng-click="toggle_duration_query_type($event, 4)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="duration-query-type-btn-4" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--overall"></span></span>
+          <span id="duration-query-type-4">Overall</span>
+        </div>
+        <div ng-click="toggle_duration_query_type($event, 0)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="duration-query-type-btn-0" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--select"></span></span>
+          <span id="duration-query-type-0">Select</span>
+        </div>
+        <div ng-click="toggle_duration_query_type($event, 1)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="duration-query-type-btn-1" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--insert"></span></span>
+          <span id="duration-query-type-1">Insert</span>
+        </div>
+        <div ng-click="toggle_duration_query_type($event, 2)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="duration-query-type-btn-2" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--update"></span></span>
+          <span id="duration-query-type-2">Update</span>
+        </div>
+        <div ng-click="toggle_duration_query_type($event, 3)" class="cr-panel-block__item__header__icon--load">
+          <span class="cr-radio-button__load"><span id="duration-query-type-btn-3" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--delete"></span></span>
+          <span id="duration-query-type-3">Delete</span>
+        </div>
+      </div>
+	
+    <div class="cr-panel-block__chart"><nvd3 id="queries-per-second" config="{refreshDataOnly: true, deepWatchData: true}" options="duration_chart_options" data="duration"></nvd3></div>
+    </div>
+  </div>
+
+</div>

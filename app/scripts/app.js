@@ -102,7 +102,8 @@ $.get('conf/plugins.json', function(plugins) {
     return {
       name: el.name,
       files: [el.uri],
-      routing: el.routing
+      routing: el.routing,
+      stylesheet: el.stylesheet
     };
   });
   DEFAULT_PLUGINS = plugins.filter(function(p) {
@@ -120,7 +121,7 @@ $.get('conf/plugins.json', function(plugins) {
         var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise ' +
           'FROM sys.cluster';
 
-        if(SettingsProvider.$get().enterprise == true){
+        if(SettingsProvider.$get().enterprise === true){
           loadStylesheet('static/styles/main-enterprise.css');
         }
 
@@ -137,7 +138,7 @@ $.get('conf/plugins.json', function(plugins) {
               });
               for (var i = 0; i < ENTERPRISE_PLUGINS.length; i++) {
                 $ocLazyLoadProvider.$get().load(ENTERPRISE_PLUGINS[i].name);
-
+                loadStylesheet(ENTERPRISE_PLUGINS[i].stylesheet);
                 var routing = ENTERPRISE_PLUGINS[i].routing;
                 if (routing) {
                   for (var pattern in routing) {

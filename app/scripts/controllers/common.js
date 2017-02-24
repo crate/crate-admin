@@ -19,7 +19,7 @@ var commons = angular.module('common', ['stats', 'udc'])
         }
       },
       $get: function() {
-        console.log(enterprise);
+        console.log('Enterprise Setting:', enterprise);
         return {
           enterprise: enterprise
         };

@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added monitoring plugin (enterprise)
+
  - Added Lazy loading of the stylesheet and plugins depending
    on the enterprise settings.  
 

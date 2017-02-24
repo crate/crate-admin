@@ -1,5 +1,6 @@
 {
   "node": true,
+  "jasmine": true,
   "browser": true,
   "esnext": true,
   "bitwise": true,
@@ -24,6 +25,7 @@
     "analytics": false,
     "CodeMirror": false,
     "Ladda": false,
-    "d3": false
+    "d3": false,
+    "inject": false
   }
 }

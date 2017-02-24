@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="23px" viewBox="0 0 26 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>icon monitoring</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Menu-Bar-Enterprise" transform="translate(-3.000000, -311.000000)" stroke="#CCCCCC">
+            <g id="Menu-Bar-Community">
+                <g id="icon-monitoring-active" transform="translate(4.000000, 312.000000)">
+                    <g id="icon-monitoring">
+                        <path d="M17.1650391,0.056640625 C8.58251835,0.028605708 0,0 0,0 L0,21 L24,21 L24,0 C24,0 22.3933701,0.0300572133 21.0307685,0.0497953526 C20.5711422,0.0564533287 17.3495824,0.047035271 17.0165166,0.0497953526" id="Stroke-3" stroke-width="2"></path>
+                        <polyline id="Path-2" stroke-width="2" points="0.974365234 12.0693359 6.04248047 12.0693359 8.01782227 7.03222656 10.1325684 17.1188965 12.1268921 3.24365234 14.0993652 14.0979004 16.0964355 7.03222656 17.9887695 10.9812012 23.2794189 10.9812012"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

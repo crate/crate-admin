@@ -1,0 +1,37 @@
+/*
+ * This file is part of a module with proprietary Enterprise Features.
+ *
+ * Licensed to Crate.io Inc. ("Crate.io") under one or more contributor 
+ * license agreements.  See the NOTICE file distributed with this work for
+ * additional information regarding copyright ownership.
+ *
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ *
+ * To use this file, Crate.io must have given you permission to enable and
+ * use such Enterprise Features and you must have a valid Enterprise or
+ * Subscription Agreement with Crate.io.  If you enable or use the Enterprise
+ * Features, you represent and warrant that you have a valid Enterprise or
+ * Subscription Agreement with Crate.io.  Your use of the Enterprise Features
+ * if governed by the terms and conditions of your Enterprise or Subscription
+ * Agreement with Crate.io.
+ */
+
+.cr-radio-button__monitoring__toggle--overall {
+  background-color: #00ff9b;
+}
+
+.cr-radio-button__monitoring__toggle--select {
+  background-color: #5987ff;
+}
+
+.cr-radio-button__monitoring__toggle--insert {
+  background-color: #55d4f5;
+}
+
+.cr-radio-button__monitoring__toggle--update {
+  background-color: #e0d838;
+}
+
+.cr-radio-button__monitoring__toggle--delete {
+  background-color: #ff99a7;
+}
