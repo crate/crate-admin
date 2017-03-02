@@ -94,6 +94,8 @@ angular.module('console', ['sql'])
 
 
         self.execute = function(sql) {
+          $scope.renderTable = false;
+          
           var stmt = sql.replace(/^\s+|\s+$/g, '');
 
           if (stmt === '') {
