@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed a console results issue that caused the results table not to be 
+   visible after horizontal scrolling.
+
  - Fixed styling issue that caused the last element in the side bar
    list to be hidden.
 
