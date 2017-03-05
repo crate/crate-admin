@@ -2,10 +2,14 @@
 
 angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
   .controller('NodeListController', function($scope, $route,
-    ClusterState, prepareNodeList, NodeListInfo, compareByHealth){
+    ClusterState, prepareNodeList, NodeListInfo, compareByHealth, $location) {
 
     $scope.nodes = [];
     $scope.selected = null;
+
+    $scope.goToPath = function(id){
+      $location.path('/nodes/'+id);
+    };
 
     var currentWatcher = null;
     var version = null;
