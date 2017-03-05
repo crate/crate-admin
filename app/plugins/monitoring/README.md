@@ -8,13 +8,23 @@ and `DELETE`).
 ## Setup and Usage
 
 ### Installation
+For this plugin to work properly, make sure that `/conf/plugins.json` contains 
+the following definition:
 
-Run the `install_plugin.py` script and pass in the path to your Admin Interface
-installation folder:
-
-`python3 install_plugin.py "/crate/app/build/install/crate/plugins/crate-admin/_site/"`
-
-The script will migrate the plugin's files and append the plugin's config to `plugins.json`.
+```
+{
+  "name": "monitoring",
+  "uri": "plugins/monitoring/monitoring.js",
+  "stylesheet": "plugins/monitoring/monitoring.css",
+  "enterprise": true,
+  "routing": {
+    "/monitoring": {
+      "templateUrl": "plugins/monitoring/monitoring.html",
+      "controller": "MonitoringController"
+    }
+  }
+}
+```
 
 ### Usage
 
