@@ -48,9 +48,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
         data.load = ['-.-', '-.-', '-.-'];
         data.loadHistory = [[],[],[]];
         data.version = null;
-        reachabilityInterval = $interval(checkReachability, refreshInterval);
       } else if (!data.online && online) {
-        $interval.cancel(reachabilityInterval);
         data.online = true;
         $log.info('Cluster is online.');
         healthInterval = $interval(refreshHealth, refreshInterval);
@@ -63,8 +61,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     };
 
     checkReachability = function() {
-      $http.get(baseURI.getURI('/'))
-        .success(function(response) {
+      $http.get(baseURI.getURI('/'), {
+          headers: {'Accept': 'application/json'}
+        }).success(function(response) {
           if (typeof response === 'object') {
             var version = response.version;
             data.version = {
@@ -251,7 +250,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
     };
 
     checkReachability();
-
+    reachabilityInterval = $interval(checkReachability, refreshInterval);
 
     refreshHealth();
     healthInterval = $interval(refreshHealth, refreshInterval);
