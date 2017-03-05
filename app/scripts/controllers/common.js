@@ -64,6 +64,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.$watch(function() {
       return ChecksService;
     }, function(data) {
+      console.log(data);
       if (data.success === true) {
         var checks = [];
         checks.push.apply(checks, data.checks.cluster_checks);
@@ -76,7 +77,7 @@ var commons = angular.module('common', ['stats', 'udc'])
           $scope.config_label = LABELS[Math.min(severity - 1, LABELS.length - 1)];
         });
       } else {
-        $translate(['STATUSBAR.OFFLINE']).then(function(i18n) {
+        $translate(['STATUSBAR.CLUSTER_OFFLINE']).then(function(i18n) {
           $scope.checks_message = $sce.trustAsHtml(i18n['STATUSBAR.CLUSTER_OFFLINE']);
         });
         $scope.config_label = '';

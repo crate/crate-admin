@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - fixed issue that caused `Cluster Offline` message to not be displayed.
+
  - Fixed a console results issue that caused the results table not to be 
    visible after horizontal scrolling.
 
