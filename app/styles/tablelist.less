@@ -1,3 +1,9 @@
+.table-side-bar{
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
 #tableFilter {
   display: block;
   width: 100%;
@@ -22,6 +28,24 @@
   width: 10px;
 }
 
+.table-list-wrapper, .tables-list, .table-group {
+  overflow-y: auto;
+}
+
+.table-list, .table-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.table-list-wrapper {
+  display: block;
+}
+
+.filter__wrapper{
+  flex: 0 0 auto;
+}
+
 .table-list-wrapper a,
 .table-list-wrapper a:hover,
 .table-list-wrapper a:focus {
@@ -31,7 +55,7 @@
   outline: 0;
 }
 
-.table-list-wrapper .table-name-row {
+.table-name-row {
   display: flex;
   justify-content: space-between;
 }

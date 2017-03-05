@@ -355,8 +355,8 @@ label:hover:before {
   background-color: @side-bar-bg-color;
   width: 250px;
   position: fixed;
-  height: 100%;
-  overflow-y: auto;
+  height: calc(~"100% -" @status-bar-height);
+  overflow-y: hidden;
   font-size: @font-size-small;
   line-height: 16px;
   overflow-x: hidden;

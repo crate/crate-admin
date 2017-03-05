@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed styling issue that caused the last element in the side bar
+   list to be hidden.
+
  - Added monitoring plugin (enterprise)
 
  - Added Lazy loading of the stylesheet and plugins depending
