@@ -19,7 +19,6 @@ var commons = angular.module('common', ['stats', 'udc'])
         }
       },
       $get: function() {
-        console.log('Enterprise Setting:', enterprise);
         return {
           enterprise: enterprise
         };
@@ -64,7 +63,6 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.$watch(function() {
       return ChecksService;
     }, function(data) {
-      console.log(data);
       if (data.success === true) {
         var checks = [];
         checks.push.apply(checks, data.checks.cluster_checks);

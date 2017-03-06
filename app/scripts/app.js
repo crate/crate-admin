@@ -3,7 +3,6 @@
 var MODULES = [
   'ngRoute',
   'ngCookies',
-  'truncate',
   'utils',
   'sql',
   'stats',

@@ -89,7 +89,7 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       FeedService.parse($scope.feed_url)
         .success(function(response) {
           if (response && response.length > 0) {
-            var trunc = $filter('characters');
+            var trunc = $filter('limitTo');
             var entries = response.splice(0, MAX_ITEMS);
             var unread = entries.length;
             entries.map(function(item) {
