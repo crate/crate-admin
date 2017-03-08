@@ -139,7 +139,12 @@ angular.module('monitoring', [])
     var pollService = {
       options: {
         MAX_VALUE_LENGTH: 60,
-        QUERY_TYPES: {'SELECT': 0, 'INSERT': 1, 'UPDATE': 2, 'DELETE': 3},
+        QUERY_TYPES: {
+          'SELECT': 0,
+          'INSERT': 1,
+          'UPDATE': 2,
+          'DELETE': 3
+        },
         last_timestamp: 0,
       }
     };
@@ -152,20 +157,22 @@ angular.module('monitoring', [])
 
     pollService.formatData = function(data, response) {
       response.forEach(function(element) {
-        var query_type = pollService.options.QUERY_TYPES[element.query_type];
-        data.qps[query_type].values.push({
-          'x': element.ended_time,
-          'y': element.qps
-        });
-        if (data.qps[query_type].values.length > pollService.options.MAX_VALUE_LENGTH) {
-          data.qps[query_type].values.shift();
-        }
-        data.duration[query_type].values.push({
-          'x': element.ended_time,
-          'y': element.duration
-        });
-        if (data.duration[query_type].values.length > pollService.options.MAX_VALUE_LENGTH) {
-          data.duration[query_type].values.shift();
+        if (Object.keys(pollService.options.QUERY_TYPES).indexOf(element.query_type) !== -1) {
+          var query_type = pollService.options.QUERY_TYPES[element.query_type];
+          data.qps[query_type].values.push({
+            'x': element.ended_time,
+            'y': element.qps
+          });
+          if (data.qps[query_type].values.length > pollService.options.MAX_VALUE_LENGTH) {
+            data.qps[query_type].values.shift();
+          }
+          data.duration[query_type].values.push({
+            'x': element.ended_time,
+            'y': element.duration
+          });
+          if (data.duration[query_type].values.length > pollService.options.MAX_VALUE_LENGTH) {
+            data.duration[query_type].values.shift();
+          }
         }
         data.over_all_duration[element.ended_time] = (data.over_all_duration[element.ended_time] || 0) + element.duration;
         data.over_all_qps[element.ended_time] = (data.over_all_qps[element.ended_time] || 0) + element.qps;
