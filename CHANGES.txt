@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/03/16 1.1.2
+================
+
  - Added node number to the status bar.
 
  - fixed issue that caused `Cluster Offline` message to not be displayed.
