@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/03/16 1.2.0
+================
+
  - Added monitoring plugin (enterprise)
 
  - Added Lazy loading of the stylesheet and plugins depending
