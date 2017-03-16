@@ -5,22 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Added node number to the status bar.
-
- - fixed issue that caused `Cluster Offline` message to not be displayed.
-
- - Fixed a console results issue that caused the results table not to be 
-   visible after horizontal scrolling.
-
- - Fixed styling issue that caused the last element in the side bar
-   list to be hidden.
-
  - Added monitoring plugin (enterprise)
 
  - Added Lazy loading of the stylesheet and plugins depending
    on the enterprise settings.  
-
- - Fixed an issue that caused the notification date to be `null` in safari.
 
  - Added buttons to collapse and expand all schemas in the tables view.
 
@@ -33,6 +21,21 @@ Unreleased
    link to a visualisation of that geo_area.
 
  - Keywords in the SQL console are capitalised.
+
+2017/03/16 1.1.2
+================
+
+ - Added node number to the status bar.
+
+ - Fixed issue that caused `Cluster Offline` message to not be displayed.
+
+ - Fixed a console results issue that caused the results table not to be 
+   visible after horizontal scrolling.
+
+ - Fixed styling issue that caused the last element in the side bar
+   list to be hidden.
+
+ - Fixed an issue that caused the notification date to be `null` in safari.
 
 2017/02/15 1.1.1
 ================
