@@ -118,6 +118,14 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       } else {
         data = history;
       }
+
+      // Remove invalid load readings
+      for (var l = 0; l < data.length; l++) {
+        data[l] = data[l].map(function(load) {
+          return load >= 0 ? load : null;
+        });
+      }
+
       $scope.chart.data = data.map(function(lineData, i) {
         var line = angular.copy(chartConf[i]);
         line.values = lineData.map(function(val, j) {

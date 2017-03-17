@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed load reading display when the readings were invalid (for example,
+   on Windows).
+
 2017/03/16 1.2.0
 ================
 

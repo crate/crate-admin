@@ -103,8 +103,11 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.cluster_name = data.name;
       $scope.num_nodes = data.cluster.length;
       $scope.load1 = data.load[0] == '-.-' ? data.load[0] : data.load[0].toFixed(2);
+      $scope.load1 = $scope.load1 < 0 ? 'N/A' : $scope.load1;
       $scope.load5 = data.load[1] == '-.-' ? data.load[1] : data.load[1].toFixed(2);
+      $scope.load5 = $scope.load5 < 0 ? 'N/A' : $scope.load5;
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
+      $scope.load15 = $scope.load15 < 0 ? 'N/A' : $scope.load15;
       $scope.version = data.version;
       $scope.docs_url = getDocsUrl(data.version);
       $scope.cluster_color_label = data.online ? colorMap[data.status] : '';
