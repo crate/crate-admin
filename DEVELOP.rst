@@ -1,78 +1,91 @@
-===========
-DEVELOPMENT
-===========
+===============
+Developer Guide
+===============
 
 Prerequisites
 =============
 
-This project uses buildout to manage its dependencies.
-Be sure have a working ``python3.5`` installed.
+You will need Python 3.5 installed.
 
-Set up from source
-==================
+Setup
+=====
 
-As of now, you only need `bower <http://bower.io/>`_.
+Bootstrap the project::
 
-If you already have installed ``bower`` you can skip the following steps::
+    $ python bootstrap.py
+    $ bin/buildout -N
 
-    python3.5 bootstrap.py
-    bin/buildout -N
+Install the package dependencies::
 
-Build the app
--------------
+    $ bin/npm install
+    $ bin/bower install
 
-To build the app simply run ``npm`` and ``bower`` in this crate-admin folder::
+Building the App
+================
 
-    bin/npm install
-    bin/bower install
+Build the app like so::
 
-Or if you haven't used ``buildout`` and installed ``npm`` and ``bower`` globally::
+    $ bin/grunt build
 
-    npm install
-    bower install
+To run the admin UI as a standalone app, open the ``dist/index.html`` file in
+your browser.
 
-Run the app for development
----------------------------
+Running the App for Development
+===============================
 
 Start the development server on port ``9000``::
 
-    bin/grunt server
+    $ bin/grunt server
 
-Then enable Cross Origin Resource Sharing in your crate configuration to test
-the admin ui against crate::
+You should now be able to access the app at: http://localhost:9000/
+
+Connecting to CrateDB
+=====================
+
+You will need to enable *Cross-Origin Resource Sharing* in your
+`CrateDB configuration`_ to test the admin UI against it::
 
     http.cors.enabled: true
     http.cors.allow-origin: "*"
 
-Then visit the browser on ``http://localhost:9000/?base_uri=http://localhost:4200``.
+You can then use the ``base_uri`` parameter to specify the URL of your CrateDB
+node, like so::
 
-To run the tests::
+    http://localhost:9000/?base_uri=http://localhost:4200
 
-    bin/grunt test
+This  ``base_uri`` parameter is intended for development use only.
 
-Inject Plugins
-==============
+Running Tests
+=============
 
-On app start the file ``conf/plugins.json`` is loaded, where additional plugins
-(Angular modules) can be defined.
+You can run the tests like so::
 
-The "Get Started" tutorial is now loaded as a plugin.
+    $ bin/grunt test
 
+Plugins
+=======
 
-Distributing
-============
+On startup, the ``conf/plugins.json`` file is read and plugins
+(Angular modules) are loaded.
 
-Before creating a new distribution, you need to create a new version tag
+The `tutorial plugin`_ is loaded by the default configuration.
 
- - Add the new version to ``bower.json`` and ``package.json``.
+Preparing a Release
+===================
 
- - Add a note for the new version into the ``CHANGES.txt`` file.
+To create a new release, you must:
 
- - Commit e.g. using message 'prepare release x.x.x'.
+- Add the new version to ``bower.json`` and ``package.json``
 
- - Push to origin on the master branch.
+- Add a section for the new version in the ``CHANGES.txt`` file
 
- - Create a tag using the ``create_tag.sh`` script
-   (run ``./devtools/create_tag.sh``).
+- Commit your changes with a message like "prepare release x.y.z"
 
- - Run crate-admin_release job in jenkins
+- Push to origin
+
+- Create a tag by running ``./devtools/create_tag.sh``
+
+- Run the ``crate-admin_release`` job in Jenkins
+
+.. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
+.. _tutorial plugin: app/plugins/tutorial
