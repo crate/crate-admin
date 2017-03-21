@@ -287,3 +287,29 @@ tr > .cr-table-cell {
   color: @red;
   cursor: pointer;
 }
+
+// fix up for CodeMiror
+.CodeMirror-code {
+  z-index: 0 !important;
+}
+
+.CodeMirror pre { 
+  z-index: 0 !important;
+}
+
+.CodeMirror pre  span { 
+  z-index: 0 !important;
+}
+
+.CodeMirror-selected {
+  z-index: 0 !important;
+}
+
+.CodeMirror-lines > div > div {
+  z-index: 0 !important;
+}
+
+.cm-s-monokai div.CodeMirror-selected {
+  background-color:rgba(255, 255, 255, 0.1) !important;
+}
+
