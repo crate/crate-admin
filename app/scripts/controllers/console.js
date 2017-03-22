@@ -272,7 +272,8 @@ angular.module('console', ['sql', 'datatypechecks'])
 
         var editor = CodeMirror.fromTextArea(input, {
           mode: attrs.mimeType,
-          theme: attrs.theme
+          theme: attrs.theme,
+          lineWrapping: true
         });
 
         // input change event

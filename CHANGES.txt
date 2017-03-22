@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added lineWrapping option to console Editor. 
+
  - Fixed issue that cause the console text to appear on top of the settings tab.
 
  - Fixed load reading display when the readings were invalid (for example,
