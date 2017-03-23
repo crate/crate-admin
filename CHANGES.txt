@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Display notification warning only when a new CrateDB version is released.
+
  - Added lineWrapping option to console Editor. 
 
  - Fixed issue that cause the console text to appear on top of the settings tab.
