@@ -8,9 +8,9 @@
   <div class="table-detail cr-panel-block">
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.NAME' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           <ng-pluralize ng-init="translationKey='TABLE.TITLE'" count="nr_of_tables"
           when="{
@@ -22,9 +22,9 @@
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.HEALTH' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width {{table.health_panel_class}}">
           {{table.health}}
         </p>
@@ -33,17 +33,17 @@
 
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.CONFIG_REPLICAS' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.replicas_configured}}
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.CONFIG_SHARDS' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_configured}}
         </p>
@@ -52,17 +52,17 @@
 
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.STARTED_SHARDS' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_started}}
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.MISSING_SHARDS' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_missing}}
         </p>
@@ -71,17 +71,17 @@
 
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.UNDERREPL_SHARDS' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_underreplicated}}
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.TOTAL' | translate }} {{ table.type_display_name | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_total | number:0}}">
           {{table.records_total | roundWithUnit:1}}
         </p>
@@ -90,17 +90,17 @@
 
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.UNAVAILABLE' | translate }} {{ table.type_display_name | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">
           {{table.records_unavailable | roundWithUnit:1}}
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.UNDERREPL' | translate }} {{ table.type_display_name | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">
           {{table.records_underreplicated | roundWithUnit:1}}
         </p>
@@ -109,17 +109,17 @@
 
     <div class="table-detail__row">
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.SIZE' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.size | number:0}}">
           {{table.size | bytes}}
         </p>
       </div>
       <div class="table-detail__cell">
-        <p class="cr-panel-block__item__header">
+        <div class="cr-panel-block__item__header">
           {{ 'TABLE.RECOVERY' | translate }}
-        </p>
+        </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.recovery_percent}}%">
           {{table.recovery_percent | number:1}}%
         </p>

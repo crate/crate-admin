@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - increase base font size.
+
  - Fixed issue that caused tables to display a healthy status even though
     their partitions were in critical state
 
