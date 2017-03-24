@@ -52,7 +52,7 @@ angular.module('sql', [])
       if (!this.error && response) {
         this.rows = response.rows;
         this.cols = response.cols;
-        this.col_types = response.col_types;
+        this.col_types = response.col_types === undefined ? [] : response.col_types;
         this.rowCount = response.rowcount;
         this.duration = response.duration;
       } else {
