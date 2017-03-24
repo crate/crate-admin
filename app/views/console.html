@@ -77,7 +77,7 @@
           <tbody>
             <tr ng-repeat="row in rows | limitTo:limitToAmount" ng-class="$odd ? 'cr-table-cell__odd-row' : 'cr-table-cell__even-row'">
               <td class="cr-table-cell" ng-repeat="column in row track by $index">
-                <div ng-if="formatResults">
+                <div ng-if="formatResults && resultHeaderTypes.length > 0">
                   <div ng-if="column == null">
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}">NULL</pre>
                   </div>
@@ -92,7 +92,7 @@
                     <pre class="query-result {{ resultHeaderTypes[$index] | columnTypeClass }}" ng-if="ColumnTypeCheck.isGeoarea(resultHeaderTypes[$index])"><span>Type</span>: {{ column['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{ column | urlEncodedJson }}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column['coordinates'] }} </pre>
                   </div>
                 </div>
-                <div ng-if="!formatResults">
+                <div ng-if="!formatResults || resultHeaderTypes.length == 0">
                   <pre class="query-result" ng-if="column != null">{{ column }} <span class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span> </pre>
                   <pre class="query-result" ng-if="column == null">NULL</pre>
                 </div>

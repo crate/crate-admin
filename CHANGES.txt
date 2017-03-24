@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added fallback to unformatted results if no column types are returned.
+
  - Display notification warning only when a new CrateDB version is released.
 
  - Added lineWrapping option to console Editor. 
