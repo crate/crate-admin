@@ -52,7 +52,7 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numRecords = (function() {
-        return primaryShards.reduce(function (memo, shard) {
+        return primaryShards.reduce(function(memo, shard) {
           return memo + shard.sum_docs;
         }, 0);
       }());
@@ -95,7 +95,7 @@ angular.module('tableinfo', ['sql'])
         }, 0);
       }());
 
-      var numUnderreplicatedRecords = (function(){
+      var numUnderreplicatedRecords = (function() {
         return Math.ceil(avgDocsPerPrimaryShard * numUnassignedShards);
       }());
 
@@ -107,48 +107,64 @@ angular.module('tableinfo', ['sql'])
       }());
 
       var numUnavailableRecords = (function() {
-        var avgDocsPerStartedShard = startedShards.reduce(function(memo, shard, idx, arr){
+        var avgDocsPerStartedShard = startedShards.reduce(function(memo, shard, idx, arr) {
           return memo + shard.avg_docs / arr.length;
         }, 0);
         return Math.ceil(avgDocsPerStartedShard * numMissingPrimaryShards);
       }());
 
       var health = (function() {
-        if (partitioned && numStartedShards === 0) {
-          return 'good';
-        } else if (numPrimaryShards === 0) {
-          return 'critical';
-        } else if (numMissingPrimaryShards > 0) {
-          return 'critical';
-        } else if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) {
-          return 'warning';
+        // table health status:
+        // good : all shards (primary and replicated) are started
+        // warning : all primary shards are started && at least on replicated shard is not started
+        // critical : at least one primary shard is not started
+
+        if (!partitioned) {
+          if (numPrimaryShards === 0 || numMissingPrimaryShards > 0) {
+            return 'critical';
+          }
+          if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) {
+            return 'warning';
+          }
+        } else {
+          //case of newly created table
+          if (numStartedShards === 0 && numMissingPrimaryShards === 0 &&
+            numUnassignedShards === 0 && numUnderreplicatedShards ===0) {
+            return 'good';
+          }
+          if (numPrimaryShards === 0 || numMissingPrimaryShards > 0) {
+            return 'critical';
+          }
+          if (numUnassignedShards > 0 || numUnderreplicatedShards > 0) {
+            return 'warning';
+          }
         }
         return 'good';
       }());
 
       var recovery_percent = (shards.length === 0 || recovery.length === 0) ? 100.0 : (function() {
         // stage == 'DONE' -> recovery finished
-        var done = recovery.filter(function(data){
+        var done = recovery.filter(function(data) {
           return data.recovery_stage && data.recovery_stage === 'DONE';
-        }).reduce(function(memo, data){
+        }).reduce(function(memo, data) {
           return [
             memo[0] + 100.0 * data.count,
             memo[1] + data.count
           ];
         }, [0, 0]);
         // stage != 'DONE' -> recovery in progress
-        var progress = recovery.filter(function(data){
+        var progress = recovery.filter(function(data) {
           return data.recovery_stage && data.recovery_stage !== 'DONE';
-        }).reduce(function(memo, data){
+        }).reduce(function(memo, data) {
           return [
             memo[0] + data.recovery_percent * data.count,
             memo[1] + data.count
           ];
         }, [0, 0]);
         // recovery == NULL -> recovery not started yet
-        var unassigned = recovery.filter(function(data){
+        var unassigned = recovery.filter(function(data) {
           return data.recovery_stage === null;
-        }).reduce(function(memo, data){
+        }).reduce(function(memo, data) {
           return [
             0,
             memo[1] + data.count
@@ -252,7 +268,7 @@ angular.module('tableinfo', ['sql'])
           $.extend(table, info);
           table.health_label_class = colorMapLabel[table.health];
           table.health_panel_class = colorMapPanel[table.health];
-          table.type_display_name = table.table_schema == 'blob' ?  'TABLE.BLOBS' : 'TABLE.RECORDS';
+          table.type_display_name = table.table_schema == 'blob' ? 'TABLE.BLOBS' : 'TABLE.RECORDS';
 
           // create summary
           var summary = table.shards_configured + ' Shards';
@@ -274,7 +290,10 @@ angular.module('tableinfo', ['sql'])
         data.tables = [];
       }
 
-      deferred.notify({'success': success, 'data': data});
+      deferred.notify({
+        'success': success,
+        'data': data
+      });
       timeout = $timeout(fetch, refreshInterval);
     };
 
