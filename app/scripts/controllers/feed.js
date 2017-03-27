@@ -51,7 +51,6 @@ angular.module('feed', ['stats', 'udc', 'utils'])
     $scope.blog_url = CRATE_IO + '/blog';
     $scope.demo_url = CRATE_IO + '/demo';
     $scope.version_url = CRATE_IO + '/versions.json';
-    $scope.feed_url = CRATE_IO + '/feed/developernews.json';
     $scope.menu_url = CRATE_IO + '/feed/menu.json';
 
     UdcSettings.availability.success(function(data) {
@@ -85,31 +84,7 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       }, true);
 
       $scope.noNotifications = true;
-
-      FeedService.parse($scope.feed_url)
-        .success(function(response) {
-          if (response && response.length > 0) {
-            var trunc = $filter('limitTo');
-            var entries = response.splice(0, MAX_ITEMS);
-            var unread = entries.length;
-            entries.map(function(item) {
-              item.title = $sce.trustAsHtml(item.title);
-              item.preview = $sce.trustAsHtml(trunc(item.excerpt, 150));
-              item.timestamp = parseIsoDatetime(item.date);
-              item.id = item.timestamp.getTime().toString(32);
-              if ($scope.isRead(item)) {
-                unread--;
-              }
-            });
-            $scope.entries = entries;
-            $scope.numUnread = unread;
-          }
-        })
-        .error(function() {
-          $scope.entries = [];
-          $scope.numUnread = 0;
-        });
-
+      
       FeedService.parse($scope.menu_url)
         .success(function(response) {
           if (response && response.data) {
