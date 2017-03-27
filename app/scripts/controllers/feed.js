@@ -39,9 +39,8 @@ angular.module('feed', ['stats', 'udc', 'utils'])
     };
   })
   .controller('NotificationsController', function($scope, $sce, $http, $filter, $window,
-    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader, parseIsoDatetime) {
+    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader) {
 
-    var MAX_ITEMS = 5;
     var CRATE_IO = 'https://crate.io';
 
     var doNotTrackUrl = function(url) {
@@ -62,7 +61,6 @@ angular.module('feed', ['stats', 'udc', 'utils'])
         $scope.menu_url = doNotTrackUrl($scope.menu_url);
       }
 
-      $scope.showUpdate = false;
       $scope.numUnread = 0;
       $scope.entries = [];
 
@@ -80,10 +78,9 @@ angular.module('feed', ['stats', 'udc', 'utils'])
         $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
         $scope.stableVersion = stableVersion;
         $scope.serverVersion = data.version ? data.version.number : '';
-        $scope.noNotifications = (!$scope.showUpdate && $scope.entries.length === 0);
       }, true);
 
-      $scope.noNotifications = true;
+      $scope.showUpdate = false;
       
       FeedService.parse($scope.menu_url)
         .success(function(response) {
@@ -114,24 +111,10 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       }
     };
 
-    $scope.isRead = function(item) {
-      var items = NotificationService.readItems();
-      var id = item.id;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i] === id) {
-          return true;
-        }
-      }
-      return false;
-    };
-
     $scope.goToUrl = function(url) {
       $window.open(url, '_blank');
     };
 
-    $scope.goToPost = function(item) {
-      $window.open(item.permalink + '?utm_source=adminui&utm_medium=browser&utm_term={' + item.tags.join('+') + '}&utm_content=blogpostlink&utm_campaign=newsfeed', '_news');
-    };
     // Set default menu data
     $scope.menu = [{
       'url': 'https://crate.io/demo?utm_source=adminui&utm_medium=browser&utm_term=&utm_content=demolink&utm_campaign=newsfeed&ajs_event=clicked_demo_link',
