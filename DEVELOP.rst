@@ -73,6 +73,8 @@ The `tutorial plugin`_ is loaded by the default configuration.
 Preparing a Release
 ===================
 
+Before releasing, run through the `Admin UI Release Preflight`_.
+
 To create a new release, you must:
 
 - Add the new version to ``bower.json`` and ``package.json``
@@ -89,3 +91,4 @@ To create a new release, you must:
 
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _tutorial plugin: app/plugins/tutorial
+.. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
