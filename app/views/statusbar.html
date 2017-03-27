@@ -82,19 +82,8 @@
                 </div>
               </div>
             </div>
-
-
-            <div class="notification" ng-repeat="item in entries" ng-click="goToPost(item)">
-              <div class="notification__item">
-                <div class="notification__status"></div>
-                <div class="notification__content">
-                  <b>{{item.date | date}}</b>
-                  <div ng-bind-html="item.title"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="no-notification" ng-if="noNotifications">
+            
+            <div class="no-notification" ng-if="!showUpdate">
               <div class="notification__item">
                 <div class="notification__status"></div>
                 <div class="notification__content">

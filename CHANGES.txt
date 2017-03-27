@@ -5,7 +5,7 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Removed blog feed from the admin-ui.
+ - Removed blog feed from side bar.
 
  - increase base font size.
 
