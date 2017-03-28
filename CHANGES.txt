@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2017/03/28 1.2.2
+================
+
  - Fixed issue where arrays in formatted objects were not displayed.
 
 2017/03/27 1.2.1
