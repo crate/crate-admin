@@ -8,6 +8,8 @@ Unreleased
 2017/03/28 1.2.2
 ================
 
+ - Added ``ms`` to monitoring graph title.
+
  - Fixed issue where arrays in formatted objects were not displayed.
 
 2017/03/27 1.2.1
