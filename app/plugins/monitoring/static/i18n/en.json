@@ -4,6 +4,6 @@
   },
   "MONITORING": {
     "QUERIES_PER_SECOND": "Queries Per Second",
-    "QUERY_SPEED": "Query Speed"
+    "QUERY_SPEED": "Query Speed (ms)"
   }
 }
