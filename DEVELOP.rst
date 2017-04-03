@@ -83,12 +83,12 @@ To create a new release, you must:
 
 - Commit your changes with a message like "prepare release x.y.z"
 
-- Push to origin
+- Push to ``origin/master``
 
 - Create a tag by running ``./devtools/create_tag.sh``
 
 - Run the ``crate-admin_release`` job in Jenkins
 
+.. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _tutorial plugin: app/plugins/tutorial
-.. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
