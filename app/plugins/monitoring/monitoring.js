@@ -371,7 +371,7 @@ angular.module('monitoring', [])
         yAxis: {
           tickFormat: function(d) {
             if (d >= 0) {
-              return d3.format('.2f ms')(d);
+              return Math.round(d * 100) / 100;
             } else {
               return '--';
             }
