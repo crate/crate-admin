@@ -5,11 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-2017/03/28 1.2.2
-================
-
  - Fixed ``y-axis`` number formating for long running queries
    in the monitoring plugin.
+
+2017/03/28 1.2.2
+================
 
  - Added ``ms`` to monitoring graph title.
 
