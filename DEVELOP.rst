@@ -7,6 +7,12 @@ Prerequisites
 
 You will need Python 3.5 installed.
 
+To create the screenshots, you will need ImageMagick installed.
+
+You can install ImageMagick on Mac OS X with Homebrew::
+
+    $ brew install imagemagick
+
 Setup
 =====
 
@@ -70,12 +76,47 @@ On startup, the ``conf/plugins.json`` file is read and plugins
 
 The `tutorial plugin`_ is loaded by the default configuration.
 
+Updating the Screenshots
+========================
+
+This repository contains four screenshots:
+
+- ``crate-admin-1-overview.png``
+- ``crate-admin-2-console.png``
+- ``crate-admin-3-tables.png``
+- ``crate-admin-4-nodes.png``
+
+The ``crate-admin.gif`` file is an animated GIF that combines each of the above
+screenshots in sequence for the purposes of display in both the ``README.rst``
+file in this repository, but more importantly, the ``README.rst`` file in the
+main CrateDB repository.
+
+You can recreate the animated GIF with ImageMagik like so::
+
+    $ convert -delay 500 -loop 0 crate-admin-*.png crate-admin.gif
+
+When doing a release, it's important to check whether the visual appearance of
+the admin UI has changed in a way that would affect these screenshots. If so,
+please update all four of them together (for consistency) and recreate the
+animated GIF.
+
+Please make sure to:
+
+- Crop out browser chrome
+- Keep the dimensions of your browser window the same between screenshots
+
+**IMPORTANT**: After you have updated the screenshots, you must copy the new
+``crate-admin.gif`` file to the root directory of the `crate/crate`_ repository
+and create a pull request to merge the change into ``master``.
+
 Preparing a Release
 ===================
 
 Before releasing, run through the `Admin UI Release Preflight`_.
 
 To create a new release, you must:
+
+- Update the screenshots if necessary (see above)
 
 - Add the new version to ``bower.json`` and ``package.json``
 
@@ -92,3 +133,4 @@ To create a new release, you must:
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _tutorial plugin: app/plugins/tutorial
+.. _crate/crate: https://github.com/crate/crate
