@@ -5,6 +5,17 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Breaking Changes
+================
+
+Changes
+=======
+
+ - License ident is now displayed in the Enterprise Edition.
+
+Fixes
+=====
+
 2017/04/12 1.2.3
 ================
 

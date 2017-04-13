@@ -38,6 +38,27 @@
   flex-direction: row;
   align-items: center;
 }
+.status-bar__icon > img {
+  margin-right: 10px;
+}
+.status-bar__license {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  height: @status-bar-height;
+  border-left: @status-bar-border-bottom;
+  border-right: @status-bar-border-bottom;
+}
+.status-bar__license:hover{
+  background-color: @side-bar-element-hover-bg-color;
+}
+
+.status-bar__license:active{
+  background-color: @side-bar-element-active-bg-color;
+}
 
 .status-bar__icon--menu{
   cursor: pointer;

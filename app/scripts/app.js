@@ -21,7 +21,8 @@ var MODULES = [
   'datatypechecks',
   'nvd3',
   'pascalprecht.translate',
-  'oc.lazyLoad'
+  'oc.lazyLoad',
+  'ngclipboard'
 ];
 
 var DEFAULT_PLUGINS = [];
@@ -117,17 +118,19 @@ $.get('conf/plugins.json', function(plugins) {
       function(SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider,
         $routeProvider, SettingsProvider) {
 
-        var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise ' +
+        var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise, ' +
+          'settings[\'license\'][\'ident\'] as ident ' +
           'FROM sys.cluster';
 
-        if(SettingsProvider.$get().enterprise === true){
+        if (SettingsProvider.$get().enterprise === true) {
           loadStylesheet('static/styles/main-enterprise.css');
         }
 
         SQLQueryProvider.$get().execute(stmt)
           .success(function(query) {
-            var result = queryResultToObjectsProvider.$get()(query, ['enterprise']);
+            var result = queryResultToObjectsProvider.$get()(query, ['enterprise', 'ident']);
             SettingsProvider.setEnterprise(result[0].enterprise);
+            SettingsProvider.setIdent(result[0].ident);
             if (result[0].enterprise) {
               loadStylesheet('static/styles/main-enterprise.css');
 

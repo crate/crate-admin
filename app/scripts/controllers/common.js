@@ -3,6 +3,7 @@
 var commons = angular.module('common', ['stats', 'udc'])
   .provider('Settings', function() {
     var enterprise;
+    var ident = '';
     if (localStorage.getItem('crate_setting_enterprise')) {
       enterprise = localStorage.getItem('crate_setting_enterprise');
     } else {
@@ -18,9 +19,13 @@ var commons = angular.module('common', ['stats', 'udc'])
           console.log('localStorage cannot be set in Safari private mode', error);
         }
       },
+      setIdent: function(value){
+        ident = value;
+      },
       $get: function() {
         return {
-          enterprise: enterprise
+          enterprise: enterprise,
+          ident: ident
         };
       }
     };
@@ -45,6 +50,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     var showSideNav = false;
 
     $scope.enterprise = Settings.enterprise;
+    $scope.licenseIdent = Settings.ident;
 
     $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;

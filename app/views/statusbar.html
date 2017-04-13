@@ -6,10 +6,15 @@
     </div>
     <img ng-if="!enterprise" class="status-bar__icon--crate" src="static/assets/CRA_logo_white.svg">
     <img ng-if="enterprise" class="status-bar__icon--crate" src="static/assets/logo-CrateDB@2x.png">
+    <div id="license-ident" data-original-title="Copy to clipboard" cr-tooltip cr-tooltip-position="bottom" ng-if="enterprise" class= "status-bar__license">
+      <div>License key</div>
+      <div ng-if="licenseIdent" ngclipboard data-clipboard-text="{{licenseIdent}}" >{{licenseIdent | limitTo:30}}{{licenseIdent.length > 30 ? '...' : ''}}</div>
+      <div ng-if="!licenseIdent">not provided</div>
+    </div>
   </div>
 
   <div class="status-bar__content">
-    <div class="status-bar__content__item hide-s">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
+    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
 
     <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}:
       <div ng-if="version_warning " class="cr-bubble cr-bubble--danger"></div>

@@ -460,6 +460,8 @@ module.exports = function(grunt) {
           'app/bower_components/angular-truncate-2/dist/angular-truncate-2.js',
           'app/bower_components/angular-nvd3/dist/angular-nvd3.js',
           'app/bower_components/oclazyload/dist/ocLazyLoad.js',
+          'app/bower_components/clipboard/dist/clipboard.min.js',
+          'app/bower_components/ngclipboard/dist/ngclipboard.min.js',
           'app/scripts/app.js',
           'app/scripts/**/*.js',
           'app/plugins/**/*.js',

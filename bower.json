@@ -20,7 +20,8 @@
     "angular-translate-storage-cookie": "^2.12.0",
     "angular-translate-loader-partial": "^2.12.0",
     "angular-nvd3": "^1.0.9",
-    "oclazyload": "^1.1.0"
+    "oclazyload": "^1.1.0",
+    "ngclipboard": "^1.1.1"
   },
   "resolutions": {
     "angular": "1.5.8",
