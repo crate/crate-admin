@@ -11,10 +11,13 @@ Breaking Changes
 Changes
 =======
 
- - License ident is now displayed in the Enterprise Edition.
-
 Fixes
 =====
+
+2017/04/18 1.3.0
+================
+
+ - License ident is now displayed in the Enterprise Edition.
 
 2017/04/12 1.2.3
 ================
