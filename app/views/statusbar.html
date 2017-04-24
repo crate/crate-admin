@@ -10,7 +10,7 @@
       <div>License:</div>
       <div ngclipboard data-clipboard-text="{{licenseIdent}}" >{{licenseIdent | limitTo:30}}{{licenseIdent.length > 30 ? '...' : ''}}</div>
     </div>
-    <div class= "status-bar__license--unlicensed" ng-if="!licenseIdent">Unlicensed</div>
+    <div class= "status-bar__license--unlicensed" ng-if="enterprise && !licenseIdent">Unlicensed</div>
   </div>
 
   <div class="status-bar__content">
