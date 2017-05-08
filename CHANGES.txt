@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Cluster warning within the monitoring plugin, regarding
+   stat collection being disabled, has been improved.
+
 2017/04/24 1.3.1
 ================
 
