@@ -7,6 +7,13 @@ An admin user interface (UI) for `CrateDB`_.
 The admin interface is bundled with every CrateDB distribution. There is no need
 to install it separately unless you are contributing to the project.
 
+Screenshots
+===========
+
+.. image:: crate-admin.gif
+    :alt: Screenshots of the CrateDB admin UI
+    :target: http://play.crate.io/
+
 Contributing
 ============
 
