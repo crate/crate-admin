@@ -282,15 +282,16 @@ label:hover:before {
 }
 
 .cr-panel-block__item__content--full-width{
+  .cr-panel-block__item__content;
   width: 100%;
 }
 
-.cr-panel-block__item__content,
-.cr-panel-block__item__content--full-width {
+.cr-panel-block__item__content{
   padding-left: 3px;
   padding-right: 3px;
   font-size: @font-size-large;
   overflow: hidden;
+  word-break: break-all;
 }
 
 .cr-panel--default{
@@ -347,7 +348,6 @@ label:hover:before {
 .severity--danger{
   color: @severity--danger-color;
 }
-
 
 // Side Bar
 // -------------------------
