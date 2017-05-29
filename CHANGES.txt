@@ -13,6 +13,8 @@ Changes
 
 Fixes
 -----
+ 
+ - Display long table names correctly.
 
  - Cluster warning within the monitoring plugin, regarding
    stat collection being disabled, has been improved.
