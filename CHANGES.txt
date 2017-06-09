@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
  
+ - Change color of keywords in the console to be more readable.
+
  - Display long table names correctly.
 
 2017/04/24 1.3.1
