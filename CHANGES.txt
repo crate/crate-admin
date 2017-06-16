@@ -13,7 +13,9 @@ Changes
 
 Fixes
 -----
- 
+
+ - Fix toggle buttons UI, which was broken while zooming.
+
  - Change color of keywords in the console to be more readable.
 
  - Display long table names correctly.
