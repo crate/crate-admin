@@ -38,7 +38,7 @@ angular.module('sql', [])
 
     return baseURI;
   })
-  .factory('SQLQuery', function($http, $q, $log, baseURI) {
+  .factory('SQLQuery', function($http, $q, $log, baseURI, $location) {
     function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
@@ -83,15 +83,15 @@ angular.module('sql', [])
     };
 
 
-    SQLQuery.execute = function(stmt, args, errorTrace, getTypes) {
+    SQLQuery.execute = function(stmt, args, errorTrace, getTypes, isConsole) {
       var data = {
         'stmt': stmt
       };
 
-      if (args !== undefined && !$.isEmptyObject(args)) {
+      if (!$.isEmptyObject(args)) {
         data.args = args;
       }
-
+      
       var canceler = $q.defer();
       var deferred = $q.defer();
       var promise = deferred.promise;
@@ -139,6 +139,9 @@ angular.module('sql', [])
             error = new Error(data.error.message);
             error.error_trace = data.error_trace;
             error.status = data.error.status;
+            if (data.error.code === 4011 && !isConsole) {
+              $location.path('/401');
+            }
           } else if (status >= 400) {
             error = new Error(data);
             error.status = status;
@@ -146,6 +149,7 @@ angular.module('sql', [])
             error = new Error('Connection refused');
             error.status = status;
           }
+
           deferred.reject(new SQLQuery(stmt, data, error));
         });
       return promise;

@@ -30,7 +30,7 @@ angular.module('monitoring', [])
     statsCheckingService.execute = function() {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt)
+      SQLQuery.execute(stmt, {}, false, false, false)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -121,7 +121,7 @@ angular.module('monitoring', [])
     monitoringService.execute = function(last_timestamp) {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(monitoringService.get_statement(last_timestamp))
+      SQLQuery.execute(monitoringService.get_statement(last_timestamp), {}, false, false, false)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);

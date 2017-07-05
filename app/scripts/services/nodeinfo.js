@@ -27,7 +27,7 @@ angular.module('nodeinfo', ['sql'])
       'cpu', 'load', 'version', 'timestamp', 'proc_cpu', 'num_cores'];
     nodeInfo.executeNodeQuery = function() {
       var d = $q.defer();
-      SQLQuery.execute(nodeQuery).success(function(sqlQuery){
+      SQLQuery.execute(nodeQuery, {}, false, false, false).success(function(sqlQuery){
         var response = queryResultToObjects(sqlQuery, nodeCols);
         d.resolve(response);
       }).error(function(){
@@ -40,7 +40,7 @@ angular.module('nodeinfo', ['sql'])
     var clusterCols = ['name', 'master_node'];
     nodeInfo.executeClusterQuery = function(){
       var d = $q.defer();
-      SQLQuery.execute(clusterQuery).success(function(sqlQuery){
+      SQLQuery.execute(clusterQuery, {}, false, false, false).success(function(sqlQuery){
         d.resolve(queryResultToObjects(sqlQuery, clusterCols));
       }).error(function(){
         d.reject();

@@ -30,6 +30,8 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
   })
+  .controller('UnauthorizedCtrl', [function () {
+  }])
   .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
     ClusterState, ChecksService, UidLoader, UdcSettings, Settings) {
 
