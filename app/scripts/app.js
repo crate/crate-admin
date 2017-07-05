@@ -126,7 +126,7 @@ $.get('conf/plugins.json', function(plugins) {
           loadStylesheet('static/styles/main-enterprise.css');
         }
 
-        SQLQueryProvider.$get().execute(stmt)
+        SQLQueryProvider.$get().execute(stmt, {}, false, false, false)
           .success(function(query) {
             var result = queryResultToObjectsProvider.$get()(query, ['enterprise', 'ident']);
             SettingsProvider.setEnterprise(result[0].enterprise);
@@ -177,6 +177,10 @@ $.get('conf/plugins.json', function(plugins) {
             }
           }
         }
+        $routeProvider.when('/401', {
+          'templateUrl': 'views/401.html',
+          'controller': 'UnauthorizedCtrl'
+        });
         // register default redirect to '/' if URL not found
         $routeProvider.otherwise({
           redirectTo: '/'

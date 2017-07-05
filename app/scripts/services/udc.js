@@ -15,7 +15,7 @@ angular.module('udc', [])
 
     var stmt = 'SELECT settings[\'udc\'][\'enabled\'] as enabled, id AS cluster_id ' +
       'FROM sys.cluster';
-    SQLQuery.execute(stmt)
+    SQLQuery.execute(stmt, {}, false, false, false)
       .success(function(query) {
         var result = queryResultToObjects(query, ['enabled','cluster_id']);
         deferred.resolve(result[0]);

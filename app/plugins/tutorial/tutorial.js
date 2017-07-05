@@ -41,11 +41,14 @@ angular.module('tutorial', ['sql', 'translation'])
           tweet.retweeted,
           tweet.source,
           tweet.text,
-          tweet.user]);
+          tweet.user], 
+          false,
+          false, 
+          false);
       };
 
       this.createTable = function() {
-        return SQLQuery.execute(createStmt);
+        return SQLQuery.execute(createStmt, {}, false, false, false);
       };
 
       this.start = function() {
