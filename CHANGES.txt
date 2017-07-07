@@ -14,6 +14,12 @@ Changes
 Fixes
 -----
 
+2017/07/07 1.3.2
+================
+
+Fixes
+-----
+
  - Redirect to /401 when the admin-ui user does not have cluster privileges.
 
  - Expanded the list of keywords used by autocapitalization.
@@ -23,9 +29,6 @@ Fixes
  - Change color of keywords in the console to be more readable.
 
  - Display long table names correctly.
-
- - Cluster warning within the monitoring plugin, regarding
-   stat collection being disabled, has been improved.
 
 2017/04/24 1.3.1
 ================
