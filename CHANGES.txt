@@ -11,6 +11,9 @@ Breaking Changes
 Changes
 -------
 
+- Display user name in the status bar when the Enterprise
+ Edition is enabled.
+
 Fixes
 -----
 

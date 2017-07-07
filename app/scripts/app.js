@@ -122,6 +122,8 @@ $.get('conf/plugins.json', function(plugins) {
           'settings[\'license\'][\'ident\'] as ident ' +
           'FROM sys.cluster';
 
+        var userStmt = 'SELECT CURRENT_USER';
+
         if (SettingsProvider.$get().enterprise === true) {
           loadStylesheet('static/styles/main-enterprise.css');
         }
@@ -132,6 +134,13 @@ $.get('conf/plugins.json', function(plugins) {
             SettingsProvider.setEnterprise(result[0].enterprise);
             SettingsProvider.setIdent(result[0].ident);
             if (result[0].enterprise) {
+              //query for current_user only in enterprise edition
+              SQLQueryProvider.$get().execute(userStmt, {}, false, false, false)
+                .success(function(query) {
+                  var result = queryResultToObjectsProvider.$get()(query, ['user']);
+                  SettingsProvider.setUser(result[0].user);
+                });
+
               loadStylesheet('static/styles/main-enterprise.css');
 
               $ocLazyLoadProvider.config({

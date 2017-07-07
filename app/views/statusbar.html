@@ -35,8 +35,12 @@
 
     <div class="status-bar__content__item hide-xs">Load: <span class="">{{ load1 }}</span>/<span class="">{{ load5 }}</span>/<span class="">{{ load15 }}</span></div>
 
+    <div ng-if="enterprise && user != ''" class= "status-bar__user">
+      <i class="fa fa-2x fa-user"></i>
+      <div>{{userName}}</div>
+    </div>
 
-    <div ng-controller="NotificationsController">
+    <div ng-controller="NotificationsController" class="status-bar__notifications">
       <div id="settings-icon" class="status-bar__content__item" ng-click="toggleSettings()" data-original-title="Settings" cr-tooltip cr-tooltip-position="bottom">
         <i class="fa fa-2x fa-cog"></i>
         <i id="unread-notifications-bg" ng-if="showUpdate" class="fa fa-circle"></i>

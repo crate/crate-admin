@@ -4,6 +4,7 @@ var commons = angular.module('common', ['stats', 'udc'])
   .provider('Settings', function() {
     var enterprise;
     var ident = '';
+    var user = '';
     if (localStorage.getItem('crate_setting_enterprise')) {
       enterprise = localStorage.getItem('crate_setting_enterprise');
     } else {
@@ -22,10 +23,14 @@ var commons = angular.module('common', ['stats', 'udc'])
       setIdent: function(value){
         ident = value;
       },
+      setUser: function(value){
+        user = value;
+      },
       $get: function() {
         return {
           enterprise: enterprise,
-          ident: ident
+          ident: ident,
+          user: user
         };
       }
     };
@@ -53,6 +58,7 @@ var commons = angular.module('common', ['stats', 'udc'])
 
     $scope.enterprise = Settings.enterprise;
     $scope.licenseIdent = Settings.ident;
+    $scope.userName = Settings.user;
 
     $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;

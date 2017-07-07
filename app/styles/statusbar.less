@@ -52,6 +52,26 @@
   border-left: @status-bar-border-bottom;
   border-right: @status-bar-border-bottom;
 }
+
+.status-bar__user {
+  height: @status-bar-height;
+  border-left: @status-bar-border-bottom;
+  border-right: @status-bar-border-bottom;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.status-bar__user > div {
+  margin-left: 10px;
+}
+.status-bar__notifications {
+  display: flex;
+}
 .status-bar__license:hover{
   background-color: @side-bar-element-hover-bg-color;
 }
