@@ -118,7 +118,7 @@ angular.module('common')
   })
   .filter('formatTimestamp', function() {
     return function(timestamp) {
-      return new Date(timestamp).toUTCString();
+      return new Date(timestamp).toISOString();
     };
   })
   .filter('urlEncodedJson', function() {
