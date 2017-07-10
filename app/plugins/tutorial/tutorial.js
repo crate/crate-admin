@@ -18,7 +18,7 @@ angular.module('tutorial', ['sql', 'translation'])
         '  text string INDEX using fulltext, ' +
         '  source string INDEX using fulltext, ' +
         '  retweeted boolean, ' +
-        '  user object(strict) as ( ' +
+        '  account_user object(strict) as ( ' +
         '    created_at timestamp, ' +
         '    verified boolean, ' +
         '    followers_count integer, ' +
@@ -41,7 +41,7 @@ angular.module('tutorial', ['sql', 'translation'])
           tweet.retweeted,
           tweet.source,
           tweet.text,
-          tweet.user], 
+          tweet.account_user], 
           false,
           false, 
           false);
