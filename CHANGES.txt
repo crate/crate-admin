@@ -14,6 +14,12 @@ Changes
 Fixes
 -----
 
+2017/07/11 1.4.1
+================
+
+Fixes
+-----
+
  - Add ``DENY`` keyword to the console autocapitalization.
 
  - Display error message on the Tutorial plugin when the SQL query fails.
