@@ -210,7 +210,7 @@ angular.module('console', ['sql', 'datatypechecks'])
             'current_date', 'current_path', 'current_role', 'current_row',
             'current_schema', 'current_time', 'current_timestamp', 'current_user',
             'cursor', 'cycle', 'data', 'date', 'day', 'deallocate', 'dec', 'decimal',
-            'declare', 'default', 'deferrable', 'deferred', 'delete', 'dense_rank',
+            'declare', 'default', 'deferrable', 'deferred', 'delete', 'deny', 'dense_rank',
             'depth', 'deref', 'desc', 'describe', 'descriptor', 'deterministic',
             'diagnostics', 'directory', 'disconnect', 'distinct', 'distributed',
             'do', 'domain', 'double', 'drop', 'duplicate', 'dynamic', 'each',
