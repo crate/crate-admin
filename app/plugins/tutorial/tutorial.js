@@ -10,6 +10,8 @@ angular.module('tutorial', ['sql', 'translation'])
     $scope.count = 0;
     $scope.importing = false;
 
+    $scope.error = {};
+
     var Twitter = function() {
 
       var createStmt = 'create table if not exists tweets ( ' +
@@ -48,7 +50,7 @@ angular.module('tutorial', ['sql', 'translation'])
       };
 
       this.createTable = function() {
-        return SQLQuery.execute(createStmt, {}, false, false, false);
+        return SQLQuery.execute(createStmt, {}, false, false, true);
       };
 
       this.start = function() {
@@ -56,13 +58,14 @@ angular.module('tutorial', ['sql', 'translation'])
           return; // already running!
         }
         this.count = 0;
-        $scope.importing = true;
         var self = this,
           currentResponseText='',
           tweets;
         var ctd = this.createTable();
 
         var fetch = function() {
+          $scope.importing = true;
+
           // This is a long polling request.
           // We do not expect this to ever complete, except on timeout and just parse the
           // continously updating response for new tweets to insert.
@@ -105,7 +108,9 @@ angular.module('tutorial', ['sql', 'translation'])
         };
 
         ctd.success(fetch);
-        ctd.error(console.error);
+        ctd.error(function(response){
+          $scope.error = response.error;
+        });
       };
 
       this.running = function() {

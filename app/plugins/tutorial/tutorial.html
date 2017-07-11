@@ -27,6 +27,12 @@
           <p ng-show="importing">{{ 'TUTORIAL.IMPORTING_TWEETS' |translate }} <strong id="tweets">{{ count }}</strong> {{ 'TUTORIAL.TWEETS_IMPORTED' |translate }}</p>
         </div>
       </div>
+
+      <div class="import-tweets__submit__panel import-tweets__error" ng-if="error.message">
+        <div>Error importing tweets!</div>
+        <div>{{error.message}}</div>
+      </div>
+
     </div>
 
     <div class="cr-panel-block--help">
