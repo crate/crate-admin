@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fix Tweet import for Twitter tutorial page
+
 2017/07/11 1.4.1
 ================
 
