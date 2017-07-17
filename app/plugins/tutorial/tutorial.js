@@ -31,7 +31,9 @@ angular.module('tutorial', ['sql', 'translation'])
         '    location string INDEX using fulltext ' +
         '  ) ' +
         ') with (number_of_replicas = \'0-all\')';
-      var insertStmt = 'insert into tweets values ($1, $2, $3, $4, $5, $6)';
+      var insertStmt = 'insert into tweets ' +
+        '(created_at, id, retweeted, source, text, account_user) ' +
+        'values ($1, $2, $3, $4, $5, $6)';
 
       this.storeTweet = function(tweet) {
         if (!tweet || !tweet.id) {
