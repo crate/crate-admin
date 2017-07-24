@@ -48,8 +48,12 @@ var commons = angular.module('common', ['stats', 'udc'])
     }, {});
 
     var DOCS_BASE_URL = 'https://crate.io/docs';
+    var getMajorMinorVersion = function getMajorMinorVersion(version) {
+      var SHORT_VERSION_RE = new RegExp(/(\d+\.\d+)\.\d+.*/);
+      return version ? version.number.match(SHORT_VERSION_RE)[1] : null;
+    };
     var getDocsUrl = function getDocsUrl(version) {
-      return $sce.trustAsResourceUrl(DOCS_BASE_URL + (version ? '/en/' + version.number : '/stable') + '/');
+      return $sce.trustAsResourceUrl(DOCS_BASE_URL + (version ? '/en/' + version : '/stable') + '/');
     };
     $scope.cluster_color_label = '';
     $scope.config_label = '';
@@ -123,7 +127,8 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
       $scope.load15 = $scope.load15 < 0 ? 'N/A' : $scope.load15;
       $scope.version = data.version;
-      $scope.docs_url = getDocsUrl(data.version);
+      $scope.major_minor_version = getMajorMinorVersion(data.version);
+      $scope.docs_url = getDocsUrl($scope.major_minor_version);
       $scope.cluster_color_label = data.online ? colorMap[data.status] : '';
     }, true);
 

@@ -65,7 +65,7 @@
           </div>
 
           <div class="cr-settings__item">
-            <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{ 'STATUSBAR.CRATE_MANUAL' | translate }} ({{ version.number }})</a>
+            <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{ 'STATUSBAR.CRATE_MANUAL' | translate }} {{major_minor_version && '(' + major_minor_version + ')' || '' }}</a>
           </div>
 
 
