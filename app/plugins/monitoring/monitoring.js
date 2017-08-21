@@ -30,7 +30,7 @@ angular.module('monitoring', [])
     statsCheckingService.execute = function() {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt, {}, false, false, false)
+    SQLQuery.execute(stmt, {}, false, false, false)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -403,7 +403,7 @@ angular.module('monitoring', [])
     $translate.refresh();
     var iconSrc = 'plugins/monitoring/static/icons/icon-monitoring.svg';
     var url = '/monitoring';
-    var position = 4;
+    var position = 5;
 
     NavigationService.addNavBarElement(iconSrc, 'Monitoring', url, position);
   });

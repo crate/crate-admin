@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         tasks: ['copy:i18nTmp']
       },
       hint: {
-        files: ['<%= crate.app %>/scripts/{,*/}*.js'],
+        files: ['<%= crate.app %>/scripts/{,*/}*.js', '<%= crate.app %>/plugins/{,*/}*.js'],
         tasks: ['jshint']
       }
     },

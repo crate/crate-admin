@@ -19,4 +19,15 @@
       "controller": "MonitoringController"
     }
   }
+}, {
+  "name": "privileges",
+  "uri": "plugins/privileges/privileges.js",
+  "stylesheet": "plugins/privileges/privileges.css",
+  "enterprise": true,
+  "routing": {
+    "/privileges": {
+      "templateUrl": "plugins/privileges/privileges.html",
+      "controller": "PrivilegesDetailController"
+    }
+  }
 }]

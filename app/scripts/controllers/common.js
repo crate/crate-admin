@@ -20,10 +20,10 @@ var commons = angular.module('common', ['stats', 'udc'])
           console.log('localStorage cannot be set in Safari private mode', error);
         }
       },
-      setIdent: function(value){
+      setIdent: function(value) {
         ident = value;
       },
-      setUser: function(value){
+      setUser: function(value) {
         user = value;
       },
       $get: function() {
@@ -35,8 +35,7 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
   })
-  .controller('UnauthorizedCtrl', [function () {
-  }])
+  .controller('UnauthorizedCtrl', [function() {}])
   .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
     ClusterState, ChecksService, UidLoader, UdcSettings, Settings) {
 
@@ -58,6 +57,9 @@ var commons = angular.module('common', ['stats', 'udc'])
     $scope.cluster_color_label = '';
     $scope.config_label = '';
 
+    $scope.goToPath = function(path) {
+      $location.path(path).search('user=' + Settings.user);
+    };
     var showSideNav = false;
 
     $scope.enterprise = Settings.enterprise;

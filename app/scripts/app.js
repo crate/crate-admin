@@ -147,8 +147,10 @@ $.get('conf/plugins.json', function(plugins) {
                 modules: ENTERPRISE_PLUGINS,
                 events: true
               });
+
+              $ocLazyLoadProvider.$get().load(ENTERPRISE_PLUGINS);
+
               for (var i = 0; i < ENTERPRISE_PLUGINS.length; i++) {
-                $ocLazyLoadProvider.$get().load(ENTERPRISE_PLUGINS[i].name);
                 loadStylesheet(ENTERPRISE_PLUGINS[i].stylesheet);
                 var routing = ENTERPRISE_PLUGINS[i].routing;
                 if (routing) {
@@ -246,12 +248,14 @@ $.get('conf/plugins.json', function(plugins) {
         $rootScope.showSideNav = true;
         $rootScope.showTableList = true;
         $rootScope.showNodeList = true;
+        $rootScope.showUserList = true;
       });
 
       $rootScope.$on('hideSideNav', function() {
         $rootScope.showSideNav = false;
         $rootScope.showTableList = false;
         $rootScope.showNodeList = false;
+        $rootScope.showUserList = false;
       });
     });
 

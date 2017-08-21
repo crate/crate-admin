@@ -1,0 +1,15 @@
+<div class="side-bar table-side-bar" ng-class="$root.showNodeList ? '' : 'hide-node-list'">
+  <div class="filter__wrapper">
+        <input id="tableFilter" ng-model="search.$" placeholder="Filter users ..." type="text" focus="true">
+        <a ng-if="search.$" class="cr-clear-user-search" ng-click="search.$ = '' ">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </a>
+  </div>
+  <div ng-repeat="user in users | filter:search" >
+      <div ng-class="isSelectedUser(user) ? 'user-list__element--selected' : ''" class="side-bar__element user-list__element" href="#/privileges/{{ user.name }}" ng-click="setUser(user)"> 
+        <h4>{{user.name}}</h4> 
+        <span data-original-title="superuser" cr-tooltip cr-tooltip-position="left" ng-if="user.superuser" class="health-bubble cr-panel--success" title="superuser"></span>
+      </div>
+  </div>
+</div>
+

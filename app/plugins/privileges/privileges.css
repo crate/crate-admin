@@ -1,0 +1,57 @@
+.user-list__element {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+}
+
+.user-list__element > .health-bubble {
+  float: right;
+  top: 40%;
+  right: 10px;
+  position: absolute;
+  cursor:pointer;
+}
+
+.cr-clear-user-search{
+  float: right;
+  top: 11px;
+  right: 10px;
+  position: absolute;
+  cursor:pointer;
+}
+
+#tableSearch {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #353535;
+  color: #fff;
+  letter-spacing: 0.5px;
+  outline-offset: 0px;
+  border: 1px solid #545454;
+  border-radius: 3px;
+  margin-bottom: 15px;
+    
+}
+
+#tableSearch:focus { 
+  background-color: #242424;
+  outline:none;
+}
+.table-search__wrapper{
+  position: relative;
+  max-width: 300px;
+}
+
+.cr-clear-privileges-search {
+  float: right;
+  top: 11px;
+  right: 10px;
+  position: absolute;
+  cursor:pointer;
+}
+
+.user-list__element--selected {
+  background-color: #353535;
+}
