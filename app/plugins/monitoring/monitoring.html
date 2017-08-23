@@ -4,12 +4,16 @@
     <h1>{{ 'NAVIGATION.MONITORING' | translate }}</h1>
   </div>
 
-  <div ng-if="stats_enabled === 0">
+  <div class="cr-panel-block" ng-if="!user_has_access">
+    You need to have access to `sys.jobs_log` and `sys.cluster` to use this feature. Please contact your system administrator.
+  </div>
+
+  <div ng-if="stats_enabled === 0 && user_has_access">
     <p>Cluster stat collection is <strong>disabled</strong>. To enable stat collection, please run <code>SET GLOBAL stats.enabled TO TRUE</code>, or by adding <code>stats.enabled: true</code> to config/crate.yml.
     For more information on enabling stat collection, please see the <a href="https://crate.io/docs/reference/configuration.html#collecting-stats">configuration documentation</a>.</p>
   </div>
 
-  <div class="cr-panel-block--checks">
+  <div ng-if="user_has_access" class="cr-panel-block--checks">
     <div class="cr-panel-block__item--load">
       <div class="cr-panel-block__item__header--load">
         <h2>{{ 'MONITORING.QUERIES_PER_SECOND' | translate }}</h2>
@@ -40,7 +44,7 @@
     </div>
   </div>
 
-  <div class="cr-panel-block--checks">
+  <div ng-if="user_has_access" class="cr-panel-block--checks">
     <div class="cr-panel-block__item--load">
       <div class="cr-panel-block__item__header--load">
         <h2>{{ 'MONITORING.QUERY_SPEED' | translate }}</h2>

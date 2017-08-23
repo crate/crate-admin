@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fixed issue that caused the Monitoring tab to redirect to ``/401`` when
+   the user didn't have privileges for ``sys.cluster`` or ``sys.jobs_log``.
 
 2017/07/21 1.4.2
 ================
