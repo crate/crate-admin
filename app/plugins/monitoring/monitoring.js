@@ -30,7 +30,7 @@ angular.module('monitoring', [])
     statsCheckingService.execute = function() {
       var deferred = $q.defer(),
         promise = deferred.promise;
-    SQLQuery.execute(stmt, {}, false, false, false)
+      SQLQuery.execute(stmt, {}, false, false, true)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -121,13 +121,13 @@ angular.module('monitoring', [])
     monitoringService.execute = function(last_timestamp) {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(monitoringService.get_statement(last_timestamp), {}, false, false, false)
+      SQLQuery.execute(monitoringService.get_statement(last_timestamp), {}, false, false, true)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
         })
-        .error(function() {
-          deferred.reject();
+        .error(function(response) {
+          deferred.reject(response);
         });
 
       return promise;
@@ -261,7 +261,10 @@ angular.module('monitoring', [])
           if (force !== true) {
             $timeout(poll, 5000);
           }
-        }).catch(function() {
+        }).catch(function(response) {
+          if (response.error && response.error.status == '4011') {
+            $rootScope.$broadcast('monitoring-user-has-no-access');
+          }
           retryCount++;
           if (force !== true) {
             $timeout(poll, 1000 * retryCount);
@@ -279,6 +282,7 @@ angular.module('monitoring', [])
   .controller('MonitoringController', function($scope, MonitoringPollService, $translatePartialLoader, $translate, StatsCheckingService) {
     $scope.qps = [];
     $scope.duration = [];
+    $scope.user_has_access = false;
 
     $scope.toggle_qps_query_type = function(e, idx) {
       $('#qps-query-type-' + idx).toggleClass('faded-text');
@@ -383,6 +387,16 @@ angular.module('monitoring', [])
         showLegend: false
       }
     };
+
+    $scope.$on('monitoring-service-query-success', function() {
+      $scope.qps = MonitoringPollService.data.qps;
+      $scope.duration = MonitoringPollService.data.duration;
+      $scope.user_has_access = true;
+    });
+
+    $scope.$on('monitoring-user-has-no-access', function() {
+      $scope.user_has_access = false;
+    });
 
     $scope.$on('monitoring-service-query-success', function() {
       $scope.qps = MonitoringPollService.data.qps;

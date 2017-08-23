@@ -91,7 +91,7 @@ angular.module('sql', [])
       if (!$.isEmptyObject(args)) {
         data.args = args;
       }
-      
+
       var canceler = $q.defer();
       var deferred = $q.defer();
       var promise = deferred.promise;
@@ -138,7 +138,7 @@ angular.module('sql', [])
           if (status >= 400 && data.error) {
             error = new Error(data.error.message);
             error.error_trace = data.error_trace;
-            error.status = data.error.status;
+            error.status = data.error.code;
             if (data.error.code === 4011 && !isConsole) {
               $location.path('/401');
             }
