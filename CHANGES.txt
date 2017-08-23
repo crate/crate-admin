@@ -11,14 +11,19 @@ Breaking Changes
 Changes
 -------
 
+Fixes
+-----
+
+2017/08/23 1.5.0
+================
+
+Changes
+-------
+
  - Added Privileges plugin for the Enterprise Edition.
 
  - The documentation link now points to the documentation for the major.minor
    (e.g. 2.1) version of CrateDB, instead of major.minor.hotfix (e.g. 2.1.1).
-
-Fixes
------
-
 
 2017/07/21 1.4.2
 ================
