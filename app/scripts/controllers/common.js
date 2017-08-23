@@ -37,7 +37,7 @@ var commons = angular.module('common', ['stats', 'udc'])
   })
   .controller('UnauthorizedCtrl', [function() {}])
   .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings) {
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard) {
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -73,6 +73,10 @@ var commons = angular.module('common', ['stats', 'udc'])
       } else {
         $rootScope.$broadcast('hideSideNav');
       }
+    };
+
+    $scope.copy = function(text) {
+      Clipboard.copy(text);
     };
 
     $scope.showSettings = false;
@@ -206,6 +210,27 @@ var commons = angular.module('common', ['stats', 'udc'])
       } else {
         return $location.path().substr(0, viewLocation.length) == viewLocation;
       }
+    };
+  })
+  .service('Clipboard', function() {
+    var copyToClipboard = function(text_to_share) {
+
+      var copyElement = document.createElement('span');
+      copyElement.appendChild(document.createTextNode(text_to_share));
+      copyElement.id = 'tempCopyToClipboard';
+      angular.element(document.body.append(copyElement));
+
+      var range = document.createRange();
+      range.selectNode(copyElement);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      copyElement.remove();
+    };
+    return {
+      'copy': copyToClipboard
     };
   })
   .service('NavigationService', function() {

@@ -14,7 +14,7 @@ angular.module('console', ['sql', 'datatypechecks'])
   .directive('console', function(SQLQuery, ColumnTypeCheck){
     return {
       restrict: 'A',
-      controller: ['$scope', '$translate', function($scope, $translate){
+      controller: ['$scope', '$translate', '$location', 'Clipboard', function($scope, $translate, $location, Clipboard){
         var self = this;
 
         var inputScope = null;
@@ -170,11 +170,19 @@ angular.module('console', ['sql', 'datatypechecks'])
 
         $scope.execute = function() {
           self.execute(statement);
+          $location.search('query', statement);
+        };
+
+        $scope.share = function () {
+          if (statement) {
+            $location.search('query', statement);
+            Clipboard.copy($location.absUrl());
+          }
         };
       }]
     };
   })
-  .directive('cli', function($timeout, KeywordObjectCreator){
+  .directive('cli', function($timeout, KeywordObjectCreator, $location){
     return {
       restrict: 'E',
       transclude: true,
@@ -186,8 +194,8 @@ angular.module('console', ['sql', 'datatypechecks'])
       require: '^console',
       link: function($scope, element, attrs, $console) {
 
-        var statement = '';
-        var typedStatement = '';
+        var statement = $location.search().query || '';
+        var typedStatement = $location.search().query || '';
         var input = $('textarea',element)[0];
 
         CodeMirror.defineMIME('text/x-cratedb', {
@@ -275,6 +283,16 @@ angular.module('console', ['sql', 'datatypechecks'])
           theme: attrs.theme,
           lineWrapping: true
         });
+
+        function updateStatementOnUrlSearch() {
+          if ($location.search().query) {
+            editor.setValue($location.search().query);
+            $console.updateStatement($location.search().query);
+          }
+        }
+        updateStatementOnUrlSearch();
+
+        $scope.$on('$routeUpdate', updateStatementOnUrlSearch.bind(this));
 
         // input change event
         editor.on('change', function(instance){

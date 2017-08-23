@@ -6,9 +6,9 @@
     </div>
     <img ng-if="!enterprise" class="status-bar__icon--crate" src="static/assets/CRA_logo_white.svg">
     <img ng-if="enterprise" class="status-bar__icon--crate" src="static/assets/logo-CrateDB@2x.png">
-    <div id="license-ident" ng-if="licenseIdent" data-original-title="Copy to clipboard" cr-tooltip cr-tooltip-position="bottom" ng-if="enterprise" class= "status-bar__license">
+    <div id="license-ident" ng-click="copy(licenseIdent)" ng-if="licenseIdent" data-original-title="Copy to clipboard" cr-tooltip cr-tooltip-position="bottom" ng-if="enterprise" class= "status-bar__license">
       <div>License:</div>
-      <div ngclipboard data-clipboard-text="{{licenseIdent}}" >{{licenseIdent | limitTo:30}}{{licenseIdent.length > 30 ? '...' : ''}}</div>
+      <div>{{licenseIdent | limitTo:30}}{{licenseIdent.length > 30 ? '...' : ''}}</div>
     </div>
     <div class= "status-bar__license--unlicensed" ng-if="enterprise && !licenseIdent">Unlicensed</div>
   </div>

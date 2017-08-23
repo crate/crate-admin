@@ -21,8 +21,7 @@ var MODULES = [
   'datatypechecks',
   'nvd3',
   'pascalprecht.translate',
-  'oc.lazyLoad',
-  'ngclipboard'
+  'oc.lazyLoad'
 ];
 
 var DEFAULT_PLUGINS = [];
@@ -35,7 +34,8 @@ var ROUTING = {
   },
   '/console': {
     'templateUrl': 'views/console.html',
-    'controller': 'ConsoleController'
+    'controller': 'ConsoleController',
+    'reloadOnSearch': false
   },
   '/tables': {
     'templateUrl': 'views/tables.html',
