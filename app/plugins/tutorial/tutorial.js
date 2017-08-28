@@ -45,7 +45,7 @@ angular.module('tutorial', ['sql', 'translation'])
           tweet.retweeted,
           tweet.source,
           tweet.text,
-          tweet.account_user], 
+          tweet.user], 
           false,
           false, 
           false);
