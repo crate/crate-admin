@@ -16,6 +16,12 @@ Changes
 Fixes
 -----
 
+2017/08/29 1.5.2
+================
+
+Fixes
+-----
+
  - Fixed empty ``account_user``-column in twitter tutorial plugin.
 
 2017/08/23 1.5.1
