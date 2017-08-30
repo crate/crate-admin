@@ -1,0 +1,206 @@
+th.th--no-border, tr > th.cr-table-cell.th--no-border {
+  border-bottom: 0 !important;
+  border-top: 0 !important;
+  opacity: 0;
+}
+
+th.th--no-border-top ,tr > th.cr-table-cell.th--no-border-top {
+  border-top: 0 !important;
+}
+
+th.th--no-border-bottom ,tr > th.cr-table-cell.th--no-border-bottom {
+  border-bottom: 0 !important;
+}
+
+th.th--no-borders ,tr > th.cr-table-cell.th--no-borders {
+  border-top: 0 !important; 
+  border-bottom: 0 !important; 
+  border-right: 0 !important; 
+  border-left: 0 !important; 
+  opacity: 0;
+}
+
+.shards-table-table_name {
+  padding: 10px 0px;
+  cursor: pointer;
+  padding: 15px;
+  font-weight: 500;
+}
+.shards-table-partition_id {
+  padding: 10px 0px;
+  padding: 15px;
+  font-weight: 500;
+}
+.shards-table-schema_name {
+  padding: 10px 0px;
+  padding: 15px;
+}
+
+.shards-table-header {
+  padding: 10px 0px;
+}
+
+.shards-table-subheader {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.shards-table-node {
+  cursor: pointer;
+  width: 250px !important;
+}
+
+.shard-item-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.shard-item {
+  height: 17px;
+  width: 17px;
+  margin: 2px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-around;
+  align-items: center; 
+}
+
+.cr-table-cell {
+  background-color: #353535;
+}
+
+.cr-shard-state--green{
+  background-color: rgba(42, 188, 80, 0.34);
+  color: rgba(42, 188, 80, 0.70);
+}
+
+.cr-shard-state--yellow{
+  background-color: rgba(246, 187, 65, 0.34);
+  color: #ea9e13;
+}
+
+.cr-shard-state--red{
+  background-color: rgba(236, 87, 78, 0.34);
+  color: rgba(255, 91, 77, 0.70) !important;
+}
+
+.cr-shard-state--grey{
+  background-color: rgba(204,204,204, 0.3);
+  color: rgba(204,204,204, 0.7);
+}
+
+.cr-shard-primary.cr-shard-state--green{
+  background-color: rgba(42, 188, 80, 1) !important;
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+.cr-shard-primary.cr-shard-state--yellow{
+  background-color: rgba(246, 187, 65, 1) !important;
+}
+
+.cr-shard-primary.cr-shard-state--red{
+  background-color: rgba(236, 87, 78, 1) !important;
+}
+
+.cr-shard-state--green.selected-shard{
+  outline: 2px solid #fff;
+  border: 1px solid #353535;
+}
+
+.cr-shard-state--yellow.selected-shard{
+  outline: 2px solid #fff;
+  border: 1px solid #353535;
+}
+
+.cr-shard-state--red.selected-shard{
+  outline: 2px solid #fff;
+  border: 1px solid #353535;
+}
+
+.cr-shard-state--grey.selected-shard{
+  outline: 2px solid #fff;
+  border: 1px solid #353535;
+}
+
+.empty-shard {
+  cursor: default;
+}
+
+.shard-status{
+  height: 15px;
+  width:  15px;
+  outline: 0 !important;
+}
+
+.shard-id-option {
+  background-color: #353535;
+  border: 1px solid #515050;
+  width: 300px;
+}
+
+.shard-id {
+  font-weight: bold;
+  font-size: 12px;
+  font-family: MONOSPACE;
+}
+
+shard-content {
+  display: flex;
+  margin: 10px;
+  justify-content: space-around;
+}
+
+node-content {
+  display: flex;
+  margin: 10px;
+  justify-content: space-around;
+}
+.no-margin-bottom {
+  margin-bottom: 0px;
+}
+.no-border-bottom {
+  border-bottom: 0; 
+}
+
+.shard-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.shard-options > label {
+  margin-bottom: 0px; 
+}
+
+#shards-table--options > table.table {
+  margin-bottom: 0px;
+}
+
+.shard-legend {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.shard-item-label {
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+#shards-table .table > thead > tr > th.shards-options-header {
+  padding: 0px !important;
+  position: relative;
+  height: 44px;
+  overflow-y: scroll;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+@media screen and (max-width: 767px) {
+  #shards-table--options {
+    margin-bottom: 0px !important;
+  }
+}

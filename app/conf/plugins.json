@@ -30,4 +30,15 @@
       "controller": "PrivilegesDetailController"
     }
   }
+}, {
+  "name": "shards",
+  "uri": "plugins/shards/shards.js",
+  "stylesheet": "plugins/shards/shards.css",
+  "enterprise": true,
+  "routing": {
+    "/shards": {
+      "templateUrl": "plugins/shards/shards.html",
+      "controller": "ShardsController"
+    }
+  }
 }]

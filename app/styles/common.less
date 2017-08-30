@@ -16,18 +16,22 @@ label {
 h1 {
   font-weight: bold;
   font-size: @font-size-h1;
+  color: @header-color;
 }
 
 h2 {
   font-size: @font-size-h2;
+  color: @header-color;
 }
 
 h3 {
   font-size: @font-size-h3;
+  color: @header-color;
 }
 
 h4 {
   font-size: @font-size-h4;
+  color: @header-color;
 }
 
 h2, h3 {
@@ -151,7 +155,7 @@ code {
 [type="checkbox"]:checked + label:before {
   content: '';
   position: absolute;
-  left:0; top: 2px;
+  left:0; top: 0px;
   width: 17px; height: 17px;
   border: @checkbox-border--not-checked;
   background: @checkbox-bg--not-checked;
@@ -163,8 +167,8 @@ code {
 [type="checkbox"]:checked + label:after {
   content: '✔';
   position: absolute;
-  top: 4px;
-  left: 3px;
+  top: 3px;
+  left: 2px;
   font-size: 15px;
   line-height: 0.8;
   color: @check-mark-color;
@@ -597,4 +601,34 @@ label:hover:before {
 .table-side-bar-list {
   flex: 1 1 auto;
   overflow-y: auto;
+}
+
+.cr-custom-tooltip {
+  position: absolute;
+  color: white;
+  background: #000;
+  z-index: 5000;
+  opacity: 100% !important;
+  text-align: left;
+}
+
+.cr-custom-tooltip-label {
+  font-weight: bold;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.cr-custom-tooltip-section {
+  color: #cccccc;
+  font-size: 17px;
+  padding: 5px;
+}
+
+.cr-custom-tooltip-label {
+  color: #fff;
+  font-size: 12px;
+  margin-top: 5px; 
 }

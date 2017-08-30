@@ -336,8 +336,113 @@ var commons = angular.module('common', ['stats', 'udc'])
         });
       }
     };
-  });
+  })
+.directive('crCustomTooltip', function ($compile, $sce) {
+  return {
+    restrict: 'A',
+    scope: {
+      data: '=tooltipData'
+    },
+    link: function (scope, element) {
 
+      if (scope.data && scope.data.html) {
+        var tooltip = angular.element(
+          '<div id="cr-custom-tooltip" ng-show="displayTooltip" class="cr-custom-tooltip">' +
+          scope.data.html +
+          '</div>'
+        );
+
+        scope.displayTooltip = false;
+        var setTop = false;
+        var setLeft = false;
+        var setBottom = false;
+        var setRight = false;
+
+        scope.updateTootipPosition = function (event) {
+          var tw = 248;
+          var th = 300;
+          var x = event.pageX;
+          var y = event.pageY;
+          var w = $(document).width();
+          var h = $(document).height();
+
+          var margin_x, margin_y = 0;
+          if (w > 700) {
+            margin_x = 5;
+          } else {
+            margin_x = 20;
+          }
+
+          if (h > 600) {
+            margin_x = 50;
+          } else {
+            margin_x = 5;
+          }
+
+          if (x + tw >= w) {
+            if (!setLeft) {
+              tooltip.css({
+                right: w - x + margin_x + 'px'
+              });
+              setRight = true;
+            }
+
+          } else {
+            if (!setRight) {
+              tooltip.css({
+                left: x - margin_x + 'px'
+              });
+              setLeft = true;
+            }
+          }
+          if (y + th >= h) {
+            if (!setTop) {
+              tooltip.css({
+                bottom: h - y - margin_y + 'px'
+              });
+              setBottom = true;
+            }
+          } else {
+            if (!setBottom) {
+              tooltip.css({
+                top: y + 'px'
+              });
+              setTop = true;
+            }
+          }
+        };
+
+        scope.getSafeContent = function (content) {
+          return $sce.trustAsHtml(content);
+        };
+
+        element.append(tooltip);
+
+        element.on('mouseenter', function () {
+          scope.updateTootipPosition(event);
+          scope.displayTooltip = true;
+          scope.$digest();
+        });
+
+        element.on('mousemove', function (event) {
+          scope.updateTootipPosition(event);
+          scope.$digest();
+        });
+
+        element.on('mouseleave', function () {
+          scope.displayTooltip = false;
+          scope.$digest();
+        });
+
+        element.on('click', function () {
+          scope.displayTooltip = !scope.displayTooltip;
+          scope.$digest();
+        });
+        $compile(tooltip)(scope);
+      }
+    }
+  };
+});
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
