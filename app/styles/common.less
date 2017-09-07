@@ -244,28 +244,30 @@ label:hover:before {
   padding-bottom: 40px;
 }
 
-
 .page-container-padded {
   padding-left: 250px;
-  overflow-y: scroll;
 }
 
-.cr-panel-block{
+.cr-panel-block-p {
   background-color: @block-bg;
   margin-top: 10px;
   margin-bottom: 20px;
   padding: 10px;
+}
+
+.cr-panel-block {
+  .cr-panel-block-p; 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-
 .cr-panel-block--tutorial, .cr-panel-block--help{
   .cr-panel-block;
   margin-bottom: 3px;
 }
+
 .cr-panel-block__item{
 }
 
@@ -590,4 +592,9 @@ label:hover:before {
 }
 .unauthorized-body__img {
   width: 50%;
+}
+
+.table-side-bar-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
