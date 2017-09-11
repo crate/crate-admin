@@ -191,7 +191,11 @@
       </div>
       <div class="table-schema__detail">
         <div class="table-schema__detail__row" ng-repeat="row in schemaRows">
-          <div class="table-schema__detail__cell" ng-repeat="column in row track by $index">{{ column }}</div>
+            <div class="table-schema__detail__cell"> {{ row.column_name }} 
+              <div ng-if="row.is_generated" class="generation-expression"> AS {{ row.generation_expression }} </div>
+              <a class="generation-expression--help" ng-if="row.is_generated" target="_blank" href="https://crate.io/docs/crate/reference/sql/ddl/generated_columns.html"><i class="fa fa-question-circle" aria-hidden="true" ></i></a>   
+            </div> 
+            <div class="table-schema__detail__cell"> {{ row.data_type }} </div> 
         </div>
       </div>
     </div>

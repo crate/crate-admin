@@ -190,12 +190,13 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
 
       if (tableName && tableSchema) {
         // Table Schema
-        var tableStmt = 'SELECT column_name, data_type FROM information_schema.columns ' +
+        var tableStmt = 'SELECT column_name, data_type, is_generated, generation_expression '+
+          'FROM information_schema.columns ' +
           'WHERE table_schema = ? AND table_name = ?';
         SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false)
           .success(function(query) {
             $scope.schemaHeaders = query.cols;
-            $scope.schemaRows = query.rows;
+            $scope.schemaRows = queryResultToObjects(query, query.cols);
             $scope.renderSchema = true;
           }).error(function() {
             $scope.renderSchema = false;
