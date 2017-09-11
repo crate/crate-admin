@@ -72,7 +72,13 @@ angular.module('sql', [])
       }
 
       if (this.failed === false) {
-        status_string = cmd + ' OK (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        var text_row = this.rowCount === 1 ? ' row' : ' rows';
+        if (cmd === 'SELECT') {
+           status_string = cmd + ' OK, ' + this.rowCount + text_row + ' in set (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        } else {
+          status_string = cmd + ' OK, ' + this.rowCount + text_row +' affected (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        }
+
         $log.info('Query status: ' + status_string);
       } else {
         status_string = cmd + ' ERROR (' + (this.duration / 1000).toFixed(3) + ' sec)';
