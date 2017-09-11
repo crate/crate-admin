@@ -16,6 +16,8 @@ Changes
 Fixes
 -----
 
+ - Added the row count number to the query status in the Console view. 
+
  - Fixed issue that caused the privileges view to not be scrollable.
 
  - Fixed typo in privileges view.
