@@ -9,9 +9,7 @@ before_script:
   - "npm install -g bower karma grunt-cli"
   - "bower install"
 script:
-  - grunt test
+  - npm run travis
 branches:
   except:
     - /.*\/.*/
-after_success:
-- codecov
