@@ -14,7 +14,7 @@
     "jquery": "1.11.1",
     "bootstrap": "~3.3.6",
     "font-awesome": "~4.0.3",
-    "codemirror": "4.6.0",
+    "codemirror": "5.29.0",
     "angular-translate": "^2.12.0",
     "angular-translate-loader-static-files": "^2.12.0",
     "angular-translate-storage-cookie": "^2.12.0",
