@@ -473,8 +473,11 @@ module.exports = function(grunt) {
         coverageReporter: {
           // specify a common output directory
           dir: 'app/tests/coverage',
-          type: 'lcov',
-          subdir: '.'
+          reporters: [
+              { type: 'html', subdir: 'html' },
+              { type: 'lcovonly', subdir: 'lcov' },
+              { type: 'cobertura', subdir: 'cobertura' }
+          ]
         },
       },
       all_tests: {
