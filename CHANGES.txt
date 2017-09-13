@@ -11,6 +11,8 @@ Breaking Changes
 Changes
 -------
 
+ - Added query table to Tables view.
+
  - Implemented share query feature in the Console.
 
 Fixes

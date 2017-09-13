@@ -48,6 +48,11 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
   .controller('TableDetailController', function($scope, $location, $log, $timeout, $route,
     SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
 
+    $scope.executeQuery = function (query) {
+      $location.search({'query': query, 'exec': 'y'});
+      $location.path('/console');
+    }; 
+
     var scopeWatcher = null;
     var activeRequests = {};
     var colorMapLabel = {
@@ -100,11 +105,29 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
 
+    var isNestedColumn = function (column) {
+        var re = /([^\s]+)(\[\'([^\s]+)\'])+/i;
+        return column.match(re);
+    };
+
     var render = function(tableSchema, tableName) {
       $scope.ptCtlr = new PartitionsTableController();
       $scope.nothingSelected = false;
       $scope.renderSiderbar = true;
       $scope.isParted = false;
+
+      var constructQuery = function (rows) {
+        var query = 'SELECT ';
+        var filtered_columns = rows.filter(function (row) {
+          return !isNestedColumn(row.column_name);
+        }).map(function (row) {
+          return '"'+row.column_name+'"';
+        });
+
+        query += filtered_columns.join(',');
+        query += ' FROM "' + tableSchema + '"."' + tableName + '" LIMIT 100;';
+        return query;
+      };
 
       var update = function(success, partitions, cancelled) {
         if (cancelled) {
@@ -198,6 +221,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             $scope.schemaHeaders = query.cols;
             $scope.schemaRows = queryResultToObjects(query, query.cols);
             $scope.renderSchema = true;
+            $scope.query = constructQuery($scope.schemaRows);
           }).error(function() {
             $scope.renderSchema = false;
           });

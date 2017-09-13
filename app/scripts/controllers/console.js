@@ -14,7 +14,7 @@ angular.module('console', ['sql', 'datatypechecks'])
   .directive('console', function(SQLQuery, ColumnTypeCheck){
     return {
       restrict: 'A',
-      controller: ['$scope', '$translate', '$location', 'Clipboard', function($scope, $translate, $location, Clipboard){
+      controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout', function($scope, $translate, $location, Clipboard, $timeout){
         var self = this;
 
         var inputScope = null;
@@ -67,7 +67,9 @@ angular.module('console', ['sql', 'datatypechecks'])
           if ($scope.useLocalStorage) {
             localStorage.setItem('crate.console.query_list', JSON.stringify(self.recentQueries));
           }
-          inputScope.recentCursor = -1;
+          if (inputScope) {
+            inputScope.recentCursor = -1;
+          }
         };
 
         $scope.hide = function hide(item){
@@ -179,6 +181,11 @@ angular.module('console', ['sql', 'datatypechecks'])
             Clipboard.copy($location.absUrl());
           }
         };
+        $timeout(function () {
+          if ($location.search().exec === 'y' && $location.search().query) {
+            self.execute($location.search().query);
+          }
+        }, 5);
       }]
     };
   })
