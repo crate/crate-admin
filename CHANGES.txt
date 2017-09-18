@@ -11,6 +11,15 @@ Breaking Changes
 Changes
 -------
 
+Fixes
+-----
+
+2017/09/18 1.6.0
+================
+
+Changes
+-------
+
  - Added Shards plugin for the Enterprise Edition. The shard 
    plugin is a visualization that displays information about 
    shards by table, partition and node. 
@@ -18,9 +27,6 @@ Changes
  - Added query table to Tables view.
 
  - Implemented share query feature in the Console.
-
-Fixes
------
 
 2017/09/18 1.5.3
 ================
