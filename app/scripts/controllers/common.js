@@ -359,7 +359,7 @@ var commons = angular.module('common', ['stats', 'udc'])
         var setRight = false;
 
         scope.updateTootipPosition = function (event) {
-          var tw = 248;
+          var tw = 360;
           var th = 300;
           var x = event.pageX;
           var y = event.pageY;
@@ -418,7 +418,7 @@ var commons = angular.module('common', ['stats', 'udc'])
 
         element.append(tooltip);
 
-        element.on('mouseenter', function () {
+        element.on('mouseenter', function (event) {
           scope.updateTootipPosition(event);
           scope.displayTooltip = true;
           scope.$digest();
