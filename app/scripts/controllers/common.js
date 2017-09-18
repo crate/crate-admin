@@ -353,11 +353,6 @@ var commons = angular.module('common', ['stats', 'udc'])
         );
 
         scope.displayTooltip = false;
-        var setTop = false;
-        var setLeft = false;
-        var setBottom = false;
-        var setRight = false;
-
         scope.updateTootipPosition = function (event) {
           var tw = 360;
           var th = 300;
@@ -374,41 +369,29 @@ var commons = angular.module('common', ['stats', 'udc'])
           }
 
           if (h > 600) {
-            margin_x = 50;
+            margin_y = 50;
           } else {
-            margin_x = 5;
+            margin_y = 5;
           }
 
           if (x + tw >= w) {
-            if (!setLeft) {
-              tooltip.css({
-                right: w - x + margin_x + 'px'
-              });
-              setRight = true;
-            }
+            tooltip.css({
+              left: x - tw - margin_x + 'px'
+            });
 
           } else {
-            if (!setRight) {
-              tooltip.css({
-                left: x - margin_x + 'px'
-              });
-              setLeft = true;
-            }
+            tooltip.css({
+              left: x + margin_x + 'px'
+            });
           }
           if (y + th >= h) {
-            if (!setTop) {
-              tooltip.css({
-                bottom: h - y - margin_y + 'px'
-              });
-              setBottom = true;
-            }
+            tooltip.css({
+              top: y - th + margin_y + 'px'
+            });
           } else {
-            if (!setBottom) {
-              tooltip.css({
-                top: y + 'px'
-              });
-              setTop = true;
-            }
+            tooltip.css({
+              top: y - margin_y + 'px'
+            });
           }
         };
 
