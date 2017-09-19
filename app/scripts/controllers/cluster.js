@@ -11,24 +11,16 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       $location.path('/nodes/'+id);
     };
 
-    var currentWatcher = null;
     var version = null;
     var nodeId = null;
 
-    var render = function(_nodeId) {
-      nodeId = _nodeId;
-      if (currentWatcher) {
-        // de-register
-        currentWatcher();
-      }
-      currentWatcher = $scope.$watch(function() {
-        return ClusterState.data;
-      }, function(data) {
-        var cluster = angular.copy(data.cluster);
-        version = data.version;
+    var updateNodeList = function(nodeId) {
+        var cluster = angular.copy(ClusterState.data.cluster);
+        version = ClusterState.data.version;
         var showSidebar = cluster.length > 0;
         $scope.renderSidebar = showSidebar;
-        var nodeList = prepareNodeList(cluster, data.master_node);
+        var nodeList = prepareNodeList(cluster, ClusterState.data.master_node);
+        $scope.nodes = nodeList;
 
         if (!showSidebar) {
           $scope.selected = null;
@@ -36,11 +28,11 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           // sort nodes by health and hostname
           nodeList = nodeList.sort(compareByHealth);
           // show sidebar
-          var nodeIds = nodeList.map(function(obj) {
+          var nodeIds = nodeList.map(function (obj) {
             return obj.id;
           });
           if (nodeId && nodeIds.indexOf(nodeId) >= 0) {
-            var selectedNode = nodeList.filter(function(node) {
+            var selectedNode = nodeList.filter(function (node) {
               return node.id === nodeId;
             });
             $scope.selected = selectedNode.length ? selectedNode[0] : nodeList[0];
@@ -49,8 +41,15 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
             nodeId = nodeList[0].id;
           }
         }
-        $scope.nodes = nodeList;
-      }, true);
+      };
+
+    updateNodeList(nodeId);
+    var render = function (_nodeId) {
+      nodeId = _nodeId;
+
+      $scope.$on('shardInfo.refreshed', function () {
+        updateNodeList(nodeId);
+        });
     };
 
     $scope.sort = NodeListInfo.sort;
@@ -166,7 +165,6 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
     };
 
     var version = null;
-    var currentWatcher = null;
 
     var aggregateDataDiskUtilisation = function(node) {
       var fs = {
@@ -286,70 +284,68 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       }];
     };
 
-    var render = function(nodeId) {
-      if (currentWatcher) {
-        // de-register
-        currentWatcher();
+    var updateNodeList = function(nodeId) {
+      var cluster = angular.copy(ClusterState.data.cluster);
+      var shards = angular.copy(ClusterState.data.shards);
+
+      for (var i = 0; i < cluster.length; i++) {
+        cluster[i].fs = aggregateDataDiskUtilisation(cluster[i]);
       }
-      currentWatcher = $scope.$watch(function() {
-        return ClusterState.data;
-      }, function(data) {
-        var cluster = angular.copy(data.cluster);
-        var shards = angular.copy(data.shards);
+      version = ClusterState.data.version;
+      var showSidebar = cluster.length > 0;
 
-        for (var i = 0; i < cluster.length; i++) {
-          cluster[i].fs = aggregateDataDiskUtilisation(cluster[i]);
-        }
-        version = data.version;
-        var showSidebar = cluster.length > 0;
+      $scope.renderSidebar = showSidebar;
 
-        $scope.renderSidebar = showSidebar;
+      var nodeList = prepareNodeList(cluster, ClusterState.data.master_node);
 
-        var nodeList = prepareNodeList(cluster, data.master_node);
-
-        if (!showSidebar) {
-          // no sidebar
-          $scope.node = angular.copy(empty);
+      if (!showSidebar) {
+        // no sidebar
+        $scope.node = angular.copy(empty);
+      } else {
+        // sort nodes by health and hostname
+        nodeList = nodeList.sort(compareByHealth);
+        // show sidebar
+        var nodeIds = nodeList.map(function(obj) {
+          return obj.id;
+        });
+        var currentNode;
+        if (nodeId && nodeIds.indexOf(nodeId) >= 0) {
+          var selectedNode = nodeList.filter(function(node) {
+            return node.id == nodeId;
+          });
+          currentNode = selectedNode.length ? selectedNode[0] : nodeList[0];
         } else {
-          // sort nodes by health and hostname
-          nodeList = nodeList.sort(compareByHealth);
-          // show sidebar
-          var nodeIds = nodeList.map(function(obj) {
-            return obj.id;
-          });
-          var currentNode;
-          if (nodeId && nodeIds.indexOf(nodeId) >= 0) {
-            var selectedNode = nodeList.filter(function(node) {
-              return node.id == nodeId;
-            });
-            currentNode = selectedNode.length ? selectedNode[0] : nodeList[0];
-          } else {
-            currentNode = nodeList[0];
-          }
-          // redirect to URL of first node in list
-          // if URL does not match expected node URL
-          var expectedUrl = '/nodes/' + currentNode.id;
-          if ($location.$$url !== expectedUrl) {
-            $location.url(expectedUrl);
-          } else {
-            $scope.node = currentNode;
-            drawGraph($scope.node);
-          }
+          currentNode = nodeList[0];
         }
-        if ($scope.node && shards && shards.length) {
-          var shardInfoPerNode = shards.filter(function(shard) {
-            return shard.node_id === $scope.node.id;
-          });
-          $scope.shardInfo = {
-            'started': getShardsCountPerState(shardInfoPerNode, 'STARTED'),
-            'initializing': getShardsCountPerState(shardInfoPerNode, 'INITIALIZING'),
-            'reallocating': getShardsCountPerState(shardInfoPerNode, 'REALLOCATING'),
-            'postrecovery': getShardsCountPerState(shardInfoPerNode, 'POST_RECOVERY')
-          };
+        // redirect to URL of first node in list
+        // if URL does not match expected node URL
+        var expectedUrl = '/nodes/' + currentNode.id;
+        if ($location.$$url !== expectedUrl) {
+          $location.url(expectedUrl);
+        } else {
+          $scope.node = currentNode;
+          drawGraph($scope.node);
         }
-
-      }, true);
+      }
+      if ($scope.node && shards && shards.length) {
+        var shardInfoPerNode = shards.filter(function(shard) {
+          return shard.node_id === $scope.node.id;
+        });
+        $scope.shardInfo = {
+          'started': getShardsCountPerState(shardInfoPerNode, 'STARTED'),
+          'initializing': getShardsCountPerState(shardInfoPerNode, 'INITIALIZING'),
+          'reallocating': getShardsCountPerState(shardInfoPerNode, 'REALLOCATING'),
+          'postrecovery': getShardsCountPerState(shardInfoPerNode, 'POST_RECOVERY')
+        };
+      }
     };
+    var render = function(nodeId) {
+      updateNodeList(nodeId);
+    };
+
+    $scope.$on('shardInfo.refreshed', function () {
+      updateNodeList();
+    });
 
     $scope.toolTipUsedPercentFunction = function() {
       return function(key, x, y) {
