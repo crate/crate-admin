@@ -78,7 +78,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="row in rows | limitTo:limitToAmount" ng-class="$odd ? 'cr-table-cell__odd-row' : 'cr-table-cell__even-row'">
+            <tr ng-repeat="row in rows | limitTo:limitToAmount track by $index" ng-class="$odd ? 'cr-table-cell__odd-row' : 'cr-table-cell__even-row'">
               <td class="cr-table-cell" ng-repeat="column in row track by $index">
                 <div ng-if="formatResults && resultHeaderTypes.length > 0">
                   <div ng-if="column == null">

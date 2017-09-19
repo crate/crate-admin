@@ -31,7 +31,7 @@
           <div class="table-schema__header">type</div>
         </div>
         <div class="table-schema__detail">
-          <div class="table-schema__detail__row" ng-repeat="row in userPrivileges | filter:search">
+          <div class="table-schema__detail__row" ng-repeat="row in userPrivileges | filter:search track by $index">
             <div class="table-schema__detail__cell" ng-repeat="column in row track by $index">{{ column }}</div>
           </div>
         </div>
