@@ -1,7 +1,7 @@
 <div class="page-container">
 
   <div class="cr-page-header">
-    <h1>{{ 'NAVIGATION.MONITORING' | translate }}</h1>
+    <h1>{{:: 'NAVIGATION.MONITORING' | translate }}</h1>
   </div>
 
   <div class="cr-panel-block" ng-if="!user_has_access">
@@ -16,7 +16,7 @@
   <div ng-if="user_has_access" class="cr-panel-block--checks">
     <div class="cr-panel-block__item--load">
       <div class="cr-panel-block__item__header--load">
-        <h2>{{ 'MONITORING.QUERIES_PER_SECOND' | translate }}</h2>
+        <h2>{{:: 'MONITORING.QUERIES_PER_SECOND' | translate }}</h2>
         <div ng-click="toggle_qps_query_type($event, 4)" class="cr-panel-block__item__header__icon--load">
           <span class="cr-radio-button__load"><span id="qps-query-type-btn-4" class="cr-radio-button__load__toggle cr-radio-button__monitoring__toggle--overall"></span></span>
           <span id="qps-query-type-4">Overall</span>

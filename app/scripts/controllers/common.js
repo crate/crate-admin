@@ -84,33 +84,33 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.showSettings = !$scope.showSettings;
     };
 
-    $scope.$watch(function() {
-      return ChecksService;
-    }, function(data) {
-      if (data.success === true) {
+
+    var updateClusterChecks = function () {
+      if (ChecksService.success === true) {
         var checks = [];
-        checks.push.apply(checks, data.checks.cluster_checks);
-        checks.push.apply(checks, data.checks.node_checks);
-        var severity = checks.reduce(function(memo, obj) {
+        checks.push.apply(checks, ChecksService.checks.cluster_checks);
+        checks.push.apply(checks, ChecksService.checks.node_checks);
+        var severity = checks.reduce(function (memo, obj) {
           return Math.max(memo, obj.severity);
         }, 1);
-        $translate(['STATUSBAR.CHECK', 'STATUSBAR.CHECKS', 'STATUSBAR.FAILED']).then(function(i18n) {
+        $translate(['STATUSBAR.CHECK', 'STATUSBAR.CHECKS', 'STATUSBAR.FAILED']).then(function (i18n) {
           $scope.checks_message = $sce.trustAsHtml([checks.length, checks.length == 1 ? i18n['STATUSBAR.CHECK'] : i18n['STATUSBAR.CHECKS'], i18n['STATUSBAR.FAILED']].join('\u00A0'));
           $scope.config_label = LABELS[Math.min(severity - 1, LABELS.length - 1)];
         });
       } else {
-        $translate(['STATUSBAR.CLUSTER_OFFLINE']).then(function(i18n) {
+        $translate(['STATUSBAR.CLUSTER_OFFLINE']).then(function (i18n) {
           $scope.checks_message = $sce.trustAsHtml(i18n['STATUSBAR.CLUSTER_OFFLINE']);
         });
         $scope.config_label = '';
       }
-    }, true);
+    };
+    
+    $scope.$on('checksService.refreshed', updateClusterChecks);
+    updateClusterChecks();
 
-    $scope.$watch(function() {
-      return ClusterState.data;
-    }, function(data) {
+    var updateClusterInfo = function() {
       var hashes = [];
-      var versions = data.cluster.filter(function(obj) {
+      var versions = ClusterState.data.cluster.filter(function(obj) {
         var contains = false;
         if (obj.version) {
           var hash = obj.version.build_hash;
@@ -123,20 +123,23 @@ var commons = angular.module('common', ['stats', 'udc'])
       });
       $scope.versions = versions;
       $scope.version_warning = versions.length > 1;
-      $scope.cluster_state = data.status;
-      $scope.cluster_name = data.name;
-      $scope.num_nodes = data.cluster.length;
-      $scope.load1 = data.load[0] == '-.-' ? data.load[0] : data.load[0].toFixed(2);
+      $scope.cluster_state = ClusterState.data.status;
+      $scope.cluster_name = ClusterState.data.name;
+      $scope.num_nodes = ClusterState.data.cluster.length;
+      $scope.load1 = ClusterState.data.load[0] == '-.-' ? ClusterState.data.load[0] : ClusterState.data.load[0].toFixed(2);
       $scope.load1 = $scope.load1 < 0 ? 'N/A' : $scope.load1;
-      $scope.load5 = data.load[1] == '-.-' ? data.load[1] : data.load[1].toFixed(2);
+      $scope.load5 = ClusterState.data.load[1] == '-.-' ? ClusterState.data.load[1] : ClusterState.data.load[1].toFixed(2);
       $scope.load5 = $scope.load5 < 0 ? 'N/A' : $scope.load5;
-      $scope.load15 = data.load[2] == '-.-' ? data.load[2] : data.load[2].toFixed(2);
+      $scope.load15 = ClusterState.data.load[2] == '-.-' ? ClusterState.data.load[2] : ClusterState.data.load[2].toFixed(2);
       $scope.load15 = $scope.load15 < 0 ? 'N/A' : $scope.load15;
-      $scope.version = data.version;
-      $scope.major_minor_version = getMajorMinorVersion(data.version);
+      $scope.version = ClusterState.data.version;
+      $scope.major_minor_version = getMajorMinorVersion(ClusterState.data.version);
       $scope.docs_url = getDocsUrl($scope.major_minor_version);
-      $scope.cluster_color_label = data.online ? colorMap[data.status] : '';
-    }, true);
+      $scope.cluster_color_label = ClusterState.data.online ? colorMap[ClusterState.data.status] : '';
+     };
+    
+    $scope.$on('clusterState.refreshed', updateClusterInfo);
+    updateClusterInfo();
 
     // bind tooltips
     $('[rel=tooltip]').tooltip({
@@ -165,10 +168,12 @@ var commons = angular.module('common', ['stats', 'udc'])
         analytics.setAnonymousId(userdata.user.uid);
         analytics.identify(userdata.user.uid);
         analytics.page();
-        analytics.track('visited_admin', {
-          'version': $scope.version.number,
-          'cluster_id': userdata.cluster_id
-        });
+        if ($scope.version) {
+          analytics.track('visited_admin', {
+            'version': $scope.version.number,
+            'cluster_id': userdata.cluster_id
+          });
+        }
       }
     };
 
@@ -280,34 +285,6 @@ var commons = angular.module('common', ['stats', 'udc'])
       navBarElements: navBarElements
     };
   })
-  .directive('focus', function($timeout) {
-    return {
-      scope: {
-        trigger: '@focus'
-      },
-      link: function(scope, element) {
-        scope.$watch('trigger', function(value) {
-          if (value) {
-            $timeout(function() {
-              element[0].focus();
-            });
-          }
-        });
-      }
-    };
-  })
-  .directive('fixBottom', function() {
-    return function(scope, element) {
-      var elem = $(element),
-        nav = $('.side-nav .navbar-nav'),
-        win = $(window);
-      var calculate = function() {
-        scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
-      };
-      win.on('resize', calculate);
-      calculate();
-    };
-  })
   .controller('LanguageSwitchController', function($scope, $translate) {
     $scope.showDropDown = false;
     $scope.toggleDropDown = function() {
@@ -328,11 +305,11 @@ var commons = angular.module('common', ['stats', 'udc'])
     return {
       restrict: 'A',
       scope: {
-        crTooltipPosition: '='
+        crTooltipPosition: '@'
       },
-      link: function(scope, element, attrs) {
+      link: function(scope, element) {
         $(element[0]).tooltip({
-          placement: attrs.crTooltipPosition
+          placement: scope.crTooltipPosition
         });
       }
     };

@@ -6,7 +6,7 @@
         </a>
   </div>
   <div class="table-side-bar-list">
-      <div ng-repeat="user in users | filter:search" ng-class="isSelectedUser(user) ? 'user-list__element--selected' : ''" class="side-bar__element user-list__element" href="#/privileges/{{ user.name }}" ng-click="setUser(user)"> 
+      <div ng-repeat="user in users | filter:search track by $index" ng-class="isSelectedUser(user) ? 'user-list__element--selected' : ''" class="side-bar__element user-list__element" href="#/privileges/{{:: user.name }}" ng-click="setUser(user)"> 
         <h4>{{user.name}}</h4> 
         <span data-original-title="superuser" cr-tooltip cr-tooltip-position="left" ng-if="user.superuser" class="health-bubble cr-panel--success" title="superuser"></span>
       </div>

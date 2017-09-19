@@ -67,10 +67,9 @@ angular.module('privileges', ['sql'])
       templateUrl: 'plugins/privileges/userList.html',
       controllerAs: 'UserListController',
       controller: function($scope, $location) {
-
         $scope.setUser = function(user) {
           $scope.currentUser = user;
-          $location.search('user=' + user.name);
+          $location.search('user', user.name);
         };
 
         $scope.isSelectedUser = function(user) {

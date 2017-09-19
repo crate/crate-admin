@@ -2,27 +2,27 @@
 
     <div class="node-list__header">
       <div class="node-list__header__title">
-        {{ 'NODE.NODES' | translate }}
+        {{:: 'NODE.NODES' | translate }}
       </div>
-      <div ng-click="sortBy('name')" class="node-list__header__btn"><i ng-class="sortClass('name')"></i> {{ 'NODE.NAME' | translate }}</div>
-      <div ng-click="sortBy('health_value')" class="node-list__header__btn"><i ng-class="sortClass('health_value')"></i> {{ 'NODE.HEALTH' | translate }}</div>
+      <div ng-click="sortBy('name')" class="node-list__header__btn"><i ng-class="sortClass('name')"></i> {{:: 'NODE.NAME' | translate }}</div>
+      <div ng-click="sortBy('health_value')" class="node-list__header__btn"><i ng-class="sortClass('health_value')"></i> {{:: 'NODE.HEALTH' | translate }}</div>
     </div>
 
     <div class="node-list">
       <div class="side-bar__element node-list__element" ng-repeat="node in nodes | orderBy:sort.col:sort.desc track by node.id" ng-class="{ 'active': isActive(node) }" ng-click="goToPath(node.id)">
 
           <div class="node-list__element__header">
-              <span class="node-name">{{ node.name }}</span>
+              <span class="node-name">{{:: node.name }}</span>
               <span ng-if="node.master_node" class="health-bubble node-list__element__cell--master" data-toggle="tooltip" rel="tooltip" title="Master node"></span>
-              <span class="health-bubble {{ node.health.status | healthPanelClass }}" title="{{ node.health.status }}"></span>
+              <span class="health-bubble" ng-class="healthPanelClass(node.health.status)" title="{{ node.health.status }}"></span>
           </div>
 
           <div class="node-list__element__body">
             <div class="node-list__element__cell">
-                {{ node.hostname }}
+                {{:: node.hostname }}
             </div>
             <div class="node-list__element__cell" ng-class="{'cr-panel--warning': !isSameVersion(node.version)}">
-                {{ node.version.number }}
+                {{ ::node.version.number }}
             </div>
           </div> 
       </div>

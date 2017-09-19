@@ -77,7 +77,7 @@ angular.module('checks', ['sql'])
 
     return self;
   })
-  .factory('ChecksService', function($timeout, $q, NodeCheck, ClusterCheck) {
+  .factory('ChecksService', function($timeout, $q, NodeCheck, ClusterCheck, $rootScope) {
     var data = {
       checks: {},
       success: false,
@@ -94,12 +94,14 @@ angular.module('checks', ['sql'])
           if (force !== true) {
             $timeout(data.fetch, 60000);
           }
+          $rootScope.$broadcast('checksService.refreshed');
         }).catch(function() {
           data.success = false;
           retryCount++;
           if (force !== true) {
             $timeout(data.fetch, 500 * retryCount);
           }
+          $rootScope.$broadcast('checksService.refreshed');
         });
     };
     // Initial fetch
