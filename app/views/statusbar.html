@@ -14,23 +14,23 @@
   </div>
 
   <div class="status-bar__content">
-    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
+    <div class="status-bar__content__item hide-m">{{:: 'STATUSBAR.CLUSTER' | translate }}: <span>{{ cluster_name }}</span></div>
 
-    <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}:
+    <div class="status-bar__content__item hide-m">{{:: 'STATUSBAR.VERSION' | translate }}:
       <div ng-if="version_warning " class="cr-bubble cr-bubble--danger"></div>
       <span ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">
         {{ version.number }}
-        <span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span>
+        <span ng-show="version.snapshot">-{{:: 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span>
       </span>
     </div>
 
-    <div class="status-bar__content__item hide-xs">{{ 'STATUSBAR.NODES' | translate }}: {{num_nodes}} </div>
+    <div class="status-bar__content__item hide-xs">{{:: 'STATUSBAR.NODES' | translate }}: {{num_nodes}} </div>
 
-    <div class="status-bar__content__item hide-s">{{ 'STATUSBAR.HEALTH' | translate }}:
+    <div class="status-bar__content__item hide-s">{{:: 'STATUSBAR.HEALTH' | translate }}:
       <div class="cr-bubble {{ cluster_color_label }}"></div>
-      <div>{{ 'STATUSBAR.DATA' | translate }}</div>
+      <div>{{:: 'STATUSBAR.DATA' | translate }}</div>
       <div class="cr-bubble {{ config_label }}"></div>
-      <div><a class="status-bar__content__item-link" data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">{{ 'STATUSBAR.CHECKS' | translate }}</a></div>
+      <div><a class="status-bar__content__item-link" data-original-title="{{ checks_message }}" rel="tooltip" ng-href="#/">{{:: 'STATUSBAR.CHECKS' | translate }}</a></div>
     </div>
 
     <div class="status-bar__content__item hide-xs">Load: <span class="">{{ load1 }}</span>/<span class="">{{ load5 }}</span>/<span class="">{{ load15 }}</span></div>
@@ -65,7 +65,7 @@
           </div>
 
           <div class="cr-settings__item">
-            <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{ 'STATUSBAR.CRATE_MANUAL' | translate }} {{major_minor_version && '(' + major_minor_version + ')' || '' }}</a>
+            <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{:: 'STATUSBAR.CRATE_MANUAL' | translate }} {{major_minor_version && '(' + major_minor_version + ')' || '' }}</a>
           </div>
 
 
@@ -77,7 +77,7 @@
 
           <div class="notifications-wrapper" ng-if="entries">
             <div class="notifications-wrapper__header">
-              <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div>
+              <div>{{:: 'STATUSBAR.NOTIFICATIONS' | translate }}</div>
             </div>
 
             <div class="notification" ng-show="showUpdate">
@@ -96,7 +96,7 @@
               <div class="notification__item">
                 <div class="notification__status"></div>
                 <div class="notification__content">
-                  {{ 'STATUSBAR.NO_NOTIFICATION' | translate }}
+                  {{:: 'STATUSBAR.NO_NOTIFICATION' | translate }}
                 </div>
               </div>
             </div>

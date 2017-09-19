@@ -1,15 +1,15 @@
 <div class="page-container">
   <div class="cr-page-header">
-    <h1>{{ 'NAVIGATION.HELP' | translate }}</h1>
+    <h1>{{:: 'NAVIGATION.HELP' | translate }}</h1>
   </div>
 
   <div class="help__wrapper">
     <div class="tutorial__wrapper">
       <div class="cr-panel-block--tutorial">
-        <h2> {{'TUTORIAL.TITLE' | translate }}</h2>
+        <h2> {{::'TUTORIAL.TITLE' | translate }}</h2>
 
-        <p>{{ 'TUTORIAL.PARAGRAPH_1' |translate }}</p>
-        <p>{{ 'TUTORIAL.PARAGRAPH_2' |translate }}</p>
+        <p>{{:: 'TUTORIAL.PARAGRAPH_1' |translate }}</p>
+        <p>{{:: 'TUTORIAL.PARAGRAPH_2' |translate }}</p>
 
         <ul>
           <li ng-bind-html="InstructionText1"></li>
@@ -20,11 +20,11 @@
 
       <div class="import-tweets__submit__panel">
         <div class="import-tweets__button">
-          <button ng-hide="importing" ng-click="startImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> {{ 'TUTORIAL.IMPORT_TWEETS' | translate }}</button>
-          <button ng-show="importing" ng-click="stopImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> {{ 'TUTORIAL.STOP_IMPORTING_TWEETS' | translate }}</button>
+          <button ng-hide="importing" ng-click="startImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-twitter"></i> {{:: 'TUTORIAL.IMPORT_TWEETS' | translate }}</button>
+          <button ng-show="importing" ng-click="stopImport()" type="submit" class="cr-import-tweets__button cr-button cr-button--primary" data-style="expand-left" data-spinner-size="30"><i class="fa fa-stop"></i> {{:: 'TUTORIAL.STOP_IMPORTING_TWEETS' | translate }}</button>
         </div>
         <div class="import-tweets__text">
-          <p ng-show="importing">{{ 'TUTORIAL.IMPORTING_TWEETS' |translate }} <strong id="tweets">{{ count }}</strong> {{ 'TUTORIAL.TWEETS_IMPORTED' |translate }}</p>
+          <p ng-show="importing">{{:: 'TUTORIAL.IMPORTING_TWEETS' |translate }} <strong id="tweets">{{ count }}</strong> {{:: 'TUTORIAL.TWEETS_IMPORTED' |translate }}</p>
         </div>
       </div>
 
@@ -36,45 +36,45 @@
     </div>
 
     <div class="cr-panel-block--help">
-      <h2>{{ 'HELP.TITLE' | translate }} </h2>
+      <h2>{{:: 'HELP.TITLE' | translate }} </h2>
       <div class="help-sources__wrapper">
         <a class="help__item" href="https://stackoverflow.com/tags/crate">
           <div class="help__item__icon"><img src="plugins/tutorial/static/icons/icon-stackoverflow.svg"/></div>
           <div class="help__item__content">
-            <h3 class="help__item__content_title">{{ 'HELP.STACK_OVERFLOW_TITLE' | translate}}</h3>
-            <div class="help__item__content__url">{{ 'HELP.STACK_OVERFLOW_MSG' | translate }}</div>
+            <h3 class="help__item__content_title">{{:: 'HELP.STACK_OVERFLOW_TITLE' | translate}}</h3>
+            <div class="help__item__content__url">{{:: 'HELP.STACK_OVERFLOW_MSG' | translate }}</div>
           </div>
         </a>
 
         <a class="help__item" href="https://crate-community.slack.com">
           <div class="help__item__icon"><img src="plugins/tutorial/static/icons/icon-slack.svg"/></div>
           <div class="help__item__content">
-            <h3 class="help__item__content_title">{{ 'HELP.SLACK_TITLE' | translate}}</h3>
-            <div class="help__item__content__url">{{ 'HELP.SLACK_MSG' | translate }}</div>
+            <h3 class="help__item__content_title">{{:: 'HELP.SLACK_TITLE' | translate}}</h3>
+            <div class="help__item__content__url">{{:: 'HELP.SLACK_MSG' | translate }}</div>
           </div>
         </a>
 
         <a class="help__item" href="https://github.com/crate/crate">
           <div class="help__item__icon"><img src="plugins/tutorial/static/icons/icon-github.svg"/></div>
           <div class="help__item__content">
-            <h3 class="help__item__content_title">{{ 'HELP.GITHUB_TITLE' | translate}}</h3>
-            <div class="help__item__content__url">{{ 'HELP.GITHUB_MSG' | translate }}</div>
+            <h3 class="help__item__content_title">{{:: 'HELP.GITHUB_TITLE' | translate}}</h3>
+            <div class="help__item__content__url">{{:: 'HELP.GITHUB_MSG' | translate }}</div>
           </div>
         </a>
 
         <a class="help__item" href="https://crate.io/docs/">
           <div class="help__item__icon"><img src="plugins/tutorial/static/icons/icon-documentation.svg"/></div>
           <div class="help__item__content">
-            <h3 class="help__item__content_title">{{ 'HELP.DOCUMENTATION_TITLE' | translate}}</h3>
-            <div class="help__item__content__url">{{ 'HELP.DOCUMENTATION_MSG' | translate }}</div>
+            <h3 class="help__item__content_title">{{:: 'HELP.DOCUMENTATION_TITLE' | translate}}</h3>
+            <div class="help__item__content__url">{{:: 'HELP.DOCUMENTATION_MSG' | translate }}</div>
           </div>
         </a>
 
         <a class="help__item" href="https://crate.io/enterprise/">
           <div class="help__item__icon"><img src="plugins/tutorial/static/icons/icon-enterprise.svg"/></div>
           <div class="help__item__content">
-            <h3 class="help__item__content_title">{{ 'HELP.ENTERPRISE_TITLE' | translate}}</h3>
-            <div class="help__item__content__url">{{ 'HELP.ENTERPRISE_MSG' | translate }}</div>
+            <h3 class="help__item__content_title">{{:: 'HELP.ENTERPRISE_TITLE' | translate}}</h3>
+            <div class="help__item__content__url">{{:: 'HELP.ENTERPRISE_MSG' | translate }}</div>
           </div>
         </a>
       </div>

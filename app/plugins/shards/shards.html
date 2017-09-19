@@ -37,23 +37,23 @@
           <thead>
             <tr>
               <th class="cr-table-cell th--no-border-bottom th--no-border-top"> </th>
-              <th class="header cr-table-cell shards-table-schema_name th--no-border-top" ng-repeat="(schema_key, schema_value) in schemas track by $index" colspan="{{ schema_value }}"> {{ schema_key }} </th>
+              <th class="header cr-table-cell shards-table-schema_name th--no-border-top" ng-repeat="(schema_key, schema_value) in schemas track by $index" colspan="{{:: schema_value }}"> {{:: schema_key }} </th>
             </tr>
             <tr>
               <th class="cr-table-cell th--no-border-top"> </th>
-              <th class="header cr-table-cell shards-table-table_name th--no-border-bottom" ng-repeat="(t_key, t_value) in tables track by $index" ng-click="goToUrl('tables/' + t_key.split('.')[0] +'/'+ t_key.split('.')[1])" colspan="{{ t_value }}">{{ t_key.split('.')[1] }}</th>
+              <th class="header cr-table-cell shards-table-table_name th--no-border-bottom" ng-repeat="(t_key, t_value) in tables track by $index" ng-click="goToUrl('tables/' + t_key.split('.')[0] +'/'+ t_key.split('.')[1])" colspan="{{:: t_value }}">{{:: t_key.split('.')[1] }}</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="(node_key, node_value) in shards" ng-if="node_value.node_info.name != 'UNASSIGNED'">
               <td class="cr-table-cell shards-table-node" ng-click="goToUrl('nodes/' + node_key)" cr-custom-tooltip tooltip-data="node_value.node_info">
-                <div class="shards-table-header">{{ node_value.node_info.name }}</div>
+                <div class="shards-table-header">{{:: node_value.node_info.name }}</div>
               </td>
               <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in node_value.shards_by_table track by $index"> 
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 
                   <div ng-repeat="(shard_key, shard_value) in shard_by_table_value.shards" class="shard-item" ng-class="shard_value.state_class" 
                   cr-custom-tooltip tooltip-data="shard_value" ng-mouseover="selectShard(shard_value.key)" ng-mouseleave="unSelectShard(shard_value.key)">
-                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{ shard_value.id }}</span>
+                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{:: shard_value.id }}</span>
                   </div> 
                 </shard-wrapper>   
               </td>
@@ -66,7 +66,7 @@
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 
                   <div ng-repeat="(shard_key, shard_value) in shard_by_table_value.shards" class="shard-item" ng-class="shard_value.state_class" 
                   cr-custom-tooltip tooltip-data="shard_value" ng-mouseover="selectShard(shard_value.key)" ng-mouseleave="unSelectShard(shard_value.key)">
-                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{ shard_value.id }}</span>
+                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{:: shard_value.id }}</span>
                   </div> 
                 </shard-wrapper>   
               </td>

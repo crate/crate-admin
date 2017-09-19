@@ -1,26 +1,26 @@
 <div class="cr-custom-tooltip-section">  
     <div class="cr-custom-tooltip-label"> ID </div> 
-    <div> {{ content.id }}  </div> 
+    <div> {{:: content.id }}  </div> 
     <div class="cr-custom-tooltip-label"> Size </div> 
-    <div> {{ content.size }} </div> 
+    <div> {{:: content.size }} </div> 
     <div class="cr-custom-tooltip-label"> Min Lucene Version </div> 
-    <div> {{ content.min_lucene_version }}  </i> </div> 
+    <div> {{:: content.min_lucene_version }}  </i> </div> 
     <div class="cr-custom-tooltip-label"> Num docs </div> 
-    <div> {{ content.num_docs }} </div> 
+    <div> {{:: content.num_docs }} </div> 
     <div ng-if = "content.partition_ident" class="cr-custom-tooltip-label"> Partition Ident </div> 
-    <div ng-if = "content.partition_ident"> {{ content.partition_ident }} </div> 
+    <div ng-if = "content.partition_ident"> {{:: content.partition_ident }} </div> 
 </div>  
 <div class="cr-custom-tooltip-section ">  
     <div class="cr-custom-tooltip-label"> Primary Shard </div> 
-    <div> {{ content.primary }} </div> 
+    <div> {{:: content.primary }} </div> 
     <div class="cr-custom-tooltip-label"> Relocation Node </div> 
-    <div> {{ content.relocating_node || 'NULL'}}  </div> 
+    <div> {{:: content.relocating_node || 'NULL'}}  </div> 
     <div class="cr-custom-tooltip-label"> Routing State </div> 
-    <div> {{ content.routing_state }} </div> 
+    <div> {{:: content.routing_state }} </div> 
     <div class="cr-custom-tooltip-label"> State </div> 
-    <div> {{ content.state}} </div> 
+    <div> {{:: content.state}} </div> 
     <div ng-repeat="(key, value) in content.values">
-    <div ng-if = "content.values" class="cr-custom-tooltip-label"> {{ key }} </div> 
-    <div ng-if = "content.values"> {{ value }} </div> 
+    <div ng-if = "content.values" class="cr-custom-tooltip-label"> {{:: key }} </div> 
+    <div ng-if = "content.values"> {{:: value }} </div> 
     </div>
 </div>  

@@ -8,7 +8,7 @@
                 ng-click="goToPath(navBarElement.urlPattern)"
                 data-original-title="{{ navBarElement.text }}"
                 cr-tooltip cr-tooltip-position="right">
-            <img ng-src="{{ navBarElement.iconSrc }}">
+            <img ng-src="{{:: navBarElement.iconSrc }}">
           </div>
       </div>
       <div ng-include="'views/statusbar.html'"></div>
