@@ -280,18 +280,6 @@ var commons = angular.module('common', ['stats', 'udc'])
       navBarElements: navBarElements
     };
   })
-  .directive('fixBottom', function() {
-    return function(scope, element) {
-      var elem = $(element),
-        nav = $('.side-nav .navbar-nav'),
-        win = $(window);
-      var calculate = function() {
-        scope.fixBottom = (nav.offset().top + nav.height() + elem.height() < win.height());
-      };
-      win.on('resize', calculate);
-      calculate();
-    };
-  })
   .controller('LanguageSwitchController', function($scope, $translate) {
     $scope.showDropDown = false;
     $scope.toggleDropDown = function() {
@@ -312,11 +300,11 @@ var commons = angular.module('common', ['stats', 'udc'])
     return {
       restrict: 'A',
       scope: {
-        crTooltipPosition: '='
+        crTooltipPosition: '@'
       },
-      link: function(scope, element, attrs) {
+      link: function(scope, element) {
         $(element[0]).tooltip({
-          placement: attrs.crTooltipPosition
+          placement: scope.crTooltipPosition
         });
       }
     };
