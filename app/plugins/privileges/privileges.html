@@ -1,4 +1,4 @@
-<user-list ng-hide="showError" users=userList current-user=currentUser></user-list>
+<user-list ng-hide="showError" users=userList current-user="{{currentUser}}"></user-list>
 
 <div ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showUserList || showError }">
   <div class="page-container">

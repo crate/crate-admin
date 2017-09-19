@@ -61,7 +61,7 @@ angular.module('privileges', ['sql'])
       replace: true,
       scope: {
         users: '=',
-        currentUser: '='
+        currentUser: '@'
       },
       require: '^PrivilegesDetailController',
       templateUrl: 'plugins/privileges/userList.html',

@@ -195,8 +195,8 @@ angular.module('console', ['sql', 'datatypechecks'])
       transclude: true,
       templateUrl: 'views/editor.html',
       scope: {
-        mimeType: '=',
-        theme: '='
+        mimeType: '@',
+        theme: '@'
       },
       require: '^console',
       link: function($scope, element, attrs, $console) {
@@ -383,14 +383,13 @@ angular.module('console', ['sql', 'datatypechecks'])
       restrict: 'E',
       scope: {
         array: '=',
-        typesarray: '=',
-        expand: '='
+        typesarray: '@',
+        expand: '@'
       },
       templateUrl: 'views/formatted-array-template.html',
       link: function(scope) {
-
-        scope.isExpanded = scope.expand;
-
+        scope.isExpanded = scope.expand === 'true' ? true : false;
+        scope.typesarray = JSON.parse(scope.typesarray);
         scope.ObjectTypeCheck = ObjectTypeCheck;
 
         scope.getArrayLength = function getArrayLength() {
@@ -416,12 +415,12 @@ angular.module('console', ['sql', 'datatypechecks'])
       restrict: 'E',
       scope: {
         object: '=',
-        expand: '='
+        expand: '@'
       },
       templateUrl: 'views/formatted-object-template.html',
       link: function(scope) {
 
-        scope.isExpanded = scope.expand;
+        scope.isExpanded = scope.expand === 'true' ? true : false;
 
         scope.ObjectTypeCheck = ObjectTypeCheck;
 
