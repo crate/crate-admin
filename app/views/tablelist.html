@@ -2,7 +2,7 @@
 
     <div class="filter__wrapper">
 
-        <input id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text" focus="true">
+        <input id="tableFilter" ng-model="search.$" placeholder="Filter tables ..." type="text">
         <a ng-if="search.$" class="cr-clear-filters" ng-click="search.$ = '' ">
             <i class="fa fa-times-circle" aria-hidden="true"></i>
         </a>
@@ -16,7 +16,6 @@
 
         </div>
     </div>
-
 
     <div class="table-list-wrapper">
       <div class="table-group" ng-repeat="type in tables track by $index">
