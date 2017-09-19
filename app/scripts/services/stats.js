@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
-  .factory('ClusterState', function($http, $interval, $timeout, $log, $q,
+  .factory('ClusterState', function($http, $interval, $timeout, $log, $q, $rootScope,
   baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo) {
     var healthInterval,
       statusInterval,
@@ -162,6 +162,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
             data.status = '--';
             data.tables = [];
           }
+          $rootScope.$broadcast('clusterState.refreshed');
         });
     };
 
@@ -187,6 +188,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
                 nodes: data.cluster.length
               };
               NodeInfo.deferred.resolve(result);
+              $rootScope.$broadcast('clusterState.refreshed');
             }, onErrorResponse);
         }, onErrorResponse);
     };
@@ -223,6 +225,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
                         recovery: data.recovery
                       };
                       ShardInfo.deferred.resolve(result);
+                      $rootScope.$broadcast('clusterState.refreshed');
                     }).catch(function() {
                       var result = {
                         tables: data.tables,
@@ -230,6 +233,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
                         partitions: data.partitions
                       };
                       ShardInfo.deferred.reject(result);
+                      $rootScope.$broadcast('clusterState.refreshed');
                     });
                 }).catch(function() {
                   var result = {
@@ -237,15 +241,18 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo'])
                     shards: data.shards
                   };
                   ShardInfo.deferred.reject(result);
+                  $rootScope.$broadcast('clusterState.refreshed');
                 });
             }).catch(function() {
               var result = {
                 tables: data.tables
               };
               ShardInfo.deferred.reject(result);
+              $rootScope.$broadcast('clusterState.refreshed');
             });
         }).catch(function () {
           ShardInfo.deferred.reject({});
+          $rootScope.$broadcast('clusterState.refreshed');
         });
     };
 

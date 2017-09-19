@@ -1,13 +1,13 @@
 <div class="page-container">
 
   <div class="cr-page-header">
-    <h1>{{ 'NAVIGATION.CLUSTER' | translate }}: {{ cluster.name }}</h1>
+    <h1>{{:: 'NAVIGATION.CLUSTER' | translate }}: {{ cluster.name }}</h1>
   </div>
 
   <div class="cr-panel-block--info">
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.HEALTH' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.HEALTH' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="cluster_color_class">
         {{ cluster.state }}
@@ -15,28 +15,28 @@
     </div>
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.REPLICATED_DATA' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.REPLICATED_DATA' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--warning': replicated_data < 100}">{{replicated_data | floor:1}}%
       </div>
     </div>
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.AVAILABLE_DATA' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.AVAILABLE_DATA' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--danger': available_data < 100}">{{available_data | floor:1}}%
       </div>
     </div>
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.TOTAL_RECORDS' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.TOTAL_RECORDS' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default">
         {{ records_total|roundWithUnit:1 }}
       </div>
     </div>
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.UNDERREPL_RECORDS' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--warning': records_underreplicated > 0}">
         {{ records_underreplicated|roundWithUnit:1 }}
@@ -44,7 +44,7 @@
     </div>
 
     <div class="cr-panel-block__item--info">
-      <div class="cr-panel-block__item__header">{{ 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>
+      <div class="cr-panel-block__item__header">{{:: 'OVERVIEW.UNAVAIL_RECORDS' | translate }}</div>
       <div class="cr-panel-block__item__content cr-panel--default"
            ng-class="{'cr-panel--danger': records_unavailable > 0}">
         {{ records_unavailable|roundWithUnit:1 }}
@@ -56,7 +56,7 @@
   <div class="cr-panel-block--checks" ng-show="chart.data">
     <div class="cr-panel-block__item--load">
       <div class="cr-panel-block__item__header--load">
-        <h2>{{ 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
+        <h2>{{:: 'OVERVIEW.CLUSTER_LOAD' | translate }}</h2>
         <a ng-click="chart.toggleLoad($event, 0)" class="cr-panel-block__item__header__icon--load">
           <span class="cr-radio-button__load"><span id="load-btn-0" class="cr-radio-button__load__toggle cr-radio-button__load__toggle--one"></span></span>
           Load 1
@@ -75,36 +75,36 @@
 
     <div ng-show="checks.node_checks.length > 0" class="cr-panel-block__item--checks">
       <div class="cr-panel-block__item__header--checks">
-        <h2>{{ 'OVERVIEW.NODES_CHECKS' | translate }}</h2>
+        <h2>{{:: 'OVERVIEW.NODES_CHECKS' | translate }}</h2>
         <a ng-click="refresh()" class="cr-panel-block__item__header__icon--checks">
           <i class="fa fa-refresh"></i>
         </a>
       </div>
-        <div class="checks" ng-repeat="check in checks.node_checks" >
-          <div class="cr-severity-content {{ check.severity  | severityClass }}">
+        <div class="checks" ng-repeat="check in checks.node_checks track by $index" >
+          <div class="cr-severity-content" ng-class="severityClass(check.severity)">
             <span>{{ check.severity | severityText }}</span>
             <p ng-bind-html="check.description | linky:'_blank'"></p>
           </div>
             <div class="cr-severity-header">
-              <div class="cr-severity-header__title">{{ 'OVERVIEW.AFFECTED_NODES' | translate }}:</div>
+              <div class="cr-severity-header__title">{{:: 'OVERVIEW.AFFECTED_NODES' | translate }}:</div>
               <a class="cr-severity-header__btn" ng-click="dismissCheck(check)">{{ 'OVERVIEW.DISMISS_ALL' | translate }}</a>
             </div>
-            <div class="cr-severity-list__item__header" ng-repeat="node in check.nodes track by node.id">
+            <div class="cr-severity-list__item__header" ng-repeat="node in check.nodes track by node.id track by $index">
               <div class="cr-severity-list__item__header__title">{{ node.name }}</div>
-              <a class="cr-severity-list__item__header__btn" ng-click="dismissCheckByNode(node, check)">{{ 'OVERVIEW.DISMISS' | translate }}</a>
+              <a class="cr-severity-list__item__header__btn" ng-click="dismissCheckByNode(node, check)">{{:: 'OVERVIEW.DISMISS' | translate }}</a>
             </div>
         </div>
     </div>
     
     <div ng-show="checks.cluster_checks.length > 0" class="cr-panel-block__item--checks">
       <div class="cr-panel-block__item__header--checks">
-        <h2>{{ 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
+        <h2>{{:: 'OVERVIEW.CLUSTER_CHECKS' | translate }}</h2>
         <a ng-click="refresh()" class="cr-panel-block__item__header__icon--checks">
           <i class="fa fa-refresh"></i>
         </a>
       </div>
-        <div class="checks" ng-repeat="check in checks.cluster_checks" >
-          <div class="cr-severity-content {{ check.severity  | severityClass }}">
+        <div class="checks" ng-repeat="check in checks.cluster_checks track by $index" >
+          <div class="cr-severity-content" ng-class="severityClass(check.severity)">
             <span>{{ check.severity | severityText }}</span>
             <p ng-bind-html="check.description | linky:'_blank'"></p>
           </div>

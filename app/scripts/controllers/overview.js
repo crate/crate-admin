@@ -12,8 +12,8 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     };
   })
-  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, NullArray, ChecksService, SQLQuery) {
-    var lastUpdate = null;
+  .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, NullArray, ChecksService, SQLQuery, 
+  SeverityClass) {
     var colorMap = {
       'good': 'cr-panel--success',
       'warning': 'cr-panel--warning',
@@ -32,6 +32,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       'color': '#44e3a6'
     }];
 
+    $scope.severityClass = SeverityClass;
     $scope.options = {
       chart: {
         type: 'lineChart',
@@ -78,20 +79,16 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     };
 
-    $scope.$watch(function() {
-      return ChecksService;
-    }, function(data) {
-      if (data.success === true) {
-        $scope.checks = data.checks;
+    $scope.$on('checksService.refreshed', function() {
+      if (ChecksService.success === true) {
+        $scope.checks = ChecksService.checks;
       } else {
         $scope.checks = {
           node_checks: [],
           cluster_check: []
         };
       }
-    }, true);
-
-    $scope.refresh = ChecksService.refresh;
+    });
 
     var removeFromArray = function(arr, obj) {
       arr.splice(arr.indexOf(obj), 1);
@@ -160,39 +157,29 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
         });
     };
 
-    $scope.$watch(function() {
-      return ClusterState.data;
-    }, function(data) {
-      var now = new Date().getTime();
-      if (lastUpdate && now - lastUpdate < 100) {
-        return;
-      } else {
-        lastUpdate = now;
-      }
-
+    var updateClusterData = function() {
       $scope.cluster = {
-        'name': data.name,
-        'state': data.status
+        'name': ClusterState.data.name,
+        'state': ClusterState.data.status
       };
-      $scope.cluster_color_class = colorMap[data.status];
+      $scope.cluster_color_class = colorMap[ClusterState.data.status];
 
       // draw graph
-      if (data.loadHistory[0].length > 0) {
-        drawGraph(data.loadHistory);
+      if (ClusterState.data.loadHistory[0].length > 0) {
+        drawGraph(ClusterState.data.loadHistory);
       }
 
-      if (!data.tables || !data.tables.length) {
+      if (!ClusterState.data.tables || !ClusterState.data.tables.length) {
         $scope.available_data = 100;
         $scope.records_unavailable = 0;
         $scope.replicated_data = 100;
         $scope.records_total = 0;
         $scope.records_total_with_replicas = 0;
         $scope.records_underreplicated = 0;
-        return;
       }
 
       // Aggregate date across all tables
-      var tables = data.tables;
+      var tables = ClusterState.data.tables;
       $scope.records_underreplicated = tables.reduce(function(memo, tableInfo) {
         return tableInfo.records_underreplicated + memo;
       }, 0);
@@ -213,7 +200,10 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
         $scope.replicated_data = 100.0;
         $scope.available_data = 100.0;
       }
-    }, true);
+    };
+
+    $scope.$on('clusterState.refreshed', updateClusterData);
+    updateClusterData();
 
     // bind tooltips
     $('[rel=tooltip]').tooltip({

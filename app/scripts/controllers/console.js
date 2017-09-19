@@ -11,7 +11,58 @@ angular.module('console', ['sql', 'datatypechecks'])
       }
     };
   })
-  .directive('console', function(SQLQuery, ColumnTypeCheck){
+  .service('ConsoleFormatting', function () {
+    return {
+      queryStatusClass: function (status) {
+        if (status === undefined) {
+          return '';
+        }
+        if (status.indexOf('OK') !== -1) {
+          return 'query-status--ok';
+        }
+        if (status.indexOf('ERROR') !== -1) {
+          return 'query-status--error';
+        }
+        return '';
+      },
+      columnTypeClass: function (colType) {
+        switch (colType) {
+          // Byte
+        case 2:
+          // Double
+        case 6:
+          // Float
+        case 7:
+          // Short
+        case 8:
+          // Integer
+        case 9:
+          // Long
+        case 10:
+          return 'number';
+
+          // String
+        case 4:
+          // IP
+        case 5:
+          return 'string';
+
+          // Boolean
+        case 3:
+          return 'boolean';
+
+          // Timestamp
+        case 11:
+          // Geopoint
+        case 13:
+          // Geoshape
+        case 14:
+          return 'object';
+        }
+      }
+    };
+  })
+  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting){
     return {
       restrict: 'A',
       controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout', function($scope, $translate, $location, Clipboard, $timeout){
@@ -36,6 +87,14 @@ angular.module('console', ['sql', 'datatypechecks'])
           message: ''
         };
 
+        $scope.queryStatusClass = ConsoleFormatting.queryStatusClass;
+
+        $scope.columnTypeClass = ConsoleFormatting.columnTypeClass;
+
+        $scope.urlEncodedJson = function(json) {
+          return encodeURIComponent(JSON.stringify(json));
+        };
+        
         self.setInputScope = function(scope) {
           inputScope = scope;
         };
@@ -195,8 +254,8 @@ angular.module('console', ['sql', 'datatypechecks'])
       transclude: true,
       templateUrl: 'views/editor.html',
       scope: {
-        mimeType: '=',
-        theme: '='
+        mimeType: '@',
+        theme: '@'
       },
       require: '^console',
       link: function($scope, element, attrs, $console) {
@@ -383,14 +442,13 @@ angular.module('console', ['sql', 'datatypechecks'])
       restrict: 'E',
       scope: {
         array: '=',
-        typesarray: '=',
-        expand: '='
+        typesarray: '@',
+        expand: '@'
       },
       templateUrl: 'views/formatted-array-template.html',
       link: function(scope) {
-
-        scope.isExpanded = scope.expand;
-
+        scope.isExpanded = scope.expand === 'true' ? true : false;
+        scope.typesarray = JSON.parse(scope.typesarray);
         scope.ObjectTypeCheck = ObjectTypeCheck;
 
         scope.getArrayLength = function getArrayLength() {
@@ -416,12 +474,12 @@ angular.module('console', ['sql', 'datatypechecks'])
       restrict: 'E',
       scope: {
         object: '=',
-        expand: '='
+        expand: '@'
       },
       templateUrl: 'views/formatted-object-template.html',
       link: function(scope) {
 
-        scope.isExpanded = scope.expand;
+        scope.isExpanded = scope.expand === 'true' ? true : false;
 
         scope.ObjectTypeCheck = ObjectTypeCheck;
 
