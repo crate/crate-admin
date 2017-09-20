@@ -38,7 +38,7 @@ angular.module('datatypechecks', [])
 
     return ColumnTypeCheck;
   })
-  .factory('ObjectTypeCheck', function($filter) {
+  .factory('ObjectTypeCheck', function($filter, ConsoleFormatting) {
     var ObjectTypeCheck = {};
 
     ObjectTypeCheck.isArray = function(object) {
@@ -61,7 +61,7 @@ angular.module('datatypechecks', [])
       if (typesArray[1] == 1) {
         return this.getType(array[0]);
       } else {
-        return $filter('columnTypeClass')(typesArray[1]);
+        return ConsoleFormatting.columnTypeClass(typesArray[1]);
       }
     };
 

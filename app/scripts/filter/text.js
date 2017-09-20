@@ -51,20 +51,6 @@ angular.module('common')
       }
     };
   })
-  .filter('queryStatusClass', function() {
-    return function(status) {
-      if (status === undefined) {
-        return '';
-      }
-      if (status.indexOf('OK') !== -1) {
-        return 'query-status--ok';
-      }
-      if (status.indexOf('ERROR') !== -1) {
-        return 'query-status--error';
-      }
-      return '';
-    };
-  })
   .filter('languageFilter', function() {
     return function(langkey) {
       switch (langkey) {
@@ -79,50 +65,8 @@ angular.module('common')
       }
     };
   })
-  .filter('columnTypeClass', function() {
-    return function(colType) {
-      switch (colType) {
-        // Byte
-        case 2:
-        // Double
-        case 6:
-        // Float
-        case 7:
-        // Short
-        case 8:
-        // Integer
-        case 9:
-        // Long
-        case 10:
-          return 'number';
-
-        // String
-        case 4:
-        // IP
-        case 5:
-          return 'string';
-
-        // Boolean
-        case 3:
-          return 'boolean';
-
-        // Timestamp
-        case 11:
-        // Geopoint
-        case 13:
-        // Geoshape
-        case 14:
-          return 'object';
-      }
-    };
-  })
   .filter('formatTimestamp', function() {
     return function(timestamp) {
       return new Date(timestamp).toISOString();
-    };
-  })
-  .filter('urlEncodedJson', function() {
-    return function(json) {
-      return encodeURIComponent(JSON.stringify(json));
     };
   });
