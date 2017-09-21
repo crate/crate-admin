@@ -20,6 +20,8 @@ Fixes
 Fixes
 -----
 
+ - Remove horizontal scroll from the console editor.
+
  - Fixed an issue that caused the tooltip to have a wrong position
    in the Shards view. 
 
