@@ -14,12 +14,14 @@ Changes
 Fixes
 -----
 
+ - Remove horizontal scroll from the console editor.
+
 2017/09/18 1.6.1
 ================
 
 Fixes
 -----
- 
+
  - Fixed an issue that caused the tooltip to have a wrong position
    in the Shards view. 
 
