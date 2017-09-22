@@ -2,22 +2,22 @@
   <div class="page-container">
       <h1 class="cr-page-header">Shards</h1>  
 
-      <div class="cr-panel-block" ng-if="empty">
+      <div class="cr-panel-block" ng-show="empty || !shards">
         There are no shards. Shards are created and started when you create tables.
       </div>
 
 
-      <div id="shards-table--options" class="table-responsive" ng-if="!empty && shards">
+      <div id="shards-table--options" class="table-responsive" ng-show="!empty && shards">
         <table class="table no-margin-bottom no-border-bottom">
           <thead>
             <tr>
-              <th class="header cr-table-cell shards-options-header" ng-if="shards"> 
+              <th class="header cr-table-cell shards-options-header" ng-show="shards"> 
                 <div class="shard-options">
-                    <input id="shard-id" type="checkbox" ng-model="shardIdOn" ng-change="showShardIds()">
-                    <label for="shard-id">Show Shard IDs</label>
+                    <input id="id-option" type="checkbox" ng-model="idOption" ng-change="showShardIds()">
+                    <label for="id-option">Show Shard IDs</label>
                 </div>
               </th>
-              <th class="header cr-table-cell shards-options-header" ng-if="shards"> 
+              <th class="header cr-table-cell shards-options-header" ng-show="shards"> 
                 <div class="shard-legend">
                   <span class="shard-item cr-shard-primary cr-shard-state--green"> </span><span class="shard-item-label">Started Primary</span>
                   <span class="shard-item cr-shard-state--green"> </span><span class="shard-item-label">Started Replica</span>
@@ -32,41 +32,84 @@
       </div>
 
 
-      <div id="shards-table" class="table-responsive" ng-if="!empty && shards">
+      <div id="shards-table" class="table-responsive" ng-show="!empty && shards">
         <table class="table">
           <thead>
             <tr>
               <th class="cr-table-cell th--no-border-bottom th--no-border-top"> </th>
-              <th class="header cr-table-cell shards-table-schema_name th--no-border-top" ng-repeat="(schema_key, schema_value) in schemas track by $index" colspan="{{ schema_value }}"> {{ schema_key }} </th>
+              <th class="header cr-table-cell shards-table-schema_name th--no-border-top" ng-repeat="(schema_key, schema_value) in ::schemas track by schema_key" colspan="{{:: schema_value }}"> {{:: schema_key }} </th>
             </tr>
             <tr>
               <th class="cr-table-cell th--no-border-top"> </th>
-              <th class="header cr-table-cell shards-table-table_name th--no-border-bottom" ng-repeat="(t_key, t_value) in tables track by $index" ng-click="goToUrl('tables/' + t_key.split('.')[0] +'/'+ t_key.split('.')[1])" colspan="{{ t_value }}">{{ t_key.split('.')[1] }}</th>
+              <th class="header cr-table-cell shards-table-table_name th--no-border-bottom" ng-repeat="(t_key, t_value) in ::tables track by t_key" ng-click="goToUrl('tables/' + t_key.split('.')[0] +'/'+ t_key.split('.')[1])" colspan="{{:: t_value }}">{{:: t_key.split('.')[1] }}</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="(node_key, node_value) in shards" ng-if="node_value.node_info.name != 'UNASSIGNED'">
-              <td class="cr-table-cell shards-table-node" ng-click="goToUrl('nodes/' + node_key)" cr-custom-tooltip tooltip-data="node_value.node_info">
-                <div class="shards-table-header">{{ node_value.node_info.name }}</div>
+           <cr-custom-tooltip id="cr-custom-tooltip" class="cr-custom-tooltip" page-x="pageX" page-y="pageY" ng-if="displayTooltip">
+             <div ng-show="!isShard" class="node-content">
+              <div class="cr-custom-tooltip-section">
+                  <div class="cr-custom-tooltip-label"> Name </div> 
+                  <div> {{ tooltipData.name }} </div> 
+                  <div class="cr-custom-tooltip-label"> ID </div> 
+                  <div> {{ tooltipData.id }} </div> 
+                  <div class="cr-custom-tooltip-label"> Version </div> 
+                  <div> {{ tooltipData.version }} </div> 
+                  <div class="cr-custom-tooltip-label"> Host name </div> 
+                  <div> {{ tooltipData.hostname }} </div> 
+                  <div class="cr-custom-tooltip-label"> REST URL </div> 
+                  <div> {{ tooltipData.rest_url }} </div> 
+                </div>
+              </div>
+             <div ng-show="isShard" class="shard-content">
+               <div class="cr-custom-tooltip-section">  
+                    <div class="cr-custom-tooltip-label"> ID </div> 
+                    <div> {{ tooltipData.id }}  </div> 
+                    <div class="cr-custom-tooltip-label"> Size </div> 
+                    <div> {{ tooltipData.size }} </div> 
+                    <div class="cr-custom-tooltip-label"> Min Lucene Version </div> 
+                    <div> {{ tooltipData.min_lucene_version }}  </i> </div> 
+                    <div class="cr-custom-tooltip-label"> Num docs </div> 
+                    <div> {{ tooltipData.num_docs }} </div> 
+                    <div ng-if = "tooltipData.partition_ident" class="cr-custom-tooltip-label"> Partition Ident </div> 
+                    <div ng-if = "tooltipData.partition_ident"> {{ tooltipData.partition_ident }} </div> 
+                </div>  
+                <div class="cr-custom-tooltip-section ">  
+                    <div class="cr-custom-tooltip-label"> Primary Shard </div> 
+                    <div> {{ tooltipData.primary }} </div> 
+                    <div class="cr-custom-tooltip-label"> Relocation Node </div> 
+                    <div> {{ tooltipData.relocating_node || 'NULL'}}  </div> 
+                    <div class="cr-custom-tooltip-label"> Routing State </div> 
+                    <div> {{ tooltipData.routing_state }} </div> 
+                    <div class="cr-custom-tooltip-label"> State </div> 
+                    <div> {{ tooltipData.state}} </div> 
+                    <div ng-repeat="(key, value) in tooltipData.values">
+                    <div ng-if = "tooltipData.values" class="cr-custom-tooltip-label"> {{ key }} </div> 
+                    <div ng-if = "tooltipData.values"> {{ value }} </div> 
+                    </div>
+                </div>  
+             </div>
+           </cr-custom-tooltip>
+            <tr ng-repeat="(node_key, node_value) in ::shards track by node_key" ng-show="node_value.node_info.name != 'UNASSIGNED'">
+              <td class="cr-table-cell shards-table-node" ng-click="goToUrl('nodes/' + node_key)" data-node="{{node_key}}">
+                {{ node_value.node_info.name }}
               </td>
-              <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in node_value.shards_by_table track by $index"> 
+              <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in ::node_value.shards_by_table track by shard_by_table_key"> 
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 
-                  <div ng-repeat="(shard_key, shard_value) in shard_by_table_value.shards" class="shard-item" ng-class="shard_value.state_class" 
-                  cr-custom-tooltip tooltip-data="shard_value" ng-mouseover="selectShard(shard_value.key)" ng-mouseleave="unSelectShard(shard_value.key)">
-                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{ shard_value.id }}</span>
+                  <div ng-repeat="(shard_key, shard_value) in ::shard_by_table_value.shards track by shard_key" class="shard-item" ng-class="shard_value.state_class" data-key="{{::shard_value.key}}" data-table="{{shard_by_table_key}}" data-node="{{node_key}}"
+                  >
+                    <span class="shard-number" ng-show="idOption">{{:: shard_value.id }}</span>
                   </div> 
                 </shard-wrapper>   
               </td>
             </tr>
-            <tr ng-if="shards.unassigned">
-              <td class="cr-table-cell shards-table-node">
+            <tr ng-show="shards.unassigned">
+              <td class="cr-table-cell shards-table-node" data-node="unassigned">
                 <div class="shards-table-header">Unassigned</div>
               </td>
-              <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in shards.unassigned.shards_by_table track by $index"> 
+              <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in ::shards.unassigned.shards_by_table track by shard_by_table_key"> 
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 
-                  <div ng-repeat="(shard_key, shard_value) in shard_by_table_value.shards" class="shard-item" ng-class="shard_value.state_class" 
-                  cr-custom-tooltip tooltip-data="shard_value" ng-mouseover="selectShard(shard_value.key)" ng-mouseleave="unSelectShard(shard_value.key)">
-                    <span class="shard-id" ng-if="shardIdOn && shard_value.html">{{ shard_value.id }}</span>
+                  <div ng-repeat="(shard_key, shard_value) in ::shard_by_table_value.shards track by shard_key" class="shard-item" ng-class="shard_value.state_class"  data-key="{{shard_value.key}}" data-table="{{shard_by_table_key}}" data-node="unassigned">
+                    <span class="shard-number" ng-show="idOption">{{:: shard_value.id }}</span>
                   </div> 
                 </shard-wrapper>   
               </td>

@@ -126,6 +126,7 @@ th.th--no-borders ,tr > th.cr-table-cell.th--no-borders {
 
 .empty-shard {
   cursor: default;
+  color: transparent !important;
 }
 
 .shard-status{
@@ -140,19 +141,19 @@ th.th--no-borders ,tr > th.cr-table-cell.th--no-borders {
   width: 300px;
 }
 
-.shard-id {
+.shard-number {
   font-weight: bold;
   font-size: 12px;
   font-family: MONOSPACE;
 }
 
-shard-content {
+.shard-content {
   display: flex;
   margin: 10px;
   justify-content: space-around;
 }
 
-node-content {
+.node-content {
   display: flex;
   margin: 10px;
   justify-content: space-around;
