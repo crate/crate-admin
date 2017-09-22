@@ -337,92 +337,50 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
   })
-.directive('crCustomTooltip', function ($compile, $sce) {
+.directive('crCustomTooltip', function () {
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
-      data: '=tooltipData'
+      pageX: '=pageX',
+      pageY: '=pageY'
     },
-    link: function (scope, element) {
-
-      if (scope.data && scope.data.html) {
-        var tooltip = angular.element(
-          '<div id="cr-custom-tooltip" ng-show="displayTooltip" class="cr-custom-tooltip">' +
-          scope.data.html +
-          '</div>'
-        );
-
-        scope.displayTooltip = false;
-        scope.updateTootipPosition = function (event) {
-          var tw = 360;
-          var th = 300;
-          var x = event.pageX;
-          var y = event.pageY;
+    trasclude: true,
+    controller: function($scope) {
+        $scope.updateTootipPosition = function () {
+          var tw = Math.max($('#cr-custom-tooltip').outerWidth(), 400);
+          var th = Math.max($('#cr-custom-tooltip').outerHeight(), 300);
+          var x = $scope.pageX;
+          var y = $scope.pageY;
           var w = $(document).width();
           var h = $(document).height();
-
-          var margin_x, margin_y = 0;
-          if (w > 700) {
-            margin_x = 5;
-          } else {
-            margin_x = 20;
-          }
-
-          if (h > 600) {
-            margin_y = 50;
-          } else {
-            margin_y = 5;
-          }
+          var css = {};
 
           if (x + tw >= w) {
-            tooltip.css({
-              left: x - tw - margin_x + 'px'
-            });
-
+            css.left = x - tw + 'px';
           } else {
-            tooltip.css({
-              left: x + margin_x + 'px'
-            });
+            css.left = x + 'px';
           }
           if (y + th >= h) {
-            tooltip.css({
-              top: y - th + margin_y + 'px'
-            });
+            css.top = y - th + 'px';
           } else {
-            tooltip.css({
-              top: y - margin_y + 'px'
-            });
+            css.top = y + 'px';
           }
+
+          $('#cr-custom-tooltip').css(css);
         };
+      var watcherPageX = $scope.$watch('pageX', function () {
+        $scope.updateTootipPosition();
+      }, true);
 
-        scope.getSafeContent = function (content) {
-          return $sce.trustAsHtml(content);
-        };
+      var watcherPageY = $scope.$watch('pageY', function () {
+        $scope.updateTootipPosition();
+      }, true);
 
-        element.append(tooltip);
-
-        element.on('mouseenter', function (event) {
-          scope.updateTootipPosition(event);
-          scope.displayTooltip = true;
-          scope.$digest();
-        });
-
-        element.on('mousemove', function (event) {
-          scope.updateTootipPosition(event);
-          scope.$digest();
-        });
-
-        element.on('mouseleave', function () {
-          scope.displayTooltip = false;
-          scope.$digest();
-        });
-
-        element.on('click', function () {
-          scope.displayTooltip = !scope.displayTooltip;
-          scope.$digest();
-        });
-        $compile(tooltip)(scope);
-      }
+      $scope.$on('$destroy', function() {
+          //stop watching when scope is destroyed
+          watcherPageY();
+          watcherPageX();
+      });
     }
   };
 });

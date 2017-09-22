@@ -8,14 +8,14 @@ angular.module('shards', ['sql'])
 
     var stmt = 'SELECT shards.id, size, min_lucene_version, num_docs, orphan_partition,  shards.table_name, shards.schema_name, shards.partition_ident, format(\'%s.%s\', shards.schema_name, shards.table_name) AS fqn, ' +
       'format(\'%s.%s.%s\', shards.schema_name, shards.table_name, shards.partition_ident) AS key, ' +
-      '_node[\'id\'] AS node_id, _node AS nodeInfo, state, routing_state, relocating_node, primary, ' +
+      '_node[\'id\'] AS node_id, _node[\'name\'] AS node_info_name, _node[\'hostname\'] AS node_info_hostname, _node[\'rest_url\'] AS node_info_rest_url, _node[\'version\'][\'number\'] AS node_info_version, state, routing_state, relocating_node, primary, ' +
       'partitions.values ' +
       'FROM sys.shards AS shards ' +
       'LEFT JOIN information_schema.table_partitions AS partitions ' +
       'ON shards.partition_ident = partitions.partition_ident ' +
       'ORDER BY key, node_id, id';
 
-    var cols = ['id', 'size', 'min_lucene_version', 'num_docs', 'orphan_partition', 'table_name', 'schema_name', 'partition_ident', 'fqn', 'key', 'node_id', 'nodeInfo', 'state', 'routing_state', 'relocating_node', 'primary', 'values'];
+    var cols = ['id', 'size', 'min_lucene_version', 'num_docs', 'orphan_partition', 'table_name', 'schema_name', 'partition_ident', 'fqn', 'key', 'node_id', 'node_info_name', 'node_info_hostname', 'node_info_rest_url', 'node_info_version', 'state', 'routing_state', 'relocating_node', 'primary', 'values'];
 
     ShardService.execute = function () {
       var deferred = $q.defer(),
@@ -36,7 +36,6 @@ angular.module('shards', ['sql'])
   })
   .factory('ShardsIntervalService', function (ShardService, $timeout, $q, $rootScope) {
     var shardsIntervalService = {};
-
     var poll = function () {
       $q.when(ShardService.execute())
         .then(function (response) {
@@ -77,25 +76,9 @@ angular.module('shards', ['sql'])
       }
     };
   })
-  .directive('shardContent', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        content: '=content'
-      },
-      templateUrl: '/plugins/shards/shardContentTmpl.html'
-    };
-  })
-  .directive('nodeContent', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        content: '=content'
-      },
-      templateUrl: '/plugins/shards/nodeContentTmpl.html'
-    };
-  })
   .controller('ShardsController', function ($scope, $q, ShardsIntervalService, $location, $filter, $rootScope, $interval) {
+    $scope.idOption = (localStorage.getItem('crate.shards.shard_id_on') || '1') === '1';
+
     $scope.response = [];
     $scope.selectedShard = '';
 
@@ -105,7 +88,7 @@ angular.module('shards', ['sql'])
     };
 
     $scope.unSelectShard = function (key) {
-      $scope.selectedShard = key;
+      $scope.selectedShard = '';
       $('.' + key).removeClass('selected-shard');
     };
 
@@ -113,12 +96,94 @@ angular.module('shards', ['sql'])
       $location.path(path);
     };
 
-    $scope.shardIdOn = localStorage.getItem('crate.shards.shard_id_on') === '1';
 
     $scope.showShardIds = function () {
-      $scope.shardIdOn = !$scope.shardIdOn;
-      localStorage.setItem('crate.shards.shard_id_on', $scope.shardIdOn === true ? '1' : '0');
+      localStorage.setItem('crate.shards.shard_id_on', $scope.idOption ? '1' : '0');
     };
+
+    function safeApply(scope, fn) {
+      var phase = scope.$root.$$phase;
+      if (phase == '$apply' || phase == '$digest') {
+        scope.$eval(fn);
+      } else {
+        scope.$apply(fn);
+      }
+    }
+
+    function setShardData(target) {
+      var key = target.data('key');
+      $scope.selectShard(key);
+      // set tooltip data
+      var table_key = target.data('table');
+      var node_id = target.data('node');
+
+      var shard = $scope.shards[node_id].shards_by_table[table_key].shards.filter(function (el) {
+        return el.key === key;
+      })[0];
+      $scope.tooltipData = shard;
+      $scope.pageX = event.pageX;
+      $scope.pageY = event.pageY;
+      $scope.displayTooltip = true;
+    }
+
+    function setNodeData(target) {
+      if (target.data('node') === 'unassigned') {
+        //don't display tooltip for unassigned node
+        return;
+      }
+      var node = $scope.shards[target.data('node')].node_info;
+      $scope.tooltipData = node;
+      $scope.pageX = event.pageX;
+      $scope.pageY = event.pageY;
+      $scope.displayTooltip = true;
+    }
+
+    $('tbody').mousemove(function (event) {
+        safeApply($scope, function () {
+          if ($scope.displayTooltip) {
+            $scope.pageX = event.pageX;
+            $scope.pageY = event.pageY;
+          }
+        });
+      })
+      .mouseover(function (event) {
+        var target = $(event.target);
+        if (target.hasClass('shard-number') && !target.parent().hasClass('empty-shard')) {
+          target = target.parent();
+          $scope.isShard = true;
+          safeApply($scope, function () {
+            setShardData(target);
+          });
+
+        } else if (target.hasClass('shard-item') && !target.hasClass('empty-shard')) {
+          $scope.isShard = true;
+          safeApply($scope, function () {
+            setShardData(target);
+          });
+        } else if (target.hasClass('shards-table-node') && !target.hasClass('unassigned')) {
+          $scope.isShard = false;
+          safeApply($scope, function () {
+            setNodeData(target);
+          });
+        } else {
+          $scope.displayTooltip = false;
+          return;
+        }
+      })
+      .mouseout(function (event) {
+        $scope.displayTooltip = false;
+        $scope.tooltipData = {};
+        $scope.pageX = event.pageX;
+        $scope.pageY = event.pageY;
+        var target = $(event.target);
+        if (target.hasClass('shard-number') && !target.parent().hasClass('empty-shard')) {
+          target = target.parent();
+          $scope.unSelectShard(target.data('key'));
+        } else if (target.hasClass('shard-item') && !target.hasClass('empty-shard')) {
+          $scope.unSelectShard(target.data('key'));
+        }
+        return;
+      });
 
     function sortObjectByKeys(dict) {
       var keys = Object.keys(dict),
@@ -201,7 +266,6 @@ angular.module('shards', ['sql'])
         nodeFormat.shards_by_table[obj.key].shards.push({
           'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + [obj.key, obj.id].join('-').replace(/\./g, '-'),
           'key': [obj.key, obj.id].join('-').replace(/\./g, '-'),
-          'html': '<shard-content content="data"></shard-content>',
           'id': obj.id,
           'size': obj.size,
           'min_lucene_version': obj.min_lucene_version,
@@ -213,14 +277,20 @@ angular.module('shards', ['sql'])
           'partition_ident': obj.partition_ident,
           'values': obj.values
         });
+
         nodeFormat.shards_by_table[obj.key].table_name = obj.table_name;
         nodeFormat.shards_by_table[obj.key].schema_name = obj.schema_name;
         nodeFormat.shards_by_table[obj.key].partition_ident = obj.partition_ident;
         nodeFormat.shards_by_table[obj.key].fqn = obj.fqn;
 
-        if (obj.nodeInfo) {
-          nodeFormat.node_info = obj.nodeInfo;
-          nodeFormat.node_info.html = '<node-content content="data"></node-content>';
+        if (obj.node_info_name) {
+          nodeFormat.node_info = {
+            'name': obj.node_info_name,
+            'hostname': obj.node_info_hostname,
+            'rest_url': obj.node_info_rest_url,
+            'version': obj.node_info_version,
+            'id': obj.node_id,
+          };
         } else {
           nodeFormat.node_info = {
             'name': 'UNASSIGNED'
