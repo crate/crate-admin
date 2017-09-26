@@ -13,7 +13,13 @@ Changes
 
 Fixes
 -----
- 
+
+2017/09/26 1.6.2
+================
+
+Fixes
+----- 
+
  - Improve shards view performance
  
  - Remove horizontal scroll from the console editor.
