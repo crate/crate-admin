@@ -21,7 +21,8 @@ var MODULES = [
   'datatypechecks',
   'nvd3',
   'pascalprecht.translate',
-  'oc.lazyLoad'
+  'oc.lazyLoad',
+  'vs-repeat'
 ];
 
 var DEFAULT_PLUGINS = [];

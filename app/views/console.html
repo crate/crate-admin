@@ -70,33 +70,33 @@
     <div ng-if="renderTable" class="query-result-container" ng-class="{colourised: formatResults}">
 
       <h2  class="query-result-container__header">{{:: 'CONSOLE.RESULT_FROM_QUERY' | translate }}</h2>
-      <div class="table-responsive">
+      <div class="table-responsive vs-container">
         <table class="table">
           <thead>
             <tr>
               <th class="header cr-table-cell" ng-repeat="header in ::resultHeaders track by $index">{{:: header }}</th>
             </tr>
           </thead>
-          <tbody>
-            <tr ng-repeat="row in ::rows | limitTo:limitToAmount track by $index" ng-class="$odd ? 'cr-table-cell__odd-row' : 'cr-table-cell__even-row'">
-              <td class="cr-table-cell" ng-repeat="column in ::row track by $index">
+          <tbody vs-repeat vs-scroll-parent=".vs-container">
+            <tr ng-repeat="row in ::rows track by $index" ng-class="$odd ? 'cr-table-cell__odd-row' : 'cr-table-cell__even-row'">
+              <td class="cr-table-cell" ng-repeat="column in row track by $index">
                 <div ng-if="formatResults && resultHeaderTypes.length > 0">
                   <div ng-if="column == null">
                     <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])">NULL</pre>
                   </div>
                   <div ng-if="column != null && ColumnTypeCheck.requiresNoFormatting(resultHeaderTypes[$index])">
-                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])">{{:: column }}<span  class="unsafe-number" data-original-title="{{:: 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></pre>
+                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])">{{ column }}<span  class="unsafe-number" data-original-title="{{:: 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></pre>
                   </div>
                   <div ng-if="column != null && !ColumnTypeCheck.requiresNoFormatting(resultHeaderTypes[$index])">
-                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isGeopoint(resultHeaderTypes[$index])">{{:: column }} <a ng-href="https://www.openstreetmap.org/?mlat={{column[1]}}&mlon={{column[0]}}&layers=H" target="_blank"><i class="fa fa-external-link"></i></a></pre>
-                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isTimestamp(resultHeaderTypes[$index])">{{:: column }} <span class="formatted-timestamp">({{:: column | formatTimestamp }})</span></pre>
+                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isGeopoint(resultHeaderTypes[$index])">{{ column }} <a ng-href="https://www.openstreetmap.org/?mlat={{column[1]}}&mlon={{column[0]}}&layers=H" target="_blank"><i class="fa fa-external-link"></i></a></pre>
+                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isTimestamp(resultHeaderTypes[$index])">{{ column }} <span class="formatted-timestamp">({{ column | formatTimestamp }})</span></pre>
                     <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.requiresArrayFormatting(resultHeaderTypes[$index])"><formatted-array array="column" typesarray="{{resultHeaderTypes[$index]}}" expand="true"></formatted-array></pre>
                     <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.requiresJSONFormatting(resultHeaderTypes[$index])"><formatted-object object="column" expand="true"></formatted-object></pre>
-                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isGeoarea(resultHeaderTypes[$index])"><span>Type</span>: {{:: column['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{:: urlEncodedJson(column)}}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{:: column['coordinates'] }} </pre>
+                    <pre class="query-result" ng-class="columnTypeClass(resultHeaderTypes[$index])" ng-if="ColumnTypeCheck.isGeoarea(resultHeaderTypes[$index])"><span>Type</span>: {{ column['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{ urlEncodedJson(column)}}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column['coordinates'] }} </pre>
                   </div>
                 </div>
                 <div ng-if="!formatResults || resultHeaderTypes.length == 0">
-                  <pre class="query-result" ng-if="column != null">{{:: column }} <span class="unsafe-number" data-original-title="{{:: 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span> </pre>
+                  <pre class="query-result" ng-if="column != null">{{ column }} <span class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span> </pre>
                   <pre class="query-result" ng-if="column == null">NULL</pre>
                 </div>
               </td>
