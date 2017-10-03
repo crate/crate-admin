@@ -133,8 +133,13 @@ tr > .cr-table-cell {
   border-top: 1px solid @body-bg !important;
   padding: 18px;
 }
+.cr-table-cell--max-width {
+  max-width: 400px;
+  word-wrap: break-all !important;
+  display: block;
+}
 
-.cr-table-cell__odd-row {
+.cr-table-row:nth-child(2n) td {
   background: @cr-table-even-row-bg;
 }
 
