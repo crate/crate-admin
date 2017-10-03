@@ -24,41 +24,6 @@ angular.module('console', ['sql', 'datatypechecks'])
           return 'query-status--error';
         }
         return '';
-      },
-      columnTypeClass: function (colType) {
-        switch (colType) {
-          // Byte
-        case 2:
-          // Double
-        case 6:
-          // Float
-        case 7:
-          // Short
-        case 8:
-          // Integer
-        case 9:
-          // Long
-        case 10:
-          return 'number';
-
-          // String
-        case 4:
-          // IP
-        case 5:
-          return 'string';
-
-          // Boolean
-        case 3:
-          return 'boolean';
-
-          // Timestamp
-        case 11:
-          // Geopoint
-        case 13:
-          // Geoshape
-        case 14:
-          return 'object';
-        }
       }
     };
   })
@@ -88,8 +53,6 @@ angular.module('console', ['sql', 'datatypechecks'])
         };
 
         $scope.queryStatusClass = ConsoleFormatting.queryStatusClass;
-
-        $scope.columnTypeClass = ConsoleFormatting.columnTypeClass;
 
         $scope.urlEncodedJson = function(json) {
           return encodeURIComponent(JSON.stringify(json));
@@ -162,6 +125,79 @@ angular.module('console', ['sql', 'datatypechecks'])
         $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();
 
+        function getDataType(col, type) {
+          if (col === null) {
+            return 'null';
+          } else if (Array.isArray(type)) {
+            return 'array';
+          } else {
+            switch (type) {
+              // Byte
+            case 2:
+              // Double
+            case 6:
+              // Float
+            case 7:
+              // Short
+            case 8:
+              // Integer
+            case 9:
+              // Long
+            case 10:
+              return 'number';
+
+              // String
+            case 4:
+              // IP
+            case 5:
+              return 'string';
+
+              // Boolean
+            case 3:
+              return 'boolean';
+
+              // Timestamp
+            case 11:
+              return 'timestamp';
+            case 12:
+              return 'object';
+              // Geopoint
+            case 13:
+              return 'geo_point';
+                // Geoshape
+            case 14:
+              return 'geo_shape';
+            }
+          }
+
+        }
+
+        function formatData() {
+          if (!$scope.formatResults) {
+            $scope.formatted_rows = $scope.rows;
+          } else {
+            $scope.formatted_rows = [];
+            if ($scope.rows) {
+              for (var i = 0; i < $scope.rows.length; i++) {
+                var row = $scope.rows[i];
+                for (var j = 0; j < row.length; j++) {
+                  //check each column type.
+                  var col = row[j];
+                  var dataType = getDataType(col, $scope.resultHeaderTypes[j]);
+                  if (!$scope.formatted_rows[i]) {
+                    $scope.formatted_rows[i] = [];
+                  }
+
+                  $scope.formatted_rows[i].push({
+                    value: col,
+                    type: dataType
+                  });
+                }
+
+              }
+            }
+          }
+        }
 
         self.execute = function(sql) {
           $scope.renderTable = false;
@@ -206,6 +242,7 @@ angular.module('console', ['sql', 'datatypechecks'])
             $scope.status = sqlQuery.status();
             $scope.statement = stmt + ';';
             inputScope.updateInput($scope.statement);
+            formatData();
           })
           .error(function(sqlQuery) {
             $scope.loading = false;
@@ -483,9 +520,7 @@ angular.module('console', ['sql', 'datatypechecks'])
 
         scope.ObjectTypeCheck = ObjectTypeCheck;
 
-        scope.getKeys = function getKeys() {
-          return Object.keys(scope.object);
-        };
+        scope.keys = Object.keys(scope.object);
 
         scope.getField = function getField(key) {
           return scope.object[key];

@@ -42,10 +42,16 @@ angular.module('datatypechecks', [])
     var ObjectTypeCheck = {};
 
     ObjectTypeCheck.isArray = function(object) {
+      if (!object) {
+        return false;
+      }
       return Array.isArray(object);
     };
 
     ObjectTypeCheck.isObject = function(object) {
+      if (!object) {
+        return false;
+      }
       return (!this.isArray(object) && typeof(object) == 'object');
     };
 

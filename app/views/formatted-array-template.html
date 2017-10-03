@@ -6,7 +6,7 @@
         <div class="formatted-array__element__key">{{:: formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <formatted-object object="element" expand="false"></formatted-object>
       </span>
       <span ng-if="ObjectTypeCheck.isValue(array[$index])" class="formatted-array__element">
-        <div class="formatted-array__element__key">{{:: formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <div ng-class="ObjectTypeCheck.getArrayBaseType(array, typesarray)">{{:: element }}</div>
+        <div class="formatted-array__element__key">{{:: formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <div ng-class="ObjectTypeCheck.getArrayBaseType(array, typesarray)">{{:: element !== null ? element : 'NULL'  }}</div>
       </span>
     </div>
   </div>
