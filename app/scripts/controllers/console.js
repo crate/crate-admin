@@ -52,6 +52,92 @@ angular.module('console', ['sql', 'datatypechecks'])
           message: ''
         };
 
+        $scope.pageSize = 50;
+        $scope.startIndex = 0;
+        $scope.page = 1;
+        $scope.numberOfPages = 1;
+        $scope.endIndex = $scope.startIndex + $scope.pageSize;
+
+        function scrollTop() {
+          var top = $('.query-result-container').position().top;
+          $('html,body').animate({scrollTop: top}, 500 );
+        }
+
+        $scope.next = function () {
+          if ($scope.startIndex >= $scope.rows.length ||
+           $scope.startIndex  + $scope.pageSize >= $scope.rows.length) {
+            return;
+          }
+          $scope.paginated_formatted_rows = [];
+          $scope.paginated_formatted_rows = [];
+          $scope.startIndex = $scope.startIndex + $scope.pageSize;
+          $scope.endIndex = $scope.endIndex + $scope.pageSize;
+          if ($scope.endIndex > $scope.rows.length) {
+            $scope.endIndex = $scope.rows.length;
+          }
+          $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
+          $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
+          $scope.page += 1;
+          scrollTop();
+        };
+
+        $scope.previous = function () {
+          $scope.paginated_formatted_rows = [];
+          $scope.paginated_formatted_rows = [];
+
+          if ($scope.startIndex === $scope.rows.length) {
+            $scope.startIndex = $scope.startIndex - $scope.pageSize;
+          } else {
+            $scope.startIndex = $scope.startIndex - $scope.pageSize;
+            $scope.endIndex = $scope.endIndex - $scope.pageSize;
+            if ($scope.startIndex < 0) {
+              $scope.startIndex = 0;
+              $scope.endIndex = $scope.startIndex + $scope.pageSize;
+            }
+          }
+          $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
+          $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
+          
+          if ($scope.page <= 1) {
+            $scope.page = 1;
+          } else {
+            $scope.page += -1;
+          }
+          scrollTop();
+        };
+
+        function safeApply(scope, fn) {
+          if (scope && scope.$root) {
+            var phase = scope.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+              scope.$eval(fn);
+            } else {
+              scope.$apply(fn);
+            }
+          }
+        }
+
+        $('body').keydown(function (e) {
+          if ($(e.target).is('textarea')) {
+            return;
+          }
+
+          var keyCode = e.keyCode;
+
+          if (keyCode === 39) {
+            safeApply($scope, function () {
+              $scope.next();
+              $('#next').attr('tabindex',-1).focus();
+            });
+
+          } else if (keyCode === 37) {
+            safeApply($scope, function () {
+              $scope.previous();
+              $('#previous').attr('tabindex',-1).focus();
+            });
+          }
+        });
+
         $scope.queryStatusClass = ConsoleFormatting.queryStatusClass;
 
         $scope.urlEncodedJson = function(json) {
@@ -117,10 +203,6 @@ angular.module('console', ['sql', 'datatypechecks'])
         };
         $scope.ColumnTypeCheck = ColumnTypeCheck;
 
-        $scope.loadMoreRows = function loadMoreRows(amount) {
-            $scope.limitToAmount += amount;
-        };
-
         var doStoreQueries = localStorage.getItem('crate.console.store_queries') || '1';
         $scope.useLocalStorage = !!parseInt(doStoreQueries);
         getRecentQueriesFromLocalStorage();
@@ -173,30 +255,26 @@ angular.module('console', ['sql', 'datatypechecks'])
         }
 
         function formatData() {
-          if (!$scope.formatResults) {
-            $scope.formatted_rows = $scope.rows;
-          } else {
-            $scope.formatted_rows = [];
-            if ($scope.rows) {
-              for (var i = 0; i < $scope.rows.length; i++) {
-                var row = $scope.rows[i];
-                for (var j = 0; j < row.length; j++) {
-                  //check each column type.
-                  var col = row[j];
-                  var dataType = getDataType(col, $scope.resultHeaderTypes[j]);
-                  if (!$scope.formatted_rows[i]) {
-                    $scope.formatted_rows[i] = [];
-                  }
-
-                  $scope.formatted_rows[i].push({
-                    value: col,
-                    type: dataType
-                  });
+          $scope.formatted_rows = [];
+          if ($scope.rows) {
+            for (var i = 0; i < $scope.rows.length; i++) {
+              var row = $scope.rows[i];
+              for (var j = 0; j < row.length; j++) {
+                //check each column type.
+                var col = row[j];
+                var dataType = getDataType(col, $scope.resultHeaderTypes[j]);
+                if (!$scope.formatted_rows[i]) {
+                  $scope.formatted_rows[i] = [];
                 }
 
+                $scope.formatted_rows[i].push({
+                  value: col,
+                  type: dataType
+                });
               }
             }
           }
+          $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
         }
 
         self.execute = function(sql) {
@@ -231,29 +309,30 @@ angular.module('console', ['sql', 'datatypechecks'])
               $scope.resultHeaders.push(sqlQuery.cols[i]);
             }
 
-            $scope.resultHeaderTypes = [];
-            for (i = 0; i < sqlQuery.col_types.length; i++) {
-              $scope.resultHeaderTypes.push(sqlQuery.col_types[i]);
-            }
+              $scope.resultHeaderTypes = [];
+              for (i = 0; i < sqlQuery.col_types.length; i++) {
+                $scope.resultHeaderTypes.push(sqlQuery.col_types[i]);
+              }
 
-            $scope.rows = sqlQuery.rows;
-            $scope.limitToAmount = 0;
-            $scope.loadMoreRows(100);
-            $scope.status = sqlQuery.status();
-            $scope.statement = stmt + ';';
-            inputScope.updateInput($scope.statement);
-            formatData();
-          })
-          .error(function(sqlQuery) {
-            $scope.loading = false;
-            $scope.error.hide = false;
-            $scope.renderTable = false;
-            $scope.error = sqlQuery.error;
+              $scope.rows = sqlQuery.rows;
+              $scope.limitToAmount = 0;
+              $scope.status = sqlQuery.status();
+              $scope.statement = stmt + ';';
+              inputScope.updateInput($scope.statement);
+              formatData();
+              $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
+              $scope.numberOfPages = Math.ceil($scope.rows.length / $scope.pageSize);
+            })
+            .error(function (sqlQuery) {
+              $scope.loading = false;
+              $scope.error.hide = false;
+              $scope.renderTable = false;
+              $scope.error = sqlQuery.error;
 
-            if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
-              displayedErrorTraceHint = true;
-              localStorage.setItem('crate.console.displayed_error_trace_hint', '1');
-            }
+              if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
+                displayedErrorTraceHint = true;
+                localStorage.setItem('crate.console.displayed_error_trace_hint', '1');
+              }
 
             $scope.status = sqlQuery.status();
             $scope.rows = [];
@@ -452,19 +531,6 @@ angular.module('console', ['sql', 'datatypechecks'])
         $scope.updateInput = function(stmt){
           selectStatementInput(stmt);
         };
-      }
-    };
-  })
-  .directive('lazyLoadScroll', function () {
-    return {
-      restrict: 'A',
-      link: function (scope, element, attrs) {
-        var e = element[0];
-        $(window).scroll(function () {
-          if (this.pageYOffset + this.innerHeight > e.scrollHeight) {
-              scope.$apply(attrs.lazyLoadScroll);
-          }
-        });
       }
     };
   })

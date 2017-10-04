@@ -11,6 +11,8 @@ Breaking Changes
 Changes
 -------
 
+ - Added pagination to Console results.
+ 
 Fixes
 -----
 
