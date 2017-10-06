@@ -13,21 +13,23 @@ describe('NavigationService', function() {
 
   describe('mockNavigationService', function() {
 
-    it('should add navBarElement in specified position', inject(function() {
+    it('should add navBarElement to navBarElements', inject(function() {
       var navBarElement = {
         image: "example.icon",
         url: "/test",
         text: "example",
-        index: 1
+        index: 50
       };
       mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index);
 
 
-      var navBarElements = mockNavigationService.navBarElements;
-      expect(navBarElements[1]).toEqual({
+      var navBarElements = mockNavigationService.navBarElements,
+          el = navBarElements[navBarElements.length - 1];
+      expect(el).toEqual({
         text: 'example',
         iconSrc: 'example.icon',
-        urlPattern: '/test'
+        urlPattern: '/test',
+        position: 50
       });
 
     }));
@@ -38,23 +40,26 @@ describe('NavigationService', function() {
         image: "example.icon",
         url: "/test",
         text: "example",
-        index: 1
+        index: 50
       };
       mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index);
 
       //verify successful insert
-      var navBarElements = mockNavigationService.navBarElements;
-      expect(navBarElements[1]).toEqual({
+      var navBarElements = mockNavigationService.navBarElements,
+          el = navBarElements[navBarElements.length - 1];
+
+      expect(el).toEqual({
         text: 'example',
         iconSrc: 'example.icon',
-        urlPattern: '/test'
+        urlPattern: '/test',
+        position: 50
       });
 
       mockNavigationService.updateNavBarElement(navBarElement.url, 'updated');
 
       //verify element is updated
       navBarElements = mockNavigationService.navBarElements;
-      expect(navBarElements[1].text).toEqual('updated');
+      expect(navBarElements[navBarElements.length - 1].text).toEqual('updated');
 
     }));
 

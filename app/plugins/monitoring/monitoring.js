@@ -417,7 +417,7 @@ angular.module('monitoring', [])
     $translate.refresh();
     var iconSrc = 'plugins/monitoring/static/icons/icon-monitoring.svg';
     var url = '/monitoring';
-    var position = 5;
+    var position = 41;
 
     NavigationService.addNavBarElement(iconSrc, 'Monitoring', url, position);
   });

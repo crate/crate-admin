@@ -249,16 +249,14 @@ var commons = angular.module('common', ['stats', 'udc'])
       var pluginElement = {
         'text': text,
         'iconSrc': iconClass,
-        'urlPattern': urlPattern
+        'urlPattern': urlPattern,
+        'position': index
       };
 
-      if (typeof index === 'undefined') {
-        navBarElements.push(pluginElement);
-      } else if (index < 0 || index >= navBarElements.length) {
-        navBarElements.push(pluginElement);
-      } else {
-        navBarElements.splice(index, 0, pluginElement);
-      }
+      navBarElements.push(pluginElement);
+      navBarElements.sort(function (a, b) {
+        return a.position - b.position;
+      });
     };
 
     // urlPattern is the identifier. TODO: need an actual identifier for each element
@@ -364,10 +362,10 @@ var commons = angular.module('common', ['stats', 'udc'])
 
 commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   // Initial translation of navigation bar items
-  NavigationService.addNavBarElement('static/assets/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/');
-  NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console');
-  NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables');
-  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes');
+  NavigationService.addNavBarElement('static/assets/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/', 10);
+  NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console', 20);
+  NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables', 30);
+  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 40);
 
 
   // Update Navbar Elements if Language is Changed

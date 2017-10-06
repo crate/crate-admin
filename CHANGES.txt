@@ -16,6 +16,8 @@ Changes
 Fixes
 -----
 
+ - Update position of the navigation menu elements.
+
  - Fixed left Join condition in shards query that previously caused 
    duplicated shards to be displayed.
 
