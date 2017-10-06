@@ -2,10 +2,13 @@
   <div class="page-container">
       <h1 class="cr-page-header">Shards</h1>  
 
-      <div class="cr-panel-block" ng-show="empty || !shards">
+      <div class="cr-panel-block" ng-show="empty">
         There are no shards. Shards are created and started when you create tables.
       </div>
 
+      <div class="progress" ng-show="!empty && !shards">
+        <div class="indeterminate"></div>
+      </div>
 
       <div id="shards-table--options" class="table-responsive" ng-show="!empty && shards">
         <table class="table no-margin-bottom no-border-bottom">
