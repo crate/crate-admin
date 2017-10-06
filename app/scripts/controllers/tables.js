@@ -49,7 +49,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
     SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
 
     $scope.executeQuery = function (query) {
-      $location.search({'query': query, 'exec': 'y'});
+      $location.search({'query': query});
       $location.path('/console');
     }; 
 
