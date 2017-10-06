@@ -130,7 +130,7 @@ angular.module('privileges', ['sql'])
     $translate.refresh();
     var iconSrc = 'plugins/privileges/static/icons/icon-user.svg';
     var url = '/privileges';
-    var position = 4;
+    var position = 42;
 
     NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.PRIVILEGES'), url, position);
 
