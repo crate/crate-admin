@@ -30,7 +30,7 @@ angular.module('console', ['sql', 'datatypechecks'])
   .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting){
     return {
       restrict: 'A',
-      controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout', function($scope, $translate, $location, Clipboard, $timeout){
+      controller: ['$scope', '$translate', '$location', 'Clipboard', function($scope, $translate, $location, Clipboard){
         var self = this;
 
         var inputScope = null;
@@ -277,11 +277,6 @@ angular.module('console', ['sql', 'datatypechecks'])
             Clipboard.copy($location.absUrl());
           }
         };
-        $timeout(function () {
-          if ($location.search().exec === 'y' && $location.search().query) {
-            self.execute($location.search().query);
-          }
-        }, 5);
       }]
     };
   })
@@ -457,7 +452,6 @@ angular.module('console', ['sql', 'datatypechecks'])
         $scope.updateInput = function(stmt){
           selectStatementInput(stmt);
         };
-
       }
     };
   })
