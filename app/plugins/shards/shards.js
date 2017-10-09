@@ -12,7 +12,8 @@ angular.module('shards', ['sql'])
       'partitions.values ' +
       'FROM sys.shards AS shards ' +
       'LEFT JOIN information_schema.table_partitions AS partitions ' +
-      'ON shards.partition_ident = partitions.partition_ident ' +
+      'ON shards.table_name = partitions.table_name ' +
+      'AND shards.partition_ident = partitions.partition_ident ' +
       'ORDER BY key, node_id, id';
 
     var cols = ['id', 'size', 'min_lucene_version', 'num_docs', 'orphan_partition', 'table_name', 'schema_name', 'partition_ident', 'fqn', 'key', 'node_id', 'node_info_name', 'node_info_hostname', 'node_info_rest_url', 'node_info_version', 'state', 'routing_state', 'relocating_node', 'primary', 'values'];
