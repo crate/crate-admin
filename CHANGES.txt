@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Shard and node details are now loaded on demand in the shards view.
+
  - Fixed issue that caused the cluster check display to be delayed.
 
  - Fix formating of strings in the console view.

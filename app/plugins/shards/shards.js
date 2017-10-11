@@ -1,22 +1,85 @@
 'use strict';
 
 angular.module('shards', ['sql'])
-  .factory('ShardService', function (SQLQuery, queryResultToObjects, $q) {
-    var ShardService = {
-      deferred: $q.defer()
-    };
-
-    var stmt = 'SELECT shards.id, size, min_lucene_version, num_docs, orphan_partition,  shards.table_name, shards.schema_name, shards.partition_ident, format(\'%s.%s\', shards.schema_name, shards.table_name) AS fqn, ' +
-      'format(\'%s.%s.%s\', shards.schema_name, shards.table_name, shards.partition_ident) AS key, ' +
-      '_node[\'id\'] AS node_id, _node[\'name\'] AS node_info_name, _node[\'hostname\'] AS node_info_hostname, _node[\'rest_url\'] AS node_info_rest_url, _node[\'version\'][\'number\'] AS node_info_version, state, routing_state, relocating_node, primary, ' +
+  .factory('ShardDetail', function (SQLQuery, queryResultToObjects, $q) {
+    var service = {};
+    var stmt = 'SELECT shards.id, size, min_lucene_version, num_docs, orphan_partition, ' +
+      'state, routing_state, relocating_node, primary, ' +
       'partitions.values ' +
       'FROM sys.shards AS shards ' +
       'LEFT JOIN information_schema.table_partitions AS partitions ' +
       'ON shards.table_name = partitions.table_name ' +
       'AND shards.partition_ident = partitions.partition_ident ' +
+      'WHERE shards._node[\'id\']=$1 ' +
+      'AND shards.schema_name=$2 ' +
+      'AND shards.table_name=$3 ' +
+      'AND shards.partition_ident=$4 ' +
+      'AND shards.id=$5 ';
+
+    var cols = ['id', 'size', 'min_lucene_version', 'num_docs', 'orphan_partition',
+          'state', 'routing_state', 'relocating_node', 'primary', 'values'];
+
+    service.get = function (node_id, schema_name, table_name, partition_ident, shard_id) {
+      if (node_id === 'unassigned') {
+        node_id = null;
+      }
+      var deferred = $q.defer(),
+        promise = deferred.promise;
+      SQLQuery.execute(stmt, [node_id, schema_name, table_name, partition_ident, shard_id], false, false, true)
+        .success(function (query) {
+          var result = queryResultToObjects(query, cols);
+          deferred.resolve(result);
+        })
+        .error(function () {
+          deferred.reject();
+        });
+
+      return promise;
+    };
+
+    return service;
+  })
+  .factory('NodeDetail', function (SQLQuery, queryResultToObjects, $q) {
+    var service = {};
+    var stmt = 'SELECT name, id, hostname, rest_url, version[\'number\'] ' +
+      'FROM sys.nodes ' +
+      'WHERE id=$1';
+
+    var cols = ['name', 'id', 'hostname', 'rest_url', 'version'];
+
+    service.get = function (node_id) {
+      var deferred = $q.defer(),
+        promise = deferred.promise;
+      SQLQuery.execute(stmt, [node_id], false, false, true)
+        .success(function (query) {
+          var result = queryResultToObjects(query, cols);
+          deferred.resolve(result);
+        })
+        .error(function () {
+          deferred.reject();
+        });
+
+      return promise;
+    };
+
+    return service;
+  })
+  .factory('ShardService', function (SQLQuery, queryResultToObjects, $q) {
+    var ShardService = {
+      deferred: $q.defer()
+    };
+
+    var stmt = 'SELECT id, table_name, schema_name, partition_ident, ' +
+      'state, primary, ' +
+      'format(\'%s.%s\', schema_name, table_name) AS fqn, ' +
+      'format(\'%s.%s.%s\', schema_name, table_name, partition_ident) AS key, ' +
+      '_node[\'id\'] AS node_id, _node[\'name\'] AS node_name ' +
+      'FROM sys.shards ' +
       'ORDER BY key, node_id, id';
 
-    var cols = ['id', 'size', 'min_lucene_version', 'num_docs', 'orphan_partition', 'table_name', 'schema_name', 'partition_ident', 'fqn', 'key', 'node_id', 'node_info_name', 'node_info_hostname', 'node_info_rest_url', 'node_info_version', 'state', 'routing_state', 'relocating_node', 'primary', 'values'];
+    var cols = ['id', 'table_name', 'schema_name',
+     'partition_ident', 'state', 'primary',
+     'fqn', 'key', 'node_id', 'node_name'];
 
     ShardService.execute = function () {
       var deferred = $q.defer(),
@@ -77,7 +140,7 @@ angular.module('shards', ['sql'])
       }
     };
   })
-  .controller('ShardsController', function ($scope, $q, ShardsIntervalService, $location, $filter, $rootScope, $interval) {
+  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, ShardsIntervalService, $location, $filter, $rootScope, $interval) {
     $scope.idOption = (localStorage.getItem('crate.shards.shard_id_on') || '1') === '1';
 
     $scope.response = [];
@@ -115,25 +178,46 @@ angular.module('shards', ['sql'])
       var key = target.data('key');
       $scope.selectShard(key);
       // set tooltip data
-      var table_key = target.data('table');
-      var node_id = target.data('node');
+      var tableKey = target.data('table');
+      var nodeId = target.data('node');
+      var shardId = target.data('id');
 
-      var shard = $scope.shards[node_id].shards_by_table[table_key].shards.filter(function (el) {
-        return el.key === key;
-      })[0];
-      $scope.tooltipData = shard;
+      var tableNameParts = tableKey.split('.');
+      $q.when(ShardDetail.get(nodeId, tableNameParts[0], tableNameParts[1], tableNameParts[2], shardId))
+        .then(function (shard) {
+          $scope.tooltipData = shard[0];
+          if ($scope.tooltipData) {
+            $scope.tooltipData.partition_ident = tableNameParts[2];
+          }
+          $scope.tooltipError = false;
+        }).catch(function () {
+          $scope.tooltipError = true;
+        }).finally(function () {
+          $scope.tooltipLoading = false;
+        });
+
       $scope.pageX = event.pageX;
       $scope.pageY = event.pageY;
       $scope.displayTooltip = true;
     }
 
     function setNodeData(target) {
+
       if (target.data('node') === 'unassigned') {
         //don't display tooltip for unassigned node
         return;
       }
-      var node = $scope.shards[target.data('node')].node_info;
-      $scope.tooltipData = node;
+
+      $q.when(NodeDetail.get(target.data('node')))
+        .then(function (node) {
+          $scope.tooltipData = node[0];
+          $scope.tooltipError = false;
+        }).catch(function () {
+          $scope.tooltipError = true;
+        }).finally(function () {
+          $scope.tooltipLoading = false;
+        });
+
       $scope.pageX = event.pageX;
       $scope.pageY = event.pageY;
       $scope.displayTooltip = true;
@@ -148,6 +232,7 @@ angular.module('shards', ['sql'])
         });
       })
       .mouseover(function (event) {
+        $scope.tooltipLoading = true;
         var target = $(event.target);
         if (target.hasClass('shard-number') && !target.parent().hasClass('empty-shard')) {
           target = target.parent();
@@ -268,15 +353,6 @@ angular.module('shards', ['sql'])
           'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + [obj.key, obj.id].join('-').replace(/\./g, '-'),
           'key': [obj.key, obj.id].join('-').replace(/\./g, '-'),
           'id': obj.id,
-          'size': obj.size,
-          'min_lucene_version': obj.min_lucene_version,
-          'num_docs': obj.num_docs,
-          'primary': obj.primary,
-          'relocating_node': obj.relocating_node,
-          'routing_state': obj.routing_state,
-          'state': obj.state,
-          'partition_ident': obj.partition_ident,
-          'values': obj.values
         });
 
         nodeFormat.shards_by_table[obj.key].table_name = obj.table_name;
@@ -284,13 +360,10 @@ angular.module('shards', ['sql'])
         nodeFormat.shards_by_table[obj.key].partition_ident = obj.partition_ident;
         nodeFormat.shards_by_table[obj.key].fqn = obj.fqn;
 
-        if (obj.node_info_name) {
+        if (obj.node_name) {
           nodeFormat.node_info = {
-            'name': obj.node_info_name,
-            'hostname': obj.node_info_hostname,
-            'rest_url': obj.node_info_rest_url,
-            'version': obj.node_info_version,
-            'id': obj.node_id,
+            'name': obj.node_name,
+            'id': obj.node_id
           };
         } else {
           nodeFormat.node_info = {
