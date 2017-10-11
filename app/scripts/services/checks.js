@@ -105,7 +105,7 @@ angular.module('checks', ['sql'])
         });
     };
     // Initial fetch
-    $timeout(data.fetch, 2000);
+    $timeout(data.fetch, 5);
     data.refresh = function() {
       data.fetch(true);
     };

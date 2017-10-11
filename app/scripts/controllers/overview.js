@@ -90,6 +90,16 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     });
 
+    //initial fetch 
+    if (ChecksService.success === true) {
+      $scope.checks = ChecksService.checks;
+    } else {
+      $scope.checks = {
+        node_checks: [],
+        cluster_check: []
+      };
+    }
+
     var removeFromArray = function(arr, obj) {
       arr.splice(arr.indexOf(obj), 1);
     };
