@@ -4,6 +4,8 @@
   "enterprise": false,
   "routing": {
     "/help": {
+      "name": "tutorial",
+      "url": "/help", 
       "templateUrl": "plugins/tutorial/tutorial.html",
       "controller": "TutorialController"
     }
@@ -15,6 +17,8 @@
   "enterprise": true,
   "routing": {
     "/monitoring": {
+      "name": "monitoring",
+      "url": "/monitoring", 
       "templateUrl": "plugins/monitoring/monitoring.html",
       "controller": "MonitoringController"
     }
@@ -26,8 +30,14 @@
   "enterprise": true,
   "routing": {
     "/privileges": {
-      "templateUrl": "plugins/privileges/privileges.html",
-      "controller": "PrivilegesDetailController"
+      "name": "privileges",
+      "url": "/privileges", 
+      "template": "<privileges>"
+    },
+    "/privileges/:user": {
+      "name": "privileges.privilege",
+      "url": "/:user", 
+      "template": "<privileges-detail>"
     }
   }
 }, {
@@ -37,6 +47,8 @@
   "enterprise": true,
   "routing": {
     "/shards": {
+      "name": "shards",
+      "url": "/shards", 
       "templateUrl": "plugins/shards/shards.html",
       "controller": "ShardsController"
     }

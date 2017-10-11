@@ -377,7 +377,7 @@ angular.module('console', ['sql', 'datatypechecks'])
       }]
     };
   })
-  .directive('cli', function($timeout, KeywordObjectCreator, $location, ConsoleState){
+  .directive('cli', function($timeout, KeywordObjectCreator, $location, ConsoleState, $transitions){
     return {
       restrict: 'E',
       transclude: true,
@@ -495,7 +495,7 @@ angular.module('console', ['sql', 'datatypechecks'])
 
         updateStatementOnUrlSearch();
         
-        $scope.$on('$routeUpdate', updateStatementOnUrlSearch.bind(this));
+        $scope.$on('$stateChangeStart', updateStatementOnUrlSearch.bind(this));
 
         // input change event
         editor.on('change', function(instance){
@@ -558,12 +558,12 @@ angular.module('console', ['sql', 'datatypechecks'])
           selectStatementInput(stmt);
         };
 
-        $scope.$on('$routeChangeStart', function () {
-          // save console state
-          var state = {};
-          state.stmt = editor.getValue();
-          ConsoleState.save(state);
-        });
+        $transitions.onStart({}, function() {
+              // save console state
+              var state = {};
+              state.stmt = editor.getValue();
+              ConsoleState.save(state);
+            });
       }
     };
   })

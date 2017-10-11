@@ -28,7 +28,7 @@
 
     <!-- build:js static/scripts/angular.js -->
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <!-- endbuild -->
@@ -94,7 +94,7 @@
         <div id="navigation-viewport" ng-include="'views/nav.html'"></div>
       </div>
       <div id="page-wrapper" ng-class="$root.showSideNav ? '' : 'page-wrapper--no-side-nav'">
-        <div id="page-viewport" ng-view></div>
+        <ui-view id="page-viewport" ></ui-view>
       </div>
     </div>
 

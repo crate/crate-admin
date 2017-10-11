@@ -1,41 +1,13 @@
-<user-list ng-hide="showError" users=userList current-user="currentUser"></user-list>
+<div>
+  <user-list ng-hide="showError" users=userList></user-list>
+  <div ng-show="showError" class="page-container page-container--no-list">
 
-<div ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showUserList || showError }">
-  <div class="page-container">
+    <h1 class="cr-page-header">Privileges</h1>  
 
-      <h1 class="cr-page-header">Privileges</h1>  
-      <h3 ng-hide="showError">User : {{currentUser.name}}</h3> 
+    <div class="cr-panel-block-p">
+      You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator. 
+    </div>
 
-      <div class="cr-panel-block-p" ng-if="showError">
-        You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator. 
-      </div>
-
-      <div class="cr-panel-block-p" ng-if="currentUser.superuser">
-        The superuser has access to the whole cluster. It is not possible to perform GRANT / DENY or REVOKE statements on the superuser.
-      </div>
-
-
-      <div class="table-search__wrapper" ng-show="!currentUser.superuser && !showError">
-        <input id="tableSearch" ng-model="search.$" placeholder="Filter privileges ..." type="text" focus="true">
-        <span ng-if="search.$" class="cr-clear-privileges-search" ng-click="search.$ = '' ">
-            <i class="fa fa-times-circle" aria-hidden="true"></i>
-        </span>
-      </div>
-        
-      <div class="table-schema__details user-privileges__details" ng-if="!currentUser.superuser && !showError">
-        <div class="table-schema__headers">
-          <div class="table-schema__header">name</div>
-          <div class="table-schema__header">class</div>
-          <div class="table-schema__header">ident</div>
-          <div class="table-schema__header">state</div>
-          <div class="table-schema__header">type</div>
-        </div>
-        <div class="table-schema__detail">
-          <div class="table-schema__detail__row" ng-repeat="row in userPrivileges | filter:search track by $index">
-            <div class="table-schema__detail__cell" ng-repeat="column in row track by $index">{{ column }}</div>
-          </div>
-        </div>
-      </div>
-
-  </div>
+   </div>
+  <ui-view></ui-view>
 </div>

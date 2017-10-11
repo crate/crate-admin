@@ -1,7 +1,7 @@
 'use strict';
 
 var MODULES = [
-  'ngRoute',
+  'ui.router',
   'ngCookies',
   'utils',
   'sql',
@@ -29,29 +29,39 @@ var ENTERPRISE_PLUGINS = [];
 
 var ROUTING = {
   '/': {
-    'templateUrl': 'views/overview.html',
-    'controller': 'OverviewController'
+    'name' : 'overview',
+    'url': '/',
+    'templateUrl': 'views/overview.html'
   },
   '/console': {
-    'templateUrl': 'views/console.html',
-    'controller': 'ConsoleController',
-    'reloadOnSearch': false
+    'name' : 'console',
+    'url': '/console',
+    'templateUrl': 'views/console.html'
   },
   '/tables': {
-    'templateUrl': 'views/tables.html',
-    'controller': 'TableDetailController'
+    'name' : 'tables',
+    'url': '/tables',
+    'template': '<tables>',
   },
   '/tables/:table_schema/:table_name': {
-    'templateUrl': 'views/tables.html',
-    'controller': 'TableDetailController'
+    'name' : 'tables.table',
+    'url': '/:table_schema/:table_name',
+    'template': '<table-detail>',
   },
   '/nodes': {
-    'templateUrl': 'views/node.html',
-    'controller': 'NodeDetailController'
+    'name' : 'nodes',
+    'url': '/nodes',
+    'template': '<cluster>',
   },
   '/nodes/:node_id': {
-    'templateUrl': 'views/node.html',
-    'controller': 'NodeDetailController'
+    'name' : 'nodes.node',
+    'url': '/:node_id',
+    'template': '<node-detail>',
+  },
+  '/401': {
+    'name': 'unauthorized',
+    'url': '/401',
+    'templateUrl': 'views/401.html'
   }
 };
 
@@ -113,10 +123,10 @@ $.get('conf/plugins.json', function(plugins) {
   //function to create 'crate' module and bootstrap app
   var loadApp = function() {
     app = angular.module('crate', MODULES);
-    app.config(['SQLQueryProvider', 'queryResultToObjectsProvider', '$ocLazyLoadProvider', '$routeProvider',
+    app.config(['SQLQueryProvider', 'queryResultToObjectsProvider', '$ocLazyLoadProvider', '$stateProvider',
       'SettingsProvider',
       function(SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider,
-        $routeProvider, SettingsProvider) {
+        $stateProvider, SettingsProvider) {
 
         var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise, ' +
           'settings[\'license\'][\'ident\'] as ident ' +
@@ -155,7 +165,7 @@ $.get('conf/plugins.json', function(plugins) {
                 var routing = ENTERPRISE_PLUGINS[i].routing;
                 if (routing) {
                   for (var pattern in routing) {
-                    $routeProvider.when(pattern, routing[pattern]);
+                    $stateProvider.state(routing[pattern]);
                   }
                 }
               }
@@ -170,32 +180,27 @@ $.get('conf/plugins.json', function(plugins) {
       }
     ]);
 
-    app.config(['$routeProvider', '$httpProvider',
-      function($routeProvider, $httpProvider) {
+    app.config(['$stateProvider', '$httpProvider', '$urlMatcherFactoryProvider', '$urlRouterProvider',
+      function($stateProvider, $httpProvider, $urlMatcherFactoryProvider, $urlRouterProvider) {
+        $urlMatcherFactoryProvider.strictMode(false);
         // Enabling CORS in Angular JS
         $httpProvider.defaults.useXDomain = true;
         // register default routing
         var pattern;
         for (pattern in ROUTING) {
-          $routeProvider.when(pattern, ROUTING[pattern]);
+          $stateProvider.state(ROUTING[pattern]);
         }
         // register routing from plugins
         for (var i = 0; i < DEFAULT_PLUGINS.length; i++) {
           var routing = DEFAULT_PLUGINS[i].routing;
           if (routing) {
             for (pattern in routing) {
-              $routeProvider.when(pattern, routing[pattern]);
+              $stateProvider.state(routing[pattern]);
             }
           }
         }
-        $routeProvider.when('/401', {
-          'templateUrl': 'views/401.html',
-          'controller': 'UnauthorizedCtrl'
-        });
-        // register default redirect to '/' if URL not found
-        $routeProvider.otherwise({
-          redirectTo: '/'
-        });
+        $urlRouterProvider
+        .otherwise('/');
       }
     ]);
 
@@ -230,16 +235,6 @@ $.get('conf/plugins.json', function(plugins) {
     app.run(function($rootScope, $translate) {
       $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
         $translate.refresh();
-      });
-    });
-
-    app.run(function($rootScope) {
-      $rootScope.$on('showSideNav', function() {
-        $rootScope.showSideNav = true;
-      });
-
-      $rootScope.$on('hideSideNav', function() {
-        $rootScope.showSideNav = false;
       });
     });
 

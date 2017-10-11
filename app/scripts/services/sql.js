@@ -38,7 +38,7 @@ angular.module('sql', [])
 
     return baseURI;
   })
-  .factory('SQLQuery', function($http, $q, $log, baseURI, $location) {
+  .factory('SQLQuery', function($http, $q, $log, baseURI, $location, $state) {
     function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
@@ -146,7 +146,8 @@ angular.module('sql', [])
             error.error_trace = data.error_trace;
             error.status = data.error.code;
             if (data.error.code === 4011 && !isConsole) {
-              $location.path('/401');
+
+              $state.go('/401');
             }
           } else if (status >= 400) {
             error = new Error(data);

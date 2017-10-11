@@ -257,10 +257,6 @@ label:hover:before {
   padding-bottom: 40px;
 }
 
-.page-container-padded {
-  padding-left: 250px;
-}
-
 .cr-panel-block-p {
   background-color: @block-bg;
   margin-top: 10px;
@@ -406,6 +402,9 @@ label:hover:before {
   background-color: @side-bar-element-active-bg-color;
 }
 
+.page-container.page-container-padded {
+    padding-left: 283px;
+  }
 
 // Media Queries
 // -------------------------
@@ -424,8 +423,6 @@ label:hover:before {
   	height: calc(~"100vh -" @status-bar-height);
   }
 
-
-
 }
 
 @media screen and (max-width: @max-width-sm){
@@ -441,7 +438,7 @@ label:hover:before {
     display: none !important;
   }
 
-  .hide-node-list {
+  .hide-sidebar-list {
     display: none !important;
     }
 
@@ -450,26 +447,25 @@ label:hover:before {
     width: 100vw !important;
   }
 
-  .page-container--no-list{
-    padding-left: 0px !important;
+  .page-container {
+    padding: 10px;
+    margin-top: 0px;
+  }
+
+  .page-container.page-container-padded {
+    padding-left: 162px ;
+  }
+
+  .page-container.page-container-padded.page-container--no-list {
+    padding-left: 10px !important;
   }
 
   .side-bar {
     left: @side-nav-width-xs;
   }
-}
 
-@media only screen and (max-width: @max-width-sm) {
   .side-bar {
     width: 150px;
-  }
-
-  .page-container-padded {
-    padding-left: 150px;
-  }
-  .page-container{
-    padding: 10px;
-    margin-top: 0px;
   }
 }
 
