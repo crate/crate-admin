@@ -99,9 +99,10 @@
                   <pre class="query-result" ng-switch-when="object"><formatted-object object="column.value" expand="true"></formatted-object></pre>
 
                   <pre class="query-result object" ng-switch-when="geo_shape"><span>Type</span>: {{ column.value['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{urlEncodedJson(column)}}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column.value['coordinates'] }} </pre>
-                  <div ng-switch-default class="query-result cr-table-cell--max-width" ng-class="column.type">{{column.value }}<span class="unsafe-number" data-original-title="{{'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column.value)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
-                  </div>
-                  
+                  <pre ng-switch-default class="query-result" ng-class="column.type">
+                    <code class="cr-table-cell--max-width">{{column.value }}<span class="unsafe-number" data-original-title="{{'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column.value)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    </code>
+                  </pre>
               </td>
               </tr>
               </tbody>
