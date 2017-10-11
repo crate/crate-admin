@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fixed issue that caused the cluster check display to be delayed.
+
  - Fix formating of strings in the console view.
 
 2017/10/10 1.6.3

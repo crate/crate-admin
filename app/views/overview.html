@@ -89,7 +89,7 @@
               <div class="cr-severity-header__title">{{:: 'OVERVIEW.AFFECTED_NODES' | translate }}:</div>
               <a class="cr-severity-header__btn" ng-click="dismissCheck(check)">{{ 'OVERVIEW.DISMISS_ALL' | translate }}</a>
             </div>
-            <div class="cr-severity-list__item__header" ng-repeat="node in check.nodes track by node.id track by $index">
+            <div class="cr-severity-list__item__header" ng-repeat="node in check.nodes track by node.id">
               <div class="cr-severity-list__item__header__title">{{ node.name }}</div>
               <a class="cr-severity-list__item__header__btn" ng-click="dismissCheckByNode(node, check)">{{:: 'OVERVIEW.DISMISS' | translate }}</a>
             </div>
