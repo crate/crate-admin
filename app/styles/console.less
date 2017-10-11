@@ -135,8 +135,11 @@ tr > .cr-table-cell {
 }
 .cr-table-cell--max-width {
   max-width: 400px;
+  min-width: 300px;
   word-wrap: break-word !important;
   display: block;
+  overflow-wrap: break-word !important;
+  font: inherit;
 }
 
 .cr-table-row:nth-child(2n) td {
@@ -164,6 +167,7 @@ tr > .cr-table-cell {
   color: @text-color;
   border: none;
   word-break: normal;
+  display: inline-table;
 }
 
 #error-trace {
@@ -177,7 +181,6 @@ tr > .cr-table-cell {
 
 #console-statement-input {
   padding: 10px !important;
-
 }
 
 .cm-s-monokai.CodeMirror {
