@@ -30,8 +30,12 @@ angular.module('console', ['sql', 'datatypechecks'])
   .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting){
     return {
       restrict: 'A',
-      controller: ['$scope', '$translate', '$location', 'Clipboard', function($scope, $translate, $location, Clipboard){
+      controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $translate, $location, Clipboard, $timeout){
         var self = this;
+
+        $timeout(function(){
+          $('#cr-console-query').attr('tabindex',-1).focus(); 
+        }, 500);
 
         var inputScope = null;
         var statement = '';
@@ -269,6 +273,7 @@ angular.module('console', ['sql', 'datatypechecks'])
         $scope.execute = function() {
           self.execute(statement);
           $location.search('query', statement);
+          $('#cr-console-query').attr('tabindex',-1).focus();
         };
 
         $scope.share = function () {
@@ -389,7 +394,7 @@ angular.module('console', ['sql', 'datatypechecks'])
           }
         }
         updateStatementOnUrlSearch();
-
+        
         $scope.$on('$routeUpdate', updateStatementOnUrlSearch.bind(this));
 
         // input change event
