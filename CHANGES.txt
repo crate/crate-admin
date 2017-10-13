@@ -16,6 +16,8 @@ Changes
 Fixes
 -----
 
+ - Keep input of console when changing tabs.
+
  - Added focus on textbox when the console view is loaded and after
    clicking on the `Execute Query` button.
 

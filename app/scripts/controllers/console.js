@@ -27,6 +27,20 @@ angular.module('console', ['sql', 'datatypechecks'])
       }
     };
   })
+  .service('ConsoleState', function () {
+    var state = {};
+    var service = {};
+
+    service.save = function (consoleState) {
+        state = consoleState;
+      };
+
+    service.restore = function() {
+        return state;
+      };
+
+    return service;
+  })
   .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting){
     return {
       restrict: 'A',
@@ -363,7 +377,7 @@ angular.module('console', ['sql', 'datatypechecks'])
       }]
     };
   })
-  .directive('cli', function($timeout, KeywordObjectCreator, $location){
+  .directive('cli', function($timeout, KeywordObjectCreator, $location, ConsoleState){
     return {
       restrict: 'E',
       transclude: true,
@@ -471,6 +485,14 @@ angular.module('console', ['sql', 'datatypechecks'])
             $console.updateStatement($location.search().query);
           }
         }
+
+        if (statement === '' && ConsoleState.restore().stmt) {
+          //restore statement when the console view is reloaded
+          var stmt = ConsoleState.restore().stmt;
+          editor.setValue(stmt);
+          $console.updateStatement(stmt);
+        } 
+
         updateStatementOnUrlSearch();
         
         $scope.$on('$routeUpdate', updateStatementOnUrlSearch.bind(this));
@@ -535,6 +557,13 @@ angular.module('console', ['sql', 'datatypechecks'])
         $scope.updateInput = function(stmt){
           selectStatementInput(stmt);
         };
+
+        $scope.$on('$routeChangeStart', function () {
+          // save console state
+          var state = {};
+          state.stmt = editor.getValue();
+          ConsoleState.save(state);
+        });
       }
     };
   })
