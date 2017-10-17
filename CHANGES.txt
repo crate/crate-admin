@@ -16,6 +16,12 @@ Changes
 Fixes
 -----
 
+2017/10/17 1.6.4
+================
+
+Fixes
+----- 
+
  - Keep input of console when changing tabs.
 
  - Added focus on textbox when the console view is loaded and after
