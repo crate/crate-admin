@@ -10,11 +10,17 @@ Breaking Changes
 
 Changes
 -------
-
- - Added pagination to Console results.
  
 Fixes
 -----
+
+2017/10/17 1.7.0
+================
+
+Changes
+-------
+
+ - Added pagination to Console results.
 
 2017/10/17 1.6.4
 ================
