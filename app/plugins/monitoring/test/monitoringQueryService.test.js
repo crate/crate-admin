@@ -66,8 +66,8 @@ describe('monitoring', function() {
         'AVG(ended - started) AS duration, ' +
         'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
         'FROM sys.jobs_log ' +
-        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN CURRENT_TIMESTAMP - 180000' +
-        ' - 20000 AND CURRENT_TIMESTAMP - 20000 ' +
+        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN CURRENT_TIMESTAMP - 180000::timestamp' +
+        ' - 20000::timestamp AND CURRENT_TIMESTAMP - 20000::timestamp ' +
         'GROUP BY 1, 2, 5 ORDER BY ended_time ASC');
     }));
 
@@ -81,8 +81,8 @@ describe('monitoring', function() {
         'AVG(ended - started) AS duration, ' +
         'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
         'FROM sys.jobs_log ' +
-        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN 1485251382 - 20000 ' +
-        'AND CURRENT_TIMESTAMP - 20000 ' +
+        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN 1485251382 - 20000::timestamp ' +
+        'AND CURRENT_TIMESTAMP - 20000::timestamp ' +
         'GROUP BY 1, 2, 5 ORDER BY ended_time ASC');
     }));
   });
