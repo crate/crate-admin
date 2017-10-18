@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Fixed issue that caused the cluster view to not redirect
+   to the first node by default. 
+
 2017/10/17 1.7.0
 ================
 

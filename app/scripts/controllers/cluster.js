@@ -19,9 +19,11 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         var firstRedirect = false;
 
         function redirectToFirstNode() {
-          if (!firstRedirect && $scope.selected && $scope.selected.id) {
+          if (!firstRedirect && $scope.selectedNode && $scope.selectedNode.id) {
             firstRedirect = true;
-            $scope.goToPath($scope.selected.id);
+            $state.go('nodes.node', {
+              node_id: $scope.selectedNode.id
+            });
           }
         }
 
@@ -33,7 +35,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           $scope.renderSidebar = cluster.length > 0;
           
           if (!$scope.renderSidebar) {
-            $scope.selected = null;
+            $scope.selectedNode = null;
           } else {
             // sort nodes by health and hostname
             $scope.nodes = $scope.nodes.sort(compareByHealth);
@@ -57,6 +59,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         };
 
         getUpdatedNodeList($scope.nodeId);
+        redirectToFirstNode();
 
         $scope.$on('clusterState.refreshed', function () {
           getUpdatedNodeList($scope.nodeId);
