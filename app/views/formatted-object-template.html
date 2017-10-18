@@ -9,7 +9,7 @@
         <div class="formatted-object__element__key">{{ key }}</div> <div class="formatted-object__element__seperator">:</div> <formatted-array array="getField(key)" typesarray="[100, 1]" expand="false"></formatted-array>
       </span>
       <span ng-if="ObjectTypeCheck.isValue(object[key])" class="formatted-object__element">
-        <div class="formatted-object__element__key">{{ key }}</div> <div class="formatted-object__element__seperator">:</div> <div class="{{ ObjectTypeCheck.getType(object[key]) }}">{{ getField(key) }}</div>
+        <div class="formatted-object__element__key">{{ key }}</div> <div class="formatted-object__element__seperator">:</div> <div class="{{ ObjectTypeCheck.getType(object[key]) }}">{{ getField(key) !== null ? getField(key) : 'NULL' }}</div>
       </span>
     </div>
   </div>
