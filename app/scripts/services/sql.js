@@ -146,8 +146,7 @@ angular.module('sql', [])
             error.error_trace = data.error_trace;
             error.status = data.error.code;
             if (data.error.code === 4011 && !isConsole) {
-
-              $state.go('/401');
+              $state.go('unauthorized');
             }
           } else if (status >= 400) {
             error = new Error(data);
