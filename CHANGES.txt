@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fixed an issue that delayed the overview chart's initial display.  
+
  - Fixed issue that caused the redirect to ``/401`` in case of 
    unauthorized access to fail. 
 

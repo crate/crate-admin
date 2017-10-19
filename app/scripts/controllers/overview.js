@@ -55,6 +55,11 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
           },
           axisLabelDistance: -10,
           showMaxMin: false
+        },
+        dispatch: {
+          renderEnd: function () {
+            $scope.api.update();
+          }
         }
       }
     };
@@ -155,8 +160,10 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
           }
         });
     };
-    $scope.callback = function() {
-      $scope.api.clearElement();
+
+    $scope.config = {
+      visible: true, 
+      debounce: 5 
     };
 
     $scope.dismissCheck = function(check) {
