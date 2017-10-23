@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('checks', ['sql'])
+angular.module('checks', ['sql', 'events'])
   .factory('ClusterCheck', function(SQLQuery, queryResultToObjects, $q) {
     var self = {
       deferred: $q.defer()
@@ -77,7 +77,7 @@ angular.module('checks', ['sql'])
 
     return self;
   })
-  .factory('ChecksService', function($timeout, $q, NodeCheck, ClusterCheck, $rootScope) {
+  .factory('ChecksService', function($timeout, $q, NodeCheck, ClusterCheck, $rootScope, ClusterEventsHandler) {
     var data = {
       checks: {},
       success: false,
@@ -94,14 +94,14 @@ angular.module('checks', ['sql'])
           if (force !== true) {
             $timeout(data.fetch, 60000);
           }
-          $rootScope.$broadcast('checksService.refreshed');
+          ClusterEventsHandler.trigger('CHECKS_REFRESHED');
         }).catch(function() {
           data.success = false;
           retryCount++;
           if (force !== true) {
             $timeout(data.fetch, 500 * retryCount);
           }
-          $rootScope.$broadcast('checksService.refreshed');
+          ClusterEventsHandler.trigger('CHECKS_REFRESHED');
         });
     };
     // Initial fetch

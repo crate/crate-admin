@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
+angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
   .directive('cluster', function () {
     return {
       restrict: 'E',
@@ -9,7 +9,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       templateUrl: 'views/node.html',
       controllerAs: 'ClusterController',
       controller: function ($scope, $state,
-        ClusterState, prepareNodeList, compareByHealth) {
+        ClusterState, prepareNodeList, compareByHealth, ClusterEventsHandler) {
 
         $scope.nodes = [];
         $scope.selectedNode = null;
@@ -33,7 +33,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
 
           $scope.nodes = prepareNodeList(cluster, ClusterState.data.master_node);
           $scope.renderSidebar = cluster.length > 0;
-          
+
           if (!$scope.renderSidebar) {
             $scope.selectedNode = null;
           } else {
@@ -61,10 +61,16 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
         getUpdatedNodeList($scope.nodeId);
         redirectToFirstNode();
 
-        $scope.$on('clusterState.refreshed', function () {
+        ClusterEventsHandler.register('STATE_REFRESHED', 'ClusterController', function () {
           getUpdatedNodeList($scope.nodeId);
           redirectToFirstNode();
         });
+
+        $scope.$on('$destroy', function () {
+          //remove call back when controller is destroyed
+          ClusterEventsHandler.remove('STATE_REFRESHED', 'ClusterController');
+        });
+        
       }
     };
   })
@@ -80,7 +86,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       controllerAs: 'NodeListController',
       controller: function ($scope, $state,
         NodeListInfo, compareByHealth, HealthPanelClass) {
-        
+
         $scope.goToPath = function (id) {
           $state.go('nodes.node', {
             node_id: id
@@ -118,7 +124,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
       templateUrl: 'views/node-detail.html',
       controllerAs: 'NodeDetailController',
       controller: function ($scope, $interval, $state, $http, $filter, $location,
-        ClusterState, prepareNodeList, compareByHealth) {
+        ClusterState, prepareNodeList, compareByHealth, ClusterEventsHandler) {
 
         // Needed to format tooltip byte-values in div. graphs
         var byteFormatFunction = $filter('bytes');
@@ -381,8 +387,13 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo'])
           updateNodeList(nodeId);
         };
 
-        $scope.$on('clusterState.refreshed', function () {
+        ClusterEventsHandler.register('STATE_REFRESHED', 'NodeDetailController', function () {
           updateNodeList($state.params.node_id);
+        });
+
+        $scope.$on('$destroy', function () {
+          //remove call back when controller is destroyed
+          ClusterEventsHandler.remove('STATE_REFRESHED', 'NodeDetailController');
         });
 
         $scope.toolTipUsedPercentFunction = function () {

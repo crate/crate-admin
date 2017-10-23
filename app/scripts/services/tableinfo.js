@@ -194,16 +194,13 @@ angular.module('tableinfo', ['sql'])
 
     };
   })
-  .factory('TableList', function($timeout, $q, TableInfo, SQLQuery, roundWithUnitFilter, bytesFilter, ShardInfo) {
+  .factory('TableList', function (TableInfo, SQLQuery, roundWithUnitFilter) {
 
     var fetch;
 
-    var deferred = $q.defer();
     var data = {
       'tables': []
     };
-    var timeout = null;
-    var refreshInterval = 5000;
 
     var healthPriorityMap = {
       'good': 2,
@@ -290,33 +287,25 @@ angular.module('tableinfo', ['sql'])
         data.tables = [];
       }
 
-      deferred.notify({
+      return {
         'success': success,
         'data': data
-      });
-      timeout = $timeout(fetch, refreshInterval);
+      };
     };
 
-    fetch = function() {
-      $timeout.cancel(timeout);
-
-      ShardInfo.deferred.promise
-        .then(function(result) {
-          update(true, result.tables, result.shards, result.partitions, result.recovery);
-        }).catch(function(result) {
-          if (jQuery.isEmptyObject(result)) {
-            return;
-          } else if (result.tables && result.shards && result.recovery) {
-            update(true, result.tables, result.shards, null, result.recovery);
-          } else if (result.tables) {
-            update(true, result.tables);
-          } else {
-            update(false);
-          }
-        }).finally(function() {
-          ShardInfo.deferred.promise = $q.defer().promise;
-          fetch();
-        });
+    fetch = function (tables, shards, partitions, recovery) {
+      if (tables && shards && partitions && recovery) {
+        return update(true, tables, shards, partitions, recovery);
+      }
+      else if (jQuery.isEmptyObject([tables, shards, partitions, recovery])) {
+        return;
+      } else if (tables && shards && recovery) {
+        return update(true, tables, shards, null, recovery);
+      } else if (tables) {
+        return update(true, tables);
+      } else {
+        return update(false);
+      }
     };
 
     // initialize
@@ -324,10 +313,7 @@ angular.module('tableinfo', ['sql'])
 
     return {
       'data': data,
-      'fetch': fetch,
-      'execute': function() {
-        return deferred.promise;
-      }
+      'execute': fetch
     };
 
   });

@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
-  .provider('TabNavigationInfo', function() {
+angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
+  .provider('TabNavigationInfo', function () {
     this.collapsed = [false, true]; // must match $scope.tables of TablesController
-    this.$get = function() {
+    this.$get = function () {
       var collapsed = this.collapsed;
       return {
         'collapsed': collapsed,
@@ -19,7 +19,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       };
     };
   })
-  .factory('PartitionsTableController', function() {
+  .factory('PartitionsTableController', function () {
     return function PartitionsTableController() {
       this.data = [];
       this.sort = {
@@ -52,8 +52,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       scope: {},
       templateUrl: 'views/tables.html',
       controllerAs: 'TablesController',
-      controller: function () {
-      }
+      controller: function () {}
     };
   })
   .directive('tableDetail', function () {
@@ -64,7 +63,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       templateUrl: 'views/table-detail.html',
       controllerAs: 'TableDetailController',
       controller: function ($scope, $location, $log, $timeout, $state,
-        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList, TableInfo, TabNavigationInfo, PartitionsTableController) {
+        SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList,
+        TableInfo, TabNavigationInfo, PartitionsTableController, ClusterEventsHandler, ClusterState) {
 
         $scope.executeQuery = function (query) {
           $location.search({
@@ -247,10 +247,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               });
           }
 
-          scopeWatcher = $scope.$watch(function () {
-            return TableList.data;
-          }, function (data) {
-            var tables = data.tables;
+          function updateTableList() {
+            var tables = ClusterState.data.tables;
             if (tables.length > 0) {
               var current = tables.filter(function (item) {
                 return item.name === tableName && item.table_schema === tableSchema;
@@ -285,7 +283,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               $scope.renderPartitions = false;
             }
             $scope.nr_of_tables = tables.length;
-          }, true);
+          }
+
+          ClusterEventsHandler.register('STATE_REFRESHED', 'TableDetailController', updateTableList);
+
 
           $scope.$on('$destroy', function () {
             cancelRequests();
@@ -293,6 +294,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
               scopeWatcher();
               scopeWatcher = null;
             }
+            ClusterEventsHandler.remove('STATE_REFRESHED', 'TableDetailController');
           });
 
           // Initial
@@ -300,6 +302,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           $scope.renderSidebar = true;
           $scope.renderSchema = false;
           $scope.renderPartitions = false;
+          updateTableList();
         };
 
         // bind tooltips
@@ -324,7 +327,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
       scope: {},
       templateUrl: 'views/tablelist.html',
       controllerAs: 'TableListController',
-      controller: function ($scope, $state, TableList, TabNavigationInfo) {
+      controller: function ($scope, $state, TabNavigationInfo, ClusterEventsHandler, ClusterState) {
         var filterBySchemaName = function (name) {
           return function (item) {
             return item.table_schema == name;
@@ -332,22 +335,18 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
         };
         $scope.collapsed = true;
 
-        var render = function (tableSchema, tableName) {
-          $scope.renderSidebar = true;
-          $scope.$watch(function () {
-            return TableList.data;
-          }, function (data) {
-            var tables = data.tables;
+        function updateTableList() {
+            var tables = ClusterState.data.tables;
             var hasTables = tables.length > 0;
             $scope.renderSidebar = hasTables;
             if (hasTables) {
               // use name and schema from first item
-              if (!tableName || !tableSchema) {
-                tableName = tables[0].name;
-                tableSchema = tables[0].table_schema;
+              if (!$scope.tableName || !$scope.tableSchema) {
+                $scope.tableName = tables[0].name;
+                $scope.tableSchema = tables[0].table_schema;
                 $state.go('tables.table', {
-                  table_schema: tableName,
-                  table_name: tableName
+                  table_schema: $scope.tableSchema,
+                  table_name: $scope.tableName
                 });
               }
 
@@ -389,8 +388,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             } else {
               $scope.tables = [];
             }
-          }, true);
+          }
 
+        ClusterEventsHandler.register('STATE_REFRESHED', 'TableListController', updateTableList);
+
+        var render = function (tableSchema, tableName) {
+          $scope.tableName = tableName;
+          $scope.tableSchema = tableSchema;
+          $scope.renderSidebar = true;
+          updateTableList();
           $scope.isActive = function (table_schema, table_name) {
             return table_name === $state.params.table_name && table_schema === $state.params.table_schema;
           };
@@ -429,6 +435,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
             $scope.collapsed = false;
           };
         };
+
+        $scope.$on('$destroy', function () {
+          ClusterEventsHandler.remove('STATE_REFRESHED', 'TableListController');
+        });
 
         render($state.params.table_schema, $state.params.table_name);
       }

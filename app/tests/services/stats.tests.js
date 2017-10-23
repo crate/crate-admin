@@ -452,13 +452,8 @@ describe('ClusterState ', function() {
         name: 'admin-ui-test',
         status: 'warning',
         load: [2.38427734375, 2.37646484375, 2.2744140625],
-        loadHistory: [
-          [2.38427734375, 2.38427734375],
-          [2.37646484375, 2.37646484375],
-          [2.2744140625, 2.2744140625]
-        ],
+        loadHistory: [[2.38427734375], [2.37646484375], [2.2744140625]],
         version: null,
-        master_node: 'PSET9VyuRCmb2qH9zXwC7w',
         recovery: [Object({
           Objectcount: 4,
           recovery_percent: null,
@@ -483,7 +478,8 @@ describe('ClusterState ', function() {
           recovery_stage: 'DONE',
           schema_name: 'doc',
           table_name: 'insert_test2'
-        })]
+        })],
+        master_node: 'PSET9VyuRCmb2qH9zXwC7w'
       }));
     }));
   });

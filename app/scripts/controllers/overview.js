@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('overview', ['stats', 'checks', 'ngSanitize'])
+angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
   .factory('NullArray', function() {
     return {
       create: function(len) {
@@ -13,7 +13,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     };
   })
   .controller('OverviewController', function($scope, $location, $log, $timeout, $interval, ClusterState, NullArray, ChecksService, SQLQuery, 
-  SeverityClass) {
+  SeverityClass, ClusterEventsHandler) {
     var colorMap = {
       'good': 'cr-panel--success',
       'warning': 'cr-panel--warning',
@@ -84,7 +84,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     };
 
-    $scope.$on('checksService.refreshed', function() {
+    ClusterEventsHandler.register('CHECKS_REFRESHED', 'OverviewController', function() {
       if (ChecksService.success === true) {
         $scope.checks = ChecksService.checks;
       } else {
@@ -219,7 +219,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
       }
     };
 
-    $scope.$on('clusterState.refreshed', updateClusterData);
+    ClusterEventsHandler.register('STATE_REFRESHED', 'OverviewController', updateClusterData);
     updateClusterData();
 
     // bind tooltips
@@ -233,5 +233,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize'])
     });
     $scope.$on('$destroy', function() {
       $scope.api.clearElement();
+      ClusterEventsHandler.remove('CHECKS_REFRESHED', 'OverviewController');
+      ClusterEventsHandler.remove('STATE_REFRESHED', 'OverviewController');
     });
   });
