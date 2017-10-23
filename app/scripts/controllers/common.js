@@ -1,7 +1,7 @@
 'use strict';
 
-var commons = angular.module('common', ['stats', 'udc'])
-  .provider('Settings', function() {
+var commons = angular.module('common', ['stats', 'udc', 'events'])
+  .provider('Settings', function () {
     var enterprise;
     var ident = '';
     var user = '';
@@ -35,9 +35,9 @@ var commons = angular.module('common', ['stats', 'udc'])
       }
     };
   })
-  .controller('UnauthorizedCtrl', [function() {}])
-  .controller('StatusBarController', function($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard) {
+  .controller('UnauthorizedCtrl', [function () {}])
+  .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce,
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler) {
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -104,13 +104,13 @@ var commons = angular.module('common', ['stats', 'udc'])
         $scope.config_label = '';
       }
     };
-    
-    $scope.$on('checksService.refreshed', updateClusterChecks);
+
+    ClusterEventsHandler.register('CHECKS_REFRESHED', 'StatusBarController', updateClusterChecks);
     updateClusterChecks();
 
     var updateClusterInfo = function() {
       var hashes = [];
-      var versions = ClusterState.data.cluster.filter(function(obj) {
+      var versions = ClusterState.data.cluster.filter(function (obj) {
         var contains = false;
         if (obj.version) {
           var hash = obj.version.build_hash;
@@ -136,9 +136,9 @@ var commons = angular.module('common', ['stats', 'udc'])
       $scope.major_minor_version = getMajorMinorVersion(ClusterState.data.version);
       $scope.docs_url = getDocsUrl($scope.major_minor_version);
       $scope.cluster_color_label = ClusterState.data.online ? colorMap[ClusterState.data.status] : '';
-     };
-    
-    $scope.$on('clusterState.refreshed', updateClusterInfo);
+    };
+
+    ClusterEventsHandler.register('STATE_REFRESHED', 'StatusBarController', updateClusterInfo);
     updateClusterInfo();
 
     // bind tooltips
@@ -180,7 +180,7 @@ var commons = angular.module('common', ['stats', 'udc'])
     UdcSettings.availability.success(function(data) {
       if (data.enabled === true) {
         // load uid
-        UidLoader.load().success(function(uid) {
+        UidLoader.load().success(function (uid) {
           $scope.user.uid = uid.toString();
           identify({
             'user': $scope.user,
@@ -191,8 +191,13 @@ var commons = angular.module('common', ['stats', 'udc'])
         });
       }
     });
+
+    $scope.$on('$destroy', function () {
+      //remove call back when controller is destroyed
+      ClusterEventsHandler.remove('CHECKS_REFRESHED', 'StatusBarController');
+    });
   })
-  .controller('NavigationController', function($scope, $rootScope, $location, NavigationService) {
+  .controller('NavigationController', function ($scope, $rootScope, $location, NavigationService) {
 
     $scope.navBarElements = NavigationService.navBarElements;
     $scope.showSideNav = false;
