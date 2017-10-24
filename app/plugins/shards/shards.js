@@ -140,7 +140,9 @@ angular.module('shards', ['sql'])
       }
     };
   })
-  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, ShardsIntervalService, $location, $filter, $rootScope, $interval) {
+  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, ShardsIntervalService, $location, $filter, $rootScope, $interval, $timeout) {
+    var nodeTimeout, shardTimeout;
+
     $scope.idOption = (localStorage.getItem('crate.shards.shard_id_on') || '1') === '1';
 
     $scope.response = [];
@@ -174,7 +176,7 @@ angular.module('shards', ['sql'])
       }
     }
 
-    function setShardData(target) {
+    function setShardData(target, event) {
       var key = target.data('key');
       $scope.selectShard(key);
       // set tooltip data
@@ -201,7 +203,7 @@ angular.module('shards', ['sql'])
       $scope.displayTooltip = true;
     }
 
-    function setNodeData(target) {
+    function setNodeData(target, event) {
 
       if (target.data('node') === 'unassigned') {
         //don't display tooltip for unassigned node
@@ -237,20 +239,28 @@ angular.module('shards', ['sql'])
         if (target.hasClass('shard-number') && !target.parent().hasClass('empty-shard')) {
           target = target.parent();
           $scope.isShard = true;
-          safeApply($scope, function () {
-            setShardData(target);
-          });
+          shardTimeout = $timeout(function () {
+            safeApply($scope, function () {
+              setShardData(target, event);
+            });
+          }, 50);
+
 
         } else if (target.hasClass('shard-item') && !target.hasClass('empty-shard')) {
           $scope.isShard = true;
-          safeApply($scope, function () {
-            setShardData(target);
-          });
+          shardTimeout = $timeout(function () {
+            safeApply($scope, function () {
+              setShardData(target, event);
+            });
+          }, 50);
+
         } else if (target.hasClass('shards-table-node') && !target.hasClass('unassigned')) {
           $scope.isShard = false;
-          safeApply($scope, function () {
-            setNodeData(target);
-          });
+          nodeTimeout = $timeout(function () {
+            safeApply($scope, function () {
+              setNodeData(target, event);
+            });
+          }, 50);
         } else {
           $scope.displayTooltip = false;
           return;
@@ -267,6 +277,13 @@ angular.module('shards', ['sql'])
           $scope.unSelectShard(target.data('key'));
         } else if (target.hasClass('shard-item') && !target.hasClass('empty-shard')) {
           $scope.unSelectShard(target.data('key'));
+        }
+
+        if (nodeTimeout) {
+          $timeout.cancel(nodeTimeout);
+        }
+        if (shardTimeout) {
+          $timeout.cancel(shardTimeout);
         }
         return;
       });
