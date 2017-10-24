@@ -48,11 +48,12 @@ angular.module('tutorial', ['sql', 'translation'])
           tweet.user], 
           false,
           false, 
+          false,
           false);
       };
 
       this.createTable = function() {
-        return SQLQuery.execute(createStmt, {}, false, false, true);
+        return SQLQuery.execute(createStmt, {}, false, false, true, false);
       };
 
       this.start = function() {

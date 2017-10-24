@@ -170,7 +170,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
               'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
             var r1 = requestId();
-            var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName], false, false, false).success(function (shardQuery) {
+            var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName], false, false, false, false).success(function (shardQuery) {
               if (typeof activeRequests[r1] == 'undefined') {
                 return;
               }
@@ -179,7 +179,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
                 'WHERE schema_name = ? AND table_name = ?';
 
               var r2 = requestId();
-              var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false).success(function (tablePartitionQuery) {
+              var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false, false).success(function (tablePartitionQuery) {
                 if (typeof activeRequests[r2] == 'undefined') {
                   return;
                 }
@@ -236,7 +236,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
             var tableStmt = 'SELECT column_name, data_type, is_generated, generation_expression ' +
               'FROM information_schema.columns ' +
               'WHERE table_schema = ? AND table_name = ?';
-            SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false)
+            SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false, false)
               .success(function (query) {
                 $scope.schemaHeaders = query.cols;
                 $scope.schemaRows = queryResultToObjects(query, query.cols);

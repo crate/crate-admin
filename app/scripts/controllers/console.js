@@ -311,7 +311,7 @@ angular.module('console', ['sql', 'datatypechecks'])
 
           $scope.loading = true;
           $('#console-options').slideUp();
-          SQLQuery.execute(stmt, {} , $scope.showErrorTrace, true, true)
+          SQLQuery.execute(stmt, {} , $scope.showErrorTrace, true, true, false)
           .success(function(sqlQuery) {
             $scope.loading = false;
             $scope.error.hide = true;

@@ -152,7 +152,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
 
     $scope.dismissCheckByNode = function(node, check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
-      SQLQuery.execute(stmt, [node.id, check.id], false, false, false)
+      SQLQuery.execute(stmt, [node.id, check.id], false, false, false, false)
         .success(function() {
           removeFromArray(check.nodes, node);
           if (check.nodes.length === 0) {
@@ -168,7 +168,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
 
     $scope.dismissCheck = function(check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE id = ?';
-      SQLQuery.execute(stmt, [check.id], false, false, false)
+      SQLQuery.execute(stmt, [check.id], false, false, false, false)
         .success(function() {
           removeCheck(check);
         });
