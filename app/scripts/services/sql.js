@@ -89,7 +89,7 @@ angular.module('sql', [])
     };
 
 
-    SQLQuery.execute = function(stmt, args, errorTrace, getTypes, isConsole) {
+    SQLQuery.execute = function(stmt, args, errorTrace, getTypes, isConsole, cache) {
       var data = {
         'stmt': stmt
       };
@@ -124,6 +124,7 @@ angular.module('sql', [])
         url: baseURI.getURI('/_sql' + (getTypes ? '?types' : '')),
         method: 'POST',
         data: data,
+        cache: cache,
         config: {
           'timeout': canceler.promise
         }

@@ -16,7 +16,7 @@ angular.module('checks', ['sql', 'events'])
       var deferred = $q.defer(),
         promise = deferred.promise;
 
-      SQLQuery.execute(stmt, {}, false, false, false)
+      SQLQuery.execute(stmt, {}, false, false, false, false)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -47,7 +47,7 @@ angular.module('checks', ['sql', 'events'])
       var deferred = $q.defer(),
         promise = deferred.promise;
 
-      SQLQuery.execute(stmt, {}, false, false, false)
+      SQLQuery.execute(stmt, {}, false, false, false, false)
         .success(function(query) {
           var result = queryResultToObjects(query, cols);
           var checks = {};

@@ -25,7 +25,7 @@ angular.module('shards', ['sql'])
       }
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt, [node_id, schema_name, table_name, partition_ident, shard_id], false, false, true)
+      SQLQuery.execute(stmt, [node_id, schema_name, table_name, partition_ident, shard_id], false, false, true, true)
         .success(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -50,7 +50,7 @@ angular.module('shards', ['sql'])
     service.get = function (node_id) {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt, [node_id], false, false, true)
+      SQLQuery.execute(stmt, [node_id], false, false, true, true)
         .success(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -84,7 +84,7 @@ angular.module('shards', ['sql'])
     ShardService.execute = function () {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt, {}, false, false, true)
+      SQLQuery.execute(stmt, {}, false, false, true, false)
         .success(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);

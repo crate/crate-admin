@@ -13,7 +13,7 @@ angular.module('privileges', ['sql'])
     UserListService.execute = function () {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt, {}, false, false, true)
+      SQLQuery.execute(stmt, {}, false, false, true, false)
         .success(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
@@ -41,7 +41,7 @@ angular.module('privileges', ['sql'])
     UserPrivilegesService.execute = function (username) {
       var deferred = $q.defer(),
         promise = deferred.promise;
-      SQLQuery.execute(stmt(username), {}, false, false, true)
+      SQLQuery.execute(stmt(username), {}, false, false, true, false)
         .success(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
