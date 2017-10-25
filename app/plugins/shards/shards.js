@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('shards', ['sql'])
+angular.module('shards', ['sql', 'events'])
   .factory('ShardDetail', function (SQLQuery, queryResultToObjects, $q) {
     var service = {};
     var stmt = 'SELECT shards.id, size, min_lucene_version, num_docs, orphan_partition, ' +
@@ -98,7 +98,7 @@ angular.module('shards', ['sql'])
 
     return ShardService;
   })
-  .factory('ShardsIntervalService', function (ShardService, $timeout, $q, $rootScope) {
+  .factory('ShardsIntervalService', function (ShardService, $timeout, $q, ClusterEventsHandler) {
     var shardsIntervalService = {};
     var poll = function () {
       $q.when(ShardService.execute())
@@ -107,7 +107,7 @@ angular.module('shards', ['sql'])
         }).catch(function () {
           shardsIntervalService.response = [];
         }).finally(function () {
-          $rootScope.$broadcast('shard-query-done');
+          ClusterEventsHandler.trigger('SHARD_QUERY_DONE');
         });
     };
     // Initial poll
@@ -140,8 +140,11 @@ angular.module('shards', ['sql'])
       }
     };
   })
-  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, ShardsIntervalService, $location, $filter, $rootScope, $interval, $timeout) {
+  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, 
+    ShardsIntervalService, $location, $filter, $rootScope, $interval, $timeout,
+    ClusterEventsHandler) {
     var nodeTimeout, shardTimeout;
+    var shardInterval;
 
     $scope.idOption = (localStorage.getItem('crate.shards.shard_id_on') || '1') === '1';
 
@@ -313,7 +316,7 @@ angular.module('shards', ['sql'])
       return filteredShards.length !== 0;
     }
 
-    $rootScope.$on('shard-query-done', function () {
+    ClusterEventsHandler.register('SHARD_QUERY_DONE', 'ShardsController', function () {
       $scope.response = ShardsIntervalService.response;
       $scope.formatShardData();
     });
@@ -444,7 +447,12 @@ angular.module('shards', ['sql'])
       });
     };
     ShardsIntervalService.refresh();
-    $interval(ShardsIntervalService.refresh, 5000);
+    shardInterval = $interval(ShardsIntervalService.refresh, 5000);
+
+    $scope.$on('$destroy', function () {
+      ClusterEventsHandler.remove('SHARD_QUERY_DONE', 'ShardsController');
+      $interval.cancel(shardInterval);
+    });
   })
   .directive('shardWrapper', function () {
     return {
@@ -459,7 +467,6 @@ angular.module('shards', ['sql'])
           'width': numberOfShardsPerColumn * (17 + 5) + 'px'
         });
       }
-
     };
   })
   .run(function ($window, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
