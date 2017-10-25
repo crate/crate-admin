@@ -52,7 +52,18 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       scope: {},
       templateUrl: 'views/tables.html',
       controllerAs: 'TablesController',
-      controller: function () {}
+      controller: function (ClusterState, $scope, ClusterEventsHandler) {
+        $scope.empty = true;
+        ClusterEventsHandler.register('STATE_REFRESHED', 'TablesController', function () {
+          if (ClusterState.data.tables.length > 0) {
+            $scope.empty = false;
+          }
+        });
+
+        $scope.$on('$destroy', function () {
+          ClusterEventsHandler.remove('STATE_REFRESHED', 'TablesController');
+        });
+      }
     };
   })
   .directive('tableDetail', function () {
