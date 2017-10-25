@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Show messages when in the Tables view when the table list is empty.
+
 2017/10/20 1.7.1
 ================
 
