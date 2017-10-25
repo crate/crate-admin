@@ -17,7 +17,7 @@
  */
 'use strict';
 
-angular.module('monitoring', [])
+angular.module('monitoring', ['events'])
   .factory('StatsCheckingQuery', function(SQLQuery, queryResultToObjects, $q) {
     var statsCheckingService = {
       deferred: $q.defer()
@@ -44,35 +44,22 @@ angular.module('monitoring', [])
 
     return statsCheckingService;
   })
-  .factory('StatsCheckingService', function(StatsCheckingQuery, $timeout, $q, $rootScope) {
+  .factory('StatsCheckingService', function(StatsCheckingQuery, $timeout, $q, ClusterEventsHandler) {
     var statsCheckingService = {
       'stats_enabled': -1
     };
 
-    var retryCount = 0;
-    var poll = function(force) {
+    var poll = function() {
       $q.when(StatsCheckingQuery.execute())
         .then(function(response) {
           statsCheckingService.stats_enabled = response[0].stats_enabled ? 1 : 0;
-          $rootScope.$broadcast('stats-checking-query-done');
-          retryCount = 0;
-          if (force !== true) {
-            $timeout(poll, 60000);
-          }
         }).catch(function() {
           statsCheckingService.stats_enabled = -1;
-          $rootScope.$broadcast('stats-checking-query-done');
-          retryCount++;
-          if (force !== true) {
-            $timeout(poll, 60000 * retryCount);
-          }
+        }).finally(function(){
+          ClusterEventsHandler.trigger('STATS_QUERY_REFRESHED');
         });
     };
-    // Initial poll
-    $timeout(poll, 2000);
-    statsCheckingService.refresh = function() {
-      poll(true);
-    };
+    statsCheckingService.refresh = poll;
     return statsCheckingService;
   })
   .factory('NullSerie', function() {
@@ -135,7 +122,8 @@ angular.module('monitoring', [])
 
     return monitoringService;
   })
-  .factory('MonitoringPollService', function($timeout, $q, MonitoringQueryService, $rootScope, NullSerie, NullOverAllSeries) {
+  .factory('MonitoringPollService', function($timeout, $q, MonitoringQueryService, $rootScope, 
+    NullSerie, NullOverAllSeries, ClusterEventsHandler) {
     var pollService = {
       options: {
         MAX_VALUE_LENGTH: 60,
@@ -249,37 +237,31 @@ angular.module('monitoring', [])
     }];
 
     var retryCount = 0;
-    var poll = function(force) {
+    var poll = function() {
       $q.when(MonitoringQueryService.execute(pollService.options.last_timestamp))
         .then(function(response) {
           pollService.formatData(pollService.data, response);
           if (response.length) {
             pollService.options.last_timestamp = response[0].last_timestamp;
           }
-          $rootScope.$broadcast('monitoring-service-query-success');
+          ClusterEventsHandler.trigger('MONITORING_SERVICE_QUERY_SUCCESS');
           retryCount = 0;
-          if (force !== true) {
-            $timeout(poll, 5000);
-          }
         }).catch(function(response) {
           if (response.error && response.error.status == '4011') {
-            $rootScope.$broadcast('monitoring-user-has-no-access');
-          }
-          retryCount++;
-          if (force !== true) {
-            $timeout(poll, 1000 * retryCount);
+            ClusterEventsHandler.trigger('MONITORING_USER_NO_ACCESS');
           }
         });
     };
-    // Initial poll
-    $timeout(poll, 2000);
+
     pollService.refresh = function() {
       poll(true);
     };
 
     return pollService;
   })
-  .controller('MonitoringController', function($scope, MonitoringPollService, $translatePartialLoader, $translate, StatsCheckingService) {
+  .controller('MonitoringController', function($scope, MonitoringPollService, $translatePartialLoader, 
+    $translate, StatsCheckingService, $interval, ClusterEventsHandler) {
+    var statsCheckingServiceInterval, monitoringPollInterval;
     $scope.qps = [];
     $scope.duration = [];
     $scope.user_has_access = false;
@@ -388,23 +370,29 @@ angular.module('monitoring', [])
       }
     };
 
-    $scope.$on('monitoring-service-query-success', function() {
+    statsCheckingServiceInterval = $interval(StatsCheckingService.refresh, 5000);
+    monitoringPollInterval = $interval(MonitoringPollService.refresh, 5000);
+
+    ClusterEventsHandler.register('STATS_QUERY_REFRESHED', 'MonitoringController', function () {
+      $scope.stats_enabled = StatsCheckingService.stats_enabled;
+    });
+
+    ClusterEventsHandler.register('MONITORING_USER_NO_ACCESS', 'MonitoringController', function () {
+      $scope.user_has_access = false;
+    });
+
+    ClusterEventsHandler.register('MONITORING_SERVICE_QUERY_SUCCESS', 'MonitoringController', function () {
       $scope.qps = MonitoringPollService.data.qps;
       $scope.duration = MonitoringPollService.data.duration;
       $scope.user_has_access = true;
     });
 
-    $scope.$on('monitoring-user-has-no-access', function() {
-      $scope.user_has_access = false;
-    });
-
-    $scope.$on('monitoring-service-query-success', function() {
-      $scope.qps = MonitoringPollService.data.qps;
-      $scope.duration = MonitoringPollService.data.duration;
-    });
-
-    $scope.$on('stats-checking-query-done', function() {
-      $scope.stats_enabled = StatsCheckingService.stats_enabled;
+    $scope.$on('$destroy', function() {
+      ClusterEventsHandler.remove('STATS_QUERY_REFRESHED', 'MonitoringController');
+      ClusterEventsHandler.remove('MONITORING_SERVICE_QUERY_SUCCESS', 'MonitoringController');
+      ClusterEventsHandler.remove('MONITORING_USER_NO_ACCESS', 'MonitoringController');
+      $interval.cancel(statsCheckingServiceInterval);
+      $interval.cancel(monitoringPollInterval);
     });
 
     MonitoringPollService.refresh();
