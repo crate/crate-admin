@@ -18,41 +18,19 @@
 'use strict';
 
 angular.module('monitoring', ['events'])
-  .factory('StatsCheckingQuery', function(SQLQuery, queryResultToObjects, $q) {
+  .factory('StatsCheckingService', function(SQLQuery, queryResultToObjects, $timeout, $q, ClusterEventsHandler) {
     var statsCheckingService = {
-      deferred: $q.defer()
+      'stats_enabled': -1
     };
 
     var stmt = 'SELECT settings[\'stats\'][\'enabled\'] AS stats_enabled FROM sys.cluster;';
 
     var cols = ['stats_enabled'];
 
-    statsCheckingService.execute = function() {
-      var deferred = $q.defer(),
-        promise = deferred.promise;
-      SQLQuery.execute(stmt, {}, false, false, true, false)
-        .success(function(query) {
-          var result = queryResultToObjects(query, cols);
-          deferred.resolve(result);
-        })
-        .error(function() {
-          deferred.reject();
-        });
-
-      return promise;
-    };
-
-    return statsCheckingService;
-  })
-  .factory('StatsCheckingService', function(StatsCheckingQuery, $timeout, $q, ClusterEventsHandler) {
-    var statsCheckingService = {
-      'stats_enabled': -1
-    };
-
     var poll = function() {
-      $q.when(StatsCheckingQuery.execute())
+      SQLQuery.execute(stmt, {}, false, false, true, false)
         .then(function(response) {
-          statsCheckingService.stats_enabled = response[0].stats_enabled ? 1 : 0;
+          statsCheckingService.stats_enabled = queryResultToObjects(response, cols)[0].stats_enabled ? 1 : 0;
         }).catch(function() {
           statsCheckingService.stats_enabled = -1;
         }).finally(function(){

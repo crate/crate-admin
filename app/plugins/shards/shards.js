@@ -64,10 +64,8 @@ angular.module('shards', ['sql', 'events'])
 
     return service;
   })
-  .factory('ShardService', function (SQLQuery, queryResultToObjects, $q) {
-    var ShardService = {
-      deferred: $q.defer()
-    };
+  .factory('ShardsIntervalService', function (SQLQuery, queryResultToObjects, $timeout, $q, ClusterEventsHandler) {
+    var shardsIntervalService = {};
 
     var stmt = 'SELECT id, table_name, schema_name, partition_ident, ' +
       'state, primary, ' +
@@ -78,40 +76,20 @@ angular.module('shards', ['sql', 'events'])
       'ORDER BY key, node_id, id';
 
     var cols = ['id', 'table_name', 'schema_name',
-     'partition_ident', 'state', 'primary',
-     'fqn', 'key', 'node_id', 'node_name'];
+       'partition_ident', 'state', 'primary',
+       'fqn', 'key', 'node_id', 'node_name'];
 
-    ShardService.execute = function () {
-      var deferred = $q.defer(),
-        promise = deferred.promise;
-      SQLQuery.execute(stmt, {}, false, false, true, false)
-        .success(function (query) {
-          var result = queryResultToObjects(query, cols);
-          deferred.resolve(result);
-        })
-        .error(function () {
-          deferred.reject();
-        });
-
-      return promise;
-    };
-
-    return ShardService;
-  })
-  .factory('ShardsIntervalService', function (ShardService, $timeout, $q, ClusterEventsHandler) {
-    var shardsIntervalService = {};
     var poll = function () {
-      $q.when(ShardService.execute())
+      SQLQuery.execute(stmt, {}, false, false, true, false)
         .then(function (response) {
-          shardsIntervalService.response = response;
+          shardsIntervalService.response = queryResultToObjects(response, cols);
         }).catch(function () {
           shardsIntervalService.response = [];
         }).finally(function () {
           ClusterEventsHandler.trigger('SHARD_QUERY_DONE');
         });
     };
-    // Initial poll
-    $timeout(poll, 1000);
+
     shardsIntervalService.refresh = poll;
     return shardsIntervalService;
   })
