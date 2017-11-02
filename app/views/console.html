@@ -103,21 +103,14 @@
                   <pre class="query-result" ng-switch-when="object"><formatted-object object="column.value" expand="true"></formatted-object></pre>
 
                   <pre class="query-result object" ng-switch-when="geo_shape"><span>Type</span>: {{ column.value['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{urlEncodedJson(column)}}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column.value['coordinates'] }} </pre>
-                  <pre ng-switch-default class="query-result" ng-class="column.type">
-                    <code class="cr-table-cell--max-width">{{column.value }}<span class="unsafe-number" data-original-title="{{'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column.value)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
-                    </code>
-                  </pre>
+                  <pre ng-switch-default class="query-result" ng-class="column.type"><code class="cr-table-cell--max-width">{{column.value }}<span class="unsafe-number" data-original-title="{{'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column.value)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></code></pre>
               </td>
               </tr>
               </tbody>
               <tbody ng-if="(!formatResults || resultHeaderTypes.length == 0) && paginated_rows.length > 0">
                 <tr ng-repeat="row in paginated_rows  track by $index" class="cr-table-row">
                 <td class="cr-table-cell" ng-repeat="column in row track by $index">
-                    <pre class="query-result"> {{column !== null ? column : 'NULL' }} 
-                      <span class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      </span> 
-                    </pre>
+                    <pre class="query-result">{{column !== null ? column : 'NULL' }}<span class="unsafe-number" data-original-title="{{ 'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></pre>
                 </td>
             </tr>
           </tbody>
