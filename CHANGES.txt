@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Fixed an issue that cause the statusbar to show an error
+   if the user has an adblocker enabled. 
+
  - Fixed an issue that caused extra spaces to be added 
    to the formatted console results.
 
