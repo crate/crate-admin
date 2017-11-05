@@ -67,13 +67,15 @@ angular.module('shards', ['sql', 'events'])
   .factory('ShardsIntervalService', function (SQLQuery, queryResultToObjects, $timeout, $q, ClusterEventsHandler) {
     var shardsIntervalService = {};
 
-    var stmt = 'SELECT id, table_name, schema_name, partition_ident, ' +
+    var stmt = 'SELECT shards.id, table_name, schema_name, partition_ident, ' +
       'state, primary, ' +
       'format(\'%s.%s\', schema_name, table_name) AS fqn, ' +
       'format(\'%s.%s.%s\', schema_name, table_name, partition_ident) AS key, ' +
-      '_node[\'id\'] AS node_id, _node[\'name\'] AS node_name ' +
+      'nodes.id AS node_id, nodes.name AS node_name ' +
       'FROM sys.shards ' +
-      'ORDER BY key, node_id, id';
+      'RIGHT JOIN sys.nodes AS nodes ' +
+      'ON shards._node[\'id\'] = nodes.id ' +
+      'ORDER BY key, node_id, shards.id';
 
     var cols = ['id', 'table_name', 'schema_name',
        'partition_ident', 'state', 'primary',
@@ -118,7 +120,7 @@ angular.module('shards', ['sql', 'events'])
       }
     };
   })
-  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail, 
+  .controller('ShardsController', function ($scope, $q, ShardDetail, NodeDetail,
     ShardsIntervalService, $location, $filter, $rootScope, $interval, $timeout,
     ClusterEventsHandler) {
     var nodeTimeout, shardTimeout;
@@ -325,39 +327,41 @@ angular.module('shards', ['sql', 'events'])
         if (!nodeFormat.shards_by_table) {
           nodeFormat.shards_by_table = {};
         }
-
-        if (!nodeFormat.shards_by_table[obj.key]) {
-          nodeFormat.shards_by_table[obj.key] = {};
-        }
-
-        if (!nodeFormat.shards_by_table[obj.key].shards) {
-          nodeFormat.shards_by_table[obj.key].shards = [];
-        }
-
-        // add missing shards as empty space
-        while (obj.id > old_id) {
-          if (!shardExists(nodeFormat.shards_by_table[obj.key].shards, old_id)) {
-            nodeFormat.shards_by_table[obj.key].shards.push({
-              'state_class': 'empty-shard',
-              'id': old_id,
-            });
+        if (obj.key !== 'null.null.null') {
+          if (!nodeFormat.shards_by_table[obj.key]) {
+            nodeFormat.shards_by_table[obj.key] = {};
           }
-          old_id += 1;
+
+          if (!nodeFormat.shards_by_table[obj.key].shards) {
+            nodeFormat.shards_by_table[obj.key].shards = [];
+          }
+
+          // add missing shards as empty space
+          while (obj.id > old_id) {
+            if (!shardExists(nodeFormat.shards_by_table[obj.key].shards, old_id)) {
+              nodeFormat.shards_by_table[obj.key].shards.push({
+                'state_class': 'empty-shard',
+                'id': old_id,
+              });
+            }
+            old_id += 1;
+          }
+          // re-init old_id
+          old_id = 0;
+
+
+          nodeFormat.shards_by_table[obj.key].shards.push({
+            'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + [obj.key, obj.id].join('-').replace(/\./g, '-'),
+            'key': [obj.key, obj.id].join('-').replace(/\./g, '-'),
+            'id': obj.id,
+          });
+
+          nodeFormat.shards_by_table[obj.key].table_name = obj.table_name;
+          nodeFormat.shards_by_table[obj.key].schema_name = obj.schema_name;
+          nodeFormat.shards_by_table[obj.key].partition_ident = obj.partition_ident;
+          nodeFormat.shards_by_table[obj.key].fqn = obj.fqn;
+
         }
-        // re-init old_id
-        old_id = 0;
-
-        nodeFormat.shards_by_table[obj.key].shards.push({
-          'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + [obj.key, obj.id].join('-').replace(/\./g, '-'),
-          'key': [obj.key, obj.id].join('-').replace(/\./g, '-'),
-          'id': obj.id,
-        });
-
-        nodeFormat.shards_by_table[obj.key].table_name = obj.table_name;
-        nodeFormat.shards_by_table[obj.key].schema_name = obj.schema_name;
-        nodeFormat.shards_by_table[obj.key].partition_ident = obj.partition_ident;
-        nodeFormat.shards_by_table[obj.key].fqn = obj.fqn;
-
         if (obj.node_name) {
           nodeFormat.node_info = {
             'name': obj.node_name,
@@ -380,38 +384,40 @@ angular.module('shards', ['sql', 'events'])
       });
 
       $scope.tables_partitions.forEach(function (fqn) {
+        if (fqn !== 'null.null.null') {
+          //make sure all nodes have the same number of columns
+          Object.keys(formatted_response).forEach(function (node_id) {
+            var shards_by_table = formatted_response[node_id].shards_by_table;
 
-        //make sure all nodes have the same number of columns
-        Object.keys(formatted_response).forEach(function (node_id) {
-          var shards_by_table = formatted_response[node_id].shards_by_table;
+            if (!shards_by_table) {
+              shards_by_table = {};
+            }
+            if (!shards_by_table[fqn]) {
+              shards_by_table[fqn] = {};
+            }
+            if (!shards_by_table[fqn].shards) {
+              shards_by_table[fqn].shards = [];
+            }
+          });
 
-          if (!shards_by_table) {
-            shards_by_table = {};
+
+          var fqnParts = fqn.split('.');
+          var schemaName = fqnParts[0];
+          var schemaTableName = fqn.split('.', 2).join('.');
+
+          // construct table list 
+          if (!$scope.schemas[schemaName]) {
+            $scope.schemas[schemaName] = 1;
+          } else {
+            $scope.schemas[schemaName] += 1;
           }
-          if (!shards_by_table[fqn]) {
-            shards_by_table[fqn] = {};
+
+          // construct table list 
+          if (!$scope.tables[schemaTableName]) {
+            $scope.tables[schemaTableName] = 1;
+          } else {
+            $scope.tables[schemaTableName] += 1;
           }
-          if (!shards_by_table[fqn].shards) {
-            shards_by_table[fqn].shards = [];
-          }
-        });
-
-        var fqnParts = fqn.split('.');
-        var schemaName = fqnParts[0];
-        var schemaTableName = fqn.split('.', 2).join('.');
-
-        // construct table list 
-        if (!$scope.schemas[schemaName]) {
-          $scope.schemas[schemaName] = 1;
-        } else {
-          $scope.schemas[schemaName] += 1;
-        }
-
-        // construct table list 
-        if (!$scope.tables[schemaTableName]) {
-          $scope.tables[schemaTableName] = 1;
-        } else {
-          $scope.tables[schemaTableName] += 1;
         }
       });
 
@@ -421,7 +427,9 @@ angular.module('shards', ['sql', 'events'])
       });
 
       Object.keys($scope.schemas).forEach(function (key) {
-        $scope.colSpan += $scope.schemas[key];
+        if (key != 'null') {
+          $scope.colSpan += $scope.schemas[key];
+        }
       });
     };
     ShardsIntervalService.refresh();
