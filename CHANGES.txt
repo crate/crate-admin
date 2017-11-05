@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Remove horizontal scroll from the console editor.
+
  - show all nodes in admin ui shard view, even those which 
    have no shards.
 
