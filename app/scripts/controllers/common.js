@@ -153,44 +153,45 @@ var commons = angular.module('common', ['stats', 'udc', 'events'])
       uid: null
     };
 
-    // 'analytics' is globally available
-    analytics.load(UdcSettings.SegmentIoToken);
-    analytics.ready(function() {
-      var user = analytics.user();
-      verified = {
-        id: user.id(),
-        traits: user.traits()
-      };
-    });
+    // 'analytics' might not be globally available if the user has an addblocker
+    if (analytics) {
+      analytics.load(UdcSettings.SegmentIoToken);
+      analytics.ready(function () {
+        var user = analytics.user();
+        verified = {
+          id: user.id(),
+          traits: user.traits()
+        };
+      });
 
-    var identify = function(userdata) {
-      if (userdata.user.uid !== null) {
-        analytics.setAnonymousId(userdata.user.uid);
-        analytics.identify(userdata.user.uid);
-        analytics.page();
-        if ($scope.version) {
-          analytics.track('visited_admin', {
-            'version': $scope.version.number,
-            'cluster_id': userdata.cluster_id
+      var identify = function (userdata) {
+        if (userdata.user.uid !== null) {
+          analytics.setAnonymousId(userdata.user.uid);
+          analytics.identify(userdata.user.uid);
+          analytics.page();
+          if ($scope.version) {
+            analytics.track('visited_admin', {
+              'version': $scope.version.number,
+              'cluster_id': userdata.cluster_id
+            });
+          }
+        }
+      };
+      UdcSettings.availability.success(function (data) {
+        if (data.enabled === true) {
+          // load uid
+          UidLoader.load().success(function (uid) {
+            $scope.user.uid = uid.toString();
+            identify({
+              'user': $scope.user,
+              'cluster_id': data.cluster_id
+            });
+          }).error(function (error) {
+            console.warn(error);
           });
         }
-      }
-    };
-
-    UdcSettings.availability.success(function(data) {
-      if (data.enabled === true) {
-        // load uid
-        UidLoader.load().success(function (uid) {
-          $scope.user.uid = uid.toString();
-          identify({
-            'user': $scope.user,
-            'cluster_id': data.cluster_id
-          });
-        }).error(function(error) {
-          console.warn(error);
-        });
-      }
-    });
+      });
+    }
 
     $scope.$on('$destroy', function () {
       //remove call back when controller is destroyed
