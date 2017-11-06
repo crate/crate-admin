@@ -14,6 +14,12 @@ Changes
 Fixes
 -----
 
+2017/11/06 1.7.2
+================
+
+Fixes
+-----
+
  - Remove horizontal scroll from the console editor.
 
  - show all nodes in admin ui shard view, even those which 
