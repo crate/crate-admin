@@ -54,6 +54,11 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       controllerAs: 'TablesController',
       controller: function (ClusterState, $scope, ClusterEventsHandler) {
         $scope.empty = true;
+        //initial call
+        if (ClusterState.data.tables.length > 0) {
+          $scope.empty = false;
+        }
+
         ClusterEventsHandler.register('STATE_REFRESHED', 'TablesController', function () {
           if (ClusterState.data.tables.length > 0) {
             $scope.empty = false;
@@ -297,7 +302,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           }
 
           ClusterEventsHandler.register('STATE_REFRESHED', 'TableDetailController', updateTableList);
-
+          //initial call
+          updateTableList();
 
           $scope.$on('$destroy', function () {
             cancelRequests();
@@ -402,6 +408,8 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           }
 
         ClusterEventsHandler.register('STATE_REFRESHED', 'TableListController', updateTableList);
+        //initial call
+        updateTableList();
 
         var render = function (tableSchema, tableName) {
           $scope.tableName = tableName;
