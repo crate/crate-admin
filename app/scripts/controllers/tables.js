@@ -133,7 +133,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo'])
           }
           var tablePartitionStmt = 'SELECT partition_ident, number_of_shards, number_of_replicas, values ' +
             'FROM information_schema.table_partitions ' +
-            'WHERE schema_name = ? AND table_name = ?';
+            'WHERE schema_name = ? AND table_name = ? AND closed = false';
 
           var r2 = requestId();
           var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false).success(function(tablePartitionQuery) {

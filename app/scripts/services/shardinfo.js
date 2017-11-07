@@ -18,7 +18,7 @@ angular.module('shardinfo', ['sql'])
 
       // table partitions statement
       var partStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, SUM(number_of_shards) AS num_shards ' +
-          'FROM information_schema.table_partitions ' +
+          'FROM information_schema.table_partitions WHERE closed = false ' +
           'GROUP BY table_name, schema_name, fqn';
 
       var recoveryStmt = 'SELECT table_name, schema_name, recovery[\'stage\'] AS recovery_stage, AVG(recovery[\'size\'][\'percent\']), COUNT(*) AS count ' +
