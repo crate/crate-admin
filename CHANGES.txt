@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Fixed issue that caused closed partitions to show a ``CRITICAL`` 
+   data state.
+
 2017/11/06 1.7.2
 ================
 
