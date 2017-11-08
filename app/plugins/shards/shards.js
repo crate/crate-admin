@@ -349,13 +349,21 @@ angular.module('shards', ['sql', 'events'])
           // re-init old_id
           old_id = 0;
 
-
-          nodeFormat.shards_by_table[obj.key].shards.push({
-            'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + [obj.key, obj.id].join('-').replace(/\./g, '-'),
-            'key': [obj.key, obj.id].join('-').replace(/\./g, '-'),
-            'id': obj.id,
-          });
-
+          if (nodeFormat.shards_by_table[obj.key].shards[obj.id]) {
+            // if there is already a shard with the same id, 
+            // we increase the number of replicas.
+            // This will occur in the case of unassigned shards of the same id
+            var replicas = nodeFormat.shards_by_table[obj.key].shards[obj.id].replicas;
+            nodeFormat.shards_by_table[obj.key].shards[obj.id].replicas = replicas == undefined ? 1 : replicas + 1;
+          } else {
+            // if the shard is not already in the list we will add it
+            var shard_key = [obj.key, obj.id].join('-').replace(/\./g, '-');
+            nodeFormat.shards_by_table[obj.key].shards.push({
+              'state_class': $filter('shardStateClass')(obj.state, obj.primary) + ' ' + shard_key,
+              'key': shard_key,
+              'id': obj.id,
+            });
+          }
           nodeFormat.shards_by_table[obj.key].table_name = obj.table_name;
           nodeFormat.shards_by_table[obj.key].schema_name = obj.schema_name;
           nodeFormat.shards_by_table[obj.key].partition_ident = obj.partition_ident;

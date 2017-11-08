@@ -120,6 +120,7 @@
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 
                   <div ng-repeat="(shard_key, shard_value) in shard_by_table_value.shards track by shard_key" class="shard-item" ng-class="shard_value.state_class"  data-key="{{shard_value.key}}" data-table="{{shard_by_table_key}}" data-node="unassigned" data-id="{{shard_value.id}}">
                     <span class="shard-number" ng-show="idOption">{{ shard_value.id }}</span>
+                    <div class="shard-replicas" ng-if="shard_value.replicas">{{ shard_value.replicas + 1 }}</div>
                   </div> 
                 </shard-wrapper>   
               </td>

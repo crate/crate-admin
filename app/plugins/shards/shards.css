@@ -65,6 +65,7 @@ th.th--no-borders ,tr > th.cr-table-cell.th--no-borders {
   display: flex;
   justify-content: space-around;
   align-items: center; 
+  position: relative;
 }
 
 .cr-table-cell {
@@ -204,4 +205,17 @@ th.th--no-borders ,tr > th.cr-table-cell.th--no-borders {
   #shards-table--options {
     margin-bottom: 0px !important;
   }
+}
+
+.shard-replicas{  
+  position: absolute;
+  background: #ff7d00;
+  color: rgba(255, 255, 255, 0.70);
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  font-size: 8px;
+  text-align: center;
+  top: -6px;
+  left: 11px;
 }
