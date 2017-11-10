@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - The download url now links to the stable CrateDB version.
+
  - Replicates shards in the ``Unassigned`` row of the Shards view 
    are now grouped by id.
 
