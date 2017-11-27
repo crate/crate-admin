@@ -109,10 +109,14 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
       for (var i = 0; i < numNodes; i++) {
         var node = nodeInfo[i];
         var currentValue = {
-          timestamp: node.timestamp,
-          data: node.fs.total
+          timestamp: node.timestamp
         };
-        if (diskIoHistory[node.id]) {
+        // check if filesystem data is available
+        if (node.fs) {
+          currentValue.data= node.fs.total;
+        }
+        
+        if (diskIoHistory[node.id] && currentValue.data) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
           var readsDelta = currentValue.data.reads - lastValue.data.reads;
