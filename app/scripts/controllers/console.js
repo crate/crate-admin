@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('console', ['sql', 'datatypechecks'])
+angular.module('console', ['sql', 'datatypechecks', 'stats'])
   .factory('KeywordObjectCreator', function() {
     return {
       create: function(arr) {
@@ -41,7 +41,7 @@ angular.module('console', ['sql', 'datatypechecks'])
 
     return service;
   })
-  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting){
+  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState){
     return {
       restrict: 'A',
       controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $translate, $location, Clipboard, $timeout){
@@ -339,6 +339,8 @@ angular.module('console', ['sql', 'datatypechecks'])
               formatData();
               $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
               $scope.numberOfPages = Math.ceil($scope.rows.length / $scope.pageSize);
+              //refresh cluster state
+              ClusterState.refresh();
             })
             .error(function (sqlQuery) {
               $scope.loading = false;

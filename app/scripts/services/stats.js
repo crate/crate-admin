@@ -210,6 +210,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
 
     return {
       data: data,
-      HISTORY_LENGTH: historyLength
+      HISTORY_LENGTH: historyLength,
+      refresh: refreshClusterState
     };
   });
