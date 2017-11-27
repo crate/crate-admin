@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Fixed an issue that caused the Admin UI to not display any tables
+   when the file system data are not fetchable.
+
  - Refresh Cluster Info after query execution in the console, 
    to ensure that the cluster info is always up to date. 
 
