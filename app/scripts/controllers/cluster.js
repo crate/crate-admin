@@ -326,10 +326,9 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
             'color': COLORS.used
         }, {
             'key': 'Idle',
-
             'values': [{
               'label': 'Process CPU',
-              'value': Math.max(100.0, node.proc_cpu.percent / node.num_cores)
+              'value': 100.0 - Math.min(100.0, node.proc_cpu.percent / node.num_cores)
           }],
             'color': COLORS.free
         }];
