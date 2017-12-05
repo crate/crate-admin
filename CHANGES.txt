@@ -10,7 +10,9 @@ Breaking Changes
 
 Changes
 -------
- 
+
+ - Updated CPU usage graph to use the value provided by ``os['cpu']['used']``.
+
 Fixes
 -----
 

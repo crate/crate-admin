@@ -256,33 +256,19 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
         var drawGraph = function (node) {
 
           $scope.cpuData = [{
-            'key': 'System',
+            'key': 'Used',
             'values': [{
               'label': 'CPU',
-              'value': node.cpu.system
+              'value': node.cpu.used
           }],
             'color': COLORS.used
         }, {
-            'key': 'User',
+            'key': 'Free',
             'values': [{
               'label': 'CPU',
-              'value': node.cpu.user
-          }],
-            'color': '#5d89fe'
-        }, {
-            'key': 'Idle',
-            'values': [{
-              'label': 'CPU',
-              'value': Math.max(0, 100 - node.cpu.system - node.cpu.user - node.cpu.stolen)
+              'value': 100 - node.cpu.used
           }],
             'color': COLORS.free
-        }, {
-            'key': 'Stolen',
-            'values': [{
-              'label': 'CPU',
-              'value': node.cpu.stolen
-          }],
-            'color': '#f6bb41'
         }];
 
           $scope.heapData = [{
