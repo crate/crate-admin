@@ -295,6 +295,10 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
         }
 
         self.execute = function(sql) {
+          $scope.startIndex = 0;
+          $scope.page = 1;
+          $scope.numberOfPages = 1;
+          $scope.endIndex = $scope.startIndex + $scope.pageSize;
           $scope.renderTable = false;
           
           var stmt = sql.replace(/^\s+|\s+$/g, '');
