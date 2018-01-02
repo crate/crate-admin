@@ -482,7 +482,19 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
         var editor = CodeMirror.fromTextArea(input, {
           mode: attrs.mimeType,
           theme: attrs.theme,
-          lineWrapping: true
+          lineWrapping: true,
+          // indent using spaces
+          indentWithTabs: false,
+          indentUnit: 2,
+          tabSize: 2
+        });
+
+        // map the Tab key to insert spaces instead of a tab character
+        editor.setOption('extraKeys', {
+          Tab: function (cm) {
+            var spaces = ' '.repeat(cm.getOption('indentUnit'));
+            cm.replaceSelection(spaces);
+          }
         });
 
         function updateStatementOnUrlSearch() {
