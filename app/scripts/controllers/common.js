@@ -1,6 +1,6 @@
 'use strict';
 
-var commons = angular.module('common', ['stats', 'udc', 'events'])
+var commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   .provider('Settings', function () {
     var enterprise;
     var ident = '';
@@ -37,7 +37,18 @@ var commons = angular.module('common', ['stats', 'udc', 'events'])
   })
   .controller('UnauthorizedCtrl', [function () {}])
   .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler) {
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler, SQLQuery, queryResultToObjects) {
+
+    //query for current_user only in enterprise edition
+    if (Settings.enterprise) {
+      var userStmt = 'SELECT CURRENT_USER';
+      SQLQuery.execute(userStmt, {}, false, false, false)
+        .success(function(query) {
+          var result = queryResultToObjects(query, ['user']);
+          Settings.user = result[0].user;
+          $scope.userName = Settings.user;
+        });
+    }
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -64,7 +75,6 @@ var commons = angular.module('common', ['stats', 'udc', 'events'])
 
     $scope.enterprise = Settings.enterprise;
     $scope.licenseIdent = Settings.ident;
-    $scope.userName = Settings.user;
 
     $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;
