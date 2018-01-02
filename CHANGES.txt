@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fixed an issue that caused the user name to not be displayed.
+
 2017/12/l5 1.8.0
 ================
 
