@@ -14,13 +14,19 @@ Changes
 Fixes
 -----
 
+2018/01/16 1.8.1
+================
+
+Fixes
+-----
+
  - Fix an issue that caused the ``Cluster`` tab to not be loaded correctly. 
 
  - Map the Tab key to insert spaces instead of a tab character. 
 
  - Fixed an issue that caused the user name to not be displayed.
 
-2017/12/l5 1.8.0
+2017/12/15 1.8.0
 ================
 
 Changes
