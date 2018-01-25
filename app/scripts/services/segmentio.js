@@ -11,7 +11,9 @@
   var analytics = window.analytics = window.analytics || [];
 
   // If the real analytics.js is already on the page return.
-  if (analytics.initialize) return;
+  if (analytics.initialize) {
+    return;
+  }
 
   // If the snippet was invoked already show an error.
   if (analytics.invoked) {
@@ -71,10 +73,10 @@
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = ('https:' === document.location.protocol
-                 ? 'https://' : 'http://')
-               + 'cdn.segment.com/analytics.js/v1/'
-               + key + '/analytics.min.js';
+    script.src = ('https:' === document.location.protocol ? 'https://' : 'http://') + 
+    'cdn.segment.com/analytics.js/v1/' + 
+    key + 
+    '/analytics.min.js';
 
     // Insert our script next to the first script element.
     var first = document.getElementsByTagName('script')[0];

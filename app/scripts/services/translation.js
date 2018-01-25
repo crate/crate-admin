@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('translation', [])
+const translation = angular.module('translation', [])
   .factory('Translation', function() {
     var TranslationService = this;
     TranslationService.interpolate = function(sentence, terms) {
@@ -12,3 +12,5 @@ angular.module('translation', [])
     };
     return TranslationService;
   });
+
+export default translation;

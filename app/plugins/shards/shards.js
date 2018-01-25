@@ -26,11 +26,10 @@ angular.module('shards', ['sql', 'events'])
       var deferred = $q.defer(),
         promise = deferred.promise;
       SQLQuery.execute(stmt, [node_id, schema_name, table_name, partition_ident, shard_id], false, false, true, true)
-        .success(function (query) {
+        .then(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function () {
+        },function () {
           deferred.reject();
         });
 
@@ -51,11 +50,10 @@ angular.module('shards', ['sql', 'events'])
       var deferred = $q.defer(),
         promise = deferred.promise;
       SQLQuery.execute(stmt, [node_id], false, false, true, true)
-        .success(function (query) {
+        .then(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function () {
+        },function () {
           deferred.reject();
         });
 
@@ -465,9 +463,9 @@ angular.module('shards', ['sql', 'events'])
   })
   .run(function ($window, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
 
-    $translatePartialLoader.addPart('./plugins/shards');
+    $translatePartialLoader.addPart('./static/plugins/shards');
     $translate.refresh();
-    var iconSrc = 'plugins/shards/static/icons/icon-shards.svg';
+    var iconSrc = 'static/plugins/shards/static/icons/icon-shards.svg';
     var url = '/shards';
     var position = 31;
 

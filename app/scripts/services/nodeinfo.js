@@ -1,6 +1,7 @@
 'use strict';
+import './sql';
 
-angular.module('nodeinfo', ['sql'])
+const nodeinfo = angular.module('nodeinfo', ['sql'])
   .factory('NodeHealth', function() {
     var state = function(val){
       if (val > 98) {
@@ -113,3 +114,5 @@ angular.module('nodeinfo', ['sql'])
       return 0;
     };
   });
+
+export default nodeinfo;

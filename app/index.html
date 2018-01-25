@@ -12,78 +12,6 @@
     <link rel="shortcut icon" href="static/assets/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="static/assets/apple-touch-icon-precomposed.png">
     <link rel="apple-touch-icon" href="static/assets/apple-touch-icon.png">
-
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- build:css({.tmp,app}) static/styles/codemirror.css -->
-    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="bower_components/codemirror/theme/monokai.css">
-    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
-    <!-- endbuild -->
-
-    <!-- build:css({.tmp,app}) static/styles/main.css -->
-    <link rel="stylesheet" href="static/styles/main.css">
-    
-    <!-- endbuild -->
-
-    <!-- build:js static/scripts/angular.js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js static/scripts/plugins.js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/nvd3/build/nv.d3.js"></script>
-    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
-    <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-    <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
-    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-    <script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
-    <script src="scripts/services/segmentio.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js static/scripts/codemirror.js -->
-    <script src="bower_components/codemirror/lib/codemirror.js"></script>
-    <script src="bower_components/codemirror/addon/display/placeholder.js"></script>
-    <script src="bower_components/codemirror/mode/sql/sql.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js static/scripts/ieshims.js -->
-    <script src="bower_components/json3/lib/json3.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js({.tmp,app}) static/scripts/scripts.js -->
-    <script type="application/javascript" src="scripts/app.js"></script>
-
-    <script type="application/javascript" src="scripts/services/utils.js"></script>
-    <script type="application/javascript" src="scripts/services/sql.js"></script>
-    <script type="application/javascript" src="scripts/services/health.js"></script>
-    <script type="application/javascript" src="scripts/services/stats.js"></script>
-    <script type="application/javascript" src="scripts/services/tableinfo.js"></script>
-    <script type="application/javascript" src="scripts/services/shardinfo.js"></script>
-    <script type="application/javascript" src="scripts/services/nodeinfo.js"></script>
-    <script type="application/javascript" src="scripts/services/checks.js"></script>
-    <script type="application/javascript" src="scripts/services/udc.js"></script>
-    <script type="application/javascript" src="scripts/services/translation.js"></script>
-    <script type="application/javascript" src="scripts/services/datatypechecks.js"></script>
-    <script type="application/javascript" src="scripts/services/clusterEventsHandler.js"></script>
-
-    <script type="application/javascript" src="scripts/controllers/common.js"></script>
-    <script type="application/javascript" src="scripts/controllers/feed.js"></script>
-    <script type="application/javascript" src="scripts/controllers/overview.js"></script>
-    <script type="application/javascript" src="scripts/controllers/console.js"></script>
-    <script type="application/javascript" src="scripts/controllers/tables.js"></script>
-    <script type="application/javascript" src="scripts/controllers/cluster.js"></script>
-
-    <script type="application/javascript" src="scripts/filter/text.js"></script>
-    <script type="application/javascript" src="scripts/filter/numbers.js"></script>
-    <!-- endbuild -->
-
 </head>
 <body>
     <!--[if lt IE 7]>
@@ -92,7 +20,7 @@
 
     <div id="wrapper">
       <div id="navigation-wrapper">
-        <div id="navigation-viewport" ng-include="'views/nav.html'"></div>
+        <div id="navigation-viewport" ng-include="'static/views/nav.html'"></div>
       </div>
       <div id="page-wrapper" ng-class="$root.showSideNav ? '' : 'page-wrapper--no-side-nav'">
         <ui-view id="page-viewport" ></ui-view>

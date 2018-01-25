@@ -1,6 +1,6 @@
 'use strict';
-
-angular.module('shardinfo', ['sql'])
+import './sql';
+const shardinfo = angular.module('shardinfo', ['sql'])
   .factory('ShardInfo', function(SQLQuery, queryResultToObjects, $q) {
       var shardInfo = {
         deferred: $q.defer()
@@ -30,12 +30,11 @@ angular.module('shardinfo', ['sql'])
             promise = deferred.promise;
 
         SQLQuery.execute(tableStmt, {}, false, false, false, false)
-          .success(function (tableQuery) {
+          .then(function (tableQuery) {
             var result = queryResultToObjects(tableQuery,
                 ['name', 'table_schema', 'fqn', 'shards_configured', 'replicas_configured', 'partitioned_by']);
             deferred.resolve(result);
-          })
-          .error(function () {
+          },function () {
             deferred.reject();
           });
 
@@ -47,12 +46,11 @@ angular.module('shardinfo', ['sql'])
            promise = deferred.promise;
 
         SQLQuery.execute(shardStmt, {}, false, false, false, false)
-          .success(function (shardQuery) {
+          .then(function (shardQuery) {
             var result = queryResultToObjects(shardQuery,
                 ['table_name', 'schema_name', 'fqn', 'node_id', 'state', 'routing_state', 'relocating_node', 'count', 'primary', 'sum_docs', 'avg_docs', 'size']);
             deferred.resolve(result);
-          })
-          .error(function () {
+          }, function () {
             deferred.reject();
           });
 
@@ -64,12 +62,11 @@ angular.module('shardinfo', ['sql'])
             promise = deferred.promise;
 
         SQLQuery.execute(partStmt, {}, false, false, false, false)
-          .success(function (partQuery) {
+          .then(function (partQuery) {
             var result = queryResultToObjects(partQuery,
                 ['table_name', 'schema_name', 'fqn', 'num_shards']);
             deferred.resolve(result);
-          })
-          .error(function () {
+          },function () {
             deferred.reject();
           });
 
@@ -81,12 +78,11 @@ angular.module('shardinfo', ['sql'])
            promise = deferred.promise;
 
         SQLQuery.execute(recoveryStmt, {}, false, false, false, false)
-          .success(function (recoveryQuery) {
+          .then(function (recoveryQuery) {
             var result = queryResultToObjects(recoveryQuery,
                 ['table_name', 'schema_name', 'recovery_stage', 'recovery_percent', 'count']);
             deferred.resolve(result);
-          })
-          .error(function () {
+          },function () {
             deferred.reject();
           });
 
@@ -97,3 +93,4 @@ angular.module('shardinfo', ['sql'])
     }
 
   );
+export default shardinfo;

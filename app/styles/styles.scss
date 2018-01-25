@@ -1,0 +1,40 @@
+// for fixing of loading bootstrap icon files
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+
+/*===========================================
+===== Loading Custom Setup of Variables =====
+=============================================*/
+@import 'vars/typography';
+
+/*========================================
+========= Loading Vendor Styles ==========
+==========================================*/
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+@import '~font-awesome/css/font-awesome.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/theme/monokai.css';
+@import '~nvd3/build/nv.d3.css';
+
+
+/*===========================================
+========= Loading Customize Styles ==========
+=============================================*/
+// loading variables
+@import 'vars/light-theme-variables';
+@import 'vars/path';
+
+// loading views
+@import 'views/common';
+@import 'views/charts';
+@import 'views/console';
+@import 'views/nav';
+@import 'views/overview';
+@import 'views/simple-sidebar';
+@import 'views/statusbar';
+@import 'views/tablelist';
+@import 'views/tables';
+@import 'views/nodelist';
+@import 'views/tutorial';
+@import 'views/node';

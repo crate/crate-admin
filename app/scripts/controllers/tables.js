@@ -50,7 +50,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: 'views/tables.html',
+      templateUrl: 'static/views/tables.html',
       controllerAs: 'TablesController',
       controller: function (ClusterState, $scope, ClusterEventsHandler) {
         $scope.empty = true;
@@ -76,7 +76,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: 'views/table-detail.html',
+      templateUrl: 'static/views/table-detail.html',
       controllerAs: 'TableDetailController',
       controller: function ($scope, $location, $log, $timeout, $state,
         SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, TableList,
@@ -186,7 +186,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
               'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
             var r1 = requestId();
-            var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName], false, false, false, false).success(function (shardQuery) {
+            var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName], false, false, false, false).then(function (shardQuery) {
               if (typeof activeRequests[r1] == 'undefined') {
                 return;
               }
@@ -195,7 +195,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
                 'WHERE schema_name = ? AND table_name = ? AND closed = false';
 
               var r2 = requestId();
-              var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false, false).success(function (tablePartitionQuery) {
+              var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false, false).then(function (tablePartitionQuery) {
                 if (typeof activeRequests[r2] == 'undefined') {
                   return;
                 }
@@ -231,7 +231,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
                 update(true, partitions, typeof activeRequests[r2] === 'undefined');
                 delete activeRequests[r2];
 
-              }).error(function () {
+              }, function () {
                 update(false, [], typeof activeRequests[r2] === 'undefined');
                 delete activeRequests[r2];
               });
@@ -239,7 +239,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
               delete activeRequests[r1];
               activeRequests[r2] = q2;
 
-            }).error(function () {
+            }, function () {
               update(false, [], typeof activeRequests[r1] === 'undefined');
               delete activeRequests[r1];
             });
@@ -253,12 +253,12 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
               'FROM information_schema.columns ' +
               'WHERE table_schema = ? AND table_name = ?';
             SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false, false)
-              .success(function (query) {
+              .then(function (query) {
                 $scope.schemaHeaders = query.cols;
                 $scope.schemaRows = queryResultToObjects(query, query.cols);
                 $scope.renderSchema = true;
                 $scope.query = constructQuery($scope.schemaRows);
-              }).error(function () {
+              }, function () {
                 $scope.renderSchema = false;
               });
           }
@@ -342,7 +342,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: 'views/tablelist.html',
+      templateUrl: 'static/views/tablelist.html',
       controllerAs: 'TableListController',
       controller: function ($scope, $state, TabNavigationInfo, ClusterEventsHandler, ClusterState) {
         var filterBySchemaName = function (name) {

@@ -18,16 +18,15 @@ Bootstrap the project::
 Install the package dependencies::
 
     $ bin/npm install
-    $ bin/bower install
 
 Building the App
 ================
 
 Build the app like so::
 
-    $ bin/grunt build
+    $ bin/npm run-script build
 
-To run the admin UI as a standalone app, open the ``dist/index.html`` file in
+To run the admin UI as a standalone app, open the ``build/index.html`` file in
 your browser.
 
 Running the App for Development
@@ -35,7 +34,7 @@ Running the App for Development
 
 Start the development server on port ``9000``::
 
-    $ bin/grunt server
+    $ bin/npm start
 
 You should now be able to access the app at: http://localhost:9000/
 
@@ -55,12 +54,44 @@ node, like so::
 
 This  ``base_uri`` parameter is intended for development use only.
 
+Adding New Dependencies
+=======================
+
+Application dependencies should be added as follow::
+
+    $ bin/npm install [dependency] --save
+
+This dependency should then be imported in ``./app/vendor.module.js``,
+for the application to load correctly.
+
+If the dependency is an angular module, it should also be included in ``MODULES``
+in ``./app/app.module.js``
+
+Dev dependencies should be added as follow::
+
+    $ bin/npm install [dependency] --save-dev
+
+Adding New Components
+=====================
+
+When a new component is created (a module or a service or a controller), 
+it should be imported to ``./app/app.components.js``.
+
+Adding New Stylesheets
+======================
+
+When a new stylesheet is created it should be imported to 
+``./styles/styles.scss`` and/or ``./styles/styles-enterprise.scss``
+
+Vendor styles should also be imported to ``./styles/styles.scss`` 
+and ``./styles/styles-enterprise.scss``
+
 Running Tests
 =============
 
 You can run the tests like so::
 
-    $ bin/grunt test
+    $ bin/npm test
 
 Plugins
 =======
@@ -77,7 +108,7 @@ Before releasing, run through the `Admin UI Release Preflight`_.
 
 To create a new release, you must:
 
-- Add the new version to ``bower.json`` and ``package.json``
+- Add the new version to ``package.json``
 
 - Add a section for the new version in the ``CHANGES.txt`` file
 

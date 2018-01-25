@@ -1,6 +1,9 @@
 'use strict';
+import './sql';
+import './clusterEventsHandler';
 
-angular.module('checks', ['sql', 'events'])
+
+const checks = angular.module('checks', ['sql', 'events'])
   .factory('ClusterCheck', function(SQLQuery, queryResultToObjects, $q) {
     var self = {
       deferred: $q.defer()
@@ -17,11 +20,10 @@ angular.module('checks', ['sql', 'events'])
         promise = deferred.promise;
 
       SQLQuery.execute(stmt, {}, false, false, false, false)
-        .success(function(query) {
+        .then(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function() {
+        },function() {
           deferred.reject();
         });
 
@@ -48,7 +50,7 @@ angular.module('checks', ['sql', 'events'])
         promise = deferred.promise;
 
       SQLQuery.execute(stmt, {}, false, false, false, false)
-        .success(function(query) {
+        .then(function(query) {
           var result = queryResultToObjects(query, cols);
           var checks = {};
           result.map(function(check) {
@@ -67,8 +69,7 @@ angular.module('checks', ['sql', 'events'])
               return checks[id];
             });
           deferred.resolve(array);
-        })
-        .error(function() {
+        },function() {
           deferred.reject();
         });
 
@@ -111,3 +112,5 @@ angular.module('checks', ['sql', 'events'])
     };
     return data;
   });
+
+export default checks;

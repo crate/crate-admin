@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('health', [])
+const health = angular.module('health', [])
   .factory('Health', function(){
     var map = {};
     var Health = function Health(level){
@@ -30,3 +30,5 @@ angular.module('health', [])
 
     return Health;
   });
+
+export default health;

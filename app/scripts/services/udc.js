@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('udc', [])
+const udc = angular.module('udc', [])
   .factory('UdcSettings', function(SQLQuery, queryResultToObjects, $q){
     var deferred = $q.defer();
     var promise = deferred.promise;
@@ -16,10 +16,10 @@ angular.module('udc', [])
     var stmt = 'SELECT settings[\'udc\'][\'enabled\'] as enabled, id AS cluster_id ' +
       'FROM sys.cluster';
     SQLQuery.execute(stmt, {}, false, false, false, false)
-      .success(function(query) {
+      .then(function(query) {
         var result = queryResultToObjects(query, ['enabled','cluster_id']);
         deferred.resolve(result[0]);
-      }).error(function() {
+      }).catch(function() {
         deferred.reject('Could not load udc setting');
       });
 
@@ -98,3 +98,5 @@ angular.module('udc', [])
       }
     };
   });
+
+export default udc;

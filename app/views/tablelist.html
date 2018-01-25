@@ -27,7 +27,7 @@
 
         <div class="tables-list" id="tables-list--{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
           <div class="side-bar__element tables-list__element" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
-            <a href="#/tables/{{:: table.table_schema }}/{{:: table.name }}">
+            <a href="#!/tables/{{:: table.table_schema }}/{{:: table.name }}">
               <div class="table-name-row">
                 <div class="table-name">
                   <h3>{{:: table.name }}</h3>

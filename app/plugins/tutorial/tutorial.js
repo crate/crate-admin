@@ -110,8 +110,8 @@ angular.module('tutorial', ['sql', 'translation'])
             });
         };
 
-        ctd.success(fetch);
-        ctd.error(function(response){
+        ctd.then(fetch,
+          function(response){
           $scope.error = response.error;
         });
       };
@@ -145,7 +145,7 @@ angular.module('tutorial', ['sql', 'translation'])
       twitter.stop();
     };
 
-    $translatePartialLoader.addPart('./plugins/tutorial');
+    $translatePartialLoader.addPart('./static/plugins/tutorial');
     $translate.refresh();
 
 
@@ -187,9 +187,9 @@ angular.module('tutorial', ['sql', 'translation'])
   })
   .run(function($window, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
 
-    $translatePartialLoader.addPart('./plugins/tutorial');
+    $translatePartialLoader.addPart('./static/plugins/tutorial');
     $translate.refresh();
-    var iconSrc = 'plugins/tutorial/static/icons/icon-getstarted.svg';
+    var iconSrc = 'static/plugins/tutorial/static/icons/icon-getstarted.svg';
     var url = '/help';
     var position = 43;
     var re = /[\?|&]start_twitter=true/;

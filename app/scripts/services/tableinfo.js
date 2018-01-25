@@ -1,6 +1,7 @@
 'use strict';
+import './sql';
 
-angular.module('tableinfo', ['sql'])
+const tableinfo = angular.module('tableinfo', ['sql'])
   .factory('TableInfo', function() {
     var ACTIVE_SHARDS = ['STARTED', 'RELOCATING'];
     var isActiveShard = function(shard) {
@@ -317,3 +318,4 @@ angular.module('tableinfo', ['sql'])
     };
 
   });
+export default tableinfo;

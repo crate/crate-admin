@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('common')
+const filters_text = angular.module('filters_text', [])
   .filter('capitalize', function() {
     return function(input) {
       return input.substring(0, 1).toUpperCase() + input.substring(1);
@@ -70,3 +70,5 @@ angular.module('common')
       return new Date(timestamp).toISOString();
     };
   });
+
+export default filters_text;

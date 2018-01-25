@@ -1,32 +1,32 @@
 [{
   "name": "tutorial",
-  "uri": "plugins/tutorial/tutorial.js",
+  "uri": "static/plugins/tutorial/tutorial.js",
   "enterprise": false,
   "routing": {
     "/help": {
       "name": "tutorial",
       "url": "/help", 
-      "templateUrl": "plugins/tutorial/tutorial.html",
+      "templateUrl": "static/plugins/tutorial/tutorial.html",
       "controller": "TutorialController"
     }
   }
 }, {
   "name": "monitoring",
-  "uri": "plugins/monitoring/monitoring.js",
-  "stylesheet": "plugins/monitoring/monitoring.css",
+  "uri": "static/plugins/monitoring/monitoring.js",
+  "stylesheet": "static/plugins/monitoring/monitoring.css",
   "enterprise": true,
   "routing": {
     "/monitoring": {
       "name": "monitoring",
       "url": "/monitoring", 
-      "templateUrl": "plugins/monitoring/monitoring.html",
+      "templateUrl": "static/plugins/monitoring/monitoring.html",
       "controller": "MonitoringController"
     }
   }
 }, {
   "name": "privileges",
-  "uri": "plugins/privileges/privileges.js",
-  "stylesheet": "plugins/privileges/privileges.css",
+  "uri": "static/plugins/privileges/privileges.js",
+  "stylesheet": "static/plugins/privileges/privileges.css",
   "enterprise": true,
   "routing": {
     "/privileges": {
@@ -42,14 +42,14 @@
   }
 }, {
   "name": "shards",
-  "uri": "plugins/shards/shards.js",
-  "stylesheet": "plugins/shards/shards.css",
+  "uri": "static/plugins/shards/shards.js",
+  "stylesheet": "static/plugins/shards/shards.css",
   "enterprise": true,
   "routing": {
     "/shards": {
       "name": "shards",
       "url": "/shards", 
-      "templateUrl": "plugins/shards/shards.html",
+      "templateUrl": "static/plugins/shards/shards.html",
       "controller": "ShardsController"
     }
   }

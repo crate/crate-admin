@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sql', [])
+const sql = angular.module('sql', [])
   .factory('queryResultToObjects', function() {
     var toObject = function(headers, row) {
       var obj = {};
@@ -137,10 +137,9 @@ angular.module('sql', [])
       }
 
       $http(request)
-        .success(function(data) {
-          deferred.resolve(new SQLQuery(stmt, data, null));
-        })
-        .error(function(data, status) {
+        .then(function(response) {
+          deferred.resolve(new SQLQuery(stmt, response.data, null));
+        }, function(data, status) {
           var error = null;
           if (status >= 400 && data.error) {
             error = new Error(data.error.message);
@@ -164,3 +163,4 @@ angular.module('sql', [])
 
     return SQLQuery;
   });
+export default sql;

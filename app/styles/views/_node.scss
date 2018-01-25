@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  border: 1px solid @block-border;
+  border: 1px solid $block-border;
 }
 .node-detail--ui-view {
   display: flex;
@@ -27,7 +27,7 @@
 .node-detail__cell-content {
   padding: 6px;
   border-radius: 3px;
-  border: 1px solid @body-bg;
+  border: 1px solid $body-bg;
 }
 
 .node-detail__graph__wrapper {
@@ -44,9 +44,9 @@
 
 .node-graph-overlay {
   position: absolute;
-  width: ~'calc(100% - 20px)';
+  width: calc(100% - 20px);
   height: 20px;
-  background-image: url(@node-graph-overlay-pattern);
+  background-image: url($node-graph-overlay-pattern);
   pointer-events: none;
 }
 
@@ -58,14 +58,14 @@
 }
 
 .node-detail__subsection h2 {
-  background-color: @block-bg;
+  background-color: $block-bg;
   padding: 15px 10px;
   margin: 0px;
-  border: 1px solid @block-border;
+  border: 1px solid $block-border;
 }
 
 .node-detail__subsection--small {
-  width: ~"calc(50% - 10px)";
+  width: calc(50% - 10px);
 }
 
 .node-detail__subsection--medium {
@@ -74,7 +74,7 @@
 
 .node-detail__subsection__detail {
   margin-top: 3px;
-  border: 1px solid @block-border;
+  border: 1px solid $block-border;
 }
 
 .node-detail__subsection__cell {
@@ -91,7 +91,7 @@
   width: 75px;
 }
 
-@media only screen and (max-width : @max-width-m) {
+@media only screen and (max-width : $max-width-m) {
 
   .node-detail__row,
   .node-detail__subsection--small {
@@ -100,7 +100,7 @@
 
 }
 
-@media only screen and (max-width : @max-width-s) {
+@media only screen and (max-width : $max-width-s) {
 
   .node-detail__subsection__cell {
     width: 50%;
@@ -108,7 +108,7 @@
 
 }
 
-@media only screen and (max-width : @max-width-xs) {
+@media only screen and (max-width : $max-width-xs) {
 
   .node-detail__row {
     flex-wrap: wrap;

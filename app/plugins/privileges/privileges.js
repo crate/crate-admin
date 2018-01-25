@@ -14,11 +14,10 @@ angular.module('privileges', ['sql'])
       var deferred = $q.defer(),
         promise = deferred.promise;
       SQLQuery.execute(stmt, {}, false, false, true, false)
-        .success(function (query) {
+        .then(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function () {
+        },function () {
           deferred.reject();
         });
 
@@ -42,11 +41,10 @@ angular.module('privileges', ['sql'])
       var deferred = $q.defer(),
         promise = deferred.promise;
       SQLQuery.execute(stmt(username), {}, false, false, true, false)
-        .success(function (query) {
+        .then(function (query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function () {
+        },function () {
           deferred.reject();
         });
 
@@ -63,7 +61,7 @@ angular.module('privileges', ['sql'])
       scope: {
         users: '='
       },
-      templateUrl: 'plugins/privileges/userList.html',
+      templateUrl: '/static/plugins/privileges/userList.html',
       controllerAs: 'UserListController',
       controller: function ($scope, $location, $state) {
         $scope.currentUser = $scope.$parent.selectedUser;
@@ -89,7 +87,7 @@ angular.module('privileges', ['sql'])
       replace: true,
       require: '^PrivilegesController',
       scope: {},
-      templateUrl: 'plugins/privileges/privileges-detail.html',
+      templateUrl: 'static/plugins/privileges/privileges-detail.html',
       controllerAs: 'PrivilegesDetailController',
       controller: function ($scope, $state, $q, UserPrivilegesService) {
         $scope.currentUser = $scope.$parent.selectedUser;
@@ -107,7 +105,7 @@ angular.module('privileges', ['sql'])
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: 'plugins/privileges/privileges.html',
+      templateUrl: 'static/plugins/privileges/privileges.html',
       controllerAs: 'PrivilegesController',
       controller: function ($scope, UserListService, $rootScope, $location, $q, $state) {
         $scope.userList = [];
@@ -150,9 +148,9 @@ angular.module('privileges', ['sql'])
     };
   }).run(function ($window, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
 
-    $translatePartialLoader.addPart('./plugins/privileges');
+    $translatePartialLoader.addPart('./static/plugins/privileges');
     $translate.refresh();
-    var iconSrc = 'plugins/privileges/static/icons/icon-user.svg';
+    var iconSrc = 'static/plugins/privileges/static/icons/icon-user.svg';
     var url = '/privileges';
     var position = 42;
 

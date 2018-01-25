@@ -87,11 +87,10 @@ angular.module('monitoring', ['events'])
       var deferred = $q.defer(),
         promise = deferred.promise;
       SQLQuery.execute(monitoringService.get_statement(last_timestamp), {}, false, false, true, false)
-        .success(function(query) {
+        .then(function(query) {
           var result = queryResultToObjects(query, cols);
           deferred.resolve(result);
-        })
-        .error(function(response) {
+        },function(response) {
           deferred.reject(response);
         });
 
@@ -375,13 +374,13 @@ angular.module('monitoring', ['events'])
 
     MonitoringPollService.refresh();
     StatsCheckingService.refresh();
-    $translatePartialLoader.addPart('./plugins/monitoring');
+    $translatePartialLoader.addPart('./static/plugins/monitoring');
     $translate.refresh();
   })
   .run(function($window, NavigationService, $translatePartialLoader, $filter, $rootScope, $translate) {
-    $translatePartialLoader.addPart('./plugins/monitoring');
+    $translatePartialLoader.addPart('./static/plugins/monitoring');
     $translate.refresh();
-    var iconSrc = 'plugins/monitoring/static/icons/icon-monitoring.svg';
+    var iconSrc = 'static/plugins/monitoring/static/icons/icon-monitoring.svg';
     var url = '/monitoring';
     var position = 41;
 

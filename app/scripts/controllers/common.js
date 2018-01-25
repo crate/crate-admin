@@ -1,6 +1,6 @@
 'use strict';
 
-var commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
+const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   .provider('Settings', function () {
     var enterprise;
     var ident = '';
@@ -36,14 +36,15 @@ var commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
     };
   })
   .controller('UnauthorizedCtrl', [function () {}])
-  .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler, SQLQuery, queryResultToObjects) {
+  .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce, $window,
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler, 
+    SQLQuery, queryResultToObjects) {
 
     //query for current_user only in enterprise edition
     if (Settings.enterprise) {
       var userStmt = 'SELECT CURRENT_USER';
       SQLQuery.execute(userStmt, {}, false, false, false)
-        .success(function(query) {
+        .then(function(query) {
           var result = queryResultToObjects(query, ['user']);
           Settings.user = result[0].user;
           $scope.userName = Settings.user;
@@ -164,10 +165,10 @@ var commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
     };
 
     // 'analytics' might not be globally available if the user has an addblocker
-    if (analytics) {
-      analytics.load(UdcSettings.SegmentIoToken);
-      analytics.ready(function () {
-        var user = analytics.user();
+    if ($window.analytics) {
+      $window.analytics.load(UdcSettings.SegmentIoToken);
+      $window.analytics.ready(function () {
+        var user = $window.analytics.user();
         verified = {
           id: user.id(),
           traits: user.traits()
@@ -176,27 +177,27 @@ var commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
 
       var identify = function (userdata) {
         if (userdata.user.uid !== null) {
-          analytics.setAnonymousId(userdata.user.uid);
-          analytics.identify(userdata.user.uid);
-          analytics.page();
+          $window.analytics.setAnonymousId(userdata.user.uid);
+          $window.analytics.identify(userdata.user.uid);
+          $window.analytics.page();
           if ($scope.version) {
-            analytics.track('visited_admin', {
+            $window.analytics.track('visited_admin', {
               'version': $scope.version.number,
               'cluster_id': userdata.cluster_id
             });
           }
         }
       };
-      UdcSettings.availability.success(function (data) {
+      UdcSettings.availability.then(function (data) {
         if (data.enabled === true) {
           // load uid
-          UidLoader.load().success(function (uid) {
+          UidLoader.load().then(function (uid) {
             $scope.user.uid = uid.toString();
             identify({
               'user': $scope.user,
               'cluster_id': data.cluster_id
             });
-          }).error(function (error) {
+          },function (error) {
             console.warn(error);
           });
         }

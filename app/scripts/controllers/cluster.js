@@ -1,12 +1,17 @@
 'use strict';
 
-angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
+import './common';
+import '../services/stats';
+import '../services/nodeinfo';
+import '../services/clusterEventsHandler';
+
+const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
   .directive('cluster', function () {
     return {
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: 'views/node.html',
+      templateUrl: 'static/views/node.html',
       controllerAs: 'ClusterController',
       controller: function ($scope, $state,
         ClusterState, prepareNodeList, compareByHealth, ClusterEventsHandler) {
@@ -82,7 +87,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
         nodes: '=',
         selected: '='
       },
-      templateUrl: 'views/nodelist.html',
+      templateUrl: 'static/views/nodelist.html',
       controllerAs: 'NodeListController',
       controller: function ($scope, $state,
         NodeListInfo, compareByHealth, HealthPanelClass) {
@@ -121,7 +126,7 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
       replace: true,
       require: '^ClusterController',
       scope: {},
-      templateUrl: 'views/node-detail.html',
+      templateUrl: 'static/views/node-detail.html',
       controllerAs: 'NodeDetailController',
       controller: function ($scope, $interval, $state, $http, $filter, $location,
         ClusterState, prepareNodeList, compareByHealth, ClusterEventsHandler) {
@@ -418,3 +423,5 @@ angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo', 'events'])
       }
     };
   });
+
+export default cluster;

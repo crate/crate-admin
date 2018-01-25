@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
+import '../services/stats';
+import '../services/checks';
+import '../services/clusterEventsHandler';
+import '../filter/numbers';
+import '../filter/text';
+
+angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events', 'filters_numbers', 'filters_text'])
   .factory('NullArray', function() {
     return {
       create: function(len) {
@@ -153,7 +159,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
     $scope.dismissCheckByNode = function(node, check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE node_id = ? AND id = ?';
       SQLQuery.execute(stmt, [node.id, check.id], false, false, false, false)
-        .success(function() {
+        .then(function() {
           removeFromArray(check.nodes, node);
           if (check.nodes.length === 0) {
             removeCheck(check);
@@ -169,7 +175,7 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events'])
     $scope.dismissCheck = function(check) {
       var stmt = 'UPDATE sys.node_checks SET acknowledged = TRUE WHERE id = ?';
       SQLQuery.execute(stmt, [check.id], false, false, false, false)
-        .success(function() {
+        .then(function() {
           removeCheck(check);
         });
     };

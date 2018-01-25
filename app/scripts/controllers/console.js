@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('console', ['sql', 'datatypechecks', 'stats'])
+import '../services/sql';
+import '../services/datatypechecks';
+import '../services/stats';
+
+const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats'])
   .factory('KeywordObjectCreator', function() {
     return {
       create: function(arr) {
@@ -316,7 +320,7 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
           $scope.loading = true;
           $('#console-options').slideUp();
           SQLQuery.execute(stmt, {} , $scope.showErrorTrace, true, true, false)
-          .success(function(sqlQuery) {
+          .then(function(response) {
             $scope.loading = false;
             $scope.error.hide = true;
             $scope.error.message = '';
@@ -326,18 +330,18 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
             $scope.renderTable = true;
 
             $scope.resultHeaders = [];
-            for (var i = 0; i < sqlQuery.cols.length; i++) {
-              $scope.resultHeaders.push(sqlQuery.cols[i]);
+            for (var i = 0; i < response.cols.length; i++) {
+              $scope.resultHeaders.push(response.cols[i]);
             }
 
               $scope.resultHeaderTypes = [];
-              for (i = 0; i < sqlQuery.col_types.length; i++) {
-                $scope.resultHeaderTypes.push(sqlQuery.col_types[i]);
+              for (i = 0; i < response.col_types.length; i++) {
+                $scope.resultHeaderTypes.push(response.col_types[i]);
               }
 
-              $scope.rows = sqlQuery.rows;
+              $scope.rows = response.rows;
               $scope.limitToAmount = 0;
-              $scope.status = sqlQuery.status();
+              $scope.status = response.status();
               $scope.statement = stmt + ';';
               inputScope.updateInput($scope.statement);
               formatData();
@@ -345,19 +349,18 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
               $scope.numberOfPages = Math.ceil($scope.rows.length / $scope.pageSize);
               //refresh cluster state
               ClusterState.refresh();
-            })
-            .error(function (sqlQuery) {
+            },function (response) {
               $scope.loading = false;
               $scope.error.hide = false;
               $scope.renderTable = false;
-              $scope.error = sqlQuery.error;
+              $scope.error = response.error;
 
               if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
                 displayedErrorTraceHint = true;
                 localStorage.setItem('crate.console.displayed_error_trace_hint', '1');
               }
 
-            $scope.status = sqlQuery.status();
+            $scope.status = response.status();
             $scope.rows = [];
             $scope.resultHeaders = [];
           });
@@ -387,10 +390,8 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
     return {
       restrict: 'E',
       transclude: true,
-      templateUrl: 'views/editor.html',
+      templateUrl: 'static/views/editor.html',
       scope: {
-        mimeType: '@',
-        theme: '@'
       },
       require: '^console',
       link: function($scope, element, attrs, $console) {
@@ -399,7 +400,7 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
         var typedStatement = $location.search().query || '';
         var input = $('textarea',element)[0];
 
-        CodeMirror.defineMIME('text/x-cratedb', {
+        window.CodeMirror.defineMIME('text/x-cratedb', {
           name: 'sql',
           keywords: KeywordObjectCreator.create([
             'abs', 'absolute', 'action', 'add', 'after', 'alias', 'all', 'allocate',
@@ -479,9 +480,9 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
           operatorChars: /^[*+\-%<>!=~]/,
         });
 
-        var editor = CodeMirror.fromTextArea(input, {
-          mode: attrs.mimeType,
-          theme: attrs.theme,
+        var editor = window.CodeMirror.fromTextArea(input, {
+          mode: 'text/x-cratedb',
+          theme: 'monokai',
           lineWrapping: true,
           // indent using spaces
           indentWithTabs: false,
@@ -593,7 +594,7 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
         typesarray: '@',
         expand: '@'
       },
-      templateUrl: 'views/formatted-array-template.html',
+      templateUrl: 'static/views/formatted-array-template.html',
       link: function(scope) {
         scope.isExpanded = scope.expand === 'true' ? true : false;
         scope.typesarray = JSON.parse(scope.typesarray);
@@ -624,7 +625,7 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
         object: '=',
         expand: '@'
       },
-      templateUrl: 'views/formatted-object-template.html',
+      templateUrl: 'static/views/formatted-object-template.html',
       link: function(scope) {
 
         scope.isExpanded = scope.expand === 'true' ? true : false;
@@ -645,3 +646,4 @@ angular.module('console', ['sql', 'datatypechecks', 'stats'])
   })
   .controller('ConsoleController', function() {
   });
+export default crate_console;

@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('common')
+
+const filters_numbers = angular.module('filters_numbers', [])
   .filter('floor', function($filter){
     var f = $filter('number');
     return function(value, fraction) {
@@ -42,3 +43,5 @@ angular.module('common')
       return $sce.trustAsHtml(res);
     };
   });
+
+export default filters_numbers;

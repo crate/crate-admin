@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('feed', ['stats', 'udc', 'utils'])
+import '../services/stats';
+import '../services/udc';
+import '../services/utils';
+
+const feed = angular.module('feed', ['stats', 'udc', 'utils'])
   .factory('QueryStringAppender', function() {
     return {
       append: function(url, k, v) {
@@ -9,11 +13,16 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       }
     };
   })
-  .factory('FeedService', function($http, QueryStringAppender) {
+  .factory('FeedService', function ($http, QueryStringAppender, $sce) {
     return {
-      parse: function(url) {
-        var fullUrl = QueryStringAppender.append(url, 'callback', 'JSON_CALLBACK');
-        return $http.jsonp(fullUrl, {
+      parse: function (url) {
+        var params = {
+          format: 'json',
+          output: 'basic'
+        };
+
+        return $http.jsonp($sce.trustAsResourceUrl(url), {
+          params: params,
           cache: false
         });
       }
@@ -23,7 +32,7 @@ angular.module('feed', ['stats', 'udc', 'utils'])
     var readItems = null;
     var key = 'crate.readNotifications';
     return {
-      readItems: function() {
+      readItems: function () {
         if (readItems === null) {
           var v = localStorage.getItem(key);
           readItems = v ? JSON.parse(v) : [];
@@ -52,7 +61,7 @@ angular.module('feed', ['stats', 'udc', 'utils'])
     $scope.version_url = CRATE_IO + '/versions.json';
     $scope.menu_url = CRATE_IO + '/feed/menu.json';
 
-    UdcSettings.availability.success(function(data) {
+    UdcSettings.availability.then(function(data) {
       if (data.enabled !== true) {
         $scope.blog_url = doNotTrackUrl($scope.blog_url);
         $scope.demo_url = doNotTrackUrl($scope.demo_url);
@@ -66,7 +75,7 @@ angular.module('feed', ['stats', 'udc', 'utils'])
 
       var stableVersion;
       FeedService.parse($scope.version_url)
-        .success(function(response) {
+        .then(function(response) {
           if (response && response.crate) {
             stableVersion = response.crate;
           }
@@ -83,11 +92,11 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       $scope.showUpdate = false;
       
       FeedService.parse($scope.menu_url)
-        .success(function(response) {
+        .then(function(response) {
           if (response && response.data) {
-            $scope.menu = response.data;
+            $scope.menu = response.data.data;
           }
-          UidLoader.load().success(function(uid) {
+          UidLoader.load().then(function(uid) {
             if (uid !== null && data.enabled === true) {
               $scope.menu.map(function(item) {
                 item.url = QueryStringAppender.append(item.url, 'ajs_uid', uid.toString());
@@ -121,3 +130,5 @@ angular.module('feed', ['stats', 'udc', 'utils'])
       'title': 'Schedule a 1-ON-1 demo with a Crate.io engineer'
     }];
   });
+
+export default feed;

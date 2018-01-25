@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
+import './sql';
+import './health';
+import './tableinfo';
+import './nodeinfo';
+import './clusterEventsHandler';
+
+const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
   .factory('ClusterState', function ($http, $interval, $timeout, $log, $q, $rootScope,
     baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ClusterEventsHandler) {
     var reachabilityInterval,
@@ -53,9 +59,9 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
         headers: {
           'Accept': 'application/json'
         }
-      }).success(function (response) {
+      }).then(function (response) {
         if (typeof response === 'object') {
-          var version = response.version;
+          var version = response.data.version;
           data.version = {
             number: version.number,
             hash: version.build_hash,
@@ -67,7 +73,7 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
           setReachability(false);
         }
 
-      }).error(function () {
+      }, function () {
         setReachability(false);
       });
     };
@@ -223,3 +229,5 @@ angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
       refresh: refreshClusterState
     };
   });
+
+export default stats;

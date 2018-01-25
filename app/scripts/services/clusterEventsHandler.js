@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('events', [])
+const events = angular.module('events', [])
   .service('ClusterEventsHandler', function () {
     var listeners = {};
     var service = {};
@@ -30,3 +30,5 @@ angular.module('events', [])
 
     return service;
   });
+
+export default events;

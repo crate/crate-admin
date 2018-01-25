@@ -1,0 +1,150 @@
+.table-detail {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	border: 1px solid $block-border;
+}
+
+.table-detail__row {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 50%;
+}
+
+.query-table__panel {
+	@extend .cr-panel-block;
+	padding: 0px;
+	align-items: flex-end !important;
+	justify-content: flex-end !important;
+	border: 1px solid $block-border;
+	margin-top: 0px !important;
+}
+
+.table-detail.cr-panel-block {
+	margin-bottom: 5px !important;
+}
+
+.table-detail__cell {
+	width: 50%;
+	padding: 0px 15px;
+}
+
+.table-detail__cell-title {
+	font-weight: 700;
+}
+
+.table-detail__cell-content {
+	padding: 6px;
+	border-radius: 3px;
+	border: 1px solid $block-border;
+}
+
+.partitions {
+	margin-top: 25px;
+}
+
+.partitions__table {
+	max-width: 100%;
+	overflow: auto;
+}
+
+.partitions__table th,
+.partitions__table td {
+	background-color: $block-bg;
+	border: 1px solid $block-border;
+}
+
+.partitions__table th {
+	border-bottom: 1px solid $block-border;
+	margin-bottom: 2px;
+}
+
+.partitions__table th,
+.partitions__table td {
+	padding: 5px;
+}
+
+.partitions__header {
+	display: flex;
+	justify-content: space-between;
+	border: 1px solid $block-border;
+}
+
+.partitions__header h2,
+.partitions__header span {
+	margin: 0px;
+}
+
+.partitions__table table {
+	width: 100%;
+}
+
+.table-schema {
+	width: 100%;
+}
+
+.table-schema__detail{
+	font-family: $font-family-monospace;
+	font-weight: 600;
+}
+
+.table-schema h2,
+.table-schema__header,
+.table-schema__detail__cell {
+	background-color: $block-bg;
+	position: relative;
+}
+
+.table-schema h2 {
+	margin-bottom: 3px;
+	padding: 15px 10px;
+	border: 1px solid $block-border;
+}
+
+.table-schema__headers, .table-schema__detail__row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.table-schema__header, .table-schema__detail__cell {
+	padding: 10px;
+	width: calc(50% - 1.5px);
+	border: 1px solid $block-border;
+}
+
+.table-schema__headers {
+	font-weight: 700;
+	margin-bottom: 3px;
+}
+
+.table-schema__detail__row {
+	margin: 0px 0px 1px 0px;
+}
+
+@media only screen and (max-width : $max-width-m) {
+
+	.table-detail__row {
+		width: 100%;
+	}
+
+}
+
+@media only screen and (max-width : $max-width-xs) {
+
+	.table-detail__cell {
+		width: 100%;
+	}
+
+}
+
+.generation-expression {
+	font-family: monospace;
+}
+
+.generation-expression--help {
+	position: absolute;
+	color: #fff;
+	top: 30%;
+	right: 7px;
+}

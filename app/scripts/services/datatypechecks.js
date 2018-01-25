@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('datatypechecks', [])
+const datatypechecks = angular.module('datatypechecks', [])
   .factory('ColumnTypeCheck', function() {
     var ColumnTypeCheck = {};
     var formattedDataTypes = [11, 13, 14, 12];
@@ -73,3 +73,5 @@ angular.module('datatypechecks', [])
 
     return ObjectTypeCheck;
   });
+
+export default datatypechecks;
