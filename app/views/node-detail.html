@@ -6,16 +6,16 @@
     <div class="node-detail__row">
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
-          {{:: 'NODE.NAME' | translate }}
+          {{ 'NODE.NAME' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           <b ng-if="node.name">{{ node.name }}</b>
-          <b ng-if="!node.name">{{:: 'NODE.NOT_REACHABLE_MSG' | translate }}</b>
+          <b ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</b>
         </p>
       </div>
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
-          {{:: 'NODE.HOSTNAME' | translate }}
+          {{ 'NODE.HOSTNAME' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{ node.hostname }}
@@ -26,7 +26,7 @@
     <div class="node-detail__row">
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
-          {{:: 'NODE.CRATE_VERSION' | translate }}
+          {{ 'NODE.CRATE_VERSION' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{ node.version.number }}
@@ -34,7 +34,7 @@
       </div>
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
-          {{:: 'NODE.REST_URL' | translate }}
+          {{ 'NODE.REST_URL' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node">
           <a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="//{{ node.rest_url }}" target="_blank">
@@ -50,7 +50,7 @@
     <div class="node-detail__row">
       <div class="node-detail__graph__wrapper">
         <div class="cr-panel-block__item__header">
-          {{:: 'NODE.CPU_USAGE' | translate }}
+          {{ 'NODE.CPU_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
@@ -62,7 +62,7 @@
     <div class="node-detail__row">
       <div class="node-detail__graph__wrapper">
         <div class="cr-panel-block__item__header">
-          {{:: 'NODE.HEAP_USAGE' | translate }}
+          {{ 'NODE.HEAP_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
@@ -74,7 +74,7 @@
     <div class="node-detail__row">
       <div class="node-detail__graph__wrapper">
         <div class="cr-panel-block__item__header">
-          {{:: 'NODE.DISK_USAGE' | translate }}
+          {{ 'NODE.DISK_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
@@ -86,7 +86,7 @@
     <div class="node-detail__row">
       <div class="node-detail__graph__wrapper">
         <div class="cr-panel-block__item__header">
-          {{:: 'NODE.CRATE_CPU_USAGE' | translate }}
+          {{ 'NODE.CRATE_CPU_USAGE' | translate }}
         </div>
         <div class="node-detail__graph__container cr-panel--default">
           <span class="node-graph-overlay"></span>
@@ -98,11 +98,11 @@
 
   <div class="node-detail__subsection">
     <div class="node-detail__subsection--small">
-      <h2 class="">{{:: 'NODE.LOAD' | translate }}</h2>
+      <h2 class="">{{ 'NODE.LOAD' | translate }}</h2>
       <div class="node-detail__subsection__detail cr-panel-block">
         <div class="node-detail__subsection__cell--small">
           <p class="cr-panel-block__item__header">
-            1{{:: 'NODE.MINUTES' | translate }}
+            1{{ 'NODE.MINUTES' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
             {{ node.load['1']|number:2 }}
@@ -111,7 +111,7 @@
 
         <div class="node-detail__subsection__cell--small">
           <p class="cr-panel-block__item__header">
-            5{{:: 'NODE.MINUTES' | translate }}
+            5{{ 'NODE.MINUTES' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
             {{ node.load['5']|number:2 }}
@@ -120,7 +120,7 @@
 
         <div class="node-detail__subsection__cell--small">
           <p class="cr-panel-block__item__header">
-            15{{:: 'NODE.MINUTES' | translate }}
+            15{{ 'NODE.MINUTES' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.load['1'] >= 0">
             {{ node.load['15']|number:2 }}
@@ -130,11 +130,11 @@
     </div>
 
     <div class="node-detail__subsection--small">
-      <h2 class="">{{:: 'NODE.CPU_CORES' | translate }}</h2>
+      <h2 class="">{{ 'NODE.CPU_CORES' | translate }}</h2>
       <div class="node-detail__subsection__detail cr-panel-block">
         <div class="node-detail__subsection__cell--small">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.CORES' | translate }}
+            {{ 'NODE.CORES' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.num_cores > 0">
             {{ node.num_cores }}
@@ -144,11 +144,11 @@
     </div>
 
     <div class="node-detail__subsection--medium">
-      <h2 class="">{{:: 'NODE.SHARDS' | translate }}</h2>
+      <h2 class="">{{ 'NODE.SHARDS' | translate }}</h2>
       <div class="node-detail__subsection__detail cr-panel-block">
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.INITIALIZING' | translate }}
+            {{ 'NODE.INITIALIZING' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.initializing > -1">
             {{ shardInfo.initializing }}
@@ -160,7 +160,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.STARTED' | translate }}
+            {{ 'NODE.STARTED' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.started > -1">
             {{ shardInfo.started }}
@@ -172,7 +172,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.REALLOCATING' | translate }}
+            {{ 'NODE.REALLOCATING' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.reallocating > -1">
             {{ shardInfo.reallocating }}
@@ -184,7 +184,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.POST_RECOVERY' | translate }}
+            {{ 'NODE.POST_RECOVERY' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="shardInfo.postrecovery > -1">
             {{ shardInfo.postrecovery }}
@@ -198,11 +198,11 @@
     </div>
 
     <div class="node-detail__subsection--medium">
-      <h2 class="">{{:: 'NODE.DISK_OPERATIONS' | translate }}</h2>
+      <h2 class="">{{ 'NODE.DISK_OPERATIONS' | translate }}</h2>
       <div class="node-detail__subsection__detail cr-panel-block">
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.READ' | translate }}
+            {{ 'NODE.READ' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rps > -1">
             {{ node.iostats.rps|number:1 }}
@@ -214,7 +214,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.WRITE' | translate }}
+            {{ 'NODE.WRITE' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wps > -1">
             {{ node.iostats.wps|number:1 }}
@@ -226,7 +226,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.READS' | translate }}
+            {{ 'NODE.READS' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rbps > -1">
             {{ node.iostats.rbps|bytes }}/s
@@ -238,7 +238,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{:: 'NODE.WRITES' | translate }}
+            {{ 'NODE.WRITES' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wbps > -1">
             {{ node.iostats.wbps|bytes }}/s
