@@ -7,7 +7,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.NAME' | translate }}
+          {{ 'TABLE.NAME' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           <ng-pluralize ng-init="translationKey='TABLE.TITLE'" count="nr_of_tables"
@@ -21,7 +21,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.HEALTH' | translate }}
+          {{ 'TABLE.HEALTH' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width {{table.health_panel_class}}">
           {{table.health}}
@@ -32,7 +32,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.CONFIG_REPLICAS' | translate }}
+          {{ 'TABLE.CONFIG_REPLICAS' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.replicas_configured}}
@@ -40,7 +40,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.CONFIG_SHARDS' | translate }}
+          {{ 'TABLE.CONFIG_SHARDS' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_configured}}
@@ -51,7 +51,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.STARTED_SHARDS' | translate }}
+          {{ 'TABLE.STARTED_SHARDS' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_started}}
@@ -59,7 +59,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.MISSING_SHARDS' | translate }}
+          {{ 'TABLE.MISSING_SHARDS' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_missing}}
@@ -70,7 +70,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.UNDERREPL_SHARDS' | translate }}
+          {{ 'TABLE.UNDERREPL_SHARDS' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_underreplicated}}
@@ -78,7 +78,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.TOTAL' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.TOTAL' | translate }} {{ table.type_display_name | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_total | number:0}}">
           {{table.records_total | roundWithUnit:1}}
@@ -89,7 +89,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.UNAVAILABLE' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.UNAVAILABLE' | translate }} {{ table.type_display_name | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">
           {{table.records_unavailable | roundWithUnit:1}}
@@ -97,7 +97,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.UNDERREPL' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.UNDERREPL' | translate }} {{ table.type_display_name | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">
           {{table.records_underreplicated | roundWithUnit:1}}
@@ -108,7 +108,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.SIZE' | translate }}
+          {{ 'TABLE.SIZE' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.size | number:0}}">
           {{table.size | bytes}}
@@ -116,7 +116,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{:: 'TABLE.RECOVERY' | translate }}
+          {{ 'TABLE.RECOVERY' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.recovery_percent}}%">
           {{table.recovery_percent | number:1}}%
@@ -134,10 +134,10 @@
   <div class="partitions" ng-show="renderPartitions">
     <div class="partitions__header cr-panel-block">
       <h2>
-        {{:: 'TABLE.PARTITIONS' | translate }}
+        {{ 'TABLE.PARTITIONS' | translate }}
       </h2>
       <span ng-show="table.partitioned">
-        {{:: 'TABLE.PARTITION_COLUMNS' | translate }}: <b ng-repeat="col in table.partitioned_by track by $index">{{col}}{{$last?'':', '}}</b>
+        {{ 'TABLE.PARTITION_COLUMNS' | translate }}: <b ng-repeat="col in table.partitioned_by track by $index">{{col}}{{$last?'':', '}}</b>
       </span>
     </div>
 
@@ -145,18 +145,18 @@
       <table>
         <thead>
           <tr>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('health')">{{:: 'TABLE.HEALTH' | translate }} <i ng-class="ptCtlr.selected('health')"></i></th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('partition_ident')">{{:: 'TABLE.ROW.IDENT' | translate }} <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
-            <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">{{:: 'TABLE.ROW.PARTITION_VALUES' | translate }}</th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('replicas_configured')">{{:: 'TABLE.ROW.CONF_REPLICAS' | translate }}<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('shards_configured')">{{:: 'TABLE.ROW.CONF_SHARDS' | translate }}<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
-            <th rowspan="2" class="header">{{:: 'TABLE.ROW.STARTED_SHARDS' | translate }}</th>
-            <th rowspan="2" class="header">{{:: 'TABLE.ROW.MISSING_SHARDS' | translate }}</th>
-            <th rowspan="2" class="header">{{:: 'TABLE.ROW.UNDERREPL_SHARDS' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('health')">{{ 'TABLE.HEALTH' | translate }} <i ng-class="ptCtlr.selected('health')"></i></th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('partition_ident')">{{ 'TABLE.ROW.IDENT' | translate }} <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
+            <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">{{ 'TABLE.ROW.PARTITION_VALUES' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('replicas_configured')">{{ 'TABLE.ROW.CONF_REPLICAS' | translate }}<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('shards_configured')">{{ 'TABLE.ROW.CONF_SHARDS' | translate }}<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
+            <th rowspan="2" class="header">{{ 'TABLE.ROW.STARTED_SHARDS' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.ROW.MISSING_SHARDS' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_SHARDS' | translate }}</th>
             <th rowspan="2" ng-click="ptCtlr.sortByColumn('records_total')">{{ 'TABLE.ROW.TOTAL_RECORDS' | translate }}<i ng-class="ptCtlr.selected('records_total')"></i></th>
-            <th rowspan="2" class="header">{{:: 'TABLE.ROW.UNAVAIL_RECORDS' | translate }}</th>
-            <th rowspan="2" class="header">{{:: 'TABLE.ROW.UNDERREPL_RECORDS' | translate }}</th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('size')">{{:: 'TABLE.ROW.SIZE' | translate }}<i ng-class="ptCtlr.selected('size')"></i></th>
+            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNAVAIL_RECORDS' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_RECORDS' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('size')">{{ 'TABLE.ROW.SIZE' | translate }}<i ng-class="ptCtlr.selected('size')"></i></th>
           </tr>
             <th ng-repeat="col in table.partitioned_by track by $index">{{ col }}</th>
           <tr>
@@ -187,19 +187,19 @@
   </div>
 
   <div class="table-schema" ng-show="renderSchema">
-    <h2>{{:: 'TABLE.SCHEMA' | translate }}</h2>
+    <h2>{{ 'TABLE.SCHEMA' | translate }}</h2>
     <div class="table-schema__details">
       <div class="table-schema__headers">
-        <div class="table-schema__header">{{:: 'TABLE.NAME' | translate }}</div>
-        <div class="table-schema__header">{{:: 'TABLE.TYPE' | translate }}</div>
+        <div class="table-schema__header">{{ 'TABLE.NAME' | translate }}</div>
+        <div class="table-schema__header">{{ 'TABLE.TYPE' | translate }}</div>
       </div>
       <div class="table-schema__detail">
         <div class="table-schema__detail__row" ng-repeat="row in schemaRows track by $index">
-            <div class="table-schema__detail__cell"> {{ row.column_name }} 
+            <div class="table-schema__detail__cell"> {{ row.column_name }}
               <div ng-if="row.is_generated" class="generation-expression"> AS {{ row.generation_expression }} </div>
-              <a class="generation-expression--help" ng-if="row.is_generated" target="_blank" href="https://crate.io/docs/crate/reference/sql/ddl/generated_columns.html"><i class="fa fa-question-circle" aria-hidden="true" ></i></a>   
-            </div> 
-            <div class="table-schema__detail__cell"> {{ row.data_type }} </div> 
+              <a class="generation-expression--help" ng-if="row.is_generated" target="_blank" href="https://crate.io/docs/crate/reference/sql/ddl/generated_columns.html"><i class="fa fa-question-circle" aria-hidden="true" ></i></a>
+            </div>
+            <div class="table-schema__detail__cell"> {{ row.data_type }} </div>
         </div>
       </div>
     </div>
