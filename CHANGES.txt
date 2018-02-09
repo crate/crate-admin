@@ -14,6 +14,12 @@ Changes
 Fixes
 -----
 
+2018/02/09 1.8.2
+================
+
+Fixes
+-----
+
  - Fix an issue that caused the translation strings to not be loaded correctly. 
 
 2018/01/16 1.8.1
