@@ -6,6 +6,8 @@ import './styles/styles.scss';
 // loading all module components
 import './app.components';
 
+import ApolloProvider from './scripts/services/apollo.provider.js';
+import {client} from './scripts/constants/client.js';
 
 var MODULES = [
   'ui.router',
@@ -28,7 +30,9 @@ var MODULES = [
   'datatypechecks',
   'nvd3',
   'pascalprecht.translate',
-  'oc.lazyLoad'
+  'oc.lazyLoad',
+  'auth',
+  'apollo'
 ];
 
 var DEFAULT_PLUGINS = [];
@@ -69,6 +73,11 @@ var ROUTING = {
     'name': 'unauthorized',
     'url': '/401',
     'templateUrl': 'static/views/401.html'
+  },
+  '/auth/token/:token': {
+    'name': 'auth',
+    'url': '/auth/token/:token',
+    'template': '<authentication>'
   }
 };
 
@@ -130,6 +139,12 @@ $.get('/static/conf/plugins.json', function (plugins) {
   //function to create 'crate' module and bootstrap app
   var loadApp = function () {
     appModule = angular.module('crate', MODULES);
+    appModule.config(['$locationProvider', function($locationProvider) {
+      $locationProvider.hashPrefix('');
+    }]);
+    appModule.config(['ApolloProvider', (ApolloProvider) => {
+      ApolloProvider.defaultClient(client);
+    }]);
     appModule.config(['SQLQueryProvider', 'queryResultToObjectsProvider', '$ocLazyLoadProvider', '$stateProvider',
       'SettingsProvider',
       function (SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider,

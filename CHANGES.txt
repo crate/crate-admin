@@ -11,6 +11,8 @@ Breaking Changes
 Changes
 -------
 
+ - Implement Authentication feature in the admin ui. 
+
 Fixes
 -----
 

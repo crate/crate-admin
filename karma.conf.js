@@ -31,6 +31,7 @@ module.exports = function (config) {
       'codecov.io'
     ],
     files: [
+      { pattern: 'node_modules/babel-polyfill/browser.js', instrument: false}, 
       './app/vendor.module.js',
       './app/app.module.js',
       './node_modules/angular-mocks/angular-mocks.js',

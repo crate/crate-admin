@@ -3,11 +3,15 @@
 import '../services/stats';
 import '../services/udc';
 import '../services/utils';
+import { callback } from '../constants/auth';
 
-const feed = angular.module('feed', ['stats', 'udc', 'utils'])
-  .factory('QueryStringAppender', function() {
+import '../services/apollo.provider';
+import gql from 'graphql-tag';
+
+const feed = angular.module('feed', ['stats', 'udc', 'utils', 'apollo'])
+  .factory('QueryStringAppender', function () {
     return {
-      append: function(url, k, v) {
+      append: function (url, k, v) {
         var qs = k + '=' + v;
         return url.indexOf('?') > -1 ? url + '&' + qs : url + '?' + qs;
       }
@@ -28,7 +32,7 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
       }
     };
   })
-  .factory('NotificationService', function() {
+  .factory('NotificationService', function () {
     var readItems = null;
     var key = 'crate.readNotifications';
     return {
@@ -39,7 +43,7 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
         }
         return readItems;
       },
-      markAsRead: function(id) {
+      markAsRead: function (id) {
         var items = this.readItems();
         items.push(id);
         readItems = items;
@@ -47,12 +51,13 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
       }
     };
   })
-  .controller('NotificationsController', function($scope, $sce, $http, $filter, $window,
-    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader) {
+  .controller('NotificationsController', function ($scope, $sce, $http, $filter, $window,
+    FeedService, QueryStringAppender, NotificationService, ClusterState, UdcSettings, UidLoader,
+    Settings, Apollo) {
 
     var CRATE_IO = 'https://crate.io';
 
-    var doNotTrackUrl = function(url) {
+    var doNotTrackUrl = function (url) {
       return QueryStringAppender.append(url, 'udc.enabled', 'false');
     };
 
@@ -61,7 +66,42 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
     $scope.version_url = CRATE_IO + '/versions.json';
     $scope.menu_url = CRATE_IO + '/feed/menu.json';
 
-    UdcSettings.availability.then(function(data) {
+    $scope.enterprise = Settings.enterprise;
+    $scope.userLoggedIn = sessionStorage.getItem('crate.auth.token') != undefined;
+
+    $scope.login = () => {
+      window.location.replace(callback.login_uri);
+    };
+
+    $scope.logout = () => {
+      sessionStorage.removeItem('crate.auth.token');
+      $scope.userLoggedIn = false;
+      $scope.userInfo = {};
+      window.location.replace(callback.logout_uri);
+    };
+
+    function getUserInfo() {
+      return Apollo.query({
+        query: gql `
+          query {
+            me {
+              id
+              email
+              username
+              organizationId
+            }
+          }
+        `
+      });
+    }
+
+    if ($scope.userLoggedIn) {
+      getUserInfo().then(result => {
+        $scope.userInfo = result.data.me;
+      });
+    }
+
+    UdcSettings.availability.then(function (data) {
       if (data.enabled !== true) {
         $scope.blog_url = doNotTrackUrl($scope.blog_url);
         $scope.demo_url = doNotTrackUrl($scope.demo_url);
@@ -75,30 +115,30 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
 
       var stableVersion;
       FeedService.parse($scope.version_url)
-        .then(function(response) {
+        .then(function (response) {
           if (response && response.crate) {
             stableVersion = response.crate;
           }
         });
 
-      $scope.$watch(function() {
+      $scope.$watch(function () {
         return ClusterState.data;
-      }, function(data) {
+      }, function (data) {
         $scope.showUpdate = data.version && stableVersion && stableVersion > data.version.number;
         $scope.stableVersion = stableVersion;
         $scope.serverVersion = data.version ? data.version.number : '';
       }, true);
 
       $scope.showUpdate = false;
-      
+
       FeedService.parse($scope.menu_url)
-        .then(function(response) {
+        .then(function (response) {
           if (response && response.data) {
             $scope.menu = response.data.data;
           }
-          UidLoader.load().then(function(uid) {
+          UidLoader.load().then(function (uid) {
             if (uid !== null && data.enabled === true) {
-              $scope.menu.map(function(item) {
+              $scope.menu.map(function (item) {
                 item.url = QueryStringAppender.append(item.url, 'ajs_uid', uid.toString());
                 item.url = QueryStringAppender.append(item.url, 'ajs_aid', uid.toString());
               });
@@ -107,7 +147,7 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
         });
     });
 
-    $scope.markAsRead = function(item) {
+    $scope.markAsRead = function (item) {
       if (item === 'all') {
         var all = $scope.entries;
         for (var i = 0; i < all.length; i++) {
@@ -120,7 +160,7 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils'])
       }
     };
 
-    $scope.goToUrl = function(url) {
+    $scope.goToUrl = function (url) {
       $window.open(url, '_blank');
     };
 

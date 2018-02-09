@@ -24,3 +24,10 @@ import 'angular-translate-storage-cookie';
 import 'angular-translate-loader-partial';
 import 'oclazyload';
 import 'angular-nvd3';
+
+import 'graphql-tag';
+
+import 'apollo-link-http';
+import 'apollo-link-error';
+import 'apollo-cache-inmemory';
+import 'apollo-link';
