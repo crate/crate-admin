@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fix an issue that caused the translation strings to not be loaded correctly. 
+
 2018/01/16 1.8.1
 ================
 
@@ -22,7 +24,7 @@ Fixes
 
  - Fix an issue that caused the ``Cluster`` tab to not be loaded correctly. 
 
- - Map the Tab key to insert spaces instead of a tab character. 
+ - Map the Tab key to insert spaces instead of a tab character.
 
  - Fixed an issue that caused the user name to not be displayed.
 

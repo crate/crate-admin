@@ -2,10 +2,10 @@
 
     <div class="node-list__header">
       <div class="node-list__header__title">
-        {{:: 'NODE.NODES' | translate }}
+        {{ 'NODE.NODES' | translate }}
       </div>
-      <div ng-click="sortBy('name')" class="node-list__header__btn"><i ng-class="sortClass('name')"></i> {{:: 'NODE.NAME' | translate }}</div>
-      <div ng-click="sortBy('health_value')" class="node-list__header__btn"><i ng-class="sortClass('health_value')"></i> {{:: 'NODE.HEALTH' | translate }}</div>
+      <div ng-click="sortBy('name')" class="node-list__header__btn"><i ng-class="sortClass('name')"></i> {{ 'NODE.NAME' | translate }}</div>
+      <div ng-click="sortBy('health_value')" class="node-list__header__btn"><i ng-class="sortClass('health_value')"></i> {{ 'NODE.HEALTH' | translate }}</div>
     </div>
 
     <div class="node-list">
@@ -24,10 +24,9 @@
             <div class="node-list__element__cell" ng-class="{'cr-panel--warning': !isSameVersion(node.version)}">
                 {{ ::node.version.number }}
             </div>
-          </div> 
+          </div>
       </div>
     </div>
 
 
 </div>
-
