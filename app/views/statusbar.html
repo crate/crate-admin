@@ -64,6 +64,28 @@
             </div>
           </div>
 
+          <div class="cr-settings__item" ng-if=" enterprise && !userLoggedIn">
+            <div class="cr-settings__item__label"> 
+              <button class="cr-settings__item__btn" ng-click="login()">
+              Login
+              </button>
+            </div>
+          </div>
+
+          <div class="cr-settings__item no-border-bottom" ng-if="enterprise && userLoggedIn">
+            <div class="cr-settings__item__label no-hover"> <b>You are Logged in as:</b> {{userInfo.email}} </div>
+          </div>
+
+          <div class="cr-settings__item" ng-if="enterprise && userLoggedIn">
+            <div class="cr-settings__item__label">  
+              <button class="cr-settings__item__btn" ng-click="logout()">
+              Logout
+              </button>
+            </div>
+
+          </div>
+
+
           <div class="cr-settings__item">
             <a class="cr-settings__item__label" ng-href="{{ docs_url }}" target="_docs"> {{:: 'STATUSBAR.CRATE_MANUAL' | translate }} {{major_minor_version && '(' + major_minor_version + ')' || '' }}</a>
           </div>

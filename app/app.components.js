@@ -14,6 +14,7 @@ import './scripts/services/udc';
 import './scripts/services/translation';
 import './scripts/services/datatypechecks';
 import './scripts/services/segmentio';
+import './scripts/services/apollo.provider.js';
 
 //controllers
 import './scripts/controllers/common';
@@ -22,7 +23,12 @@ import './scripts/controllers/overview';
 import './scripts/controllers/console';
 import './scripts/controllers/tables';
 import './scripts/controllers/cluster';
+import './scripts/controllers/authentication';
 
 //filters
 import './scripts/filter/text';
 import './scripts/filter/numbers';
+
+//constants
+import './scripts/constants/client';
+import './scripts/constants/auth';
