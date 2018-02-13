@@ -1,0 +1,105 @@
+====================
+The CrateDB Admin UI
+====================
+
+CrateDB ships with a web administration user interface (UI), or *admin UI* for
+short.
+
+The CrateDB admin UI runs on every CrateDB node, and you can use it to inspect
+and interact with the whole CrateDB cluster in a number of ways.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Connecting
+==========
+
+The admin UI is accessible via HTTP at port ``4200``, at a URL like so::
+
+  http://HOSTNAME:4200/
+
+Here, replace ``HOSTNAME`` with the hostname of the CrateDB node. If CrateDB
+is running locally, this will be ``localhost``.
+
+.. NOTE::
+
+    If port ``4200`` is accessed via a client library or command line tool like
+    ``curl`` or ``wget``, the request will be handled by `the CrateDB Rest
+    API`_, and the response will be JSON.
+
+.. _the CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
+
+Overview
+========
+
+Here's what the admin UI will look like when it first loads:
+
+.. image:: admin-ui.png
+
+.. NOTE::
+
+   This is the `Enterprise version`_ of admin UI. The community version uses a
+   lighter theme.
+
+.. _Enterprise version: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
+
+The navigation is split into two parts:
+
+- The `status bar`_ (along the top)
+
+- The `tabs`_ (down the left-hand side)
+
+Status Bar
+----------
+
+Along the top of the screen, from left to right, the status bar has:
+
+- `Cluster name
+  <https://crate.io/docs/reference/configuration.html#cluster-name>`_
+
+- CrateDB version
+
+- Number of nodes in the cluster
+
+- Health checks
+
+  - Data status:
+
+    :Green: All data is replicated and available
+    :Yellow: There are un-replicated records
+    :Red: Some data is unavailable
+
+  - Cluster status:
+
+    :Green: Good configuration
+    :Yellow: Some configuration warnings
+    :Red: Some configuration errors
+
+- Average cluster load (for the past minute, 5 minutes, and 15 minutes)
+
+- Settings and notifications menu
+
+Tabs
+----
+
+Running down the left-hand side, from top to bottom, the tabs are:
+
+- Overview screen
+
+- SQL console
+
+- Tables browser
+
+- Shards browser (`Enterprise only`_)
+
+- Cluster browser
+
+- Monitoring overview (`Enterprise only`_)
+
+- Privileges browser (`Enterprise only`_)
+
+- Help screen
+
+.. _Enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html

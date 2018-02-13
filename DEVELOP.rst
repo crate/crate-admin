@@ -74,16 +74,16 @@ Dev dependencies should be added as follow::
 Adding New Components
 =====================
 
-When a new component is created (a module or a service or a controller), 
+When a new component is created (a module or a service or a controller),
 it should be imported to ``./app/app.components.js``.
 
 Adding New Stylesheets
 ======================
 
-When a new stylesheet is created it should be imported to 
+When a new stylesheet is created it should be imported to
 ``./styles/styles.scss`` and/or ``./styles/styles-enterprise.scss``
 
-Vendor styles should also be imported to ``./styles/styles.scss`` 
+Vendor styles should also be imported to ``./styles/styles.scss``
 and ``./styles/styles-enterprise.scss``
 
 Running Tests
@@ -120,6 +120,25 @@ To create a new release, you must:
 
 - Run the ``crate-admin_release`` job in Jenkins
 
+Writing Documentation
+=====================
+
+The docs live under the ``docs`` directory.
+
+The docs are written written with ReStructuredText_ and processed with Sphinx_.
+
+Build the docs by running::
+
+    $ bin/sphinx
+
+The output can then be found in the ``out/html`` directory.
+
+The docs are automatically built from Git by `Read the Docs`_ and there is
+nothing special you need to do to get the live docs to update.
+
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
+.. _Read the Docs: http://readthedocs.org
+.. _ReStructuredText: http://docutils.sourceforge.net/rst.html
+.. _Sphinx: http://sphinx-doc.org/
 .. _tutorial plugin: app/plugins/tutorial
