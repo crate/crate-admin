@@ -353,6 +353,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
         $scope.collapsed = true;
 
         function updateTableList() {
+            $scope.tables = [];
             var tables = ClusterState.data.tables;
             var hasTables = tables.length > 0;
             $scope.renderSidebar = hasTables;
@@ -378,7 +379,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
                 customSchemas.push(name);
               }
 
-              $scope.tables = [];
               $scope.tables.push({
                 'display_name': 'Doc',
                 'tables': tables.filter(function (item) {
@@ -401,9 +401,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
                 }),
                 table_schema: 'blob'
               });
-
-            } else {
-              $scope.tables = [];
             }
           }
 
