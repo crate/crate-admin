@@ -352,6 +352,13 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
         };
         $scope.collapsed = true;
 
+        $scope.table_filter = function (item) {
+          if (!$scope.query || (item.fqn.toLowerCase().indexOf($scope.query) != -1)) {
+            return true;
+          }
+          return false;
+        };
+
         function updateTableList() {
             $scope.tables = [];
             var tables = ClusterState.data.tables;

@@ -14,6 +14,9 @@ Changes
 Fixes
 -----
 
+ - Updated the table list search to filter tables only by table name and table
+   schema.
+
  - Fixed an issue that caused the table list to display wrong results.
 
 2018/02/09 1.8.2
