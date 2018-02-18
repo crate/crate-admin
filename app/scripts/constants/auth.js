@@ -8,6 +8,6 @@ var backend_uri = 'https://cloud-api.crate.io';
 export { backend_uri };
 
 export const callback = {
-    login_uri: backend_uri + rest_api_prefix + '/login?redirect_uri=' + window.location.origin,
+    login_uri: backend_uri + rest_api_prefix + '/login?redirect_uri=' + window.location.href,
     logout_uri: backend_uri + rest_api_prefix + '/logout?prompt_login=false&redirect_uri=' + window.location.origin
 };

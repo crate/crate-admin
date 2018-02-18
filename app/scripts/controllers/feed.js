@@ -7,6 +7,7 @@ import { callback } from '../constants/auth';
 
 import '../services/apollo.provider';
 import gql from 'graphql-tag';
+import Cookies from 'js-cookie';
 
 const feed = angular.module('feed', ['stats', 'udc', 'utils', 'apollo'])
   .factory('QueryStringAppender', function () {
@@ -67,14 +68,14 @@ const feed = angular.module('feed', ['stats', 'udc', 'utils', 'apollo'])
     $scope.menu_url = CRATE_IO + '/feed/menu.json';
 
     $scope.enterprise = Settings.enterprise;
-    $scope.userLoggedIn = sessionStorage.getItem('crate.auth.token') != undefined;
+    $scope.userLoggedIn = Cookies.get('crate.auth.token') != undefined;
 
     $scope.login = () => {
       window.location.replace(callback.login_uri);
     };
 
     $scope.logout = () => {
-      sessionStorage.removeItem('crate.auth.token');
+      Cookies.remove('crate.auth.token');
       $scope.userLoggedIn = false;
       $scope.userInfo = {};
       window.location.replace(callback.logout_uri);

@@ -9,6 +9,7 @@ import { ApolloLink, from } from 'apollo-link';
 
 import { backend_uri } from './auth';
 
+import Cookies from 'js-cookie';
 
 const httpLink = createHttpLink({
   uri: `${backend_uri}/graphql`,
@@ -18,7 +19,7 @@ const httpLink = createHttpLink({
 export {httpLink};
 
 const authMiddleWare = new ApolloLink((operation, forward) => {
-  const token = sessionStorage.getItem('crate.auth.token');
+  const token = Cookies.get('crate.auth.token'); 
   if (token !== null && typeof token !== undefined) {
     operation.setContext({
       headers: {
