@@ -22,11 +22,11 @@
         <div class="table__tab__header" id="table-nav-tab-header-{{$index}}" ng-class="isCollapsed($index) ? '' : 'table__tab__tab-header--selected'">
           <div class="side-bar__header table__tab__header" ng-click="toggleElements($index)">
             <i class="fa fa-caret-down" ng-class="{'fa-caret-down': !isCollapsed($index), 'fa-caret-right': isCollapsed($index)}"></i>
-            {{:: type.display_name }} {{ 'TABLE.TITLE' | translate }}</div>
+            {{ type.display_name }} {{ 'TABLE.TITLE' | translate }}</div>
         </div>
 
         <div class="tables-list" id="tables-list--{{$index}}" ng-class="{'collapse': isCollapsed($index), 'in': !isCollapsed($index)}">
-          <div class="side-bar__element tables-list__element" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-repeat="table in type.tables | filter:search track by $index">
+          <div class="side-bar__element tables-list__element" ng-class="{ 'active': isActive(table.table_schema, table.name)}" ng-if="renderSidebar" ng-repeat="table in type.tables | filter:search track by $index">
             <a href="#!/tables/{{:: table.table_schema }}/{{:: table.name }}">
               <div class="table-name-row">
                 <div class="table-name">

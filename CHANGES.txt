@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Fixed an issue that caused the table list to display wrong results.
+
 2018/02/09 1.8.2
 ================
 
