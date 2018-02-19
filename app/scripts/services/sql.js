@@ -139,21 +139,21 @@ const sql = angular.module('sql', [])
       $http(request)
         .then(function(response) {
           deferred.resolve(new SQLQuery(stmt, response.data, null));
-        }, function(data, status) {
+        }, function(response) {
           var error = null;
-          if (status >= 400 && data.error) {
-            error = new Error(data.error.message);
-            error.error_trace = data.error_trace;
-            error.status = data.error.code;
-            if (data.error.code === 4011 && !isConsole) {
+          if (response.status >= 400 && response.data.error) {
+            error = new Error(response.data.error.message);
+            error.error_trace = response.data.error_trace;
+            error.status = response.data.error.code;
+            if (response.data.error.code === 4011 && !isConsole) {
               $state.go('unauthorized');
             }
-          } else if (status >= 400) {
-            error = new Error(data);
-            error.status = status;
+          } else if (response.status >= 400) {
+            error = new Error(response);
+            error.status = response.status;
           } else if (status === 0) {
             error = new Error('Connection refused');
-            error.status = status;
+            error.status = response.status;
           }
 
           deferred.reject(new SQLQuery(stmt, data, error));
