@@ -10,7 +10,7 @@
 
   <div ng-if="stats_enabled === 0 && user_has_access">
     <p>Cluster stat collection is <strong>disabled</strong>. To enable stat collection, please run <code>SET GLOBAL stats.enabled TO TRUE</code>, or by adding <code>stats.enabled: true</code> to config/crate.yml.
-    For more information on enabling stat collection, please see the <a href="https://crate.io/docs/reference/configuration.html#collecting-stats">configuration documentation</a>.</p>
+    For more information on enabling stat collection, please see the <a href="https://cr8.is/conf-collecting-stats">configuration documentation</a>.</p>
   </div>
 
   <div ng-if="user_has_access" class="cr-panel-block--checks">
