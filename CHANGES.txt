@@ -14,6 +14,8 @@ Changes
 Fixes
 -----
 
+ - Updated the link to the stat collection in the monitoring plugin.
+
  - Updated the table list search to filter tables only by table name and table
    schema.
 
