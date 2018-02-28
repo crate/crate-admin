@@ -12,7 +12,7 @@ const shardinfo = angular.module('shardinfo', ['sql'])
           'WHERE table_schema NOT IN (\'information_schema\', \'sys\', \'pg_catalog\')';
 
       // shard info statement
-      var shardStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, _node[\'id\'] AS node_id, state, routing_state, relocating_node, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
+      var shardStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, node[\'id\'] AS node_id, state, routing_state, relocating_node, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
           'FROM sys.shards ' +
           'GROUP BY table_name, schema_name, fqn, node_id, state, routing_state, relocating_node, "primary"';
 

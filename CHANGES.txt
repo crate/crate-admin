@@ -11,6 +11,8 @@ Breaking Changes
 Changes
 -------
 
+ - Adapted queries to be compatible with CrateDB 3.0+
+
 Fixes
 -----
 

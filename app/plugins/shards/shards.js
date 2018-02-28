@@ -10,7 +10,7 @@ angular.module('shards', ['sql', 'events'])
       'LEFT JOIN information_schema.table_partitions AS partitions ' +
       'ON shards.table_name = partitions.table_name ' +
       'AND shards.partition_ident = partitions.partition_ident ' +
-      'WHERE shards._node[\'id\']=$1 ' +
+      'WHERE shards.node[\'id\']=$1 ' +
       'AND shards.schema_name=$2 ' +
       'AND shards.table_name=$3 ' +
       'AND shards.partition_ident=$4 ' +
@@ -72,7 +72,7 @@ angular.module('shards', ['sql', 'events'])
       'nodes.id AS node_id, nodes.name AS node_name ' +
       'FROM sys.shards ' +
       'RIGHT JOIN sys.nodes AS nodes ' +
-      'ON shards._node[\'id\'] = nodes.id ' +
+      'ON shards.node[\'id\'] = nodes.id ' +
       'ORDER BY key, node_id, shards.id';
 
     var cols = ['id', 'table_name', 'schema_name',
