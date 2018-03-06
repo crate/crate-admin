@@ -13,6 +13,9 @@ Changes
 
  - Adapted queries to be compatible with CrateDB 3.0+
 
+2018/03/06 1.8.3
+================
+
 Fixes
 -----
 
