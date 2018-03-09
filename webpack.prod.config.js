@@ -126,12 +126,7 @@ const config = {
       canPrint: true
     }),
     new HtmlWebpackExcludeAssetsPlugin()
-  ],
-  devServer: {
-    port: 9000,
-    contentBase: './app/',
-    historyApiFallback: true
-  }
+  ]
 };
 
 module.exports = config;

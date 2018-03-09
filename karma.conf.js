@@ -2,7 +2,7 @@
 // Generated on Mon Jan 29 2018 16:16:53 GMT+0100 (CET)
 var webpack = require('karma-webpack');
 var babel = require('karma-babel-preprocessor');
-var webpackConfig = require('./webpack.config.js');
+var webpackConfig = require('./webpack.dev.config.js');
 const commonsChunkPluginIndex = webpackConfig.plugins.findIndex(plugin => plugin.chunkNames);
 webpackConfig.plugins.splice(commonsChunkPluginIndex, 1);
 
