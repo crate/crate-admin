@@ -54,6 +54,9 @@ $red--faded:        rgba(236, 87, 78, 0.3);
 $lightred:          rgb(249, 242, 244);
 $darkred:           rgb(199, 37, 78);
 
+$grey :    #717171;
+$grey--faded: #525151;
+
 $numeric-result-blue: #a0a1ff;
 $text-result-green: #00ff5f;
 $boolean-result-red: #ff3f3f;
@@ -177,6 +180,9 @@ $bubble-warning-background: $orange--faded;
 $bubble-danger-border:      2px solid  $red;
 $bubble-danger-background:  $red--faded;
 
+$bubble-default-border:      2px solid  $grey;
+$bubble-default-background:  $grey--faded;
+
 
 $bubble-master-border:      2px solid $blue;
 $bubble-master-background:  $blue--faded;
@@ -231,6 +237,7 @@ $cr-panel-warning-background:   $orange--faded;
 
 $cr-panel-danger-border:        2px solid $red;
 $cr-panel-danger-background:    $red--faded;
+
 
 $cr-panel-default-border:       1px solid #242424;
 $cr-panel-default-background:   #242424;

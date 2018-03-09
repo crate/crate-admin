@@ -15,7 +15,6 @@
 
 .node-list__header{
 	padding: 10px;
-	border-bottom: 1px solid #ececec;
 }
 .node-list__header__title {
 	flex: 1 0 auto;
@@ -58,4 +57,9 @@
 .node-list__element{
 	cursor: pointer;
 	flex: 1 1 auto;
+}
+
+.cr-panel--unreacheable {
+  border: 1px solid $grey !important;
+  background: $grey--faded !important;
 }

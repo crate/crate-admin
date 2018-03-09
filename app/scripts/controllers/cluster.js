@@ -230,7 +230,7 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             available_percent: 0,
             used_percent: 0
           };
-          if (node.fs.data) {
+          if (node.fs && node.fs.data) {
             var dataDisks = [];
             for (var k = 0; k < node.fs.data.length; k++) {
               dataDisks.push(node.fs.data[k].dev);
@@ -264,14 +264,14 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             'key': 'Used',
             'values': [{
               'label': 'CPU',
-              'value': node.cpu.used
+              'value': node.cpu ? node.cpu.used : 0
           }],
             'color': COLORS.used
         }, {
             'key': 'Free',
             'values': [{
               'label': 'CPU',
-              'value': 100 - node.cpu.used
+              'value':  node.cpu ? 100 - node.cpu.used : 100
           }],
             'color': COLORS.free
         }];
@@ -280,14 +280,14 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             'key': 'Used',
             'values': [{
               'label': 'HEAP',
-              'value': node.heap.used
+              'value': node.heap ? node.heap.used : 0
           }],
             'color': COLORS.used
         }, {
             'key': 'Free',
             'values': [{
               'label': 'HEAP',
-              'value': node.heap.max - node.heap.used
+              'value': node.heap ? node.heap.max - node.heap.used : 100
           }],
             'color': COLORS.free
         }];
@@ -296,14 +296,14 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             'key': 'Used',
             'values': [{
               'label': 'Disk Usage',
-              'value': node.fs.used
+              'value': node.fs ? node.fs.used : 0
           }],
             'color': COLORS.used
         }, {
             'key': 'Free',
             'values': [{
               'label': 'Disk Usage',
-              'value': node.fs.available
+              'value': node.fs ? node.fs.available : 100.0
           }],
             'color': COLORS.free
         }];
@@ -312,14 +312,14 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             'key': 'Used',
             'values': [{
               'label': 'Process CPU',
-              'value': Math.min(100.0, node.proc_cpu.percent / node.num_cores)
+              'value': node.proc_cpu ? Math.min(100.0, node.proc_cpu.percent / node.num_cores) : 0
           }],
             'color': COLORS.used
         }, {
             'key': 'Idle',
             'values': [{
               'label': 'Process CPU',
-              'value': 100.0 - Math.min(100.0, node.proc_cpu.percent / node.num_cores)
+              'value': node.proc_cpu ? 100.0 - Math.min(100.0, node.proc_cpu.percent / node.num_cores) : 100.0
           }],
             'color': COLORS.free
         }];
