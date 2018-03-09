@@ -11,6 +11,8 @@ Breaking Changes
 Changes
 -------
 
+ - Handle ``null`` values correctly in Cluster Tab of the Admin UI.
+
  - Adapted queries to be compatible with CrateDB 3.0+
 
 Fixes

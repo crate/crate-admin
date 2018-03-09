@@ -44,6 +44,8 @@ const filters_text = angular.module('filters_text', [])
           return 'cr-panel--warning';
         case 'danger':
           return 'cr-panel--danger';
+        case 'critical':
+          return 'cr-panel--danger';
         case '--':
           return 'cr-panel--default';
         default:
