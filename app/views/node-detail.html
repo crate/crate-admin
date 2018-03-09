@@ -2,7 +2,9 @@
 
   <h1>{{ 'NODE.NODES' | translate }}</h1>
 
-  <div class="node-detail cr-panel-block">
+  <span ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</span>
+
+  <div ng-if="node.name" class="node-detail cr-panel-block">
     <div class="node-detail__row">
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
@@ -10,7 +12,6 @@
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           <b ng-if="node.name">{{ node.name }}</b>
-          <b ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</b>
         </p>
       </div>
       <div class="node-detail__cell">
@@ -18,7 +19,7 @@
           {{ 'NODE.HOSTNAME' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
-          {{ node.hostname }}
+          {{ node.hostname ? node.hostname : '--' }}
         </p>
       </div>
     </div>
@@ -29,14 +30,14 @@
           {{ 'NODE.CRATE_VERSION' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
-          {{ node.version.number }}
+          {{  node.version ? node.version.number : '--' }}
         </p>
       </div>
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
           {{ 'NODE.REST_URL' | translate }}
         </p>
-        <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node">
+        <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.rest_url">
           <a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="//{{ node.rest_url }}" target="_blank">
             {{ node.rest_url }}
           </a>
@@ -96,7 +97,7 @@
     </div>
   </div>
 
-  <div class="node-detail__subsection">
+  <div ng-if="node.name" class="node-detail__subsection">
     <div class="node-detail__subsection--small">
       <h2 class="">{{ 'NODE.LOAD' | translate }}</h2>
       <div class="node-detail__subsection__detail cr-panel-block">

@@ -44,8 +44,12 @@ angular.module('common')
           return 'cr-panel--warning';
         case 'danger':
           return 'cr-panel--danger';
+        case 'critical':
+          return 'cr-panel--danger';
         case '--':
           return 'cr-panel--default';
+        case 'unreacheable':
+          return 'cr-panel--unreacheable';
         default:
           return 'cr-panel--default';
       }
