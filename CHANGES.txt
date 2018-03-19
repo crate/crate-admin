@@ -11,14 +11,17 @@ Breaking Changes
 Changes
 -------
 
- - Handle ``null`` values correctly in Cluster Tab of the Admin UI.
-
  - Adapted queries to be compatible with CrateDB 3.0+
+
+2018/03/19 1.8.4
+================
 
 Fixes
 -----
 
- - Update the ``Size`` label in the table detail to ``Size (Sum of primary shards)``
+ - Fixed handling of ``null`` values correctly in Cluster Tab of the Admin UI.
+
+ - Updated the ``Size`` label in the table detail to ``Size (Sum of primary shards)``
 
 2018/03/06 1.8.3
 ================
