@@ -14,6 +14,12 @@ Changes
 Fixes
 -----
 
+2018/03/19 1.8.4
+================
+
+Fixes
+-----
+
  - Handle ``null`` values correctly in Cluster Tab of the Admin UI.
 
  - Update the ``Size`` label in the table detail to ``Size (Sum of primary shards)``
