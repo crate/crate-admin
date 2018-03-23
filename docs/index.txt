@@ -31,8 +31,8 @@ is running locally, this will be ``localhost``.
 
 .. _the CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 
-Overview
-========
+Overview Screen
+===============
 
 Here's what the admin UI will look like when it first loads:
 
@@ -84,22 +84,33 @@ Along the top of the screen, from left to right, the status bar has:
 Tabs
 ----
 
+.. toctree::
+   :hidden:
+
+   console
+   tables
+   shards
+   cluster
+   monitoring
+   privileges
+   help
+
 Running down the left-hand side, from top to bottom, the tabs are:
 
-- Overview screen
+- `Overview screen`_
 
-- SQL console
+- :ref:`SQL console <console>`
 
-- Tables browser
+- :ref:`Tables browser <tables>`
 
-- Shards browser (`Enterprise only`_)
+- :ref:`Shards browser <shards>` (`Enterprise only`_)
 
-- Cluster browser
+- :ref:`Cluster browser <cluster>`
 
-- Monitoring overview (`Enterprise only`_)
+- :ref:`Monitoring overview <monitoring>` (`Enterprise only`_)
 
-- Privileges browser (`Enterprise only`_)
+- :ref:`Privileges browser <privileges>` (`Enterprise only`_)
 
-- Help screen
+- :ref:`Help screen <help>`
 
 .. _Enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
