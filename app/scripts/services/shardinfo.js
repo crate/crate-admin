@@ -9,7 +9,7 @@ const shardinfo = angular.module('shardinfo', ['sql'])
       // table info statement
       var tableStmt = 'SELECT table_name, table_schema, format(\'%s.%s\', table_schema, table_name) AS fqn, number_of_shards, number_of_replicas, partitioned_by ' +
           'FROM information_schema.tables ' +
-          'WHERE table_schema NOT IN (\'information_schema\', \'sys\', \'pg_catalog\')';
+          'WHERE table_type = \'BASE TABLE\' AND table_schema NOT IN (\'information_schema\', \'sys\', \'pg_catalog\')';
 
       // shard info statement
       var shardStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, node[\'id\'] AS node_id, state, routing_state, relocating_node, count(*), "primary", sum(num_docs), avg(num_docs), sum(size) ' +
