@@ -1,98 +1,11 @@
-Crate Admin Interface
-Copyright 2013-2015 CRATE Technology GmbH
+CrateDB Admin Interface
+Copyright 2013-2018 Crate.IO GmbH ("Crate")
 
-Third party dependencies:
 
-=========================================================================
+Licensed to Crate.IO GmbH (referred to in this notice as "Crate") under one or
+more contributor license agreements.
 
-Font: Blender Pro
-http://binnenland.ch
-Published by Die Gestalten Verlag GmbH & Co. KG, 2008
-Copyright © by Binnenland and re-p.org, 2008.
-Licensed to CRATE Technology GmbH under an "Extended Business End User
-Licence Agreement and Webfont End User Licence Agreement" solely for use
-in the Crate Administration User Interface
-
-=========================================================================
-
-Font: Source Code Pro
-http://www.adobe.com
-Copyright 2010, 2012 Adobe Systems Incorporated
-Font License: SIL OFL, Version 1.1. (http://scripts.sil.org/OFL)
-
-=========================================================================
-
-Buildout
-http://www.buildout.org
-Copyright (c) 2006 Zope Foundation and Contributors.
-License: Zope Public License, Version 2.1 (ZPL)
-
-=========================================================================
-
-RequireJS
-http://requirejs.org
-Copyright (c) 2010-2014, The Dojo Foundation
-License: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
-
-=========================================================================
-
-jQuery
-http://jquery.com/
-Copyright 2014 jQuery Foundation and other contributors
-License: MIT (http://opensource.org/licenses/MIT)
-
-=========================================================================
-
-Underscore.js
-http://underscorejs.org
-Copyright (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-License: MIT (http://opensource.org/licenses/MIT)
-
-=========================================================================
-
-Bootstrap
-http://getbootstrap.com
-Copyright (c) 2011-2014 Twitter, Inc
-License: MIT (http://opensource.org/licenses/MIT)
-Documentation License: Attribution 3.0 Unported (https://creativecommons.org/licenses/by/3.0/)
-
-=========================================================================
-
-Font Awesome
-http://fontawesome.io
-Copyright Dave Gandy
-License: MIT (http://opensource.org/licenses/MIT)
-Font License: SIL OFL 1.1 (URL: http://scripts.sil.org/OFL)
-Documentation License: CC BY 3.0 (URL: http://creativecommons.org/licenses/by/3.0/)
-
-=========================================================================
-
-Ladda
-http://lab.hakim.se/ladda/
-Copyright (C) 2013 Hakim El Hattab, http://hakim.se
-License: MIT (http://opensource.org/licenses/MIT)
-
-=========================================================================
-
-d3.js
-http://d3js.org
-Copyright (c) 2012, Michael Bostock
-All rights reserved.
-License: https://github.com/mbostock/d3/blob/master/LICENSE
-
-=========================================================================
-
-nvd3.js
-http://nvd3.org
-Copyright (c) 2011-2014 Novus Partners, Inc., http://www.novus.com
-License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-
-=========================================================================
-
-angularjs-nvd3-directives
-http://angularjs-nvd3-directives.github.io/angularjs-nvd3-directives/
-Copyright (c) 2013 Christian Maurer
-License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-
-=========================================================================
-
+Crate licenses this software to you under the Apache License, Version 2.0.
+However, if you have executed another commercial license agreement with Crate
+these terms will supersede the license and you may use the software solely
+pursuant to the terms of the relevant commercial agreement.
