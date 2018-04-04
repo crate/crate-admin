@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Added a new tab for views which lists available views and their properties.
+
  - Updated ``information_schema.tables`` queries to return only tables, but not
    views, in order to be compatible with future versions of CrateDB.
 

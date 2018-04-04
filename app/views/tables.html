@@ -1,10 +1,9 @@
 <div>
   <div ng-class="$root.showTableList ? '' : 'hide-sidebar-list'">
   	<div class="page-container" ng-if="empty">
-      <h1 class="cr-page-header">Tables</h1>  
-
+      <h1 class="cr-page-header">Tables</h1>
       <div class="cr-panel-block">
-        There are no tables created yet. 
+        There are no tables created yet.
       </div>
     </div>
     <table-list ng-if="!empty"></table-list>

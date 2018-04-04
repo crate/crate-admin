@@ -18,9 +18,11 @@ var MODULES = [
   'feed',
   'console',
   'tables',
-  'cluster',
   'tableinfo',
+  'views',
+  'viewinfo',
   'shardinfo',
+  'cluster',
   'nodeinfo',
   'checks',
   'udc',
@@ -54,6 +56,16 @@ var ROUTING = {
     'name': 'tables.table',
     'url': '/:table_schema/:table_name',
     'template': '<table-detail>',
+  },
+  '/views': {
+    'name': 'views',
+    'url': '/views',
+    'template': '<views>',
+  },
+  '/views/:schema/:name': {
+    'name': 'views.view',
+    'url': '/:schema/:name',
+    'template': '<view-detail>',
   },
   '/nodes': {
     'name': 'nodes',
@@ -242,6 +254,7 @@ $.get('/static/conf/plugins.json', function (plugins) {
       $rootScope.$on('showSideNav', function () {
         $rootScope.showSideNav = true;
         $rootScope.showTableList = true;
+        $rootScope.showViewList = true;
         $rootScope.showNodeList = true;
         $rootScope.showUserList = true;
       });
@@ -249,6 +262,7 @@ $.get('/static/conf/plugins.json', function (plugins) {
       $rootScope.$on('hideSideNav', function () {
         $rootScope.showSideNav = false;
         $rootScope.showTableList = false;
+        $rootScope.showViewList = false;
         $rootScope.showNodeList = false;
         $rootScope.showUserList = false;
       });

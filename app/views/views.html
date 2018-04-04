@@ -1,0 +1,12 @@
+<div>
+  <div ng-class="$root.showViewList ? '' : 'hide-sidebar-list'">
+    <div class="page-container" ng-if="empty">
+      <h1 class="cr-page-header">{{ 'VIEW.TITLE' | translate }}</h1>
+      <div class="cr-panel-block">
+        There are no views created yet.
+      </div>
+    </div>
+    <view-list ng-if="!empty"></view-list>
+  </div>
+  <ui-view></ui-view>
+</div>

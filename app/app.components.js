@@ -8,6 +8,7 @@ import './scripts/services/health';
 import './scripts/services/stats';
 import './scripts/services/tableinfo';
 import './scripts/services/shardinfo';
+import './scripts/services/viewinfo';
 import './scripts/services/nodeinfo';
 import './scripts/services/checks';
 import './scripts/services/udc';
@@ -21,6 +22,7 @@ import './scripts/controllers/feed';
 import './scripts/controllers/overview';
 import './scripts/controllers/console';
 import './scripts/controllers/tables';
+import './scripts/controllers/views';
 import './scripts/controllers/cluster';
 
 //filters

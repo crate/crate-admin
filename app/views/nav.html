@@ -4,7 +4,7 @@
       <div class="cr-side-nav" ng-class="showSideNav ? 'show-side-nav' : 'hide-side-nav'">
           <div class="cr-side-nav__item"
                 ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
-                ng-repeat="navBarElement in navBarElements track by $index" 
+                ng-repeat="navBarElement in navBarElements track by $index"
                 ng-click="goToPath(navBarElement.urlPattern)"
                 data-original-title="{{ navBarElement.text }}"
                 cr-tooltip cr-tooltip-position="right">

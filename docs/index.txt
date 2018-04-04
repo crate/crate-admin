@@ -89,6 +89,7 @@ Tabs
 
    console
    tables
+   views
    shards
    cluster
    monitoring
@@ -102,6 +103,8 @@ Running down the left-hand side, from top to bottom, the tabs are:
 - :ref:`SQL console <console>`
 
 - :ref:`Tables browser <tables>`
+
+- :ref:`Views browser <views>`
 
 - :ref:`Shards browser <shards>` (`Enterprise only`_)
 

@@ -1,0 +1,52 @@
+<div class="page-container" ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showViewList}">
+  <div ng-show="view">
+
+    <h1>{{ 'NAVIGATION.VIEW' | translate }}</h1>
+
+    <div class="view-detail cr-panel-block">
+      <div class="view-detail__row">
+        <div class="view-detail__cell">
+          <div class="cr-panel-block__item__header">
+            {{ 'VIEW.NAME' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default">
+            {{ view.label }}
+          </p>
+        </div>
+      </div>
+      <div class="view-detail__fullrow">
+        <div class="view-detail__fullcell">
+          <div class="cr-panel-block__item__header">
+            {{ 'VIEW.DEFINITION' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--code">
+            {{ view.stmt }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="query-table__panel">
+      <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="executeQuery(query)">
+        <div> QUERY VIEW </div>
+      </div>
+    </div>
+
+    <div class="table-schema" ng-show="columns">
+      <h2>{{ 'VIEW.COLUMNS' | translate }}</h2>
+      <div class="table-schema__details">
+        <div class="table-schema__headers">
+          <div class="table-schema__header">{{ 'VIEW.NAME' | translate }}</div>
+          <div class="table-schema__header">{{ 'VIEW.TYPE' | translate }}</div>
+        </div>
+        <div class="table-schema__detail">
+          <div class="table-schema__detail__row" ng-repeat="row in columns track by $index">
+            <div class="table-schema__detail__cell"> {{ row.column_name }} </div>
+            <div class="table-schema__detail__cell"> {{ row.column_type }} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

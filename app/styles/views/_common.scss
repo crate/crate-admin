@@ -326,6 +326,13 @@ label:hover:before {
 	background-color: $cr-panel-danger-background !important;
 }
 
+.cr-panel--code {
+	border: $cr-panel-default-border !important;
+	border-radius: 3px;
+	background: $cr-panel-default-background !important;
+	font-family: $font-family-monospace;
+}
+
 .cr-cell--success{
 	background-color: $cr-cell-success-background !important;
 }
@@ -598,11 +605,6 @@ label:hover:before {
 }
 .unauthorized-body__img {
 	width: 50%;
-}
-
-.table-side-bar-list {
-	flex: 1 1 auto;
-	overflow-y: auto;
 }
 
 .cr-custom-tooltip {

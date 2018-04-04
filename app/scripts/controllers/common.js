@@ -37,7 +37,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   })
   .controller('UnauthorizedCtrl', [function () {}])
   .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce, $window,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler, 
+    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler,
     SQLQuery, queryResultToObjects) {
 
     //query for current_user only in enterprise edition
@@ -382,15 +382,16 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   NavigationService.addNavBarElement('static/assets/icon-overview.svg', $filter('translate', 'NAVIGATION.OVERVIEW'), '/', 10);
   NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console', 20);
   NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables', 30);
+  NavigationService.addNavBarElement('static/assets/icon-view.svg', $filter('translate', 'NAVIGATION.VIEW'), '/views', 31);
   NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 40);
-
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
-    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.CLUSTER']).then(function(i18n) {
+    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.VIEW', 'NAVIGATION.CLUSTER']).then(function(i18n) {
       NavigationService.updateNavBarElement('/', i18n['NAVIGATION.OVERVIEW']);
       NavigationService.updateNavBarElement('/console', i18n['NAVIGATION.CONSOLE']);
       NavigationService.updateNavBarElement('/tables', i18n['NAVIGATION.TABLE']);
+      NavigationService.updateNavBarElement('/views', i18n['NAVIGATION.VIEW']);
       NavigationService.updateNavBarElement('/nodes', i18n['NAVIGATION.CLUSTER']);
     });
   });

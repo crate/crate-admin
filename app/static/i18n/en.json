@@ -23,6 +23,7 @@
       "OVERVIEW": "Overview",
       "CONSOLE": "Console",
       "TABLE": "Tables",
+      "VIEW": "Views",
       "CLUSTER": "Cluster"
     },
     "OVERVIEW": {
@@ -92,6 +93,13 @@
         },
         "SCHEMA": "Schema",
         "TYPE": "Type"
+    },
+    "VIEW": {
+        "TITLE": "Views",
+        "NAME": "Name",
+        "TYPE": "Type",
+        "DEFINITION": "Definition",
+        "COLUMNS": "Columns"
     },
     "NODE": {
         "NOT_REACHABLE_MSG": "Cluster is not reachable",

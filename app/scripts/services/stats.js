@@ -8,7 +8,7 @@ import './clusterEventsHandler';
 
 const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
   .factory('ClusterState', function ($http, $interval, $timeout, $log, $q, $rootScope,
-    baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ClusterEventsHandler) {
+    baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ViewInfo, ViewList, ClusterEventsHandler) {
     var reachabilityInterval,
       ClusterStateInterval;
 
@@ -20,6 +20,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
     var data = {
       online: true,
       tables: [],
+      views: [],
       shards: [],
       partitions: [],
       cluster: [],
@@ -41,6 +42,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
         $interval.cancel(ClusterStateInterval);
         data.status = '--';
         data.tables = [];
+        data.views = [];
         data.cluster = [];
         data.name = '--';
         data.load = ['-.-', '-.-', '-.-'];
@@ -111,7 +113,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
     };
 
     var prepareIoStats = function(nodeInfo) {
-      var numNodes = nodeInfo.length;      
+      var numNodes = nodeInfo.length;
       var empty_iostats = {
         'rps': -1,   // reads per second
         'wps': -1,   // writes per second
@@ -127,7 +129,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
         if (node.fs) {
           currentValue.data= node.fs.total;
         }
-        
+
         if (diskIoHistory[node.id] && currentValue.data) {
           var lastValue = diskIoHistory[node.id];
           var timeDelta = (currentValue.timestamp - lastValue.timestamp) / 1000.0;
@@ -157,13 +159,15 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
     if (!data.online) {
       return;
     }
-    $q.all([ShardInfo.executeTableStmt(),
-              ShardInfo.executeShardStmt(),
-              ShardInfo.executePartStmt(),
-              ShardInfo.executeRecoveryStmt(),
-              NodeInfo.executeClusterQuery(),
-              NodeInfo.executeNodeQuery()])
-      .then(function (values) {
+    $q.all([
+      ShardInfo.executeTableStmt(),
+      ShardInfo.executeShardStmt(),
+      ShardInfo.executePartStmt(),
+      ShardInfo.executeRecoveryStmt(),
+      NodeInfo.executeClusterQuery(),
+      NodeInfo.executeNodeQuery(),
+      ViewInfo.executeViewStmt()
+    ]).then(function (values) {
 
         data.tables = values[0];
         data.shards = values[1];
@@ -207,7 +211,11 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
           }, 0);
           data.status = new Health(h).name;
           data.tables = tableinfo.data.tables;
-        } 
+        }
+
+        var viewInfo = ViewList.execute(values[6]);
+        data.views = viewInfo.data.views;
+
         ClusterEventsHandler.trigger('STATE_REFRESHED');
       }).catch(function (query) {
         onErrorResponse(query);

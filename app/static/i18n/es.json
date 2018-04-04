@@ -23,6 +23,7 @@
       "OVERVIEW": "Vista general",
       "CONSOLE": "Consola",
       "TABLE": "Tablas",
+      "VIEW": "Views",
       "CLUSTER": "Clúster"
     },
     "OVERVIEW": {
@@ -92,6 +93,13 @@
         },
         "SCHEMA": "Esquema",
         "TYPE": "Tipo"
+    },
+    "VIEW": {
+        "TITLE": "Views",
+        "NAME": "Nombre",
+        "TYPE": "Tipo",
+        "DEFINITION": "Definición",
+        "COLUMNS": "Columna"
     },
     "NODE": {
         "NOT_REACHABLE_MSG": "Clúster inalcanzable",
