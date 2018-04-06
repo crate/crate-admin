@@ -101,6 +101,19 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           '--': ''
         };
 
+        const SHARD_QUERY = 'SELECT partition_ident, routing_state, state, relocating_node, "primary", SUM(num_docs), AVG(num_docs), COUNT(*), SUM(size) ' +
+          'FROM sys.shards ' +
+          'WHERE schema_name = ? AND table_name = ? AND partition_ident != \'\' ' +
+          'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
+
+        const PARTITION_QUERY = 'SELECT partition_ident, number_of_shards, number_of_replicas, values ' +
+          'FROM information_schema.table_partitions ' +
+          'WHERE schema_name = ? AND table_name = ? AND closed = false';
+
+        const COLUMN_QUERY = 'SELECT column_name, upper(data_type) as data_type, is_generated, generation_expression ' +
+          'FROM information_schema.columns ' +
+          'WHERE table_schema = ? AND table_name = ?';
+
         var requestId = function () {
           return 'r-' + new Date().getTime() + '-' + Math.floor(Math.random() * 1000);
         };
@@ -157,23 +170,15 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
             if (!tableName || !tableSchema) {
               return;
             }
-            // Table Partitions
-            var shardStmt = 'SELECT partition_ident, routing_state, state, relocating_node, "primary", SUM(num_docs), AVG(num_docs), COUNT(*), SUM(size) ' +
-              'FROM sys.shards ' +
-              'WHERE schema_name = ? AND table_name = ? AND partition_ident != \'\' ' +
-              'GROUP BY partition_ident, routing_state, state, relocating_node, "primary"';
 
             var r1 = requestId();
-            var q1 = SQLQuery.execute(shardStmt, [tableSchema, tableName], false, false, false, false).then(function (shardQuery) {
+            var q1 = SQLQuery.execute(SHARD_QUERY, [tableSchema, tableName], false, false, false, false).then(function (shardQuery) {
               if (typeof activeRequests[r1] == 'undefined') {
                 return;
               }
-              var tablePartitionStmt = 'SELECT partition_ident, number_of_shards, number_of_replicas, values ' +
-                'FROM information_schema.table_partitions ' +
-                'WHERE schema_name = ? AND table_name = ? AND closed = false';
 
               var r2 = requestId();
-              var q2 = SQLQuery.execute(tablePartitionStmt, [tableSchema, tableName], false, false, false, false).then(function (tablePartitionQuery) {
+              var q2 = SQLQuery.execute(PARTITION_QUERY, [tableSchema, tableName], false, false, false, false).then(function (tablePartitionQuery) {
                 if (typeof activeRequests[r2] == 'undefined') {
                   return;
                 }
@@ -226,11 +231,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           };
 
           if (tableName && tableSchema) {
-            // Table Schema
-            var tableStmt = 'SELECT column_name, upper(data_type) as data_type, is_generated, generation_expression ' +
-              'FROM information_schema.columns ' +
-              'WHERE table_schema = ? AND table_name = ?';
-            SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false, false)
+            SQLQuery.execute(COLUMN_QUERY, [tableSchema, tableName], false, false, false, false)
               .then(function (query) {
                 $scope.schemaHeaders = query.cols;
                 $scope.schemaRows = queryResultToObjects(query, query.cols);
