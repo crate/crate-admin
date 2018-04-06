@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Show column data types in table schema in upper case.
+
  - Fixed interface glitches that occurred on table tab when the last table was
    dropped.
 

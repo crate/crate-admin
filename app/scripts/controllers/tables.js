@@ -227,7 +227,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
 
           if (tableName && tableSchema) {
             // Table Schema
-            var tableStmt = 'SELECT column_name, data_type, is_generated, generation_expression ' +
+            var tableStmt = 'SELECT column_name, upper(data_type) as data_type, is_generated, generation_expression ' +
               'FROM information_schema.columns ' +
               'WHERE table_schema = ? AND table_name = ?';
             SQLQuery.execute(tableStmt, [tableSchema, tableName], false, false, false, false)
