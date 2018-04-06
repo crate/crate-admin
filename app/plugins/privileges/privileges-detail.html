@@ -1,10 +1,10 @@
-<div ng-class="{'page-container--no-list': !$root.showUserList || showError }" class="page-container page-container-padded">
+<div ng-class="{'page-container--no-list': !$root.showSideList || showError }" class="page-container page-container-padded">
 
-    <h1 class="cr-page-header">Privileges</h1>  
-    <h3 ng-hide="showError">User : {{currentUser.name}}</h3> 
+    <h1 class="cr-page-header">Privileges</h1>
+    <h3 ng-hide="showError">User : {{currentUser.name}}</h3>
 
     <div class="cr-panel-block-p" ng-if="showError">
-      You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator. 
+      You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator.
     </div>
 
     <div class="cr-panel-block-p" ng-if="currentUser.superuser">
@@ -18,7 +18,7 @@
           <i class="fa fa-times-circle" aria-hidden="true"></i>
       </span>
     </div>
-      
+
     <div class="table-schema__details user-privileges__details" ng-if="!currentUser.superuser && !showError">
       <div class="table-schema__headers">
         <div class="table-schema__header">name</div>

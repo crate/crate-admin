@@ -253,18 +253,12 @@ $.get('/static/conf/plugins.json', function (plugins) {
     appModule.run(function ($rootScope) {
       $rootScope.$on('showSideNav', function () {
         $rootScope.showSideNav = true;
-        $rootScope.showTableList = true;
-        $rootScope.showViewList = true;
-        $rootScope.showNodeList = true;
-        $rootScope.showUserList = true;
+        $rootScope.showSideList = true;
       });
 
       $rootScope.$on('hideSideNav', function () {
         $rootScope.showSideNav = false;
-        $rootScope.showTableList = false;
-        $rootScope.showViewList = false;
-        $rootScope.showNodeList = false;
-        $rootScope.showUserList = false;
+        $rootScope.showSideList = false;
       });
     });
 
