@@ -53,17 +53,14 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
       templateUrl: 'static/views/tables.html',
       controllerAs: 'TablesController',
       controller: function (ClusterState, $scope, ClusterEventsHandler) {
-        $scope.empty = true;
-        //initial call
-        if (ClusterState.data.tables.length > 0) {
-          $scope.empty = false;
-        }
+        var hideIfEmpty = () => {
+          $scope.empty = ClusterState.data.tables.length === 0;
+        };
 
-        ClusterEventsHandler.register('STATE_REFRESHED', 'TablesController', function () {
-          if (ClusterState.data.tables.length > 0) {
-            $scope.empty = false;
-          }
-        });
+        // initial state
+        hideIfEmpty();
+
+        ClusterEventsHandler.register('STATE_REFRESHED', 'TablesController', hideIfEmpty);
 
         $scope.$on('$destroy', function () {
           ClusterEventsHandler.remove('STATE_REFRESHED', 'TablesController');
@@ -102,25 +99,6 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           'warning': 'cr-cell--warning',
           'critical': 'cr-cell--danger',
           '--': ''
-        };
-        var placeholder = {
-          'name': '',
-          'summary': '',
-          'health': '--',
-          'health_label_class': '',
-          'health_panel_class': '',
-          'health_cell_class': '',
-          'records_total': 0,
-          'records_replicated': 0,
-          'records_underreplicated': 0,
-          'records_unavailable': 0,
-          'shards_configured': 0,
-          'shards_started': 0,
-          'shards_missing': 0,
-          'shards_underreplicated': 0,
-          'replicas_configured': '0',
-          'size': 0,
-          'recovery_percent': 0
         };
 
         var requestId = function () {
@@ -265,20 +243,22 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
 
           function updateTableList() {
             var tables = ClusterState.data.tables;
-            if (tables.length > 0) {
+            var hasTables = tables.length > 0;
+            $scope.nothingSelected = !hasTables;
+            $scope.renderSidebar = hasTables;
+            if (hasTables) {
               var current = tables.filter(function (item) {
                 return item.name === tableName && item.table_schema === tableSchema;
               });
               current = current.length ? current[0] : tables[0];
               $scope.table = current;
-              $scope.table_label = current.name;
+              $scope.table.label = current.name;
               if (current.table_schema == 'blob') {
-                $scope.table_label = 'BLOB: ' + current.name;
+                $scope.table.label = 'BLOB: ' + current.name;
               } else if (current.table_schema != 'doc') {
-                $scope.table_label = current.table_schema + '.' + current.name;
+                $scope.table.label = current.table_schema + '.' + current.name;
               }
               $scope.nothingSelected = current === null;
-              $scope.renderSidebar = true;
               if ($scope.table.partitioned) {
                 fetchPartitions();
               }
@@ -291,14 +271,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
               }
 
             } else {
-              $scope.table = placeholder;
-              $scope.table_label = placeholder.name;
-              $scope.nothingSelected = false;
-              $scope.renderSidebar = false;
+              $scope.table = null;
               $scope.renderSchema = false;
               $scope.renderPartitions = false;
             }
-            $scope.nr_of_tables = tables.length;
           }
 
           ClusterEventsHandler.register('STATE_REFRESHED', 'TableDetailController', updateTableList);

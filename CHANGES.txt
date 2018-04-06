@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Fixed interface glitches that occurred on table tab when the last table was
+   dropped.
+
  - Added a new tab for views which lists available views and their properties.
 
  - Updated ``information_schema.tables`` queries to return only tables, but not
