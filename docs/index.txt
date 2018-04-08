@@ -52,6 +52,8 @@ The navigation is split into two parts:
 
 - The `tabs`_ (down the left-hand side)
 
+.. _status-bar:
+
 Status Bar
 ----------
 
@@ -101,20 +103,18 @@ Running down the left-hand side, from top to bottom, the tabs are:
 
 - `Overview screen`_
 
-- :ref:`SQL console <console>`
+- :ref:`SQL console <sql-console>`
 
-- :ref:`Tables browser <tables>`
+- :ref:`Tables browser <tables-browser>`
 
-- :ref:`Views browser <views>`
+- :ref:`Shards browser <shards-browser>` (`Enterprise only`_)
 
-- :ref:`Shards browser <shards>` (`Enterprise only`_)
+- :ref:`Cluster browser <cluster-browser>`
 
-- :ref:`Cluster browser <cluster>`
+- :ref:`Monitoring overview <monitoring-overview>` (`Enterprise only`_)
 
-- :ref:`Monitoring overview <monitoring>` (`Enterprise only`_)
+- :ref:`Privileges browser <privileges-browser>` (`Enterprise only`_)
 
-- :ref:`Privileges browser <privileges>` (`Enterprise only`_)
-
-- :ref:`Help screen <help>`
+- :ref:`Help screen <help-screen>`
 
 .. _Enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
