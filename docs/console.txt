@@ -1,5 +1,63 @@
-.. _console:
+.. _sql-console:
 
 ===========
 SQL Console
 ===========
+
+The CrateDB admin UI comes with an SQL console so that you can execute queries
+against your cluster directly from your web browser.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Screenshots
+===========
+
+When you first load the console, it will look like this:
+
+.. image:: console-default.png
+
+And here's what the console looks like after executing a query:
+
+.. image:: console-query.png
+
+Features
+========
+
+.. |nbsp| unicode:: 0xA0
+   :trim:
+
+:Syntax |nbsp| highlighting:
+
+  CrateDB SQL syntax highlighted as you type.
+
+:Auto-completion:
+
+  CrateDB SQL auto-completion makes suggestions as you type.
+
+:Results |nbsp| formatting:
+
+  Toggle the *Format results* checkbox to switch between raw JSON and tabulated
+  data.
+
+:Query |nbsp| history:
+
+  Toggle the *Store console history persistently* to disable and enable query
+  history. Previous queries can be cycled through by pressing the :kbd:`Up
+  Arrow` key. You can clear your query history by selecting the *Clear history*
+  button.
+
+:Query |nbsp| URLs:
+
+  Select the *share* icon located in the bottom right-hand corner of the query
+  panel. This will copy a URL to your clipboard that can be saved or shared that
+  will auto-load the corresponding query when visited. Queries are not
+  automatically executed when you visit a URL.
+
+:Error |nbsp| traces:
+
+  Toggle the *Show error trace* checkbox to view a detailed Java stack trace in
+  the event of an execution error.
+

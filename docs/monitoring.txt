@@ -1,5 +1,32 @@
-.. _monitoring:
+.. _monitoring-overview:
 
 ===================
 Monitoring Overview
 ===================
+
+The CrateDB admin UI comes with a *monitoring overview* screen that allows you
+to monitor key operational statistics.
+
+.. NOTE::
+
+   The monitoring overview is an `enterprise feature`_.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Screenshots
+===========
+
+.. image:: monitoring-default.png
+
+.. image:: monitoring-simple.png
+
+Features
+========
+
+.. |nbsp| unicode:: 0xA0
+   :trim:
+
+.. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
