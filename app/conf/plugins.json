@@ -5,7 +5,7 @@
   "routing": {
     "/help": {
       "name": "tutorial",
-      "url": "/help", 
+      "url": "/help",
       "templateUrl": "static/plugins/tutorial/tutorial.html",
       "controller": "TutorialController"
     }
@@ -18,7 +18,7 @@
   "routing": {
     "/monitoring": {
       "name": "monitoring",
-      "url": "/monitoring", 
+      "url": "/monitoring",
       "templateUrl": "static/plugins/monitoring/monitoring.html",
       "controller": "MonitoringController"
     }
@@ -31,12 +31,12 @@
   "routing": {
     "/privileges": {
       "name": "privileges",
-      "url": "/privileges", 
+      "url": "/privileges",
       "template": "<privileges>"
     },
     "/privileges/:user": {
       "name": "privileges.privilege",
-      "url": "/:user", 
+      "url": "/:user",
       "template": "<privileges-detail>"
     }
   }
@@ -48,7 +48,7 @@
   "routing": {
     "/shards": {
       "name": "shards",
-      "url": "/shards", 
+      "url": "/shards",
       "templateUrl": "static/plugins/shards/shards.html",
       "controller": "ShardsController"
     }

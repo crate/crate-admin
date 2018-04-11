@@ -36,12 +36,12 @@ $font-family-monospace:     SourceCodePro, Menlo, Monaco, Consolas, "Courier New
 // App Colors
 // --------------------------------------------------
 
-$lightblue :        rgb(91, 213, 2545);
-$blue :             rgb(93, 173, 255);
-$blue--faded :      rgba(93, 173, 255, 0.3);
-$darkblue :         rgb(17, 80, 151);
+$lightblue:         rgb(91, 213, 2545);
+$blue:              rgb(93, 173, 255);
+$blue--faded:       rgba(93, 173, 255, 0.3);
+$darkblue:          rgb(17, 80, 151);
 
-$blue-green: 		#44e3a6;
+$blue-green:        #44e3a6;
 $green:             rgb(42, 188, 80);
 $orange:            rgb(246, 187, 65);
 $red:               rgb(236, 87, 78);
@@ -54,7 +54,7 @@ $red--faded:        rgba(236, 87, 78, 0.3);
 $lightred:          rgb(249, 242, 244);
 $darkred:           rgb(199, 37, 78);
 
-$grey :    #717171;
+$grey: #717171;
 $grey--faded: #525151;
 
 $numeric-result-blue: #181bd0;
@@ -181,10 +181,6 @@ $bubble-warning-background:     $orange--faded;
 $bubble-danger-border:          2px solid  $red;
 $bubble-danger-background:      $red--faded;
 
-$bubble-default-border:          2px solid  $grey;
-$bubble-default-background:      $grey--faded;
-
-
 $bubble-master-border:          2px solid $blue;
 $bubble-master-background:      $blue--faded;
 
@@ -240,8 +236,8 @@ $cr-panel-warning-background:       $orange--faded;
 $cr-panel-danger-border:            2px solid $red;
 $cr-panel-danger-background:        $red--faded;
 
-$cr-panel-default-border:           1px solid #242424;
-$cr-panel-default-background:       #242424;
+$cr-panel-default-border:           1px solid #ccc;
+$cr-panel-default-background:       #fff;
 
 $cr-panel-block__item__header__icon--checks--color: #000;
 
