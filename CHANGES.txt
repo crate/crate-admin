@@ -5,8 +5,7 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-Breaking Changes
-----------------
+ - Remove trailing space from column name in tables detail view.
 
 Changes
 -------
