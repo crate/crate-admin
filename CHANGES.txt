@@ -11,6 +11,8 @@ Unreleased
 
  - Removed abbreviations in the overview and table view. Updated nodes view.
 
+ - Remove trailing space from column name in tables detail view.
+
 2018/03/20 1.9.0
 ================
 
