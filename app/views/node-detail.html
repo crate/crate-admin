@@ -1,6 +1,6 @@
 <div class="page-container" ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showNodeList}" >
 
-  <h1>{{ 'NODE.NODES' | translate }}</h1>
+  <h1>{{ 'NODE.OVERVIEW' | translate }}</h1>
 
   <span ng-if="!node.name">{{ 'NODE.NOT_REACHABLE_MSG' | translate }}</span>
 
@@ -35,7 +35,7 @@
       </div>
       <div class="node-detail__cell">
         <p class="cr-panel-block__item__header">
-          {{ 'NODE.REST_URL' | translate }}
+          {{ 'NODE.HTTP_ENDPOINT' | translate }}
         </p>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.rest_url">
           <a rel="tooltip" data-original-title="{{ node.rest_url }}" ng-href="//{{ node.rest_url }}" target="_blank">
