@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+ - Removed abbreviations in the overview and table view. Updated nodes view.
+
  - Remove trailing space from column name in tables detail view.
 
 Changes
