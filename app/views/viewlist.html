@@ -2,7 +2,7 @@
 
   <div class="filter__wrapper">
     <input id="tableFilter" ng-model="search" placeholder="Filter views ..." type="text" focus="true" />
-    <a ng-if="search" class="cr-clear-filters" ng-click="search = '' ">
+    <a ng-if="search" class="cr-clear-filters" ng-click="clearFilter()">
       <i class="fa fa-times-circle" aria-hidden="true"></i>
     </a>
     <div>
@@ -31,7 +31,7 @@
            ng-class="{ 'active': isActive(view.schema, view.name)}"
            ng-if="renderSidebar"
            ng-repeat="view in type.views | filter:viewFilter track by $index"
-           href="#!/views/{{:: view.schema }}/{{:: view.name }}">
+           href="#!/views/{{ view.schema }}/{{ view.name }}">
           <h4>{{ view.name }}</h4>
         </a>
       </div>

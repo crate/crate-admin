@@ -158,6 +158,10 @@ angular.module('views', ['stats', 'sql', 'common', 'viewinfo', 'events'])
           return (!$scope.search || (item.fqn.toLowerCase().indexOf($scope.search) != -1));
         };
 
+        $scope.clearFilter = function () {
+            $scope.search = '';
+          };
+
         $scope.isActive = (schema, name) => {
           return name === $state.params.name && schema === $state.params.schema;
         };
