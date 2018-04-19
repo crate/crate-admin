@@ -336,6 +336,10 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           return false;
         };
 
+        $scope.clearFilter = function () {
+            $scope.query = '';
+        };
+
         function updateTableList() {
             $scope.tables = [];
             var tables = ClusterState.data.tables;
