@@ -9,6 +9,10 @@ short.
 The CrateDB admin UI runs on every CrateDB node, and you can use it to inspect
 and interact with the whole CrateDB cluster in a number of ways.
 
+.. SEEALSO::
+
+   The CrateDB admin UI is an open source project and is `hosted on GitHub`_.
+
 .. rubric:: Table of Contents
 
 .. contents::
@@ -118,3 +122,4 @@ Running down the left-hand side, from top to bottom, the tabs are:
 - :ref:`Help screen <help-screen>`
 
 .. _Enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
+.. _hosted on GitHub: https://github.com/crate/crate-admin
