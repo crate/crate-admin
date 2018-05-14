@@ -5,16 +5,6 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
- - Fixed several bugs concerning filtering tables/views where table
-   information would not be updated properly. Also fixed the clear filter
-   button for both table and view filtering.
-
- - Removed abbreviations in the overview and table view. Updated nodes view.
-
- - Remove trailing space from column name in tables detail view.
-
- - Fixed light theme colors. Removed unused variables.
-
  - Show column data types in table schema in upper case.
 
  - Fixed interface glitches that occurred on table tab when the last table was
@@ -24,6 +14,21 @@ Unreleased
 
  - Updated ``information_schema.tables`` queries to return only tables, but not
    views, in order to be compatible with future versions of CrateDB.
+
+2018/05/14 1.9.1
+================
+
+Fixes
+-----
+
+ - Fixed several bugs concerning filtering tables/views where table
+   information would not be updated properly. Also fixed the clear filter
+   button for both table and view filtering.
+
+ - Removed abbreviations in the overview and table view. Updated nodes view.
+
+ - Remove trailing space from column name in tables detail view.
+
 
 2018/03/20 1.9.0
 ================
