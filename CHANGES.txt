@@ -10,6 +10,12 @@ Unreleased
  - Fixed interface glitches that occurred on table tab when the last table was
    dropped.
 
+2018/05/14 1.10.0
+=================
+
+Changes
+-------
+
  - Added a new tab for views which lists available views and their properties.
 
  - Updated ``information_schema.tables`` queries to return only tables, but not
