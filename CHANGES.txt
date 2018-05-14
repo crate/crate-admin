@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2018/05/14 1.9.1
+================
+
+Fixes
+-----
+
  - Fixed several bugs concerning filtering tables/views where table
    information would not be updated properly. Also fixed the clear filter
    button for both table and view filtering.
