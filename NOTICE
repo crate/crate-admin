@@ -8,7 +8,7 @@ more contributor license agreements.
 Unless otherwise stated, every component of the CrateDB Admin Interface is
 licensed under the Apache License, Version 2.0.
 
-Third-party components bundled with the CrateDB Admin Interfaceare listed in
+Third-party components bundled with the CrateDB Admin Interface are listed in
 the LICENSE file along with their respective licenses. Any additional mandatory
 notices pertaining to those dependencies will be reproduced in this file.
 
