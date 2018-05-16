@@ -5,6 +5,13 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+
+2018/05/16 1.8.5
+================
+
+Fixes
+-----
+
  - Fixed several bugs concerning filtering tables/views where table
    information would not be updated properly. Also fixed the clear filter
    button for both table and view filtering.
@@ -12,12 +19,6 @@ Unreleased
  - Removed abbreviations in the overview and table view. Updated nodes view.
 
  - Remove trailing space from column name in tables detail view.
-
-Changes
--------
-
-Fixes
------
 
 2018/03/19 1.8.4
 ================
