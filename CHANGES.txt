@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed an issue that caused the CrateDB process CPU calculation to be false.
+
 2018/05/14 1.10.1
 =================
 

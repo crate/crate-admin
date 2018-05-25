@@ -259,7 +259,6 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
         };
 
         var drawGraph = function (node) {
-
           $scope.cpuData = [{
             'key': 'Used',
             'values': [{
@@ -312,14 +311,14 @@ const cluster = angular.module('cluster', ['stats', 'sql', 'common', 'nodeinfo',
             'key': 'Used',
             'values': [{
               'label': 'Process CPU',
-              'value': node.proc_cpu ? Math.min(100.0, node.proc_cpu.percent / node.num_cores) : 0
+              'value': node.proc_cpu ? Math.min(100.0, node.proc_cpu.percent) : 0
           }],
             'color': COLORS.used
         }, {
             'key': 'Idle',
             'values': [{
               'label': 'Process CPU',
-              'value': node.proc_cpu ? 100.0 - Math.min(100.0, node.proc_cpu.percent / node.num_cores) : 100.0
+              'value': node.proc_cpu ? 100.0 - Math.min(100.0, node.proc_cpu.percent) : 100.0
           }],
             'color': COLORS.free
         }];
