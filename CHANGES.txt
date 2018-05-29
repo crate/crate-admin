@@ -5,9 +5,18 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Fixes
+-----
+
 - Fixed an issue where the configuration file for plugins was not loaded when
   the UI was served from another location than ``/`` resulting in a blank
   browser canvas.
+
+2018/05/29 1.10.2
+=================
+
+Fixes
+-----
 
 - Fixed an issue that caused the CrateDB process CPU calculation to be false.
 
