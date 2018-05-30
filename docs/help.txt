@@ -33,6 +33,6 @@ Features
   When you are satisfied with the number of imported tweets, select the
   *ENOUGH! STOP IMPORTING TWEETS* button.
 
-  .. NOTE::
+  .. TIP::
 
      This feature does not tweet or follow anyone on your behalf.

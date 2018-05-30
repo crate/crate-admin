@@ -28,7 +28,7 @@ The admin UI is accessible via HTTP at port ``4200``, at a URL like so::
 Here, replace ``HOSTNAME`` with the hostname of the CrateDB node. If CrateDB
 is running locally, this will be ``localhost``.
 
-.. NOTE::
+.. TIP::
 
     If port ``4200`` is accessed via a client library or command line tool like
     ``curl`` or ``wget``, the request will be handled by `the CrateDB Rest
