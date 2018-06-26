@@ -123,7 +123,7 @@ var loadStylesheet = function (url) {
 };
 
 // todo: load json from rest endpoint
-$.get('/static/conf/plugins.json', function (plugins) {
+$.get('static/conf/plugins.json', function (plugins) {
 
   ENTERPRISE_PLUGINS = plugins.filter(function (p) {
     return p.enterprise;
