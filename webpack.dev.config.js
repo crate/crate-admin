@@ -1,13 +1,17 @@
-const webpack = require('webpack');
+'use strict';
+
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 
-const config = {
+
+module.exports = {
+  mode: 'development',
+  devtool: 'eval-source-map',
   entry: {
     'vendor': './app/vendor.module.js',
     'app': './app/app.module.js',
@@ -17,6 +21,56 @@ const config = {
     filename: 'static/libs/[name].bundle.js',
     path: path.resolve(__dirname, 'build')
   },
+    optimization: {
+    runtimeChunk: 'single'
+  },
+  plugins: [
+    new CleanWebpackPlugin('build'),
+    new HtmlWebpackPlugin({
+      template: './app/index.tpl.html',
+      inject: 'head',
+      filename: 'index.html',
+      excludeAssets: [/enterprise.css/]
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: './app/static/assets',
+        to: 'static/assets'
+          },
+      {
+        from: './app/static/i18n',
+        to: 'static/i18n'
+          },
+      {
+        from: './app/plugins',
+        to: 'static/plugins'
+          },
+      {
+        from: './app/conf',
+        to: 'static/conf'
+          },
+      {
+        from: './app/views',
+        to: 'static/views'
+          }
+          ]),
+    new MiniCssExtractPlugin({
+      filename: 'static/styles/[name].css',
+      chunkFilename: 'static/styles/[name].css'
+    }),
+    new HtmlWebpackExcludeAssetsPlugin(),
+    new webpack.ProvidePlugin({
+      CodeMirror: 'CodeMirror',
+    }),
+    new webpack.ProvidePlugin({
+      analytics: 'analytics',
+    }),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    })
+  ],
   module: {
     rules: [
       {
@@ -27,23 +81,16 @@ const config = {
           options: {
             es6: true
           }
-        }, 'babel-loader', 'jshint-loader']
+        }, 'babel-loader']
       },
       {
-        test: /\.(scss)$/,
-        use: ExtractTextWebpackPlugin.extract({
-          use: [
-            {
-              loader: "css-loader",
-              options: {
-                minimize: true
-              }
-              },
-            {
-              loader: "sass-loader"
-              }
-          ]
-        })
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+           MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
       },
       // for fixing of loading bootstrap icon files
       {
@@ -66,69 +113,9 @@ const config = {
       }
     ]
   },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'static/libs/[name].bundle.js'
-    }),
-    new CleanWebpackPlugin('build'),
-    new HtmlWebpackPlugin({
-      template: './app/index.html',
-      excludeAssets: [/enterprise.css/]
-    }),
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      jquery: 'jquery'
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: './app/static/assets',
-        to: 'static/assets'
-      },
-      {
-        from: './app/static/i18n',
-        to: 'static/i18n'
-      },
-      {
-        from: './app/plugins',
-        to: 'static/plugins'
-      },
-      {
-        from: './app/conf',
-        to: 'static/conf'
-      },
-      {
-        from: './app/views',
-        to: 'static/views'
-      }
-      ]),
-    new webpack.ProvidePlugin({
-      CodeMirror: 'CodeMirror',
-    }),
-    new webpack.ProvidePlugin({
-      analytics: 'analytics',
-    }),
-    new ExtractTextWebpackPlugin("static/styles/[name].css", {
-      allChunks: false
-    }),
-    new OptimizeCssAssetsWebpackPlugin({
-      assetNameRegExp: /\.app\.css$/g,
-      cssProcessor: require('cssnano'),
-      cssProcessorOptions: {
-        discardComments: {
-          removeAll: true
-        }
-      },
-      canPrint: true
-    }),
-    new HtmlWebpackExcludeAssetsPlugin()
-  ],
   devServer: {
     port: 9000,
-    contentBase: './app/',
-    historyApiFallback: true
-  }
+    contentBase: [path.join(__dirname, 'app')],
+    historyApiFallback: true,
+  },
 };
-
-module.exports = config;

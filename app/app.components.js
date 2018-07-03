@@ -28,3 +28,6 @@ import './scripts/controllers/cluster';
 //filters
 import './scripts/filter/text';
 import './scripts/filter/numbers';
+
+// loading all vendor module
+import './vendor.module';
