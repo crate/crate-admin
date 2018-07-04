@@ -2,9 +2,9 @@ describe('CompareByHealth Services', function() {
 
   var mockCompareByHealth;
 
-  beforeEach(module('common'));
-  beforeEach(module('crate'));
-  beforeEach(module('nodeinfo'));
+  beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('crate'));
+  beforeEach(angular.mock.module('nodeinfo'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       mockCompareByHealth = $injector.get('compareByHealth');

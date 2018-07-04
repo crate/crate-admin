@@ -10,8 +10,7 @@ const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plug
 
 
 module.exports = {
-  mode: 'development',
-  devtool: 'eval-source-map',
+  mode: 'production',
   entry: {
     'vendor': './app/vendor.module.js',
     'app': './app/app.module.js',

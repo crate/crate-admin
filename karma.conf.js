@@ -1,49 +1,41 @@
 // Karma configuration
 // Generated on Mon Jan 29 2018 16:16:53 GMT+0100 (CET)
-var webpack = require('karma-webpack');
-var babel = require('karma-babel-preprocessor');
+const webpack = require('webpack');
+var karmaWebpack = require('karma-webpack');
 var webpackConfig = require('./webpack.dev.config.js');
-const commonsChunkPluginIndex = webpackConfig.plugins.findIndex(plugin => plugin.chunkNames);
-webpackConfig.plugins.splice(commonsChunkPluginIndex, 1);
-
-
-webpackConfig.entry = null;
-
-webpackConfig.module.loaders = [
-  {
-    test: /\.js$/,
-    exclude: /(node_modules)/,
-    loader: 'babel-loader'
-  }
-];
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     plugins: [
-      webpack,
+      karmaWebpack,
       'karma-jasmine',
       'karma-phantomjs-launcher',
       'karma-coverage',
       'karma-mocha-reporter',
-      'karma-babel-preprocessor',
-      'codecov.io'
+      'codecov'
     ],
     files: [
-      './app/vendor.module.js',
-      './app/app.module.js',
-      './node_modules/angular-mocks/angular-mocks.js',
-      './app/tests/**/**.test.js'
-    ],
+          'node_modules/jquery/dist/jquery.js',
+          'node_modules/angular/angular.js',
+          'node_modules/angular-mocks/angular-mocks.js',
+          'app/vendor.module.js',
+          'app/app.module.js',
+          'app/tests/**/**.test.js',
+        ],
     preprocessors: {
-      './app/vendor.module.js': ['webpack'],
-      './app/app.module.js': ['webpack'],
-      './app/tests/**/**.test.js': ['babel'],
+      './app/**/**.js': ['webpack'],
+      './app/tests/**/**.test.js': ['webpack'],
     },
-    webpack: webpackConfig,
+    webpack: {
+      mode: 'development',
+      module: webpackConfig.module,
+      plugins: webpackConfig.plugins
+    },
     webpackMiddleware: {
-      noInfo: true
+      stats: 'errors-only'
     },
     reporters: ['mocha', 'progress', 'coverage'],
     coverageReporter: {

@@ -3,8 +3,8 @@ describe('NavigationService', function() {
 
   var mockNavigationService;
 
-  beforeEach(module('common'));
-  beforeEach(module('crate'));
+  beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('crate'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       mockNavigationService = $injector.get('NavigationService');

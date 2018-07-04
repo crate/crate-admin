@@ -3,7 +3,7 @@ describe('Feed', function() {
 
   var QueryStringAppender;
 
-  beforeEach(module('crate'));
+  beforeEach(angular.mock.module('crate'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       QueryStringAppender = $injector.get('QueryStringAppender');

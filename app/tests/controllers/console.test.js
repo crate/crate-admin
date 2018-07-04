@@ -3,7 +3,7 @@ describe('Console', function() {
 
   var KeywordObjectCreator;
 
-  beforeEach(module('crate'));
+  beforeEach(angular.mock.module('crate'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       KeywordObjectCreator = $injector.get('KeywordObjectCreator');

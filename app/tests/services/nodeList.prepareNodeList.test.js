@@ -3,9 +3,9 @@ describe('prepareNodeList', function() {
 
   var mockPrepareNodeList;
 
-  beforeEach(module('common'));
-  beforeEach(module('crate'));
-  beforeEach(module('nodeinfo'));
+  beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('crate'));
+  beforeEach(angular.mock.module('nodeinfo'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       mockPrepareNodeList = $injector.get('prepareNodeList');

@@ -4,8 +4,8 @@ describe('text', function() {
 	var $filter;
 
 	beforeEach(function() {
-		module('crate');
-		module('common');
+		angular.mock.module('crate');
+		angular.mock.module('common');
 	});
 
 	beforeEach(function() {
@@ -27,8 +27,8 @@ describe('languageFilter', function() {
 	var $filter;
 
 	beforeEach(function() {
-		module('crate');
-		module('common');
+		angular.mock.module('crate');
+		angular.mock.module('common');
 	});
 
 	beforeEach(function() {
@@ -68,8 +68,8 @@ describe('formatTimestamp', function() {
 	var $filter;
 
 	beforeEach(function() {
-		module('crate');
-		module('common');
+		angular.mock.module('crate');
+		angular.mock.module('common');
 	});
 
 	beforeEach(function() {

@@ -396,3 +396,5 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
     });
   });
 });
+
+export default commons;

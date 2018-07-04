@@ -3,9 +3,9 @@ describe('SQLQuery', function() {
 
   var mockSQLQuery;
 
-  beforeEach(module('common'));
-  beforeEach(module('crate'));
-  beforeEach(module('sql'));
+  beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('crate'));
+  beforeEach(angular.mock.module('sql'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       mockSQLQuery = $injector.get('SQLQuery');

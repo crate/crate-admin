@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../app.module';
+
 const filters_text = angular.module('filters_text', [])
   .filter('capitalize', function() {
     return function(input) {

@@ -3,9 +3,9 @@ describe('ColumnTypeCheck', function() {
 
   var mockColumnTypeChecksService;
 
-  beforeEach(module('common'));
-  beforeEach(module('crate'));
-  beforeEach(module('datatypechecks'));
+  beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('crate'));
+  beforeEach(angular.mock.module('datatypechecks'));
   beforeEach(function() {
     angular.mock.inject(function($injector) {
       mockColumnTypeChecksService = $injector.get('ColumnTypeCheck');
