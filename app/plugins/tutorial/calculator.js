@@ -2,7 +2,7 @@
 
 // storage is measured in Bytes
 // time is measured in hours
-angular.module('calculator', ['sql', 'translation']).controller('CalculatorController', function($scope) {
+angular.module('calculator', ['sql', 'translation']).controller('CalculatorController', function($scope, SQLQuery) {
     $scope.diskLoadFactor = 0.85;
     $scope.maxRAMPerNode = 64000000000; //64G
     $scope.sizeFactor = 0.732; //from haudi's document
