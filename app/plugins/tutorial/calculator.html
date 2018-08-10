@@ -56,6 +56,9 @@ nodes on?</p>
 
 <!-- ===================================== Use-Case ================================================= -->
 <h1 class="western">Use-Case</h1>
+
+
+
 <h2 class="western">Data</h2>
 <p>So, this is what crate is about. You have probably been using
 something else before, so you should generally know how much data
@@ -65,7 +68,7 @@ there is.</p>
 
     <input type="radio" ng-model="dataType" value="perTime" checked>
     <fieldset ng-disabled="dataType!='perTime'">
-        <input value='100' ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
+        <input value='100' ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1" max="10000000000">
         <span>data insertion amount: {{dataInsertedPerTime}}</span>
 
         <select ng-model="dataInsertedPerTimeUnitPrefix">
@@ -83,7 +86,7 @@ there is.</p>
         </select>
         <span>data insertion time unit: {{dataInsertedPerTimeTemporalUnit}}</span>
 
-    <input value='6' ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
+    <input value='6' ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1" max="10000000000">
     <span>keep time: {{keepTime}}</span>
 
     <select ng-model="keepTimeTemporalUnit">
@@ -104,11 +107,11 @@ Since crate is horizontally scalable you can also later decide that
 the data is supposed to be stored for longer, by adding nodes.</p>
 <p>OR, if it’s really not known yet, just specify some expected
 table size.</p>
-<pre class="western">expectedTableSize</pre><h2 class="western">
+<pre class="western">expectedTableSize</pre>
 
     <input type="radio" ng-model="dataType" value="absolute">
     <fieldset ng-disabled="dataType!='absolute'">
-        <input value='10' ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
+        <input value='10' ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1" max="10000000000">
         <span>expected table size: {{expectedTableSize}}</span>
 
         <select ng-model="expectedTableSizeUnitPrefix">
@@ -119,15 +122,20 @@ table size.</p>
         <span>expected table size unit prefix: {{expectedTableSizeUnitPrefix}}</span>
     </fieldset>
 
-Partitioning</h2>
+
+
+
+
+
+<h2 class="western">Partitioning</h2>
 <p>Crate organizes data by itself into logical units, usually by
 time. If a good time frame for partitioning is set, this can enhance
 the performance greatly. Choose a batch size in which the data will
 be used later. If you have no idea, a month is a good sugestion.</p>
-<pre class="western">partionSize</pre><h2 class="western">
+<pre class="western">partionSize</pre>
 
     <fieldset ng-disabled="dataType!='perTime'">
-        <input value='1' ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
+        <input value='1' ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1" max="10000000000">
         <span>partitionSize: {{partitionSize}}</span>
 
         <select ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
@@ -142,11 +150,11 @@ be used later. If you have no idea, a month is a good sugestion.</p>
 
     <fieldset ng-disabled="dataType!='absolute'">
         <p ng-hide="dataType!='absolute'">You have expected table size selected, in this case you need to specify the amount of partitions manually.</p>
-        <input value='4' ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1">
+        <input value='4' ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1" max="10000000000">
         <span>partitionCount: {{manualPartitionCount}}</span>
     </fieldset>
 
-Redundancy</h2>
+<h2 class="western">Redundancy</h2>
 <p>As said crate distributes replicas of the data among its network,
 one replica should be affordable storage wise, for redundancy and
 data integrity. Having no replicas is of course easy on storage but
@@ -160,7 +168,7 @@ sense. They have nowhere to go.</p>
 <pre class="western">replicas</pre>
 
     <fieldset>
-        <input value='1' ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0">
+        <input value='1' ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0" max="10000000000">
         <span>replicas: {{replicas}}</span>
     </fieldset>
 
