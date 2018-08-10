@@ -53,4 +53,16 @@
       "controller": "ShardsController"
     }
   }
+}, {
+  "name": "calculator",
+  "uri": "static/plugins/tutorial/calculator.js",
+  "enterprise": false,
+  "routing": {
+    "/calculator": {
+      "name": "calculator",
+      "url": "/calculator",
+      "templateUrl": "static/plugins/tutorial/calculator.html",
+      "controller": "CalculatorController"
+    }
+  }
 }]
