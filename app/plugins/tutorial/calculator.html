@@ -30,7 +30,7 @@
             </p>
 
                 <fieldset>
-                    <input value="2" ng-model="CPUCoresPerNode" type="number" style="color:black" ng-pattern="/^[0-9]/" min="1" max="1024">
+                    <input value="2" ng-model="CPUCoresPerNode" type="number" style="width:auto;color:black" ng-pattern="/^[0-9]/" min="1" max="1024">
                 </fieldset>
 
             <h3>
@@ -55,7 +55,7 @@
                 <span>
                     Every GB of RAM serves&nbsp;
                 </span>
-                <input value="24" ng-model="RAMStorageProportion" type="number" style="color:black" ng-pattern="/^[0-9]/" min="16" max="32">
+                <input value="24" ng-model="RAMStorageProportion" type="number" style="width:auto;color:black" ng-pattern="/^[0-9]/" min="16" max="32">
                 <span>
                     &nbsp;GB of storage.
                 </span>
@@ -91,15 +91,15 @@
 
             <fieldset>
                 <p>
-                <input type="radio" ng-model="dataType" value="perTime" style="color:black" checked>
+                <input type="radio" ng-model="dataType" value="perTime" style="width:auto;color:black" checked>
                     How much is being inserted?
                 </p>
 
                 <fieldset ng-disabled="dataType!='perTime'">
 
-                    <input value='100' style="color:black" ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
+                    <input value='100' style="width:auto;color:black" ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
 
-                    <select style="color:black" ng-model="dataInsertedPerTimeUnitPrefix">
+                    <select style="width:auto;color:black" ng-model="dataInsertedPerTimeUnitPrefix">
                         <option value="Mega">Mega
                         <option value="Giga">Giga
                         <option value="Terra">Terra
@@ -109,7 +109,7 @@
                         &nbsp;Byte per&nbsp;
                     </span>
 
-                    <select style="color:black" ng-model="dataInsertedPerTimeTemporalUnit">
+                    <select style="width:auto;color:black" ng-model="dataInsertedPerTimeTemporalUnit">
                         <option value="hour">hour
                         <option value="day">day
                         <option value="week">week
@@ -120,9 +120,9 @@
                         And for how long is it supposed to be stored?
                     </p>
 
-                    <input value='6' style="color:black" ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
+                    <input value='6' style="width:auto;color:black" ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
 
-                    <select style="color:black" ng-model="keepTimeTemporalUnit">
+                    <select style="width:auto;color:black" ng-model="keepTimeTemporalUnit">
                         <option value="hour">hour
                         <option value="day">day
                         <option value="week">week
@@ -140,16 +140,16 @@
 
             <fieldset>
                 <p>
-                <input type="radio" style="color:black" ng-model="dataType" value="absolute">
+                <input type="radio" style="width:auto;color:black" ng-model="dataType" value="absolute">
                     OR, if it’s really not known yet, just specify some expected
                     table size.
                 </p>
 
                 <fieldset ng-disabled="dataType!='absolute'">
 
-                    <input value='10' style="color:black" ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
+                    <input value='10' style="width:auto;color:black" ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
 
-                    <select style="color:black" ng-model="expectedTableSizeUnitPrefix">
+                    <select style="width:auto;color:black" ng-model="expectedTableSizeUnitPrefix">
                         <option value="Mega">Mega
                         <option value="Giga">Giga
                         <option value="Terra">Terra
@@ -168,29 +168,31 @@
             <p>
                 Crate organizes data by itself into logical units, usually by
                 time. If a good time frame for partitioning is set, this can enhance
-                the performance greatly. Choose a batch size in which the data will
-                be used later. If you have no idea, a month is a good suggestion.
+                the performance greatly.
             </p>
 
             <fieldset>
                 <fieldset ng-disabled="dataType!='perTime'">
-                    <input value='1' style="color:black" ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
+                    <p ng-hide="dataType=='absolute'">
+                        Choose a batch size in which the data will be used later. If you have no idea, a month is a good suggestion. <br/>
+                        <input value='1' style="width:auto;color:black" ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
 
-                    <select style="color:black" ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
-                        <option value="hour">hour
-                        <option value="day">day
-                        <option value="week">week
-                        <option value="month">month
-                        <option value="year">year
-                    </select>
+                        <select style="width:auto;color:black" ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
+                            <option value="hour">hour
+                            <option value="day">day
+                            <option value="week">week
+                            <option value="month">month
+                            <option value="year">year
+                        </select>
+                    </p>
                 </fieldset>
 
                 <fieldset ng-disabled="dataType!='absolute'">
                     <p ng-hide="dataType!='absolute'">
                         You have expected table size selected, in this case you need to specify
-                        the amount of partitions manually.
+                        the amount of partitions manually <br/>
+                        <input value='4' style="width:auto;color:black" ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1"> partitions.
                     </p>
-                    <input value='4' style="color:black" ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1">
                 </fieldset>
             </fieldset>
 
@@ -211,7 +213,7 @@
             </p>
 
             <fieldset>
-                <input value='1' style="color:black" ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0">
+                <input value='1' style="width:auto;color:black" ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0">
             </fieldset>
 
             <h2>
