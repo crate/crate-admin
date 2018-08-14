@@ -62,6 +62,31 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         console.log("shardSize: " + res);
         return res;
     };
+    $scope.ramString = function () {
+        var res = $scope.RAMStorageProportion + "GB";
+        console.log("ramString: " + res);
+        return res;
+    };
+    $scope.storageString = function () {
+        return $scope.bytesToPrintableString(Math.round(Number($scope.neededDiskSpace()) / Number($scope.neededNodes())));
+    };
+    $scope.bytesToPrintableString = function (b) {
+        console.log("entering bytify...");
+        var strg;
+        if (b < Math.pow(10, 3)) {
+            strg = b + "B";
+        } else if (b < Math.pow(10, 6)){
+            strg = (b / Math.pow(10, 3)).toFixed(2) + "KB";
+        } else if (b < Math.pow(10, 9)){
+            strg = (b / Math.pow(10, 6)).toFixed(2) + "MB";
+        } else if (b < Math.pow(10, 12)) {
+            strg = (b / Math.pow(10, 9)).toFixed(2) + "GB";
+        } else {
+            strg = (b / Math.pow(10, 12)).toFixed(2) + "TB"
+        }
+        console.log("bytify: " + strg);
+        return strg;
+    };
     $scope.prefix = function (x) {
         switch (x) {
             case "Terra":

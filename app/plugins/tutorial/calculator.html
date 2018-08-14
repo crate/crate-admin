@@ -221,10 +221,30 @@
             </h2>
 
             <p>
-                By the data provided, this little script recommends to split your table into:
-                <span class="result" ng-bind="result()"></span>
-                shards.
+                With the data provided this little script came up with a recommendation.
             </p>
+            <h4>
+                nodes
+            </h4>
+            <p>
+                You should use
+                <span class="result" ng-bind="neededNodes()"></span>
+                nodes with
+                <span class="result" ng-bind="ramString()"></span>
+                of RAM and
+                <span class="result" ng-bind="storageString()"></span>
+                of storage each.
+            </p>
+
+            <h4>
+                shards
+            </h4>
+            <p>
+                The partitions should be divided into
+                <span class="result" ng-bind="result()"></span>
+                shards each.
+            </p>
+
 
         </div></div></main>
     </body>
