@@ -15,9 +15,20 @@
             <h1>
                 Sharding calculator
             </h1>
-            <p class="sub-heading">
-                A simple tool to calculate some generic sharding recommendation for a crate table.
-            </p>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class="sub-heading">
+                        A simple tool to calculate some generic sharding recommendation for a crate table.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <h3>
+                        read from existing table
+                    </h3>
+                    <select ng-model="selectTable" ng-options="t as t for t in tables" ng-change="tableSelected()"></select>
+                </div>
+            </div>
             <h2>
                 Hardware
             </h2>

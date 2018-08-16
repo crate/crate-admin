@@ -2,9 +2,8 @@
 
 // storage is measured in Bytes
 // time is measured in hours
-angular.module('calculator', ['sql', 'translation']).controller('CalculatorController', function($scope, SQLQuery) {
-    // storage is measured in Bytes
-    // time is measured in hours
+
+angular.module('calculator', ['sql', 'translation']).controller('CalculatorController', function($scope, SQLQuery, queryResultToObjects) {
     $scope.diskLoadFactor = 0.85;
     $scope.maxRAMPerNode = 64000000000; //64G
     $scope.sizeFactor = 0.732; //from haudi's document
@@ -13,7 +12,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.CPUCoresPerNode = '2';
     $scope.RAMStorageProportion = '24';
     $scope.dataType = 'perTime';
-    $scope.dataInsertedPerTime = '100';
+    $scope.dataInsertedPerTime = '20';
     $scope.expectedTableSize = '10';
     $scope.expectedTableSizeUnitPrefix = 'Terra';
     $scope.dataInsertedPerTimeUnitPrefix = 'Giga';
@@ -25,6 +24,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.partitionSizeTemporalUnit = 'month';
     $scope.manualPartitionCount = 4;
     $scope.replicas = '1';
+    $scope.tables = ["table1", "table2"];
+    $scope.selectTable = "none";
     $scope.neededDiskSpace = function () {
         var res = 1;
         if ($scope.dataType === 'absolute') {
@@ -71,7 +72,6 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         return $scope.bytesToPrintableString(Math.round(Number($scope.neededDiskSpace()) / Number($scope.neededNodes())));
     };
     $scope.bytesToPrintableString = function (b) {
-        console.log("entering bytify...");
         var strg;
         if (b < Math.pow(10, 3)) {
             strg = b + "B";
@@ -126,5 +126,17 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
             s++;
         }
         return s;
+    };
+    $scope.tableSelected = function () {
+        console.log("selected table: " + $scope.selectTable);
+        $scope.loadData($scope.selectTable);
+    };
+    $scope.loadData = function (tableName) {
+        var stmt = "SELECT os_info['available_processors']\n" +
+            "FROM sys.nodes limit 100;";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            $scope.CPUCoresPerNode = (query.rows[0])[0]; //we get a 2d array returned
+        });
+        console.log("queried cpu cores per node: " + $scope.CPUCoresPerNode);
     };
 });
