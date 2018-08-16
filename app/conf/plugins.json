@@ -65,4 +65,16 @@
       "controller": "CalculatorController"
     }
   }
+}, {
+  "name": "testing",
+  "uri": "static/plugins/tutorial/testing.js",
+  "enterprise": false,
+  "routing": {
+    "/testing": {
+      "name": "testing",
+      "url": "/testing",
+      "templateUrl": "static/plugins/tutorial/testing.html",
+      "controller": "testingController"
+    }
+  }
 }]
