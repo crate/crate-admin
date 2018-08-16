@@ -58,7 +58,6 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
     $scope.shardSize = function (shards) {
         console.log("replicas: " + (1 + Number($scope.replicas)));
-
         var res = $scope.neededDiskSpace() / (shards * $scope.partitions() * (1 + Number($scope.replicas)));
         console.log("shardSize: " + res);
         return res;
@@ -119,11 +118,11 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
     $scope.result = function () {
         var s = $scope.shards();
+        if ($scope.shardSize(s) > $scope.maxShardSize) {
+            s = Math.ceil(s * ($scope.shardSize(s) / $scope.maxShardSize));
+        }
         if (s > $scope.maxShards) {
             return "maximum shard limit exceeded, please talk to an crate engineer about your use-case";
-        }
-        while ($scope.shardSize(s) > $scope.maxShardSize) {
-            s++;
         }
         return s;
     };
