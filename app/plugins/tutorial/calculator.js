@@ -26,6 +26,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.replicas = '1';
     $scope.tables = ["table1", "table2"];
     $scope.selectTable = "none";
+
+
     $scope.neededDiskSpace = function () {
         var res = 1;
         if ($scope.dataType === 'absolute') {
@@ -126,6 +128,25 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         }
         return s;
     };
+
+
+    $scope.gettablename = function() {
+        //console.log("gettablename1: " + $scope.tableList[0]);
+        var stmt = "SELECT table_name, table_schema FROM information_schema.tables WHERE table_schema NOT IN ('information_schema', 'pg_catalog', 'sys', 'blob') order by table_schema, table_name";
+        var cols = ['table_name', 'schema_name'];
+        var obj = [];
+        //console.log("gettablename2: " + $scope.tableList[0]);
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            $scope.sqlresult = queryResultToObjects(query, cols);
+            for(var i=0; i<$scope.sqlresult.length; i++) {
+                obj.push([$scope.sqlresult[i].table_name, $scope.sqlresult[i].schema_name]);
+            }
+            $scope.tables = obj;
+        });
+        
+    };
+
+
     $scope.tableSelected = function () {
         console.log("selected table: " + $scope.selectTable);
         $scope.loadData($scope.selectTable);

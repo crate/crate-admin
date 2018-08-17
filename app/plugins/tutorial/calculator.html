@@ -10,7 +10,7 @@
         <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <body lang="en-US" dir="ltr">
-        <main role="main" class="container"><div ng-app="calculator" ng-controller="CalculatorController"><div class="starter-template">
+        <main role="main" class="container"><div ng-app="calculator" ng-controller="CalculatorController"><div class="starter-template"><div data-ng-init="gettablename()">
 
             <h1>
                 Sharding calculator
@@ -26,7 +26,7 @@
                     <h3>
                         read from existing table
                     </h3>
-                    <select ng-model="selectTable" ng-options="t as t for t in tables" ng-change="tableSelected()"></select>
+                    <select style="color:black" ng-model="selectTable" ng-options="t as t for t in tables" ng-change="tableSelected()"></select>
                 </div>
             </div>
             <h2>
@@ -257,6 +257,6 @@
             </p>
 
 
-        </div></div></main>
+        </div></div></div></main>
     </body>
 </html>
