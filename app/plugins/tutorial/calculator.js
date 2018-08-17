@@ -9,21 +9,21 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.sizeFactor = 0.732; //from haudi's document
     $scope.maxShardSize = 20000000000; //20G
     $scope.maxShards = 1000;
-    $scope.CPUCoresPerNode = '2';
-    $scope.RAMStorageProportion = '24';
+    $scope.CPUCoresPerNode = 2;
+    $scope.RAMStorageProportion = 24;
     $scope.dataType = 'perTime';
-    $scope.dataInsertedPerTime = '20';
-    $scope.expectedTableSize = '10';
+    $scope.dataInsertedPerTime = 20;
+    $scope.expectedTableSize = 10;
     $scope.expectedTableSizeUnitPrefix = 'Terra';
     $scope.dataInsertedPerTimeUnitPrefix = 'Giga';
     $scope.dataInsertedPerTimeTemporalUnit = 'day';
-    $scope.expectedTableSize = '10';
+    $scope.expectedTableSize = 10;
     $scope.keepTimeTemporalUnit = 'month';
-    $scope.keepTime = '6';
-    $scope.partitionSize = '1';
+    $scope.keepTime = 6;
+    $scope.partitionSize = 1;
     $scope.partitionSizeTemporalUnit = 'month';
     $scope.manualPartitionCount = 4;
-    $scope.replicas = '1';
+    $scope.replicas = 1;
     $scope.tables = ["table1", "table2"];
     $scope.selectSchema = "none";
     $scope.selectTable = "none";
@@ -148,13 +148,15 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         
     };
 
-
     $scope.tableSelected = function () {
         //console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
         $scope.selectSchema = $scope.selected[0];
         $scope.selectTable = $scope.selected[1];
         console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
         $scope.loadData($scope.selectSchema, $scope.selectTable);
+        $scope.loadTablesize($scope.selectSchema, $scope.selectTable);
+        $scope.loadPartition($scope.selectSchema, $scope.selectTable);
+        $scope.loadReplica($scope.selectSchema, $scope.selectTable);
     };
     $scope.loadData = function (schemaName, tableName) {
         var stmt = "SELECT os_info['available_processors']\n" +
@@ -164,4 +166,52 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         });
         console.log("queried cpu cores per node: " + $scope.CPUCoresPerNode);
     };
+
+    $scope.loadTablesize = function(schemaName, tableName) {
+        var stmt = "select sum(size) from sys.shards where schema_name = '"+ schemaName
+            +"'and table_name = '"+tableName+"' and primary=true;";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            $scope.expectedTableSize = (query.rows[0])[0];
+            $scope.expectedTableSizeUnitPrefix = 'none';
+            $scope.dataType = 'absolute';
+        });
+    };
+
+    $scope.loadPartition = function(schemaName, tableName) {
+        var stmt = "select   partitioned_by from information_schema.tables where table_schema = '"
+            +schemaName+"' and table_name = '"+tableName+"';";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            if((query.rows[0])[0]!=null){
+                stmt = "SELECT COUNT(*) FROM(select * from information_schema.table_partitions WHERE (table_schema = '"
+                    +schemaName+"' and table_name = '"+tableName+"')) AS x;"
+                SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+                    $scope.manualPartitionCount = (query.rows[0])[0];
+                });  
+            }
+            else{
+                $scope.manualPartitionCount = 1;
+            }
+        });
+    };
+
+    $scope.loadReplica = function(schemaName, tableName) {
+        var stmt = "SELECT number_of_replicas FROM information_schema.tables WHERE table_schema='"
+            +schemaName+"' and table_name = '"+tableName+"';";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            $scope.replicas = (query.rows[0])[0];
+            if(angular.isNumber($scope.replicas)==false){
+                $scope.replicas = $scope.replicas.split("-")[1];
+                stmt = "SELECT COUNT(*) FROM sys.nodes";
+                SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+                    if ($scope.replicas =="all"){
+                        $scope.replicas = (query.rows[0])[0]-1;
+                    }
+                    else{
+                        $scope.replicas = Math.min(Number($scope.replicas),(query.rows[0])[0]-1);
+                    }
+                });  
+            }
+        });
+    };
+
 });
