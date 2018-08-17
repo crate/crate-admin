@@ -25,7 +25,9 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.manualPartitionCount = 4;
     $scope.replicas = '1';
     $scope.tables = ["table1", "table2"];
+    $scope.selectSchema = "none";
     $scope.selectTable = "none";
+    $scope.selected = "none";
 
 
     $scope.neededDiskSpace = function () {
@@ -139,7 +141,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             $scope.sqlresult = queryResultToObjects(query, cols);
             for(var i=0; i<$scope.sqlresult.length; i++) {
-                obj.push([$scope.sqlresult[i].table_name, $scope.sqlresult[i].schema_name]);
+                obj.push([$scope.sqlresult[i].schema_name, $scope.sqlresult[i].table_name]);
             }
             $scope.tables = obj;
         });
@@ -148,10 +150,13 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
 
 
     $scope.tableSelected = function () {
-        console.log("selected table: " + $scope.selectTable);
-        $scope.loadData($scope.selectTable);
+        //console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
+        $scope.selectSchema = $scope.selected[0];
+        $scope.selectTable = $scope.selected[1];
+        console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
+        $scope.loadData($scope.selectSchema, $scope.selectTable);
     };
-    $scope.loadData = function (tableName) {
+    $scope.loadData = function (schemaName, tableName) {
         var stmt = "SELECT os_info['available_processors']\n" +
             "FROM sys.nodes limit 100;";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {

@@ -24,9 +24,10 @@
                 </div>
                 <div class="col-lg-6">
                     <h3>
-                        read from existing table
+                        read from existing table (schema/table)
                     </h3>
-                    <select style="color:black" ng-model="selectTable" ng-options="t as t for t in tables" ng-change="tableSelected()"></select>
+                    <select style="color:black" ng-model="selected" ng-options="x[0]+'/'+x[1] for x in tables" ng-change="tableSelected()">
+                    </select>
                 </div>
             </div>
             <h2>
