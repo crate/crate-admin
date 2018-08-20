@@ -157,6 +157,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         $scope.loadTablesize($scope.selectSchema, $scope.selectTable);
         $scope.loadPartition($scope.selectSchema, $scope.selectTable);
         $scope.loadReplica($scope.selectSchema, $scope.selectTable);
+        $scope.loadRAMStoragePropotion();
     };
     $scope.loadData = function (schemaName, tableName) {
         var stmt = "SELECT os_info['available_processors']\n" +
@@ -214,4 +215,15 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         });
     };
 
+    $scope.loadRAMStoragePropotion = function() {
+        var stmt = "SELECT fs['total']['available']/(heap['used']+heap['free']) AS RAMStoragePropotion FROM sys.nodes;";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            var sum = 0;
+            for(var i = 0; i < query.rows.length; i++){
+                sum += query.rows[i];
+            }
+            var avg = Math.round(sum / query.rows.length);
+            $scope.RAMStorageProportion = avg;
+        });
+    };
 });
