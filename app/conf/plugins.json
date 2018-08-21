@@ -68,6 +68,7 @@
 }, {
   "name": "testing",
   "uri": "static/plugins/tutorial/testing.js",
+  "stylesheet": "static/plugins/tutorial/calculator.css",
   "enterprise": false,
   "routing": {
     "/testing": {

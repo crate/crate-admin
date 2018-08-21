@@ -1,265 +1,275 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 5.0 Transitional//EN">
-<html>
-    <head>
-        <title>
-            {{:: 'CALCULATOR.TITLE' | translate}}
-        </title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/starter-template.css" rel="stylesheet">
-        <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <body lang="en-US" dir="ltr">
-        <main role="main" class="container"><div ng-app="calculator" ng-controller="CalculatorController"><div class="starter-template"><div data-ng-init="gettablename()">
-
-            <h1>
+<div data-ng-init="gettablename()">
+    <div class="page-container">
+            <h1 class="cr-page-header">
                 {{:: 'CALCULATOR.TITLE' | translate}}
             </h1>
+            <p>
+                {{:: 'CALCULATOR.DESCRIPTION' | translate}}
+            </p>
 
             <div class="row">
-                <div class="col-lg-6">
-                    <p class="sub-heading">
-                        {{:: 'CALCULATOR.DESCRIPTION' | translate}}
-                    </p>
-                </div>
-                <div class="col-lg-6">
-                    <h3>
-                        {{:: 'CALCULATOR.IMPORT_HEADING' | translate}}
-                    </h3>
-                    <select style="color:black" ng-model="selected" ng-options="x[0]+'/'+x[1] for x in tables" ng-change="tableSelected()">
+                <div class="column">
+                <div class="cr-panel-block--calculator">
+                    <h2>{{:: 'CALCULATOR.IMPORT_HEADING' | translate}}</h2>
+                    <select ng-model="selected" ng-options="x[0]+'/'+x[1] for x in tables" ng-change="tableSelected()">
                     </select>
+                </div>
+        
+            
+                
+                <div class="cr-panel-block--calculator">
+                    <h2>
+                        {{:: 'CALCULATOR.HARDWARE_HEADING' | translate}}
+                    </h2>
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.CPUS_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.CPUS_DESCRIPTION' | translate}}
+                        </p>
+                        <fieldset>
+                            <input value="2" ng-model="CPUCoresPerNode" type="number" ng-pattern="/^[0-9]/" min="1" max="1024">
+                        </fieldset></div>
+                    </div>
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.STORAGE_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.STORAGE_DESCRIPTION' | translate}}
+                        </p></div>
+                    </div>
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.RAMSTORAGE_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.RAMSTORAGE_DESCRIPTION' | translate}}
+                        </p>
+
+                        <fieldset>
+                            <span>
+                                {{:: 'CALCULATOR.RAMSTORAGE_INPUT_1' | translate}}
+                            </span>
+                            <input value="24" ng-model="RAMStorageProportion" type="number" ng-pattern="/^[0-9]/" min="1">
+                            <span>
+                                {{:: 'CALCULATOR.RAMSTORAGE_INPUT_2' | translate}}
+                            </span>
+                        </fieldset></div>
+                    </div>
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.RAM_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.RAM_DESCRIPTION' | translate}}
+                        </p></div>
+                    </div>
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.RAID_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.RAID_DESCRIPTION' | translate}}
+                        </p></div>
+                    </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="column">
+                <div class="cr-panel-block--calculator">
+                    <h2>
+                        {{:: 'CALCULATOR.USECASE_HEADING' | translate}}
+                    </h2>
+
+                    
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.DATA_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.DATA_DESCRIPTION_1' | translate}}
+                        </p>
+
+                        <fieldset>
+                            <p>
+                            <input type="radio" ng-model="dataType" value="perTime" checked>
+                                {{:: 'CALCULATOR.DATA_DESCRIPTION_2' | translate}}
+                            </p>
+
+                            <fieldset ng-disabled="dataType!='perTime'">
+
+                                <input value='100' ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                <select ng-model="dataInsertedPerTimeUnitPrefix">
+                                    <option value="Mega">Mega
+                                    <option value="Giga">Giga
+                                    <option value="Terra">Terra
+                                </select>
+
+                                <span>
+                                    {{:: 'CALCULATOR.DATA_DESCRIPTION_3' | translate}}
+                                </span>
+
+                                <select ng-model="dataInsertedPerTimeTemporalUnit">
+                                    <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
+                                    <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
+                                    <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
+                                    <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
+                                </select>
+
+                                <p>
+                                    {{:: 'CALCULATOR.DATA_DESCRIPTION_4' | translate}}
+                                </p>
+
+                                <input value='6' ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                <select ng-model="keepTimeTemporalUnit">
+                                    <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
+                                    <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
+                                    <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
+                                    <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
+                                    <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
+                                </select>
+
+                            </fieldset>
+                        </fieldset>
+
+                        <p>
+                            {{:: 'CALCULATOR.DATA_DESCRIPTION_5' | translate}}
+                        </p>
+
+                        <fieldset>
+                            <p>
+                            <input type="radio" ng-model="dataType" value="absolute">
+                                {{:: 'CALCULATOR.DATA_DESCRIPTION_6' | translate}}
+                            </p>
+
+                            <fieldset ng-disabled="dataType!='absolute'">
+
+                                <input value='10' ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                <select ng-model="expectedTableSizeUnitPrefix">
+                                    <option value="Mega">Mega</option>
+                                    <option value="Giga">Giga</option>
+                                    <option value="Terra">Terra</option>
+                                </select>
+
+                                <span>
+                                    {{:: 'CALCULATOR.DATA_DESCRIPTION_7' | translate}}
+                                </span>
+
+                            </fieldset>
+                        </fieldset></div>
+                    </div>
+
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.PARTITION_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.PARTITION_DESCRIPTION_1' | translate}}
+                        </p>
+
+                        <fieldset>
+                            <fieldset ng-disabled="dataType!='perTime'">
+                                <p ng-hide="dataType=='absolute'">
+                                    {{:: 'CALCULATOR.PARTITION_DESCRIPTION_2' | translate}}<br/>
+                                    <input value='1' ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                    <select ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
+                                        <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
+                                        <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
+                                        <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
+                                        <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
+                                        <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
+                                    </select>
+                                </p>
+                            </fieldset>
+
+                            <fieldset ng-disabled="dataType!='absolute'">
+                                <p ng-hide="dataType!='absolute'">
+                                    {{:: 'CALCULATOR.PARTITION_DESCRIPTION_3' | translate}}<br/>
+                                    <input value='4' ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1"> partitions.
+                                </p>
+                            </fieldset>
+                        </fieldset></div>
+                    </div>
+
+
+
+
+                    <div class="cr-panel-block__calculator">
+                        <div class="cr-panel-block__calculator__header"><h3>
+                            {{:: 'CALCULATOR.REDUNDANCY_HEADING' | translate}}
+                        </h3></div>
+                        <div class="cr-panel-block__calculator__content"><p>
+                            {{:: 'CALCULATOR.REDUNDANCY_DESCRIPTION' | translate}}
+                        </p>
+
+                        <fieldset>
+                            <input value='1' ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0">
+                        </fieldset></div>
+                    </div>
+                </div>
                 </div>
             </div>
-            <h2>
-                {{:: 'CALCULATOR.HARDWARE_HEADING' | translate}}
-            </h2>
-            <h3>
-                {{:: 'CALCULATOR.CPUS_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.CPUS_DESCRIPTION' | translate}}
-            </p>
 
-                <fieldset>
-                    <input value="2" ng-model="CPUCoresPerNode" type="number" style="width:auto;color:black" ng-pattern="/^[0-9]/" min="1" max="1024">
-                </fieldset>
 
-            <h3>
-                {{:: 'CALCULATOR.STORAGE_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.STORAGE_DESCRIPTION' | translate}}
-            </p>
 
-            <h3>
-                {{:: 'CALCULATOR.RAMSTORAGE_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.RAMSTORAGE_DESCRIPTION' | translate}}
-            </p>
-
-            <fieldset>
-                <span>
-                    {{:: 'CALCULATOR.RAMSTORAGE_INPUT_1' | translate}}
-                </span>
-                <input value="24" ng-model="RAMStorageProportion" type="number" style="width:auto;color:black" ng-pattern="/^[0-9]/" min="1">
-                <span>
-                    {{:: 'CALCULATOR.RAMSTORAGE_INPUT_2' | translate}}
-                </span>
-            </fieldset>
-
-            <h3>
-                {{:: 'CALCULATOR.RAM_HEADING' | translate}}
-            </h3>
-
-            <p>
-                {{:: 'CALCULATOR.RAM_DESCRIPTION_1' | translate}}
-            </p>
-            <fieldset>
-
-                <input value='64' style="width:auto;color:black" ng-model="RAMInput" type="number" ng-pattern="/^[0-9]/" min="1">
-
-                <select style="width:auto;color:black" ng-model="RAMInputUnitPrefix">
-                    <option value="1">1
-                    <option value="Kilo">Kilo
-                    <option value="Mega">Mega
-                    <option value="Giga">Giga
-                    <option value="Terra">Terra
-                </select>
-
-                <span>
-                    {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
-                </span>
-
-                <p ng-hide="hideGCHint">
-                    {{:: 'CALCULATOR.RAM_DESCRIPTION_3' | translate}}
-                </p>
-
-            </fieldset>
-
-            <h3>
-                {{:: 'CALCULATOR.RAID_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.RAID_DESCRIPTION' | translate}}
-            </p>
-            <h2>
-                {{:: 'CALCULATOR.USECASE_HEADING' | translate}}
-            </h2>
-            <h3>
-                {{:: 'CALCULATOR.DATA_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.DATA_DESCRIPTION_1' | translate}}
-            </p>
-
-            <fieldset>
+            <div class="cr-panel-block--calculator">
+                <h2>
+                    {{:: 'CALCULATOR.CALCULATION_HEADING' | translate}}
+                </h2>
                 <p>
-                <input type="radio" ng-model="dataType" value="perTime" style="width:auto;color:black" checked>
-                    {{:: 'CALCULATOR.DATA_DESCRIPTION_2' | translate}}
+                    {{:: 'CALCULATOR.CALCULATION_DESCRIPTION' | translate}}
                 </p>
 
-                <fieldset ng-disabled="dataType!='perTime'">
-
-                    <input value='100' style="width:auto;color:black" ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
-
-                    <select style="width:auto;color:black" ng-model="dataInsertedPerTimeUnitPrefix">
-                        <option value="1">1
-                        <option value="Kilo">Kilo
-                        <option value="Mega">Mega
-                        <option value="Giga">Giga
-                        <option value="Terra">Terra
-                    </select>
-
-                    <span>
-                        {{:: 'CALCULATOR.DATA_DESCRIPTION_3' | translate}}
-                    </span>
-
-                    <select style="width:auto;color:black" ng-model="dataInsertedPerTimeTemporalUnit">
-                        <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
-                        <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
-                        <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
-                        <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
-                    </select>
-
-                    <p>
-                        {{:: 'CALCULATOR.DATA_DESCRIPTION_4' | translate}}
-                    </p>
-
-                    <input value='6' style="width:auto;color:black" ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
-
-                    <select style="width:auto;color:black" ng-model="keepTimeTemporalUnit">
-                        <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
-                        <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
-                        <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
-                        <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
-                        <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
-                    </select>
-
-                </fieldset>
-            </fieldset>
-
-            <p>
-                {{:: 'CALCULATOR.DATA_DESCRIPTION_5' | translate}}
-            </p>
-
-            <fieldset>
-                <p>
-                <input type="radio" style="width:auto;color:black" ng-model="dataType" value="absolute">
-                    {{:: 'CALCULATOR.DATA_DESCRIPTION_6' | translate}}
-                </p>
-
-                <fieldset ng-disabled="dataType!='absolute'">
-
-                    <input value='10' style="width:auto;color:black" ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
-
-                    <select style="width:auto;color:black" ng-model="expectedTableSizeUnitPrefix">
-                        <option value="1">1
-                        <option value="Kilo">Kilo
-                        <option value="Mega">Mega
-                        <option value="Giga">Giga
-                        <option value="Terra">Terra
-                    </select>
-
-                    <span>
-                        {{:: 'CALCULATOR.DATA_DESCRIPTION_7' | translate}}
-                    </span>
-
-                </fieldset>
-            </fieldset>
-
-            <h3>
-                {{:: 'CALCULATOR.PARTITION_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.PARTITION_DESCRIPTION_1' | translate}}
-            </p>
-
-            <fieldset>
-                <fieldset ng-disabled="dataType!='perTime'">
-                    <p ng-hide="dataType=='absolute'">
-                        {{:: 'CALCULATOR.PARTITION_DESCRIPTION_2' | translate}}<br/>
-                        <input value='1' style="width:auto;color:black" ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
-
-                        <select style="width:auto;color:black" ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
-                            <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
-                            <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
-                            <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
-                            <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
-                            <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
-                        </select>
-                    </p>
-                </fieldset>
-
-                <fieldset ng-disabled="dataType!='absolute'">
-                    <p ng-hide="dataType!='absolute'">
-                        {{:: 'CALCULATOR.PARTITION_DESCRIPTION_3' | translate}}<br/>
-                        <input value='4' style="width:auto;color:black" ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1">
-                    </p>
-                </fieldset>
-            </fieldset>
-
-            <h3>
-                {{:: 'CALCULATOR.REDUNDANCY_HEADING' | translate}}
-            </h3>
-            <p>
-                {{:: 'CALCULATOR.REDUNDANCY_DESCRIPTION' | translate}}
-            </p>
-
-            <fieldset>
-                <input value='1' style="width:auto;color:black" ng-model="replicas" type="number" ng-pattern="/^[0-9]/" min="0">
-            </fieldset>
-
-            <h2>
-                {{:: 'CALCULATOR.CALCULATION_HEADING' | translate}}
-            </h2>
-
-            <p>
-                {{:: 'CALCULATOR.CALCULATION_DESCRIPTION' | translate}}
-            </p>
-            <h4>
-                {{:: 'CALCULATOR.NODES_HEADING' | translate}}
-            </h4>
-            <p>
-                {{:: 'CALCULATOR.NODES_DESCRIPTION_1' | translate}}
-                <span class="result" ng-bind="neededNodes()"></span>
-                {{:: 'CALCULATOR.NODES_DESCRIPTION_2' | translate}}
-                <span class="result" ng-bind="ramString()"></span>
-                {{:: 'CALCULATOR.NODES_DESCRIPTION_3' | translate}}
-                <span class="result" ng-bind="storageString()"></span>
-                {{:: 'CALCULATOR.NODES_DESCRIPTION_4' | translate}}
-            </p>
-
-            <h4>
-                {{:: 'CALCULATOR.SHARDS_HEADING' | translate}}
-            </h4>
-            <p>
-                {{:: 'CALCULATOR.SHARDS_DESCRIPTION_1' | translate}}
-                <span class="result" ng-bind="result()"></span>
-                {{:: 'CALCULATOR.SHARDS_DESCRIPTION_2' | translate}}
-            </p>
+                
+                <div class="cr-panel-block__calculator">
+                    <div class="cr-panel-block__calculator__header"><h3>
+                        {{:: 'CALCULATOR.NODES_HEADING' | translate}}
+                    </h3></div>
+                    <div class="cr-panel-block__calculator__content"><p>
+                        {{:: 'CALCULATOR.NODES_DESCRIPTION_1' | translate}}
+                        <span class="result" ng-bind="neededNodes()"></span>
+                        {{:: 'CALCULATOR.NODES_DESCRIPTION_2' | translate}}
+                        <span class="result" ng-bind="ramString()"></span>
+                        {{:: 'CALCULATOR.NODES_DESCRIPTION_3' | translate}}
+                        <span class="result" ng-bind="storageString()"></span>
+                        {{:: 'CALCULATOR.NODES_DESCRIPTION_4' | translate}}
+                    </p></div>
+                </div>
+                
 
 
-        </div></div></div></main>
-    </body>
-</html>
+                <div class="cr-panel-block__calculator">
+                    <div class="cr-panel-block__calculator__header"><h3>
+                        {{:: 'CALCULATOR.SHARDS_HEADING' | translate}}
+                    </h3></div>
+                    <div class="cr-panel-block__calculator__content"><p>
+                        {{:: 'CALCULATOR.SHARDS_DESCRIPTION_1' | translate}}
+                        <span class="result" ng-bind="result()"></span>
+                        {{:: 'CALCULATOR.SHARDS_DESCRIPTION_2' | translate}}
+                    </p></div>
+                </div>
+            </div>
+    </div>
+</div>
