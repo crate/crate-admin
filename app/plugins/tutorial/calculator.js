@@ -10,7 +10,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.RAMInputUnitPrefix = 'Giga';
     $scope.hideGCHint = true;
     $scope.sizeFactor = 0.732; //from haudi's document
-    $scope.maxShardSize = 20000000000; //20G
+    $scope.maxShardSize = 32000000000; //32G, compromise from haudi's and andrei's opinions
     $scope.maxShards = 1000;
     $scope.CPUCoresPerNode = 2;
     $scope.RAMStorageProportion = 24;
