@@ -142,6 +142,8 @@
         "DOCUMENTATION_TITLE": "CrateDB Dokumentation",
         "DOCUMENTATION_MSG": "Die CrateDB Online Dokumentation.",
         "ENTERPRISE_TITLE": "Enterprise Support",
-        "ENTERPRISE_MSG": "Mehr über den Crate.io Enterprise Support."
+        "ENTERPRISE_MSG": "Mehr über den Crate.io Enterprise Support.",
+        "CALCULATOR_TITLE": "Shard Rechner",
+        "CALCULATOR_MSG": "Interaktives Werkzeug zur Berechnung, von Shard Größen."
     }
 }

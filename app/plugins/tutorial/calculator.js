@@ -205,7 +205,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             if((query.rows[0])[0]!=null){
                 stmt = "SELECT COUNT(*) FROM(select * from information_schema.table_partitions WHERE schema_name = '"
-                    +schemaName+"' and table_name = '"+tableName+"') as x;"
+                    +schemaName+"' and table_name = '"+tableName+"') as x;";
                 SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
                     $scope.manualPartitionCount = (query.rows[0])[0];
                 });  

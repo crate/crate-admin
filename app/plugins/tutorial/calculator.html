@@ -87,8 +87,12 @@
                     <option value="Terra">Terra
                 </select>
 
-                <p ng-hide="hideGCHint">
+                <span>
                     {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
+                </span>
+
+                <p ng-hide="hideGCHint">
+                    {{:: 'CALCULATOR.RAM_DESCRIPTION_3' | translate}}
                 </p>
 
             </fieldset>
@@ -210,7 +214,7 @@
                 <fieldset ng-disabled="dataType!='absolute'">
                     <p ng-hide="dataType!='absolute'">
                         {{:: 'CALCULATOR.PARTITION_DESCRIPTION_3' | translate}}<br/>
-                        <input value='4' style="width:auto;color:black" ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1"> partitions.
+                        <input value='4' style="width:auto;color:black" ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1">
                     </p>
                 </fieldset>
             </fieldset>
