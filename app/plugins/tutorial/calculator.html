@@ -71,8 +71,27 @@
             <h3>
                 {{:: 'CALCULATOR.RAM_HEADING' | translate}}
             </h3>
-            <p>{{:: 'CALCULATOR.RAM_DESCRIPTION' | translate}}
+
+            <p>
+                {{:: 'CALCULATOR.RAM_DESCRIPTION_1' | translate}}
             </p>
+            <fieldset>
+
+                <input value='64' style="width:auto;color:black" ng-model="RAMInput" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                <select style="width:auto;color:black" ng-model="RAMInputUnitPrefix">
+                    <option value="1">1
+                    <option value="Kilo">Kilo
+                    <option value="Mega">Mega
+                    <option value="Giga">Giga
+                    <option value="Terra">Terra
+                </select>
+
+                <p ng-hide="hideGCHint">
+                    {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
+                </p>
+
+            </fieldset>
 
             <h3>
                 {{:: 'CALCULATOR.RAID_HEADING' | translate}}
@@ -101,6 +120,8 @@
                     <input value='100' style="width:auto;color:black" ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
 
                     <select style="width:auto;color:black" ng-model="dataInsertedPerTimeUnitPrefix">
+                        <option value="1">1
+                        <option value="Kilo">Kilo
                         <option value="Mega">Mega
                         <option value="Giga">Giga
                         <option value="Terra">Terra
@@ -149,6 +170,8 @@
                     <input value='10' style="width:auto;color:black" ng-model="expectedTableSize" type="number" ng-pattern="/^[0-9]/" min="1">
 
                     <select style="width:auto;color:black" ng-model="expectedTableSizeUnitPrefix">
+                        <option value="1">1
+                        <option value="Kilo">Kilo
                         <option value="Mega">Mega
                         <option value="Giga">Giga
                         <option value="Terra">Terra

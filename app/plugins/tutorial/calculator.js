@@ -6,6 +6,9 @@
 angular.module('calculator', ['sql', 'translation']).controller('CalculatorController', function($scope, SQLQuery, queryResultToObjects) {
     $scope.diskLoadFactor = 0.85;
     $scope.maxRAMPerNode = 64000000000; //64G
+    $scope.RAMInput = 64;
+    $scope.RAMInputUnitPrefix = 'Giga';
+    $scope.hideGCHint = true;
     $scope.sizeFactor = 0.732; //from haudi's document
     $scope.maxShardSize = 20000000000; //20G
     $scope.maxShards = 1000;
@@ -13,7 +16,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.RAMStorageProportion = 24;
     $scope.dataType = 'perTime';
     $scope.dataInsertedPerTime = 20;
-    $scope.expectedTableSize = 10;
+    $scope.expectedTableSize = 2;
     $scope.expectedTableSizeUnitPrefix = 'Terra';
     $scope.dataInsertedPerTimeUnitPrefix = 'Giga';
     $scope.dataInsertedPerTimeTemporalUnit = 'day';
@@ -29,7 +32,12 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.selectTable = "none";
     $scope.selected = "none";
 
-
+    $scope.selectedRAM = function (){
+        var r = $scope.RAMInput * $scope.prefix($scope.RAMInputUnitPrefix);
+        $scope.hideGCHint = r <= $scope.maxRAMPerNode;
+        console.log("hideGCHint: " + $scope.hideGCHint);
+        return r;
+    };
     $scope.neededDiskSpace = function () {
         var res = 1;
         if ($scope.dataType === 'absolute') {
@@ -41,7 +49,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         return res;
     };
     $scope.neededNodes = function () {
-        var res = Math.ceil(($scope.neededDiskSpace() / $scope.RAMStorageProportion) / $scope.maxRAMPerNode);
+        var res = Math.ceil(($scope.neededDiskSpace() / $scope.RAMStorageProportion) / $scope.selectedRAM());
         console.log("neededNodes: " + res);
         return res;
     };
@@ -67,30 +75,30 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         return res;
     };
     $scope.ramString = function () {
-        var res = $scope.RAMStorageProportion + "GB";
+        var res = $scope.bytesToPrintableString($scope.selectedRAM(), 0);
         console.log("ramString: " + res);
         return res;
     };
     $scope.storageString = function () {
-        if ($scope.neededNodes()!=0){
-            return $scope.bytesToPrintableString(Math.round(Number($scope.neededDiskSpace()) / Number($scope.neededNodes())));
+        if ($scope.neededNodes()!==0){
+            return $scope.bytesToPrintableString(Math.round(Number($scope.neededDiskSpace()) / Number($scope.neededNodes())), 2);
         }
         else{
             return 0;
         }
     };
-    $scope.bytesToPrintableString = function (b) {
+    $scope.bytesToPrintableString = function (b, decimals) {
         var strg;
         if (b < Math.pow(10, 3)) {
             strg = b + "B";
         } else if (b < Math.pow(10, 6)){
-            strg = (b / Math.pow(10, 3)).toFixed(2) + "KB";
+            strg = (b / Math.pow(10, 3)).toFixed(decimals) + "KB";
         } else if (b < Math.pow(10, 9)){
-            strg = (b / Math.pow(10, 6)).toFixed(2) + "MB";
+            strg = (b / Math.pow(10, 6)).toFixed(decimals) + "MB";
         } else if (b < Math.pow(10, 12)) {
-            strg = (b / Math.pow(10, 9)).toFixed(2) + "GB";
+            strg = (b / Math.pow(10, 9)).toFixed(decimals) + "GB";
         } else {
-            strg = (b / Math.pow(10, 12)).toFixed(2) + "TB"
+            strg = (b / Math.pow(10, 12)).toFixed(decimals) + "TB";
         }
         console.log("bytify: " + strg);
         return strg;
@@ -163,6 +171,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         $scope.loadPartition($scope.selectSchema, $scope.selectTable);
         $scope.loadReplica($scope.selectSchema, $scope.selectTable);
         $scope.loadRAMStoragePropotion();
+        console.log("*******************going to execute...");
+        $scope.loadRAM();
     };
     $scope.loadCPUCores = function (schemaName, tableName) {
         var stmt = "SELECT os_info['available_processors']\n" +
@@ -177,11 +187,14 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         var stmt = "select sum(size) from sys.shards where schema_name = '"+ schemaName
             +"'and table_name = '"+tableName+"' and primary=true;";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
-            $scope.expectedTableSize = (query.rows[0])[0];
             if ((query.rows[0])[0]==null){
                 $scope.expectedTableSize = 0;
+                $scope.expectedTableSizeUnitPrefix = '1';
+                return;
             }
-            $scope.expectedTableSizeUnitPrefix = 'none';
+            var size = (query.rows[0])[0];
+            $scope.expectedTableSize = $scope.getPrefixedNumber(size);
+            $scope.expectedTableSizeUnitPrefix = $scope.getPrefix(size);
             $scope.dataType = 'absolute';
         });
     };
@@ -210,13 +223,13 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             rep = (query.rows[0])[0];
             console.log("^^^^^^^^^^^^^^^^^ "+ $scope.replicas);
-            if(rep.includes("-") == true){
+            if(rep.includes("-") === true){
                 rep = rep.split("-")[1];
                 console.log("^^^^^^^^^^^^^^^^^ "+ $scope.replicas);
                 stmt = "SELECT COUNT(*) FROM sys.nodes";
                 SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
                     console.log("^^^^^^^^^^^^^^^^^ "+ (query.rows[0])[0]);
-                    if (rep =="all"){
+                    if (rep ==="all"){
                         console.log("^^^^^^^^^^^^^^^^^ in all "+ (query.rows[0])[0]);
                         $scope.replicas = (query.rows[0])[0]-1;
                     }
@@ -240,6 +253,47 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
             }
             var avg = Math.round(sum / query.rows.length);
             $scope.RAMStorageProportion = avg;
+        });
+    };
+
+    $scope.getPrefix = function(x){
+        if (x < Math.pow(10, 3)) {
+            return "1";
+        } else if (x < Math.pow(10, 6)){
+            return "Kilo";
+        } else if (x < Math.pow(10, 9)){
+            return "Mega";
+        } else if (x < Math.pow(10, 12)) {
+            return "Giga";
+        } else {
+            return "Terra";
+        }
+    };
+
+    $scope.getPrefixedNumber = function(x){
+        if (x < Math.pow(10, 3)) {
+            return x;
+        } else if (x < Math.pow(10, 6)){
+            return (x / Math.pow(10, 3)).toFixed(1);
+        } else if (x < Math.pow(10, 9)){
+            return (x / Math.pow(10, 6)).toFixed(1);
+        } else if (x < Math.pow(10, 12)) {
+            return (x / Math.pow(10, 9)).toFixed(1);
+        } else {
+            return (x / Math.pow(10, 12)).toFixed(1);
+        }
+    };
+
+    $scope.loadRAM = function () {
+        var stmt = "SELECT (heap['used']+heap['free']) AS total_ram FROM sys.nodes;";
+        SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
+            var sum = 0;
+            for(var i = 0; i < query.rows.length; i++){
+                sum += query.rows[i];
+            }
+            var avg = Math.round(sum / query.rows.length);
+            $scope.RAMInputUnitPrefix = $scope.getPrefix(avg);
+            $scope.RAMInput = Number($scope.getPrefixedNumber(avg));
         });
     };
 });
