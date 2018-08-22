@@ -74,6 +74,7 @@
                             <p>
                                 {{:: 'CALCULATOR.RAM_DESCRIPTION_1' | translate}}
                             </p>
+<<<<<<< HEAD
                             <fieldset>
 
                                 <input value="64" ng-model="RAMInput" type="number" step="0.1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" min="1">
@@ -85,11 +86,25 @@
                                     <option value="Giga">Giga
                                     <option value="Terra">Terra
                                 </select>
+=======
+                            <p>
+                                <fieldset>
 
-                                <span>
-                                    {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
-                                </span>
+                                    <input value='64' ng-model="RAMInput" type="number" ng-pattern="/^[0-9]/" min="1">
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
 
+                                    <select ng-model="RAMInputUnitPrefix">
+                                        <option value="1">1
+                                        <option value="Kilo">Kilo
+                                        <option value="Mega">Mega
+                                        <option value="Giga">Giga
+                                        <option value="Terra">Terra
+                                    </select>
+
+                                    <span>
+                                        {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
+                                    </span>
+                            </p>
                                 <p ng-hide="hideGCHint">
                                     {{:: 'CALCULATOR.RAM_DESCRIPTION_3' | translate}}
                                 </p>
@@ -147,9 +162,34 @@
                                         <option value="Terra">Terra
                                     </select>
 
+<<<<<<< HEAD
                                     <span>
                                         {{:: 'CALCULATOR.DATA_DESCRIPTION_3' | translate}}
                                     </span>
+=======
+                                <p>
+                                    <input value='100' ng-model="dataInsertedPerTime" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                    <select ng-model="dataInsertedPerTimeUnitPrefix">
+                                        <option value="1">1</option>
+                                        <option value="Kilo">Kilo</option>
+                                        <option value="Mega">Mega
+                                        <option value="Giga">Giga
+                                        <option value="Terra">Terra
+                                    </select>
+
+                                    <span>
+                                        {{:: 'CALCULATOR.DATA_DESCRIPTION_3' | translate}}
+                                    </span>
+
+                                    <select ng-model="dataInsertedPerTimeTemporalUnit">
+                                        <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
+                                        <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
+                                        <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
+                                        <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
+                                    </select>
+                                </p>
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
 
                                     <select ng-model="dataInsertedPerTimeTemporalUnit">
                                         <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
@@ -164,6 +204,7 @@
                                 <p style="margin-left:23px;">
                                     <input value='6' ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
 
+<<<<<<< HEAD
                                     <select ng-model="keepTimeTemporalUnit">
                                         <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
                                         <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
@@ -172,6 +213,20 @@
                                         <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
                                     </select>
                                 </p>
+=======
+                                <p>
+                                <input value='6' ng-model="keepTime" type="number" ng-pattern="/^[0-9]/" min="1">
+
+                                <select ng-model="keepTimeTemporalUnit">
+                                    <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
+                                    <option value="day">{{:: 'CALCULATOR.DAY' | translate}}
+                                    <option value="week">{{:: 'CALCULATOR.WEEK' | translate}}
+                                    <option value="month">{{:: 'CALCULATOR.MONTH' | translate}}
+                                    <option value="year">{{:: 'CALCULATOR.YEAR' | translate}}
+                                </select>
+                                </p>
+
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
                             </fieldset>
                         </fieldset>
 
@@ -218,8 +273,15 @@
                         <fieldset>
                             <fieldset ng-disabled="dataType!='perTime'">
                                 <p ng-hide="dataType=='absolute'">
+<<<<<<< HEAD
                                     {{:: 'CALCULATOR.PARTITION_DESCRIPTION_2' | translate}}</p>
                                 <input ng-hide="dataType=='absolute'" value='1' ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
+=======
+                                    {{:: 'CALCULATOR.PARTITION_DESCRIPTION_2' | translate}}
+                                </p>
+                                <p ng-hide="dataType=='absolute'">
+                                    <input value='1' ng-model="partitionSize" type="number" ng-pattern="/^[0-9]/" min="1">
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
 
                                 <select ng-hide="dataType=='absolute'" ng-change="partitions()" ng-model="partitionSizeTemporalUnit">
                                     <option value="hour">{{:: 'CALCULATOR.HOUR' | translate}}
@@ -233,10 +295,18 @@
 
                             <fieldset ng-disabled="dataType!='absolute'">
                                 <p ng-hide="dataType!='absolute'">
+<<<<<<< HEAD
                                     {{:: 'CALCULATOR.PARTITION_DESCRIPTION_3' | translate}}</p>
                                 <input ng-hide="dataType!='absolute'" value='4' ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1"> 
                                 <span ng-hide="dataType!='absolute'"> partitions. </span>
                                 
+=======
+                                    {{:: 'CALCULATOR.PARTITION_DESCRIPTION_3' | translate}}
+                                </p>
+                                <p ng-hide="dataType!='absolute'">
+                                    <input value='4' ng-model="manualPartitionCount" type="number" ng-pattern="/^[0-9]/" min="1">
+                                </p>
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
                             </fieldset>
                         </fieldset></div>
                     </div>
