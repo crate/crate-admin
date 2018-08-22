@@ -154,7 +154,7 @@ angular.module('privileges', ['sql'])
     var url = '/privileges';
     var position = 42;
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.PRIVILEGES'), url, position);
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.PRIVILEGES'), url, position, "privileges");
 
     // Update Navbar Elements if Language Changes
     $rootScope.$on('$translateChangeSuccess', function () {

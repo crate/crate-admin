@@ -384,5 +384,5 @@ angular.module('monitoring', ['events'])
     var url = '/monitoring';
     var position = 41;
 
-    NavigationService.addNavBarElement(iconSrc, 'Monitoring', url, position);
+    NavigationService.addNavBarElement(iconSrc, 'Monitoring', url, position, "monitoring");
   });

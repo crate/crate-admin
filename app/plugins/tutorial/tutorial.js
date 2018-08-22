@@ -194,7 +194,7 @@ angular.module('tutorial', ['sql', 'translation'])
     var position = 43;
     var re = /[\?|&]start_twitter=true/;
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.HELP'), url, position);
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.HELP'), url, position, "tutorial");
 
     if ($window.location.search.match(re) !== null) {
       var path = $window.location.pathname;
