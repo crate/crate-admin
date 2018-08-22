@@ -190,10 +190,11 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
             if ((query.rows[0])[0]==null){
                 $scope.expectedTableSize = 0;
                 $scope.expectedTableSizeUnitPrefix = '1';
+                $scope.dataType = 'absolute';
                 return;
             }
             var size = (query.rows[0])[0];
-            $scope.expectedTableSize = $scope.getPrefixedNumber(size);
+            $scope.expectedTableSize = Number($scope.getPrefixedNumber(size));
             $scope.expectedTableSizeUnitPrefix = $scope.getPrefix(size);
             $scope.dataType = 'absolute';
         });

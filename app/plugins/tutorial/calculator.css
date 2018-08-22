@@ -15,7 +15,7 @@
 	margin: 5px;
 }
 .cr-panel-block__calculator__header{
-	padding-bottom: 10px;
+	padding-bottom: 3px;
 	letter-spacing: 0.6px;
 	font-weight: bold;
 	background-color: #353535;
@@ -27,6 +27,8 @@
 	width:100%;
 	margin-left:10px;
 	margin-right:10px;
+	margin-top:0px;
+	margin-bottom:0px;
 	padding: 7px;
 	font-size: 13px;
 	overflow: hidden;
@@ -36,6 +38,16 @@
 	background: #242424 !important;
 }
 
+
+.result {
+	font-size:17px;
+}
+
+
+.last_row {
+	padding-bottom:0px !important;
+	margin-bottom:0px !important;
+}
 
 .column {
     float: left;
@@ -52,19 +64,18 @@
 
 
 
-input {
+input{
 	width:50px;
-	background-color:#353535;
+	background-color:#545454;
 	border: 1px solid #545454;
     border-radius: 4px;
 }
+
 
 select {
 	width:auto;
-	background-color:#353535;
+	background-color:#545454;
 	border: 1px solid #545454;
     border-radius: 4px;
 }
-
-
 
