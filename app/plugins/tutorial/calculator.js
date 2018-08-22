@@ -20,7 +20,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.expectedTableSizeUnitPrefix = 'Terra';
     $scope.dataInsertedPerTimeUnitPrefix = 'Giga';
     $scope.dataInsertedPerTimeTemporalUnit = 'day';
-    $scope.expectedTableSize = 10;
+    $scope.expectedTableSize = 2;
     $scope.keepTimeTemporalUnit = 'month';
     $scope.keepTime = 6;
     $scope.partitionSize = 1;
