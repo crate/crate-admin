@@ -18,9 +18,10 @@ describe('NavigationService', function() {
         image: "example.icon",
         url: "/test",
         text: "example",
-        index: 50
+        index: 50,
+        state: "example"
       };
-      mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index);
+      mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index, navBarElement.state);
 
 
       var navBarElements = mockNavigationService.navBarElements,
@@ -29,7 +30,8 @@ describe('NavigationService', function() {
         text: 'example',
         iconSrc: 'example.icon',
         urlPattern: '/test',
-        position: 50
+        position: 50,
+        state: "example"
       });
 
     }));
@@ -40,9 +42,10 @@ describe('NavigationService', function() {
         image: "example.icon",
         url: "/test",
         text: "example",
-        index: 50
+        index: 50,
+        state: "example"
       };
-      mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index);
+      mockNavigationService.addNavBarElement(navBarElement.image, navBarElement.text, navBarElement.url, navBarElement.index, navBarElement.state);
 
       //verify successful insert
       var navBarElements = mockNavigationService.navBarElements,
@@ -52,7 +55,8 @@ describe('NavigationService', function() {
         text: 'example',
         iconSrc: 'example.icon',
         urlPattern: '/test',
-        position: 50
+        position: 50,
+        state: "example"
       });
 
       mockNavigationService.updateNavBarElement(navBarElement.url, 'updated');

@@ -469,7 +469,7 @@ angular.module('shards', ['sql', 'events'])
     var url = '/shards';
     var position = 31;
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.PRIVILEGES'), url, position);
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.SHARDS'), url, position, "shards");
 
     // Update Navbar Elements if Language Changes
     $rootScope.$on('$translateChangeSuccess', function () {

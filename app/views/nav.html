@@ -2,14 +2,14 @@
   <nav class="cr-layout" role="navigation">
     <div class="cluster_color_label_bar">
       <div class="cr-side-nav" ng-class="showSideNav ? 'show-side-nav' : 'hide-side-nav'">
-          <div class="cr-side-nav__item"
+          <a class="cr-side-nav__item"
                 ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
                 ng-repeat="navBarElement in navBarElements track by $index"
-                ng-click="goToPath(navBarElement.urlPattern)"
+                ui-sref="{{navBarElement.state}}"
                 data-original-title="{{ navBarElement.text }}"
                 cr-tooltip cr-tooltip-position="right">
             <img ng-src="{{ navBarElement.iconSrc }}">
-          </div>
+          </a>
       </div>
       <div ng-include="'static/views/statusbar.html'"></div>
     </div>
