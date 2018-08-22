@@ -193,7 +193,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
                 return;
             }
             var size = (query.rows[0])[0];
-            $scope.expectedTableSize = Number($scope.getPrefixedNumber(size).split('.')[0]); //cast to whole numbered, respecting prefix
+            $scope.expectedTableSize = Number($scope.getPrefixedNumber(size));
             $scope.expectedTableSizeUnitPrefix = $scope.getPrefix(size);
             $scope.dataType = 'absolute';
         });

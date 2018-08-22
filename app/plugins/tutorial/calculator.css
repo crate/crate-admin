@@ -40,7 +40,9 @@
 
 
 .result {
-	font-size:17px;
+	font-size:14px;
+    font-weight: bold;
+    color: #55d4f5; /*crate blue*/
 }
 
 
@@ -62,8 +64,6 @@
     clear: both;
 }
 
-
-
 input{
 	width:50px;
 	background-color:#545454;
@@ -76,7 +76,6 @@ input:disabled {
     color: #606060;
 }
 
-
 select {
 	width:auto;
 	background-color:#545454;
@@ -88,3 +87,17 @@ select:disabled {
     color: #606060;
 }
 
+.crb-conatiner { /*crb ... cool-radio-button*/
+    width: 100%;
+    overflow: hidden;
+}
+
+.crb-button { /*crb ... cool-radio-button*/
+    float: left;
+    margin-left: -2%;
+    margin-right: -1.5%;
+}
+
+.crb-description { /*crb ... cool-radio-button*/
+    padding-top: 0.3%;
+}
