@@ -71,6 +71,12 @@ input{
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
+=======
+input:disabled {
+    color: #606060;
+}
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1
 
 select {
 	width:auto;
@@ -79,3 +85,10 @@ select {
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
+=======
+select:disabled {
+    color: #606060;
+}
+
+>>>>>>> d24402b0290d2ded6a8fcb51a1279237148928a1

@@ -57,7 +57,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         var res = 1;
         if ($scope.dataType === 'perTime') {
             res = (($scope.keepTime * $scope.temporalUnit($scope.keepTimeTemporalUnit)) / ($scope.partitionSize * $scope.temporalUnit($scope.partitionSizeTemporalUnit)));
-        } else if ($scope.dataType === 'perTime') {
+        } else if ($scope.dataType === 'absolute') {
             res = $scope.manualPartitionCount;
         }
         console.log("partitionCount: " + res);
@@ -171,7 +171,6 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         $scope.loadPartition($scope.selectSchema, $scope.selectTable);
         $scope.loadReplica($scope.selectSchema, $scope.selectTable);
         $scope.loadRAMStoragePropotion();
-        console.log("*******************going to execute...");
         $scope.loadRAM();
     };
     $scope.loadCPUCores = function (schemaName, tableName) {
@@ -184,8 +183,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
 
     $scope.loadTablesize = function(schemaName, tableName) {
-        var stmt = "select sum(size) from sys.shards where schema_name = '"+ schemaName
-            +"'and table_name = '"+tableName+"' and primary=true;";
+        var stmt = "select sum(size) from sys.shards where schema_name = '" + schemaName
+            + "'and table_name = '"+tableName+"' and primary=true;";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             if ((query.rows[0])[0]==null){
                 $scope.expectedTableSize = 0;
@@ -194,7 +193,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
                 return;
             }
             var size = (query.rows[0])[0];
-            $scope.expectedTableSize = Number($scope.getPrefixedNumber(size));
+            $scope.expectedTableSize = Number($scope.getPrefixedNumber(size).split('.')[0]); //cast to whole numbered, respecting prefix
             $scope.expectedTableSizeUnitPrefix = $scope.getPrefix(size);
             $scope.dataType = 'absolute';
         });
