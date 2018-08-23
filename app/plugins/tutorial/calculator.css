@@ -94,8 +94,8 @@ select:disabled {
 
 .crb-button { /*crb ... cool-radio-button*/
     float: left;
-    margin-left: -1em;
-    margin-right: -1em;
+    padding-left: -25px;
+    margin-right: -15px;
 }
 
 .crb-description { /*crb ... cool-radio-button*/
