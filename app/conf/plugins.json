@@ -53,4 +53,29 @@
       "controller": "ShardsController"
     }
   }
+}, {
+  "name": "calculator",
+  "uri": "static/plugins/tutorial/calculator.js",
+  "enterprise": false,
+  "routing": {
+    "/calculator": {
+      "name": "calculator",
+      "url": "/calculator",
+      "templateUrl": "static/plugins/tutorial/calculator.html",
+      "controller": "CalculatorController"
+    }
+  }
+}, {
+  "name": "testing",
+  "uri": "static/plugins/tutorial/testing.js",
+  "stylesheet": "static/plugins/tutorial/calculator.css",
+  "enterprise": false,
+  "routing": {
+    "/testing": {
+      "name": "testing",
+      "url": "/testing",
+      "templateUrl": "static/plugins/tutorial/testing.html",
+      "controller": "testingController"
+    }
+  }
 }]
