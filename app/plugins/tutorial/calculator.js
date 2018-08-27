@@ -7,7 +7,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     var diskLoadFactor = 0.85;
     var maxRAMPerNode = 64000000000; //64G
     $scope.RAMInput = 64;
-    $scope.RAMInputUnitPrefix = 'Giga';
+    $scope.RAMInputUnitPrefix = 'Gigi';
     $scope.hideGCHint = true;
     var sizeFactor = 0.732; //from haudi's document
     var maxShardSize = 32000000000; //32G, compromise from haudi's and andrei's opinions
@@ -17,8 +17,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.dataType = 'perTime';
     $scope.dataInsertedPerTime = 20;
     $scope.expectedTableSize = 2;
-    $scope.expectedTableSizeUnitPrefix = 'Terra';
-    $scope.dataInsertedPerTimeUnitPrefix = 'Giga';
+    $scope.expectedTableSizeUnitPrefix = 'Tebi';
+    $scope.dataInsertedPerTimeUnitPrefix = 'Gigi';
     $scope.dataInsertedPerTimeTemporalUnit = 'day';
     $scope.keepTimeTemporalUnit = 'month';
     $scope.keepTime = 6;
@@ -73,14 +73,14 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
     var prefix = function (x) {
         switch (x) {
-            case "Terra":
-                return Math.pow(10, 12);
-            case "Giga":
-                return Math.pow(10, 9);
-            case "Mega":
-                return Math.pow(10, 6);
-            case "Kilo":
-                return Math.pow(10, 3);
+            case "Tebi":
+                return Math.pow(2, 40);
+            case "Gigi":
+                return Math.pow(2, 30);
+            case "Mebi":
+                return Math.pow(2, 20);
+            case "Kibi":
+                return Math.pow(2, 10);
             default:
                 return Math.pow(10, 0);
         }
@@ -218,14 +218,14 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     var getPrefix = function(x){
         if (x < Math.pow(10, 3)) {
             return "1";
-        } else if (x < Math.pow(10, 6)){
-            return "Kilo";
-        } else if (x < Math.pow(10, 9)){
-            return "Mega";
-        } else if (x < Math.pow(10, 12)) {
-            return "Giga";
+        } else if (x < Math.pow(2, 20)){
+            return "Kibi";
+        } else if (x < Math.pow(2, 30)){
+            return "Mebi";
+        } else if (x < Math.pow(2, 40)) {
+            return "Gibi";
         } else {
-            return "Terra";
+            return "Tebi";
         }
     };
 

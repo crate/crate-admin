@@ -78,10 +78,10 @@
 
                                 <select ng-model="RAMInputUnitPrefix">
                                     <option value="1">1
-                                    <option value="Kilo">Kilo
-                                    <option value="Mega">Mega
-                                    <option value="Giga">Giga
-                                    <option value="Terra">Terra
+                                    <option value="Kibi">Kibi
+                                    <option value="Mebi">Mebi
+                                    <option value="Gigi">Gigi
+                                    <option value="Tebi">Tebi
                                 </select>
 
                                 <span>
@@ -145,10 +145,10 @@
 
                                     <select ng-model="dataInsertedPerTimeUnitPrefix">
                                         <option value="1">1</option>
-                                        <option value="Kilo">Kilo</option>
-                                        <option value="Mega">Mega
-                                        <option value="Giga">Giga
-                                        <option value="Terra">Terra
+                                        <option value="Kibi">Kibi</option>
+                                        <option value="Mebi">Mebi
+                                        <option value="Gigi">Gigi
+                                        <option value="Tebi">Tebi
                                     </select>
 
                                     <span>
@@ -201,10 +201,10 @@
 
                                 <select ng-model="expectedTableSizeUnitPrefix">
                                     <option value="1">1</option>
-                                    <option value="Kilo">Kilo</option>
-                                    <option value="Mega">Mega</option>
-                                    <option value="Giga">Giga</option>
-                                    <option value="Terra">Terra</option>
+                                    <option value="Kibi">Kibi</option>
+                                    <option value="Mebi">Mebi</option>
+                                    <option value="Gigi">Gigi</option>
+                                    <option value="Tebi">Tebi</option>
                                 </select>
 
                                 <span>
@@ -290,11 +290,11 @@
                         <span class="result" ng-bind="neededNodes()"></span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_2' | translate}}
                         <span class="result">
-                            {{selectedRAM() | bytesBase1000:0}}
+                            {{selectedRAM() | bytes:0}}
                         </span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_3' | translate}}
                         <span class="result" >
-                            {{storagePerNode() | bytesBase1000:2}}
+                            {{storagePerNode() | bytes:2}}
                         </span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_4' | translate}}
                     </div>
