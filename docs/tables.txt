@@ -158,9 +158,9 @@ Other Features
 
 :Table |nbsp| querying:
 
-  Each table can be queried directly by selecting the *QUERY TABLE* button. This
-  will take you through to the :ref:`console` and pre-populate a basic query
-  against the table. The query is not executed automatically.
+  Each table can be queried directly by selecting the *QUERY TABLE* button.
+  This will take you through to the :ref:`sql-console` and pre-populate a basic
+  query against the table. The query is not executed automatically.
 
 .. _document tables: https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html
 .. _BLOB tables: https://crate.io/docs/crate/reference/en/latest/general/blobs.html
