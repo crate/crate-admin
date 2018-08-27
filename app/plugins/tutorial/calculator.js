@@ -63,31 +63,13 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     var shardSize = function (shards) {
         return neededDiskSpace() / (shards * $scope.partitions() * (1 + Number($scope.replicas)));
     };
-    $scope.ramString = function () {
-        return bytesToPrintableString($scope.selectedRAM(), 0);
-    };
-    $scope.storageString = function () {
+    $scope.storagePerNode = function () {
         if ($scope.neededNodes()!==0){
-            return bytesToPrintableString(Math.round(Number(neededDiskSpace()) / Number($scope.neededNodes())), 2);
+            return Number(neededDiskSpace()) / Number($scope.neededNodes());
         }
         else{
             return 0;
         }
-    };
-    var bytesToPrintableString = function (b, decimals) {
-        var strg;
-        if (b < Math.pow(10, 3)) {
-            strg = b + "B";
-        } else if (b < Math.pow(10, 6)){
-            strg = (b / Math.pow(10, 3)).toFixed(decimals) + "KB";
-        } else if (b < Math.pow(10, 9)){
-            strg = (b / Math.pow(10, 6)).toFixed(decimals) + "MB";
-        } else if (b < Math.pow(10, 12)) {
-            strg = (b / Math.pow(10, 9)).toFixed(decimals) + "GB";
-        } else {
-            strg = (b / Math.pow(10, 12)).toFixed(decimals) + "TB";
-        }
-        return strg;
     };
     var prefix = function (x) {
         switch (x) {

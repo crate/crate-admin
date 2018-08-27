@@ -42,6 +42,23 @@ const filters_numbers = angular.module('filters_numbers', [])
       var res = (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  '\u00A0' + units[number];
       return $sce.trustAsHtml(res);
     };
-  });
+  })
+    .filter('bytesBase1000', function($sce) {
+        var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        return function(bytesSI, precision) {
+            if (isNaN(parseFloat(bytesSI)) || !isFinite(bytesSI)) {
+                return '-';
+            }
+            if (bytesSI === 0) {
+                return '0\u00A0B';
+            }
+            if (typeof precision === 'undefined') {
+                precision = 1;
+            }
+            var number = Math.floor(Math.log(bytesSI) / Math.log(1000));
+            var res = (bytesSI / Math.pow(1000, Math.floor(number))).toFixed(precision) +  '\u00A0' + units[number];
+            return $sce.trustAsHtml(res);
+        };
+    });
 
 export default filters_numbers;

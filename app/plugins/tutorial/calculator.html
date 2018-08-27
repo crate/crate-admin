@@ -14,8 +14,6 @@
                     <select ng-model="selected" ng-options="x[0]+'/'+x[1] for x in tables" ng-change="tableSelected()">
                     </select>
                 </div>
-        
-            
                 
                 <div class="cr-panel-block--calculator">
                     <h2>
@@ -291,9 +289,13 @@
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_1' | translate}}
                         <span class="result" ng-bind="neededNodes()"></span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_2' | translate}}
-                        <span class="result" ng-bind="ramString()"></span>
+                        <span class="result">
+                            {{selectedRAM() | bytesBase1000:0}}
+                        </span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_3' | translate}}
-                        <span class="result" ng-bind="storageString()"></span>
+                        <span class="result" >
+                            {{storagePerNode() | bytesBase1000:2}}
+                        </span>
                         {{:: 'CALCULATOR.NODES_DESCRIPTION_4' | translate}}
                     </div>
                 </div>
