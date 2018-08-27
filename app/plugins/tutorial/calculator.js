@@ -35,7 +35,6 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.selectedRAM = function (){
         var r = $scope.RAMInput * $scope.prefix($scope.RAMInputUnitPrefix);
         $scope.hideGCHint = r <= $scope.maxRAMPerNode;
-        console.log("hideGCHint: " + $scope.hideGCHint);
         return r;
     };
     $scope.neededDiskSpace = function () {
@@ -45,13 +44,10 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         } else if ($scope.dataType === 'perTime') {
             res = (($scope.prefix($scope.dataInsertedPerTimeUnitPrefix) * $scope.dataInsertedPerTime / $scope.temporalUnit($scope.dataInsertedPerTimeTemporalUnit)) * $scope.keepTime * $scope.temporalUnit($scope.keepTimeTemporalUnit) * (1 + Number($scope.replicas))) / $scope.diskLoadFactor / $scope.sizeFactor; //explicit cast of replica to number is necessary, otherwise 1+1=11. thanks java script
         }
-        console.log("neededDiskSpace: " + Math.round(res / Math.pow(10, 9)) + "GB");
         return res;
     };
     $scope.neededNodes = function () {
-        var res = Math.ceil(($scope.neededDiskSpace() / $scope.RAMStorageProportion) / $scope.selectedRAM());
-        console.log("neededNodes: " + res);
-        return res;
+        return Math.ceil(($scope.neededDiskSpace() / $scope.RAMStorageProportion) / $scope.selectedRAM());
     };
     $scope.partitions = function () {
         var res = 1;
@@ -60,24 +56,16 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         } else if ($scope.dataType === 'absolute') {
             res = $scope.manualPartitionCount;
         }
-        console.log("partitionCount: " + res);
         return res;
     };
     $scope.shards = function () {
-        var res = Math.ceil(($scope.neededNodes() * $scope.CPUCoresPerNode) / $scope.partitions());
-        console.log("shards(): " + res);
-        return res;
+        return Math.ceil(($scope.neededNodes() * $scope.CPUCoresPerNode) / $scope.partitions());
     };
     $scope.shardSize = function (shards) {
-        console.log("replicas: " + (1 + Number($scope.replicas)));
-        var res = $scope.neededDiskSpace() / (shards * $scope.partitions() * (1 + Number($scope.replicas)));
-        console.log("shardSize: " + res);
-        return res;
+        return $scope.neededDiskSpace() / (shards * $scope.partitions() * (1 + Number($scope.replicas)));
     };
     $scope.ramString = function () {
-        var res = $scope.bytesToPrintableString($scope.selectedRAM(), 0);
-        console.log("ramString: " + res);
-        return res;
+        return $scope.bytesToPrintableString($scope.selectedRAM(), 0);
     };
     $scope.storageString = function () {
         if ($scope.neededNodes()!==0){
@@ -100,7 +88,6 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         } else {
             strg = (b / Math.pow(10, 12)).toFixed(decimals) + "TB";
         }
-        console.log("bytify: " + strg);
         return strg;
     };
     $scope.prefix = function (x) {
@@ -146,11 +133,9 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
 
 
     $scope.gettablename = function() {
-        //console.log("gettablename1: " + $scope.tableList[0]);
         var stmt = "SELECT table_name, table_schema FROM information_schema.tables WHERE table_schema NOT IN ('information_schema', 'pg_catalog', 'sys', 'blob') order by table_schema, table_name";
         var cols = ['table_name', 'schema_name'];
         var obj = [];
-        //console.log("gettablename2: " + $scope.tableList[0]);
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             $scope.sqlresult = queryResultToObjects(query, cols);
             for(var i=0; i<$scope.sqlresult.length; i++) {
@@ -162,10 +147,8 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
 
     $scope.tableSelected = function () {
-        //console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
         $scope.selectSchema = $scope.selected[0];
         $scope.selectTable = $scope.selected[1];
-        console.log("selected table: " + $scope.selectSchema+" "+$scope.selectTable);
         $scope.loadCPUCores($scope.selectSchema, $scope.selectTable);
         $scope.loadTablesize($scope.selectSchema, $scope.selectTable);
         $scope.loadPartition($scope.selectSchema, $scope.selectTable);
@@ -179,14 +162,13 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             $scope.CPUCoresPerNode = (query.rows[0])[0]; //we get a 2d array returned
         });
-        console.log("queried cpu cores per node: " + $scope.CPUCoresPerNode);
     };
 
     $scope.loadTablesize = function(schemaName, tableName) {
         var stmt = "select sum(size) from sys.shards where schema_name = '" + schemaName
             + "'and table_name = '"+tableName+"' and primary=true;";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
-            if ((query.rows[0])[0]==null){
+            if ((query.rows[0])[0]===null){
                 $scope.expectedTableSize = 0;
                 $scope.expectedTableSizeUnitPrefix = '1';
                 $scope.dataType = 'absolute';
@@ -203,7 +185,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         var stmt = "select   partitioned_by from information_schema.tables where table_schema = '"
             +schemaName+"' and table_name = '"+tableName+"';";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
-            if((query.rows[0])[0]!=null){
+            if((query.rows[0])[0]!==null){
                 stmt = "SELECT COUNT(*) FROM(select * from information_schema.table_partitions WHERE schema_name = '"
                     +schemaName+"' and table_name = '"+tableName+"') as x;";
                 SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
@@ -222,15 +204,11 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
             +schemaName+"' and table_name = '"+tableName+"';";
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             rep = (query.rows[0])[0];
-            console.log("^^^^^^^^^^^^^^^^^ "+ $scope.replicas);
             if(rep.includes("-") === true){
                 rep = rep.split("-")[1];
-                console.log("^^^^^^^^^^^^^^^^^ "+ $scope.replicas);
                 stmt = "SELECT COUNT(*) FROM sys.nodes";
                 SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
-                    console.log("^^^^^^^^^^^^^^^^^ "+ (query.rows[0])[0]);
                     if (rep ==="all"){
-                        console.log("^^^^^^^^^^^^^^^^^ in all "+ (query.rows[0])[0]);
                         $scope.replicas = (query.rows[0])[0]-1;
                     }
                     else{
