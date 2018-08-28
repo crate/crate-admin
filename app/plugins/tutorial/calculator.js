@@ -216,7 +216,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
 
     var getPrefix = function(x){
-        if (x < Math.pow(10, 3)) {
+        if (x < Math.pow(2, 10)) {
             return "1";
         } else if (x < Math.pow(2, 20)){
             return "Kibi";
@@ -230,16 +230,16 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     };
 
     var getPrefixedNumber = function(x){
-        if (x < Math.pow(10, 3)) {
+        if (x < Math.pow(2, 10)) {
             return x;
-        } else if (x < Math.pow(10, 6)){
-            return (x / Math.pow(10, 3)).toFixed(1);
-        } else if (x < Math.pow(10, 9)){
-            return (x / Math.pow(10, 6)).toFixed(1);
-        } else if (x < Math.pow(10, 12)) {
-            return (x / Math.pow(10, 9)).toFixed(1);
+        } else if (x < Math.pow(2, 20)){
+            return (x / Math.pow(2, 10)).toFixed(1);
+        } else if (x < Math.pow(2, 30)){
+            return (x / Math.pow(2, 20)).toFixed(1);
+        } else if (x < Math.pow(2, 40)) {
+            return (x / Math.pow(2, 30)).toFixed(1);
         } else {
-            return (x / Math.pow(10, 12)).toFixed(1);
+            return (x / Math.pow(2, 40)).toFixed(1);
         }
     };
 
@@ -248,7 +248,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         SQLQuery.execute(stmt, {}, false, false, false, false).then(function (query) {
             var sum = 0;
             for(var i = 0; i < query.rows.length; i++){
-                sum += query.rows[i];
+                sum += Number(query.rows[i]); //thanks for adding objects here javascript
             }
             var avg = Math.round(sum / query.rows.length);
             $scope.RAMInputUnitPrefix = getPrefix(avg);

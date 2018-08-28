@@ -74,19 +74,21 @@
                             </p>
                             <fieldset>
 
-                                <input value="64" ng-model="RAMInput" type="number" step="0.1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" min="1">
+                                <p>
+                                    <input value="64" ng-model="RAMInput" type="number" step="0.1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" min="1">
 
-                                <select ng-model="RAMInputUnitPrefix">
-                                    <option value="1">1
-                                    <option value="Kibi">Kibi
-                                    <option value="Mebi">Mebi
-                                    <option value="Gigi">Gigi
-                                    <option value="Tebi">Tebi
-                                </select>
+                                    <select ng-model="RAMInputUnitPrefix">
+                                        <option value="1">1
+                                        <option value="Kibi">Kibi
+                                        <option value="Mebi">Mebi
+                                        <option value="Gigi">Gigi
+                                        <option value="Tebi">Tebi
+                                    </select>
 
-                                <span>
-                                    {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
-                                </span>
+                                    <span>
+                                        {{:: 'CALCULATOR.RAM_DESCRIPTION_2' | translate}}
+                                    </span>
+                                </p>
 
                                 <p ng-hide="hideGCHint">
                                     {{:: 'CALCULATOR.RAM_DESCRIPTION_3' | translate}}
