@@ -7,7 +7,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     var diskLoadFactor = 0.85;
     var maxRAMPerNode = 64000000000; //64G
     $scope.RAMInput = 64;
-    $scope.RAMInputUnitPrefix = 'Gigi';
+    $scope.RAMInputUnitPrefix = 'Gibi';
     $scope.hideGCHint = true;
     var sizeFactor = 0.732; //from haudi's document
     var maxShardSize = 32000000000; //32G, compromise from haudi's and andrei's opinions
@@ -18,7 +18,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
     $scope.dataInsertedPerTime = 20;
     $scope.expectedTableSize = 2;
     $scope.expectedTableSizeUnitPrefix = 'Tebi';
-    $scope.dataInsertedPerTimeUnitPrefix = 'Gigi';
+    $scope.dataInsertedPerTimeUnitPrefix = 'Gibi';
     $scope.dataInsertedPerTimeTemporalUnit = 'day';
     $scope.keepTimeTemporalUnit = 'month';
     $scope.keepTime = 6;
@@ -75,7 +75,7 @@ angular.module('calculator', ['sql', 'translation']).controller('CalculatorContr
         switch (x) {
             case "Tebi":
                 return Math.pow(2, 40);
-            case "Gigi":
+            case "Gibi":
                 return Math.pow(2, 30);
             case "Mebi":
                 return Math.pow(2, 20);
