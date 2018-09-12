@@ -199,7 +199,7 @@ angular.module('tutorial', ['sql', 'translation'])
     if ($window.location.search.match(re) !== null) {
       var path = $window.location.pathname;
       localStorage.setItem('crate.start_twitter', 'true');
-      $window.location.href = path + $window.location.search.replace(re, '') + '#' + url;
+      $window.location.href = path + $window.location.search.replace(re, '') + '#!' + url;
     }
 
     // Update Navbar Elements if Language Changes
