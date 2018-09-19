@@ -55,6 +55,12 @@ describe('languageFilter', function() {
 		expect(languageFilter("es")).toBe("Español");
 	});
 
+	it('should return Français', function () {
+		var languageFilter;
+		languageFilter = $filter('languageFilter');
+		expect(languageFilter("fr")).toBe("Français");
+	});
+
 	it('should return Auto', function() {
 		var languageFilter;
 		languageFilter = $filter('languageFilter');
