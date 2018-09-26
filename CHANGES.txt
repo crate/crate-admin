@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Addition of French language files and menu options.
+
 - Fixed an issue that caused the Twitter importer to redirect to ``/``
   instead of ``/help``.
 
