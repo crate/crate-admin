@@ -147,9 +147,11 @@ $.get('static/conf/plugins.json', function (plugins) {
       function (SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider,
         $stateProvider, SettingsProvider) {
 
-        var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise, ' +
-          'settings[\'license\'][\'ident\'] as ident ' +
-          'FROM sys.cluster';
+        var stmt = "SELECT settings['license']['enterprise'] as enterprise, " +
+            "if(license is not NULL, " +
+                "format('%s (exp: %tF)', license['issuedTo'], license['expirationDateInMs']), " +
+                "'') as ident " +
+            "FROM sys.cluster";
 
         if (SettingsProvider.$get().enterprise === true) {
           loadStylesheet('static/styles/enterprise.css');
