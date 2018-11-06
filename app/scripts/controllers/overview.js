@@ -90,6 +90,10 @@ angular.module('overview', ['stats', 'checks', 'ngSanitize', 'events', 'filters_
       }
     };
 
+    $scope.refresh = function(){
+      ChecksService.fetch(true);
+    }
+
     ClusterEventsHandler.register('CHECKS_REFRESHED', 'OverviewController', function() {
       if (ChecksService.success === true) {
         $scope.checks = ChecksService.checks;
