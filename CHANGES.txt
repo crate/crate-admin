@@ -8,10 +8,16 @@ Unreleased
 - Changed the license information (ident) to be taken from the `sys.cluster.licence`
   attribute instead of the `license.ident` setting which is `@deprecated`.
 
+- Addition of French language files and menu options.
+
+2018/11/08 1.10.4
+=================
+
+Fixes
+-----
+
 - Fixed an issue that caused the cluster and node checks to not be refreshed
   when clicking on the ``refresh`` icon.
-
-- Addition of French language files and menu options.
 
 - Fixed an issue that caused the Twitter importer to redirect to ``/``
   instead of ``/help``.
