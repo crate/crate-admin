@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2018/11/08 1.10.4
+=================
+
+Fixes
+-----
+
 - Fixed an issue that caused the cluster and node checks to not be refreshed
   when clicking on the ``refresh`` icon.
 
