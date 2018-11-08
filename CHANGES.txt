@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2018/11/08 1.11.0
+=================
+
+Changes
+-------
+
 - Changed the license information (ident) to be taken from the `sys.cluster.licence`
   attribute instead of the `license.ident` setting which is `@deprecated`.
 
