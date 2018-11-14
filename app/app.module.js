@@ -149,7 +149,7 @@ $.get('static/conf/plugins.json', function (plugins) {
 
         var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise, ' +
             'if(license is not NULL, ' +
-                'format(\'%s (exp: %tF)\', license[\'issuedTo\'], license[\'expiryDate\']), ' +
+                'format(\'%s (exp: %tF)\', license[\'issued_to\'], license[\'expiry_date\']), ' +
                 '\'\') as ident ' +
             'FROM sys.cluster';
 
