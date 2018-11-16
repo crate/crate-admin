@@ -58,13 +58,14 @@
     "angular-translate-loader-partial": "^2.17.1",
     "angular-translate-loader-static-files": "^2.17.1",
     "angular-translate-storage-cookie": "^2.17.1",
-    "bootstrap": "~3.3.6",
+    "bootstrap": "~4.1.2",
     "bootstrap-sass": "^3.3.7",
     "codemirror": "^5.34.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "json3": "~3.3.2",
-    "oclazyload": "^1.1.0"
+    "oclazyload": "^1.1.0",
+    "popper.js": "^1.14.5"
   },
   "peerDependencies": {},
   "scripts": {
