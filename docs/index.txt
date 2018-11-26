@@ -46,7 +46,7 @@ Here's what the admin UI will look like when it first loads:
 
 .. NOTE::
 
-   This is the `Enterprise version`_ of admin UI. The community version uses a
+   This is the standard theme. The `community edition`_ of CrateDB uses a
    lighter theme.
 
 .. _Enterprise version: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
@@ -111,15 +111,16 @@ Running down the left-hand side, from top to bottom, the tabs are:
 
 - :ref:`Tables browser <tables-browser>`
 
-- :ref:`Shards browser <shards-browser>` (`Enterprise only`_)
+- :ref:`Shards browser <shards-browser>` (`enterprise only`_)
 
 - :ref:`Cluster browser <cluster-browser>`
 
-- :ref:`Monitoring overview <monitoring-overview>` (`Enterprise only`_)
+- :ref:`Monitoring overview <monitoring-overview>` (`enterprise only`_)
 
-- :ref:`Privileges browser <privileges-browser>` (`Enterprise only`_)
+- :ref:`Privileges browser <privileges-browser>` (`enterprise only`_)
 
 - :ref:`Help screen <help-screen>`
 
-.. _Enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
+.. _community edition: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
+.. _enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
 .. _hosted on GitHub: https://github.com/crate/crate-admin

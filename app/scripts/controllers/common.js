@@ -40,7 +40,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
     ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler,
     SQLQuery, queryResultToObjects) {
 
-    //query for current_user only in enterprise edition
+    //query for current_user (Enterprise Feature)
     if (Settings.enterprise) {
       var userStmt = 'SELECT CURRENT_USER';
       SQLQuery.execute(userStmt, {}, false, false, false)
