@@ -282,9 +282,9 @@ Fixes
 Changes
 -------
 
- - Added Shards plugin for the Enterprise Edition. The shard 
-   plugin is a visualization that displays information about 
-   shards by table, partition and node. 
+ - Added Shards plugin (Enterprise Feature). The shard
+   plugin is a visualization that displays information about
+   shards by table, partition and node.
 
  - Added query table to Tables view.
 
@@ -327,7 +327,7 @@ Fixes
 Changes
 -------
 
- - Added Privileges plugin for the Enterprise Edition.
+ - Added Privileges plugin (Enterprise Feature)
 
  - The documentation link now points to the documentation for the major.minor
    (e.g. 2.1) version of CrateDB, instead of major.minor.hotfix (e.g. 2.1.1).
@@ -399,7 +399,7 @@ Fixes
 2017/04/18 1.3.0
 ================
 
- - License ident is now displayed in the Enterprise Edition.
+ - Enterprise license ident is now displayed.
 
 2017/04/12 1.2.3
 ================
@@ -438,7 +438,7 @@ Fixes
 2017/03/16 1.2.0
 ================
 
- - Added monitoring plugin for the Enterprise edition.
+ - Added monitoring plugin (Enterprise Feature).
 
  - Added Lazy loading of the stylesheet and plugins depending on the enterprise
    settings.
