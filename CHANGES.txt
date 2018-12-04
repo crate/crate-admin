@@ -122,7 +122,7 @@ Fixes
 Fixes
 -----
 
- - Fix an issue that caused the translation strings to not be loaded correctly. 
+ - Fix an issue that caused the translation strings to not be loaded correctly.
 
 2018/01/16 1.8.1
 ================
@@ -130,7 +130,7 @@ Fixes
 Fixes
 -----
 
- - Fix an issue that caused the ``Cluster`` tab to not be loaded correctly. 
+ - Fix an issue that caused the ``Cluster`` tab to not be loaded correctly.
 
  - Map the Tab key to insert spaces instead of a tab character.
 
@@ -158,11 +158,11 @@ Fixes
  - Calculate "idle" process CPU usage correctly and show it in the
    "CrateDB CPU Usage" graph.
 
- - Fixed an issue that caused the Admin UI to not display any tables when the 
+ - Fixed an issue that caused the Admin UI to not display any tables when the
    file system data are not fetchable.
 
- - Refresh Cluster Info after query execution in the console, to ensure that 
-   the cluster info is always up to date. 
+ - Refresh Cluster Info after query execution in the console, to ensure that
+   the cluster info is always up to date.
 
 2017/11/13 1.7.3
 ================
@@ -172,10 +172,10 @@ Fixes
 
  - The download url now links to the stable CrateDB version.
 
- - Replicates shards in the ``Unassigned`` row of the Shards view 
+ - Replicates shards in the ``Unassigned`` row of the Shards view
    are now grouped by id.
 
- - Fixed issue that caused closed partitions to show a ``CRITICAL`` 
+ - Fixed issue that caused closed partitions to show a ``CRITICAL``
    data state.
 
 2017/11/06 1.7.2
@@ -186,17 +186,17 @@ Fixes
 
  - Remove horizontal scroll from the console editor.
 
- - show all nodes in admin ui shard view, even those which 
+ - show all nodes in admin ui shard view, even those which
    have no shards.
 
  - Fixed an issue that cause the statusbar to show an error
-   if the user has an adblocker enabled. 
+   if the user has an adblocker enabled.
 
- - Fixed an issue that caused extra spaces to be added 
+ - Fixed an issue that caused extra spaces to be added
    to the formatted console results.
 
- - Fixed an issue that caused ``NULL`` generated column values 
-   not to be displayed in the tables view.  
+ - Fixed an issue that caused ``NULL`` generated column values
+   not to be displayed in the tables view.
 
  - Show messages when in the Tables view when the table list is empty.
 
@@ -206,15 +206,15 @@ Fixes
 Fixes
 -----
 
- - Fixed an issue that delayed the overview chart's initial display.  
+ - Fixed an issue that delayed the overview chart's initial display.
 
- - Fixed issue that caused the redirect to ``/401`` in case of 
-   unauthorized access to fail. 
+ - Fixed issue that caused the redirect to ``/401`` in case of
+   unauthorized access to fail.
 
  - Fixed casting issue in the Monitoring query.
 
  - Fixed issue that caused the cluster view to not redirect
-   to the first node by default. 
+   to the first node by default.
 
 2017/10/17 1.7.0
 ================
@@ -228,7 +228,7 @@ Changes
 ================
 
 Fixes
------ 
+-----
 
  - Keep input of console when changing tabs.
 
@@ -245,26 +245,26 @@ Fixes
 ================
 
 Fixes
------ 
+-----
 
  - Update position of the navigation menu elements.
 
- - Fixed left Join condition in shards query that previously caused 
+ - Fixed left Join condition in shards query that previously caused
    duplicated shards to be displayed.
 
  - Added loading indicator in shards view.
 
- - Do not automatically execute the query when clicking on 
+ - Do not automatically execute the query when clicking on
    the "Query Table" button in the table view.
 
 2017/09/26 1.6.2
 ================
 
 Fixes
------ 
+-----
 
  - Improve shards view performance
- 
+
  - Remove horizontal scroll from the console editor.
 
 2017/09/18 1.6.1
@@ -274,7 +274,7 @@ Fixes
 -----
 
  - Fixed an issue that caused the tooltip to have a wrong position
-   in the Shards view. 
+   in the Shards view.
 
 2017/09/18 1.6.0
 ================
@@ -298,7 +298,7 @@ Fixes
 
  - Show generation expression for generated columns in Tables view.
 
- - Added the row count number to the query status in the Console view. 
+ - Added the row count number to the query status in the Console view.
 
  - Fixed issue that caused the privileges view to not be scrollable.
 
