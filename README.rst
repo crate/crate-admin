@@ -2,6 +2,8 @@
 CrateDB Admin UI
 ================
 
+|build-status| |docs|
+
 An admin user interface (UI) for `CrateDB`_.
 
 The admin interface is bundled with every CrateDB distribution. There is no need
@@ -34,3 +36,13 @@ Looking for more help?
 .. _Slack: https://crate.io/docs/support/slackin/
 .. _StackOverflow: https://stackoverflow.com/tags/crate
 .. _the project documentation: https://crate.io/docs/connect/admin_ui/
+
+.. |build-status| image:: https://img.shields.io/travis/crate-admin/sql-99.svg?style=flat
+    :alt: build status
+    :scale: 100%
+    :target: https://travis-ci.org/crate/crate-admin
+
+.. |docs| image:: https://readthedocs.org/projects/crate-admin/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: https://crate-admin.readthedocs.io/en/latest/?badge=latest
