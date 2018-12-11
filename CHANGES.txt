@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed an issue that caused incorrectness in the navigation icons highlighting.
+
 2018/11/08 1.10.4
 =================
 

@@ -191,7 +191,7 @@ angular.module('tutorial', ['sql', 'translation'])
     $translate.refresh();
     var iconSrc = 'static/plugins/tutorial/static/icons/icon-getstarted.svg';
     var url = '/help';
-    var position = 43;
+    var position = 100;
     var re = /[\?|&]start_twitter=true/;
 
     NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.HELP'), url, position, "tutorial");
