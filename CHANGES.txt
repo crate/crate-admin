@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Updated the license div to be more responsive
+
 2018/11/15 1.11.2
 =================
 
