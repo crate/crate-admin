@@ -380,8 +380,8 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   NavigationService.addNavBarElement('static/assets/icon-overview.svg', $translate.instant('NAVIGATION.OVERVIEW'), '/', 10, "overview");
   NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console', 20, "console");
   NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables', 30, "tables");
-  NavigationService.addNavBarElement('static/assets/icon-view.svg', $filter('translate', 'NAVIGATION.VIEW'), '/views', 31, "views");
-  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 40, "nodes");
+  NavigationService.addNavBarElement('static/assets/icon-view.svg', $filter('translate', 'NAVIGATION.VIEW'), '/views', 40, "views");
+  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 50, "nodes");
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {

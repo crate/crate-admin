@@ -467,7 +467,7 @@ angular.module('shards', ['sql', 'events'])
     $translate.refresh();
     var iconSrc = 'static/plugins/shards/static/icons/icon-shards.svg';
     var url = '/shards';
-    var position = 31;
+    var position = 41;
 
     NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.SHARDS'), url, position, "shards");
 
