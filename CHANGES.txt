@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2018/12/18 1.11.3
+=================
+
+Fixes
+-----
+
 - Fixed an issue that caused incorrectness in the navigation icons highlighting.
 
 - Updated the license div to be more responsive
