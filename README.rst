@@ -23,8 +23,7 @@ Help
 Looking for more help?
 
 - Read `the project documentation`_
-- Check `StackOverflow`_ for common problems
-- Chat with us on `Slack`_
+- Chat with us via our `support channel`_
 - Get `paid support`_
 
 .. _Bower: http://bower.io
@@ -33,8 +32,7 @@ Looking for more help?
 .. _CrateDB: https://github.com/crate/crate
 .. _developer docs: DEVELOP.rst
 .. _paid support: https://crate.io/pricing/
-.. _Slack: https://crate.io/docs/support/slackin/
-.. _StackOverflow: https://stackoverflow.com/tags/crate
+.. _support channels: https://crate.io/support/
 .. _the project documentation: https://crate.io/docs/connect/admin_ui/
 
 .. |build-status| image:: https://img.shields.io/travis/crate-admin/sql-99.svg?style=flat
