@@ -10,5 +10,5 @@ sphinx-autobuild==0.6.0
 # the next section should mirror the RTD environment
 
 alabaster>=0.7,<0.8,!=0.7.5
-setuptools<41
+setuptools==40.6.3
 sphinx==1.7.4
