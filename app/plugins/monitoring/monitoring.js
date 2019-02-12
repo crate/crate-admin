@@ -103,7 +103,7 @@ angular.module('monitoring', ['events'])
     NullSerie, NullOverAllSeries, ClusterEventsHandler) {
     var pollService = {
       options: {
-        MAX_VALUE_LENGTH: 60,
+        MAX_VALUE_LENGTH: 1000,
         QUERY_TYPES: {
           'SELECT': 0,
           'INSERT': 1,
