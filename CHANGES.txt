@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2019/02/21 1.11.4
+=================
+
+Fixes
+-----
+
 - Fixed an issue that caused the monitoring graph diagrams to be cut off.
 
 2018/12/18 1.11.3
