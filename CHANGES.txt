@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Changes
+-------
+
+- Updated the license display to include the maximum number of nodes a license
+  is valid for.
+
 2019/02/21 1.11.4
 =================
 

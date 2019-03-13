@@ -3,7 +3,9 @@
 const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   .provider('Settings', function () {
     var enterprise;
-    var ident = '';
+    var license_issued_to = '';
+    var license_max_nodes = 1;
+    var license_expiry_date = '';
     var user = '';
     if (localStorage.getItem('crate_setting_enterprise')) {
       enterprise = localStorage.getItem('crate_setting_enterprise');
@@ -20,8 +22,19 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
           console.log('localStorage cannot be set in Safari private mode', error);
         }
       },
-      setIdent: function(value) {
-        ident = value;
+      setLicenseIssuedTo: function(value) {
+        license_issued_to = value;
+      },
+      setLicenseMaxNodes: function(value) {
+        license_max_nodes = value;
+      },
+      setLicenseExpiryDate: function(value) {
+        // Java Long.MAX_VALUE is used as marker for no-expiration
+        if (value == 9223372036854775807) {
+          license_expiry_date = '∞';
+        } else {
+          license_expiry_date = new Date(value).toUTCString();
+        }
       },
       setUser: function(value) {
         user = value;
@@ -29,7 +42,11 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
       $get: function() {
         return {
           enterprise: enterprise,
-          ident: ident,
+          license: {
+            issued_to: license_issued_to,
+            expiry_date: license_expiry_date,
+            max_nodes: license_max_nodes
+          },
           user: user
         };
       }
@@ -75,7 +92,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
     var showSideNav = false;
 
     $scope.enterprise = Settings.enterprise;
-    $scope.licenseIdent = Settings.ident;
+    $scope.license = Settings.license;
 
     $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;

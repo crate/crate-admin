@@ -147,22 +147,29 @@ $.get('static/conf/plugins.json', function (plugins) {
       function (SQLQueryProvider, queryResultToObjectsProvider, $ocLazyLoadProvider,
         $stateProvider, SettingsProvider) {
 
-        var stmt = 'SELECT settings[\'license\'][\'enterprise\'] as enterprise, ' +
-            'if(license is not NULL, ' +
-                'format(\'%s (exp: %tF)\', license[\'issued_to\'], license[\'expiry_date\']), ' +
-                '\'\') as ident ' +
-            'FROM sys.cluster';
-
         if (SettingsProvider.$get().enterprise === true) {
           loadStylesheet('static/styles/enterprise.css');
         }
-
+        var stmt = `
+          SELECT
+            settings['license']['enterprise'] as enterprise,
+            license['issued_to'] as issued_to,
+            license['expiry_date'] as expiry_date,
+            license['max_nodes'] as max_nodes
+          FROM
+            sys.cluster
+        `;
         SQLQueryProvider.$get().execute(stmt, {}, false, false, false)
           .then(function (query) {
-            var result = queryResultToObjectsProvider.$get()(query, ['enterprise', 'ident']);
-            SettingsProvider.setEnterprise(result[0].enterprise);
-            SettingsProvider.setIdent(result[0].ident);
-            if (result[0].enterprise) {
+            let result = queryResultToObjectsProvider.$get()(
+              query,
+              ['enterprise', 'issued_to', 'expiry_date', 'max_nodes']
+            )[0];
+            SettingsProvider.setEnterprise(result.enterprise);
+            SettingsProvider.setLicenseIssuedTo(result.issued_to);
+            SettingsProvider.setLicenseExpiryDate(result.expiry_date);
+            SettingsProvider.setLicenseMaxNodes(result.max_nodes);
+            if (result.enterprise) {
               loadStylesheet('static/styles/enterprise.css');
               $ocLazyLoadProvider.config({
                 modules: ENTERPRISE_PLUGINS,
