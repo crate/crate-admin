@@ -75,6 +75,10 @@ const filters_text = angular.module('filters_text', [])
   })
   .filter('formatTimestamp', function() {
     return function(timestamp) {
+      var is_valid = timestamp == 0 || (new Date(timestamp)).getTime() > 0;
+      if (!is_valid) {
+        return "Invalid Timestamp";
+      }
       return new Date(timestamp).toISOString();
     };
   });

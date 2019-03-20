@@ -90,5 +90,13 @@ describe('formatTimestamp', function() {
 		var milliseconds = new Date(0);
 		expect(formatTimestamp(milliseconds.getTime())).toBe("1970-01-01T00:00:00.000Z");
 	});
+
+	it('should return invalid', function() {
+		var formatTimestamp;
+		formatTimestamp = $filter('formatTimestamp');
+		var timestamp = 9223372036854776000;
+		var value = formatTimestamp(timestamp);
+		expect(value).toBe("Invalid Timestamp");
+	});
 });
 

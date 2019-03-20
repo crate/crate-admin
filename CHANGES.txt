@@ -5,6 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Fixes
+-----
+
+- Fixed an issue that caused timestamp to not be formatted correctly.
+
 2019/03/20 1.12.0
 =================
 
