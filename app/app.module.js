@@ -152,7 +152,6 @@ $.get('static/conf/plugins.json', function (plugins) {
         }
         var stmt = `
           SELECT
-            settings['license']['enterprise'] as enterprise,
             license['issued_to'] as issued_to,
             license['expiry_date'] as expiry_date,
             license['max_nodes'] as max_nodes
@@ -163,13 +162,13 @@ $.get('static/conf/plugins.json', function (plugins) {
           .then(function (query) {
             let result = queryResultToObjectsProvider.$get()(
               query,
-              ['enterprise', 'issued_to', 'expiry_date', 'max_nodes']
+              ['issued_to', 'expiry_date', 'max_nodes']
             )[0];
-            SettingsProvider.setEnterprise(result.enterprise);
+            SettingsProvider.setEnterprise(result.issued_to != null);
             SettingsProvider.setLicenseIssuedTo(result.issued_to);
             SettingsProvider.setLicenseExpiryDate(result.expiry_date);
             SettingsProvider.setLicenseMaxNodes(result.max_nodes);
-            if (result.enterprise) {
+            if (SettingsProvider.$get().enterprise) {
               loadStylesheet('static/styles/enterprise.css');
               $ocLazyLoadProvider.config({
                 modules: ENTERPRISE_PLUGINS,

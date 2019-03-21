@@ -5,6 +5,13 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Changes
+-------
+
+- Removed usage of deprecated CrateDB cluster setting ``license.enterprise``.
+  Use license information available under ``sys.cluster.license`` instead to
+  distinguish between enterprise and community edition.
+
 Fixes
 -----
 
