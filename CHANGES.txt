@@ -5,6 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Changes
+-------
+
+- Updated CrateDB & CrateDB CE logo images.
+
 2019/03/22 1.13.0
 =================
 
