@@ -16,3 +16,4 @@ eggs/
 node_modules/
 out/
 parts/
+.venv/
