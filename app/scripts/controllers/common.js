@@ -29,8 +29,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
         license_max_nodes = value;
       },
       setLicenseExpiryDate: function(value) {
-        // Java Long.MAX_VALUE is used as marker for no-expiration
-        if (value == 9223372036854775807) {
+        if (!value) {
           license_expiry_date = '∞';
         } else {
           license_expiry_date = new Date(value).toUTCString();

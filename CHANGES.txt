@@ -10,6 +10,11 @@ Changes
 
 - Updated CrateDB & CrateDB CE logo images.
 
+Fixes
+-----
+
+- Fixed display of unlimited license expiry dates.
+
 2019/03/22 1.13.0
 =================
 
