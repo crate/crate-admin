@@ -4,8 +4,8 @@
     <div ng-click="toggleSideNav()">
       <i class="fa fa-2x fa-bars status-bar__icon--menu hide-gt-s"></i>
     </div>
-    <img ng-if="!enterprise" class="status-bar__icon--crate" src="static/assets/CRA_logo_white.svg">
-    <img ng-if="enterprise" class="status-bar__icon--crate" src="static/assets/logo-CrateDB@2x.png">
+    <img ng-if="!enterprise" class="status-bar__icon--crate" src="static/assets/logo_ce.png">
+    <img ng-if="enterprise" class="status-bar__icon--crate" src="static/assets/logo.png">
     <div id="license-ident" ng-if="license['issued_to']" cr-tooltip cr-tooltip-position="bottom" ng-if="enterprise" class= "status-bar__license">
       <div>Licensed to: {{ license['issued_to'] | limitTo:30 }}</div>
       <div>Max nodes: {{ license['max_nodes'] }} Expires: {{ license['expiry_date'] }}</div>
