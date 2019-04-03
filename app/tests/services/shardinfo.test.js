@@ -93,7 +93,7 @@ describe('shardinfo', function() {
       var data;
       $httpBackend.whenPOST(baseURI.getURI("/_sql"))
         .respond({
-          "cols": ["table_name", "schema_name", "fqn", "num_shards"],
+          "cols": ["table_name", "table_schema", "fqn", "num_shards"],
           "rows": [
             ["probe_requests", "doc", "doc.probe_requests", 1.0],
           ],
@@ -104,7 +104,7 @@ describe('shardinfo', function() {
         data = response;
         expect(data).toEqual([{
           table_name: 'probe_requests',
-          schema_name: 'doc',
+          table_schema: 'doc',
           fqn: 'doc.probe_requests',
           num_shards: 1
         }]);

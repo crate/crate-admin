@@ -17,9 +17,9 @@ const shardinfo = angular.module('shardinfo', ['sql'])
           'GROUP BY table_name, schema_name, fqn, node_id, state, routing_state, relocating_node, "primary"';
 
       // table partitions statement
-      var partStmt = 'SELECT table_name, schema_name, format(\'%s.%s\', schema_name, table_name) AS fqn, SUM(number_of_shards) AS num_shards ' +
+      var partStmt = 'SELECT table_name, table_schema, format(\'%s.%s\', table_schema, table_name) AS fqn, SUM(number_of_shards) AS num_shards ' +
           'FROM information_schema.table_partitions WHERE closed = false ' +
-          'GROUP BY table_name, schema_name, fqn';
+          'GROUP BY table_name, table_schema, fqn';
 
       var recoveryStmt = 'SELECT table_name, schema_name, recovery[\'stage\'] AS recovery_stage, AVG(recovery[\'size\'][\'percent\']), COUNT(*) AS count ' +
           'FROM sys.shards ' +
@@ -64,7 +64,7 @@ const shardinfo = angular.module('shardinfo', ['sql'])
         SQLQuery.execute(partStmt, {}, false, false, false, false)
           .then(function (partQuery) {
             var result = queryResultToObjects(partQuery,
-                ['table_name', 'schema_name', 'fqn', 'num_shards']);
+                ['table_name', 'table_schema', 'fqn', 'num_shards']);
             deferred.resolve(result);
           },function () {
             deferred.reject();

@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Breaking Changes
+----------------
+
+- Adapted a query for compatibility with the upcoming CrateDB 4.0 release. This
+  drops the compatibility with earlier CrateDB versions.
+
 2019/03/25 1.14.0
 =================
 
