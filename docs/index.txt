@@ -37,7 +37,7 @@ is running locally, this will be ``localhost``.
 
 .. _the CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 
-Overview Screen
+Overview screen
 ===============
 
 Here's what the admin UI will look like when it first loads:
@@ -59,7 +59,7 @@ The navigation is split into two parts:
 
 .. _status-bar:
 
-Status Bar
+Status bar
 ----------
 
 Along the top of the screen, from left to right, the status bar has:

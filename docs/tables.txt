@@ -15,7 +15,7 @@ and query regular `document tables`_ as well as `BLOB tables`_.
 Screenshots
 ===========
 
-Document Tables
+Document tables
 ---------------
 
 Here's what a simple document table looks like:
@@ -30,7 +30,7 @@ Below this, you will find information about the table :ref:`schema
 
 .. image:: tables-simple-2.png
 
-BLOB Tables
+BLOB tables
 -----------
 
 If you have BLOB tables, you can access them by selecting the *Blob Tables* menu
@@ -52,7 +52,7 @@ Features
 
 .. _table-level-info:
 
-Table-Level Information
+Table-level information
 -----------------------
 
 The table overview displays the following table-level information:
@@ -130,7 +130,7 @@ The table overview displays the following table-level information:
 
 .. _schema-info:
 
-Schema Information
+Schema information
 ------------------
 
 The table schema section displays information about each table column:
@@ -143,7 +143,7 @@ The table schema section displays information about each table column:
 
   The column `data type`_.
 
-Other Features
+Other features
 --------------
 
 :Table |nbsp| type |nbsp| toggle:
