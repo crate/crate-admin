@@ -23,9 +23,6 @@ Screenshots
 
 .. image:: monitoring-simple.png
 
-Features
-========
-
 .. |nbsp| unicode:: 0xA0
    :trim:
 

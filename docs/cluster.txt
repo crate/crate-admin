@@ -103,7 +103,7 @@ Load
 
   Average load over fifteen minutes.
 
-CPU Cores
+CPU cores
 ---------
 
 :Cores:
@@ -129,7 +129,7 @@ Shards
 
   The number of shards that have been recovered but have not yet been started.
 
-Disk Operations
+Disk operations
 ---------------
 
 :Read:
