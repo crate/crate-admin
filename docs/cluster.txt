@@ -7,7 +7,7 @@ Cluster Browser
 The CrateDB admin UI comes with a *cluster browser* that allows you to inspect
 all of the nodes that are in your `cluster`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:
