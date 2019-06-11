@@ -11,7 +11,7 @@ to inspect `users`_ and `privileges`_.
 
    The privileges browser is an `enterprise feature`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

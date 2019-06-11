@@ -11,7 +11,7 @@ visual overview of all the `shards`_ in your cluster.
 
    The shards browser is an `enterprise feature`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

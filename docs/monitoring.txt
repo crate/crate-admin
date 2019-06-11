@@ -11,7 +11,7 @@ to monitor key operational statistics.
 
    The monitoring overview is an `enterprise feature`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

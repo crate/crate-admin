@@ -7,7 +7,7 @@ Tables Browser
 The CrateDB admin UI comes with a *tables browser* that allows you to inspect
 and query regular `document tables`_ as well as `BLOB tables`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:
