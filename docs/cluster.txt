@@ -1,7 +1,7 @@
 .. _cluster-browser:
 
 ===============
-Cluster Browser
+Cluster browser
 ===============
 
 The CrateDB admin UI comes with a *cluster browser* that allows you to inspect

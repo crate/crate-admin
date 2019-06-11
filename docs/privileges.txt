@@ -1,7 +1,7 @@
 .. _privileges-browser:
 
 ==================
-Privileges Browser
+Privileges browser
 ==================
 
 The CrateDB admin UI comes with a *privileges browser* screen that allows you

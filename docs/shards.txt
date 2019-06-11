@@ -1,7 +1,7 @@
 .. _shards-browser:
 
 ==============
-Shards Browser
+Shards browser
 ==============
 
 The CrateDB admin UI comes with a *shards browser* that provides you with a

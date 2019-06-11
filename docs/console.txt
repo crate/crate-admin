@@ -1,7 +1,7 @@
 .. _sql-console:
 
 ===========
-SQL Console
+SQL console
 ===========
 
 The CrateDB admin UI comes with an SQL console so that you can execute queries
@@ -60,4 +60,3 @@ Features
 
   Toggle the *Show error trace* checkbox to view a detailed Java stack trace in
   the event of an execution error.
-
