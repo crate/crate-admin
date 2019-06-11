@@ -1,7 +1,7 @@
 .. _monitoring-overview:
 
 ===================
-Monitoring Overview
+Monitoring overview
 ===================
 
 The CrateDB admin UI comes with a *monitoring overview* screen that allows you
