@@ -1,7 +1,7 @@
 .. _help-screen:
 
 ===========
-Help Screen
+Help screen
 ===========
 
 .. rubric:: Table of contents

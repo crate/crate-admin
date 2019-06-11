@@ -1,7 +1,7 @@
 .. _tables-browser:
 
 ==============
-Tables Browser
+Tables browser
 ==============
 
 The CrateDB admin UI comes with a *tables browser* that allows you to inspect
