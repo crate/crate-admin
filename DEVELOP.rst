@@ -10,21 +10,24 @@ You will need Python 3.5 installed.
 Setup
 =====
 
-Bootstrap the project::
+Installing node locally::
 
-    $ python bootstrap.py
-    $ bin/buildout -N
+    $ /usr/bin/python3 -m venv env
+    $ source env/bin/activate
+    $ python -m pip install -U pip
+    $ python -m pip install nodeenv
+    $ nodeenv  --node=10.16.0 -p
 
 Install the package dependencies::
 
-    $ bin/npm install
+    $ env/bin/npm install
 
 Building the App
 ================
 
 Build the app like so::
 
-    $ bin/npm run-script build
+    $ env/bin/npm run-script build
 
 To run the admin UI as a standalone app, open the ``build/index.html`` file in
 your browser.
@@ -34,7 +37,7 @@ Running the App for Development
 
 Start the development server on port ``9000``::
 
-    $ bin/npm start
+    $ env/bin/npm start
 
 You should now be able to access the app at: http://localhost:9000/
 
@@ -59,7 +62,7 @@ Adding New Dependencies
 
 Application dependencies should be added as follow::
 
-    $ bin/npm install [dependency] --save
+    $ env/bin/npm install [dependency] --save
 
 This dependency should then be imported in ``./app/vendor.module.js``,
 for the application to load correctly.
@@ -69,7 +72,7 @@ in ``./app/app.module.js``
 
 Dev dependencies should be added as follow::
 
-    $ bin/npm install [dependency] --save-dev
+    $ env/bin/npm install [dependency] --save-dev
 
 Adding New Components
 =====================
@@ -91,7 +94,7 @@ Running Tests
 
 You can run the tests like so::
 
-    $ bin/npm test
+    $ env/bin/npm test
 
 Plugins
 =======
@@ -123,15 +126,20 @@ To create a new release, you must:
 Writing Documentation
 =====================
 
-The docs live under the ``docs`` directory.
 
-The docs are written written with ReStructuredText_ and processed with Sphinx_.
+The docs live under the ``docs/`` directory.
 
-Build the docs by running::
+The docs are written with ReStructuredText_ and processed with Sphinx_.
 
-    $ bin/sphinx
+First, install the additional dependencies by running::
 
-The output can then be found in the ``out/html`` directory.
+    $ pip install -Ur requirements-docs.txt
+
+Then build the documentation by running::
+
+    $ env/bin/sphinx-build -b html docs out
+
+The output can then be found in the ``/out/html/`` directory.
 
 The docs are automatically built from Git by `Read the Docs`_ and there is
 nothing special you need to do to get the live docs to update.

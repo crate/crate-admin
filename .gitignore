@@ -17,3 +17,5 @@ node_modules/
 out/
 parts/
 .venv/
+env/
+out/
