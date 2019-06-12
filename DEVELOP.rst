@@ -12,11 +12,10 @@ Setup
 
 Installing node locally::
 
-    $ /usr/bin/python3 -m venv env
-    $ source env/bin/activate
-    $ python -m pip install -U pip
-    $ python -m pip install nodeenv
-    $ nodeenv  --node=10.16.0 -p
+    $ python3 -m venv env
+    $ env/bin/pip install -U pip
+    $ env/bin/pip install nodeenv
+    $ env/bin/nodeenv --node=10.16.0 -p
 
 Install the package dependencies::
 
@@ -126,20 +125,17 @@ To create a new release, you must:
 Writing Documentation
 =====================
 
-
-The docs live under the ``docs/`` directory.
+The docs live under the ``docs`` directory.
 
 The docs are written with ReStructuredText_ and processed with Sphinx_.
 
 First, install the additional dependencies by running::
 
-    $ pip install -Ur requirements-docs.txt
+    $ env/bin/pip install -Ur requirements-docs.txt
 
 Then build the documentation by running::
 
-    $ env/bin/sphinx-build -b html docs out
-
-The output can then be found in the ``/out/html/`` directory.
+    $ env/bin/sphinx-autobuild docs out
 
 The docs are automatically built from Git by `Read the Docs`_ and there is
 nothing special you need to do to get the live docs to update.
