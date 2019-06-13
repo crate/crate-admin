@@ -33,12 +33,12 @@ Looking for more help?
 .. _project docs: https://crate.io/docs/connect/admin_ui/
 .. _support channels: https://crate.io/support/
 
-.. |build-status| image:: https://img.shields.io/travis/crate-admin/sql-99.svg?style=flat
-    :alt: build status
+.. |build-status| image:: https://travis-ci.org/crate/crate-admin.svg?branch=master
+    :alt: Build status
     :scale: 100%
     :target: https://travis-ci.org/crate/crate-admin
 
-.. |docs| image:: https://readthedocs.org/projects/crate-admin/badge/?version=latest
-    :alt: Documentation Status
+.. |docs| image:: https://img.shields.io/badge/docs-latest-brightgreen.svg
+    :alt: Docs
     :scale: 100%
-    :target: https://crate-admin.readthedocs.io/en/latest/?badge=latest
+    :target: https://crate.io/docs/clients/admin-ui/en/latest/
