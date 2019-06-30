@@ -5,6 +5,15 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2019/06/30 1.15.1
+=================
+
+Feature
+-------
+
+- sharding-calculator: a simple tool to walk a user through the process, how
+  to split their crate table into shards. Can also read stats from existing table.
+
 2019/04/03 1.15.0
 =================
 
