@@ -19,6 +19,7 @@ Installing node locally::
 
 Install the package dependencies::
 
+    $ env/bin/npm install node-sass
     $ env/bin/npm install
 
 Building the App
