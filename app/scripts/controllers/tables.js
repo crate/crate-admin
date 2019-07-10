@@ -108,7 +108,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
 
         const PARTITION_QUERY = 'SELECT partition_ident, number_of_shards, number_of_replicas, values ' +
           'FROM information_schema.table_partitions ' +
-          'WHERE schema_name = ? AND table_name = ? AND closed = false';
+          'WHERE table_schema = ? AND table_name = ? AND closed = false';
 
         const COLUMN_QUERY = 'SELECT column_name, upper(data_type) as data_type, is_generated, generation_expression ' +
           'FROM information_schema.columns ' +
