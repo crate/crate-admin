@@ -1,14 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <svg width="36px" height="48px" viewBox="0 0 36 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
-    <title>Page 1</title>
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>icon-documentation</title>
     <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Support" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <g id="Support-Copy-3" transform="translate(-292.000000, -636.000000)" stroke="#5bd5ff" stroke-width="2">
-            <g id="Page-1" transform="translate(293.000000, 637.000000)">
-                <path d="M4,4 L28,4 L28,8 M32,8 L32,0 L4,0 C1.792,0 0,1.79 0,4 C0,6.208 1.792,8 4,8 L34,8 L34,46 L4,46 C1.792,46 0,44.208 0,42 L0,4" id="Stroke-3"></path>
-            </g>
-        </g>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M30,8 L32,8 L32,2 L5,2 C3.34351661,2 2,3.34305268 2,5 C2,6.65571525 3.34428475,8 5,8 L28,8 L28,6 L5,6 L5,4 L30,4 L30,8 Z M34,8 L36,8 L36,48 L5,48 C2.23971525,48 0,45.7602847 0,43 L0,5 C0,2.23832853 2.2391017,0 5,0 L34,0 L34,8 Z M2,43 C2,44.6557153 3.34428475,46 5,46 L34,46 L34,10 L5,10 C3.874639,10 2.83580561,9.62772082 2,8.99966263 L2,43 Z" id="icon-documentation" fill="#5BD5FF" fill-rule="nonzero"></path>
     </g>
 </svg>

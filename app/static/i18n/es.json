@@ -132,16 +132,16 @@
         "WRITES": "Escrituras"
     },
     "HELP": {
-        "TITLE": "Looking for help?",
+        "TITLE": "¿Buscas ayuda?",
         "STACK_OVERFLOW_TITLE": "Stack Overflow",
-        "STACK_OVERFLOW_MSG": "Check Stack Overflow for common problems.",
-        "SLACK_TITLE": "Slack",
-        "SLACK_MSG": "Ask Crate.io engineers on our Slack channel.",
+        "STACK_OVERFLOW_MSG": "Comprueba Stack Overflow si hay problemas comunes.",
+        "DISCOURSE_TITLE": "Discourse",
+        "DISCOURSE_MSG": "Pregúntale a los ingenieros de Crate.io en Discourse",
         "GITHUB_TITLE": "GitHub",
-        "GITHUB_MSG": "Code with us on GitHub.",
-        "DOCUMENTATION_TITLE": "CrateDB Documentation",
-        "DOCUMENTATION_MSG": "Read the CrateDB documentation.",
-        "ENTERPRISE_TITLE": "Enterprise Support",
-        "ENTERPRISE_MSG": "For enterprise support, please check our pricing page."
+        "GITHUB_MSG": "Código con nosotros en GitHub.",
+        "DOCUMENTATION_TITLE": "Documentación de CrateDB",
+        "DOCUMENTATION_MSG": "Lea la documentación de CrateDB.",
+        "ENTERPRISE_TITLE": "Soporte Empresarial",
+        "ENTERPRISE_MSG": "Para soporte empresarial, por favor, consulte nuestra página de precios."
     }
 }

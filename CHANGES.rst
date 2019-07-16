@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Replaced the Slack icon with Discourse in the help section, updated nametags
+  for all languages and translations for Spanish.
+
 
 2019/07/10 1.15.1
 =================
