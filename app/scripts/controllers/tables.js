@@ -110,9 +110,17 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           'FROM information_schema.table_partitions ' +
           'WHERE table_schema = ? AND table_name = ? AND closed = false';
 
-        const COLUMN_QUERY = 'SELECT column_name, upper(data_type) as data_type, is_generated, generation_expression ' +
-          'FROM information_schema.columns ' +
-          'WHERE table_schema = ? AND table_name = ?';
+        const COLUMN_QUERY = `
+SELECT
+    column_name,
+    upper(data_type) AS data_type,
+    is_generated = 'ALWAYS' as is_generated,
+    generation_expression
+FROM
+    information_schema.columns
+WHERE
+    table_schema = ?
+    AND table_name = ?`;
 
         var requestId = function () {
           return 'r-' + new Date().getTime() + '-' + Math.floor(Math.random() * 1000);
