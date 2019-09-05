@@ -26,3 +26,6 @@ import 'angular-translate-storage-cookie';
 import 'angular-translate-loader-partial';
 import 'oclazyload';
 import 'angular-nvd3';
+
+import csv from 'jquery-csv';
+window.csv = csv;
