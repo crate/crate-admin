@@ -63,6 +63,7 @@
     "codemirror": "^5.34.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
+    "jquery-csv": "^1.0.5",
     "json3": "~3.3.2",
     "oclazyload": "^1.1.0",
     "popper.js": "^1.14.5"
