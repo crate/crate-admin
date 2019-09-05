@@ -1,5 +1,15 @@
 {
     "NAVIGATION": {
         "EXPORT": "Export"
+    },
+    "EXPORT": {
+        "TIP": "Enter a SQL statement to export from CrateDB",
+        "HINT": "Hint: Press ⇧ + ⏎ to export.",
+        "ACTION": "Export",
+        "FORMATS": {
+            "JSON": "JSON",
+            "CSV": "CSV",
+            "CSV-FLAT": "CSV (FLATTENED)"
+        }
     }
 }
