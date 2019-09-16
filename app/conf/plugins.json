@@ -53,16 +53,4 @@
       "controller": "ShardsController"
     }
   }
-},{
-  "name": "export",
-  "uri": "static/plugins/export/export.js",
-  "enterprise": false,
-  "routing": {
-    "/help": {
-      "name": "export",
-      "url": "/export",
-      "templateUrl": "static/plugins/export/export.html",
-      "controller": "ExportController"
-    }
-  }
 }]
