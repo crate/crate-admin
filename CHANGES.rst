@@ -5,11 +5,21 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Fixed the table/column display to no longer display all columns as being
-  generated columns.
+2019/09/16 1.15.2
+=================
+
+Changes
+-------
 
 - Replaced the Slack icon with Discourse in the help section, updated nametags
   for all languages and translations for Spanish.
+
+
+Fixes
+-----
+
+- Fixed the table/column display to no longer display all columns as being
+  generated columns.
 
 
 2019/07/10 1.15.1
