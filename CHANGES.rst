@@ -18,8 +18,6 @@ Changes
 Fixes
 -----
 
-- Adapted a query for compatibility with the upcoming CrateDB 4.0 release.
-
 - Fixed the table/column display to no longer display all columns as being
   generated columns.
 
