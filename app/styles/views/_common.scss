@@ -59,6 +59,9 @@ a:hover, a:focus {
 li {
 	margin: 10px 0px;
 }
+.dropdown ul > li {
+	margin: inherit;
+}
 
 code {
 	padding: 2px 4px;

@@ -76,6 +76,14 @@
       <div class="query-result-container__header">
 
       <div class="query-result-container__header--title">{{:: 'CONSOLE.RESULT_FROM_QUERY' | translate }}</div>
+      <div class="dropdown">
+          <div class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--export dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-original-title="{{ 'CONSOLE.EXPORT_RESULTS' | translate }}" cr-tooltip cr-tooltip-position="top">
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </div>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li ng-repeat="f in exportSupportedFormats" ng-click="export(f)"><a class="dropdown-item" >{{'CONSOLE.FORMATS.' + f.id | uppercase | translate}}</a></li>
+          </ul>
+      </div>
       <div id="previous" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--previous" ng-click="previous()" ng-class="page === 1 ?  'cr-button--disabled':'' "><i class="fa fa-angle-left" aria-hidden="true"></i></div>
       <div class="query-result-container__header--page" ng-click="previous()">{{ page }} / {{ numberOfPages }}</div>
       <div id="next" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--next" ng-class="page === numberOfPages ?  'cr-button--disabled':'' " ng-click="next()"><i class="fa fa-angle-right" aria-hidden="true"></i></div>

@@ -45,7 +45,78 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
 
     return service;
   })
-  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState){
+  .service('ExportUtils', function () {
+    var utils = {};
+
+    utils.arrayFrom = function (json) {
+      var queue = [], next = json;
+      while (next !== undefined) {
+          if ($.type(next) == "array") {
+  
+              // but don't if it's just empty, or an array of scalars
+              if (next.length > 0) {
+  
+                var type = $.type(next[0]);
+                var scalar = (type == "number" || type == "string" || type == "boolean" || type == "null");
+  
+                if (!scalar)
+                  return next;
+              }
+          } if ($.type(next) == "object") {
+            for (var key in next)
+              queue.push(next[key]);
+          }
+          next = queue.shift();
+      }
+      // none found, consider the whole object a row
+      return [json];
+    };
+
+    utils.flattenObject = function (obj, path) {
+      if (path == undefined)
+          path = "";
+  
+      var type = $.type(obj);
+      var scalar = (type == "number" || type == "string" || type == "boolean" || type == "null");
+  
+      if (type == "array" || type == "object") {
+          var d = {};
+          for (var i in obj) {
+  
+              var newD = utils.flattenObject(obj[i], path + i + "/");
+              $.extend(d, newD);
+          }
+  
+          return d;
+      }
+  
+      else if (scalar) {
+          var d = {};
+          var endPath = path.substr(0, path.length-1);
+          d[endPath] = obj;
+          return d;
+      }
+  
+      // ?
+      else return {};
+    };
+
+    utils.saveFile = function (name, type, data) {
+      if (data !== null && navigator.msSaveBlob)
+          return navigator.msSaveBlob(new Blob([data], { type: type }), name);
+      var a = $("<a style='display: none;'/>");
+      var url = window.URL.createObjectURL(new Blob([data], {type: type}));
+      a.attr("href", url);
+      a.attr("download", name);
+      $("body").append(a);
+      a[0].click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    };
+
+    return utils;
+  })
+  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState, ExportUtils, queryResultToObjects){
     return {
       restrict: 'A',
       controller: ['$scope', '$rootScope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $rootScope, $translate, $location, Clipboard, $timeout){
@@ -79,6 +150,12 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         $scope.page = 1;
         $scope.numberOfPages = 1;
         $scope.endIndex = $scope.startIndex + $scope.pageSize;
+
+        $scope.exportSupportedFormats = [
+          { id: 'json' },
+          { id: 'csv' },
+          { id: 'csv-flat' }
+        ]
 
         function scrollTop() {
           var top = $('.query-result-container').position().top;
@@ -133,6 +210,67 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
             scrollTop();
           });
         };
+
+        $scope.export = function(format){
+          var rows = $scope.rows;
+          var cols = $scope.resultHeaders;
+          var col_types = $scope.resultHeaderTypes;
+
+          switch (format.id) {
+            case 'json':
+              var objs = queryResultToObjects({ rows: rows }, cols);
+              ExportUtils.saveFile('export.json', 'application/json', JSON.stringify(objs));
+              break;
+            case 'csv':
+              var separator = ',';
+              var linebreak = '\r\n';
+              var output = '';
+              // Header
+              output += cols.join(separator) + linebreak;
+              // Data
+              rows.forEach((row, index) => {
+                var last = index === rows.length - 1;
+    
+                row.forEach((column, index) => {
+                  var last = index === row.length - 1;
+                  var type = getDataType(column, col_types[index]);
+    
+                  switch (type) {
+                    case 'object':
+                    case 'array':
+                      // Stringify twice to escape the output
+                      output += JSON.stringify((JSON.stringify(column)));
+                      break;
+                    default:
+                      output += column;
+                  }
+    
+                  if (!last) { output += separator; }
+                })
+    
+                if (!last) { output += linebreak; }
+              })
+              ExportUtils.saveFile('export.csv', 'text/csv', output);
+              break;
+            case 'csv-flat':
+              // Parts borrowed from https://github.com/konklone/json
+              var objs = queryResultToObjects({ rows: rows }, cols);
+              var inArray = ExportUtils.arrayFrom(objs);
+              var outArray = [];
+              for (var row in inArray)
+                  outArray[outArray.length] = ExportUtils.flattenObject(inArray[row]);
+              var output = window.csv.fromObjects(outArray);
+              ExportUtils.saveFile('export.csv', 'text/csv', output);
+              break;
+          }
+        };
+
+        this.updateStatement = function(sql) {
+          statement = sql || '';
+        };
+        this.export = function() {
+          $scope.export();
+        }
 
         function safeApply(scope, fn) {
           if (scope && scope.$root) {
