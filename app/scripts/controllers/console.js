@@ -48,11 +48,11 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
   .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState){
     return {
       restrict: 'A',
-      controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $translate, $location, Clipboard, $timeout){
+      controller: ['$scope', '$rootScope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $rootScope, $translate, $location, Clipboard, $timeout){
         var self = this;
 
         $timeout(function(){
-          $('#cr-console-query').attr('tabindex',-1).focus(); 
+          $('#cr-console-query').attr('tabindex',-1).focus();
         }, 500);
 
         var inputScope = null;
@@ -86,46 +86,52 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         }
 
         $scope.next = function () {
-          if ($scope.startIndex >= $scope.rows.length ||
-           $scope.startIndex  + $scope.pageSize >= $scope.rows.length) {
-            return;
-          }
-          $scope.paginated_formatted_rows = [];
-          $scope.paginated_formatted_rows = [];
-          $scope.startIndex = $scope.startIndex + $scope.pageSize;
-          $scope.endIndex = $scope.endIndex + $scope.pageSize;
-          if ($scope.endIndex > $scope.rows.length) {
-            $scope.endIndex = $scope.rows.length;
-          }
-          $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
-          $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
-          $scope.page += 1;
-          scrollTop();
+          $rootScope.$broadcast('console-pagination');
+          safeApply($scope, function () {
+            if ($scope.startIndex >= $scope.rows.length ||
+                $scope.startIndex + $scope.pageSize >= $scope.rows.length) {
+              return;
+            }
+            $scope.paginated_formatted_rows = [];
+            $scope.paginated_formatted_rows = [];
+            $scope.startIndex = $scope.startIndex + $scope.pageSize;
+            $scope.endIndex = $scope.endIndex + $scope.pageSize;
+            if ($scope.endIndex > $scope.rows.length) {
+              $scope.endIndex = $scope.rows.length;
+            }
+            $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
+            $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
+            $scope.page += 1;
+            scrollTop();
+          });
         };
 
         $scope.previous = function () {
-          $scope.paginated_formatted_rows = [];
-          $scope.paginated_formatted_rows = [];
+          $rootScope.$broadcast('console-pagination');
+          safeApply($scope, function () {
+            $scope.paginated_formatted_rows = [];
+            $scope.paginated_formatted_rows = [];
 
-          if ($scope.startIndex === $scope.rows.length) {
-            $scope.startIndex = $scope.startIndex - $scope.pageSize;
-          } else {
-            $scope.startIndex = $scope.startIndex - $scope.pageSize;
-            $scope.endIndex = $scope.endIndex - $scope.pageSize;
-            if ($scope.startIndex < 0) {
-              $scope.startIndex = 0;
-              $scope.endIndex = $scope.startIndex + $scope.pageSize;
+            if ($scope.startIndex === $scope.rows.length) {
+              $scope.startIndex = $scope.startIndex - $scope.pageSize;
+            } else {
+              $scope.startIndex = $scope.startIndex - $scope.pageSize;
+              $scope.endIndex = $scope.endIndex - $scope.pageSize;
+              if ($scope.startIndex < 0) {
+                $scope.startIndex = 0;
+                $scope.endIndex = $scope.startIndex + $scope.pageSize;
+              }
             }
-          }
-          $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
-          $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
-          
-          if ($scope.page <= 1) {
-            $scope.page = 1;
-          } else {
-            $scope.page += -1;
-          }
-          scrollTop();
+            $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
+            $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
+
+            if ($scope.page <= 1) {
+              $scope.page = 1;
+            } else {
+              $scope.page += -1;
+            }
+            scrollTop();
+          });
         };
 
         function safeApply(scope, fn) {
@@ -146,16 +152,11 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           var keyCode = e.keyCode;
 
           if (keyCode === 39) {
-            safeApply($scope, function () {
               $scope.next();
               $('#next').attr('tabindex',-1).focus();
-            });
-
           } else if (keyCode === 37) {
-            safeApply($scope, function () {
               $scope.previous();
               $('#previous').attr('tabindex',-1).focus();
-            });
           }
         });
 
@@ -164,7 +165,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         $scope.urlEncodedJson = function(json) {
           return encodeURIComponent(JSON.stringify(json));
         };
-        
+
         self.setInputScope = function(scope) {
           inputScope = scope;
         };
@@ -304,7 +305,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           $scope.numberOfPages = 1;
           $scope.endIndex = $scope.startIndex + $scope.pageSize;
           $scope.renderTable = false;
-          
+
           var stmt = sql.replace(/^\s+|\s+$/g, '');
 
           if (stmt === '') {
@@ -510,10 +511,10 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           var stmt = ConsoleState.restore().stmt;
           editor.setValue(stmt);
           $console.updateStatement(stmt);
-        } 
+        }
 
         updateStatementOnUrlSearch();
-        
+
         $scope.$on('$stateChangeStart', updateStatementOnUrlSearch.bind(this));
 
         // input change event
@@ -615,6 +616,9 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         scope.toggleExpand = function toggleExpand() {
           scope.isExpanded = !scope.isExpanded;
         };
+        scope.$on('console-pagination', function() {
+          scope.isExpanded = false;
+        });
       }
     };
   })
@@ -641,6 +645,9 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         scope.toggleExpand = function toggleExpand() {
           scope.isExpanded = !scope.isExpanded;
         };
+        scope.$on('console-pagination', function() {
+          scope.isExpanded = false;
+        });
       }
     };
   })

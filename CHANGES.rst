@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed an issue that caused the result table to display incorrect results in
+  certain columns after clicking the pagination buttons.
+
 - Fixed an issue that caused the Twitter tutorial to not start automatically
   after the login redirect.
 
