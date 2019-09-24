@@ -45,9 +45,9 @@ angular.module('tutorial', ['sql', 'translation'])
           tweet.retweeted,
           tweet.source,
           tweet.text,
-          tweet.user], 
+          tweet.user],
           false,
-          false, 
+          false,
           false,
           false);
       };
@@ -196,7 +196,7 @@ angular.module('tutorial', ['sql', 'translation'])
 
     NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.HELP'), url, position, "tutorial");
 
-    if ($window.location.search.match(re) !== null) {
+    if ($window.location.hash.match(re) !== null) {
       var path = $window.location.pathname;
       localStorage.setItem('crate.start_twitter', 'true');
       $window.location.href = path + $window.location.search.replace(re, '') + '#!' + url;

@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed an issue that caused the Twitter tutorial to not start automatically
+  after the login redirect.
+
 2019/09/16 1.15.2
 =================
 
