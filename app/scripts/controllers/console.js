@@ -265,13 +265,6 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           }
         };
 
-        this.updateStatement = function(sql) {
-          statement = sql || '';
-        };
-        this.export = function() {
-          $scope.export();
-        }
-
         function safeApply(scope, fn) {
           if (scope && scope.$root) {
             var phase = scope.$root.$$phase;
