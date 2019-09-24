@@ -5,6 +5,8 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Limit Array rendering to improve performance.
+
 2019/09/16 1.15.2
 =================
 

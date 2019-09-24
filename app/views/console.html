@@ -98,9 +98,14 @@
 
                   <pre class="query-result string" ng-switch-when="timestamp">{{ column.value }} <span class="formatted-timestamp">({{ column.value | formatTimestamp }})</span></pre>
 
-                  <pre class="query-result" ng-switch-when="array" ><formatted-array array="column.value" typesarray="{{resultHeaderTypes[$index]}}" expand="true"></formatted-array></pre>
+                  <pre class="query-result" ng-switch-when="array" >
+                      <formatted-array ng-if="column.value.length < 100" array="column.value" typesarray="{{resultHeaderTypes[$index]}}" expand="true"></formatted-array>
+                      <div ng-if="column.value.length >= 100">{{column.value}}</div>
+                  </pre>
 
-                  <pre class="query-result" ng-switch-when="object"><formatted-object object="column.value" expand="true"></formatted-object></pre>
+                  <pre class="query-result" ng-switch-when="object">
+                      <formatted-object object="column.value" expand="true" ></formatted-object>
+                  </pre>
 
                   <pre class="query-result object" ng-switch-when="geo_shape"><span>Type</span>: {{ column.value['type']}} <a ng-href="http://geojson.io/#data=data:application/json,{{urlEncodedJson(column)}}" target="_blank"><i class="fa fa-external-link"></i></a><br/><span>Coordinates</span>: {{ column.value['coordinates'] }} </pre>
                   <pre ng-switch-default class="query-result" ng-class="column.type"><code class="cr-table-cell--max-width">{{column.value }}<span class="unsafe-number" data-original-title="{{'CONSOLE.UNSAFE_INTEGER' | translate }}" cr-tooltip cr-tooltip-position="right" ng-if="!ColumnTypeCheck.isSafe(column.value)"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></code></pre>
