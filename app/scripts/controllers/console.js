@@ -45,7 +45,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
 
     return service;
   })
-  .service('ExportUtils', function () {
+  .service('ExportService', function () {
     var utils = {};
 
     utils.arrayFrom = function (json) {
@@ -116,7 +116,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
 
     return utils;
   })
-  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState, ExportUtils, queryResultToObjects){
+  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState, ExportService, queryResultToObjects){
     return {
       restrict: 'A',
       controller: ['$scope', '$rootScope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $rootScope, $translate, $location, Clipboard, $timeout){
@@ -219,7 +219,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           switch (format.id) {
             case 'json':
               var objs = queryResultToObjects({ rows: rows }, cols);
-              ExportUtils.saveFile('export.json', 'application/json', JSON.stringify(objs));
+              ExportService.saveFile('export.json', 'application/json', JSON.stringify(objs));
               break;
             case 'csv':
               var separator = ',';
@@ -250,17 +250,17 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
     
                 if (!last) { output += linebreak; }
               })
-              ExportUtils.saveFile('export.csv', 'text/csv', output);
+              ExportService.saveFile('export.csv', 'text/csv', output);
               break;
             case 'csv-flat':
               // Parts borrowed from https://github.com/konklone/json
               var objs = queryResultToObjects({ rows: rows }, cols);
-              var inArray = ExportUtils.arrayFrom(objs);
+              var inArray = ExportService.arrayFrom(objs);
               var outArray = [];
               for (var row in inArray)
-                  outArray[outArray.length] = ExportUtils.flattenObject(inArray[row]);
+                  outArray[outArray.length] = ExportService.flattenObject(inArray[row]);
               var output = window.csv.fromObjects(outArray);
-              ExportUtils.saveFile('export.csv', 'text/csv', output);
+              ExportService.saveFile('export.csv', 'text/csv', output);
               break;
           }
         };
