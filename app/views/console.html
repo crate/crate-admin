@@ -81,7 +81,7 @@
             <i class="fa fa-download" aria-hidden="true"></i>
           </div>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li ng-repeat="f in exportSupportedFormats" ng-click="export(f)"><a class="dropdown-item" >{{'CONSOLE.FORMATS.' + f.id | uppercase | translate}}</a></li>
+            <li ng-repeat="format in exportSupportedFormats" ng-click="export(format)"><a class="dropdown-item" >{{'CONSOLE.FORMATS.' + format.id | uppercase | translate}}</a></li>
           </ul>
       </div>
       <div id="previous" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--previous" ng-click="previous()" ng-class="page === 1 ?  'cr-button--disabled':'' "><i class="fa fa-angle-left" aria-hidden="true"></i></div>
