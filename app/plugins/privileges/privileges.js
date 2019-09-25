@@ -61,7 +61,7 @@ angular.module('privileges', ['sql'])
       scope: {
         users: '='
       },
-      templateUrl: '/static/plugins/privileges/userList.html',
+      templateUrl: 'static/plugins/privileges/userList.html',
       controllerAs: 'UserListController',
       controller: function ($scope, $location, $state) {
         $scope.currentUser = $scope.$parent.selectedUser;

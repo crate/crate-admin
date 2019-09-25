@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed an issue that caused the users list in the privileges tab to not displayed
+  when the CrateDB Admin UI is not served from ``/``.
+
 - Fixed an issue that caused the pagination button styling to break.
 
 - Fixed an issue that caused the result table to display incorrect results in
