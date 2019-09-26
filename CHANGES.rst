@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2019/09/26 1.15.3
+=================
+
+Fixes
+-----
+
 - Fixed an issue that caused the users list in the privileges tab to not displayed
   when the CrateDB Admin UI is not served from ``/``.
 
