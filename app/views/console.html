@@ -69,13 +69,14 @@
         <div class="indeterminate"></div>
     </div>
 
-
+    <div class="cr-panel-block__chart cr-chart" ng-if="chartVisible"><nvd3 id="chart" config="{refreshDataOnly: true, deepWatchData: true}" options="chartOptions" data="chartData"></nvd3></div>
 
     <div ng-if="renderTable" class="query-result-container" ng-class="{colourised: formatResults}">
 
       <div class="query-result-container__header">
 
       <div class="query-result-container__header--title">{{:: 'CONSOLE.RESULT_FROM_QUERY' | translate }}</div>
+      <div class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--chart" ng-click="toggleChart()"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
       <div id="previous" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--previous" ng-click="previous()" ng-class="page === 1 ?  'cr-button--disabled':'' "><i class="fa fa-angle-left" aria-hidden="true"></i></div>
       <div class="query-result-container__header--page" ng-click="previous()">{{ page }} / {{ numberOfPages }}</div>
       <div id="next" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--next" ng-class="page === numberOfPages ?  'cr-button--disabled':'' " ng-click="next()"><i class="fa fa-angle-right" aria-hidden="true"></i></div>

@@ -45,7 +45,31 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
 
     return service;
   })
-  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState){
+  .service('ChartService', function () {
+    var service = {
+      colors: ["#e6194B", "#3cb44b", "#911eb4", "#4363d8", "#f58231", "#f032e6"]
+    };
+    var state = {
+      lastColorIndex: -1
+    };
+
+    service.getNextColor = function () {
+      if (state.lastColorIndex === service.colors.length - 1) { state.lastColorIndex = -1; }
+      state.lastColorIndex++;
+      return service.colors[state.lastColorIndex];
+    };
+    service.formatValue = function (value, type) {
+      switch (type) {
+        case 'timestamp':
+          return new Date(value).toISOString();
+        default:
+          return value
+      }
+    };
+
+    return service;
+  })
+  .directive('console', function(SQLQuery, ColumnTypeCheck, ConsoleFormatting, ClusterState, ChartService){
     return {
       restrict: 'A',
       controller: ['$scope', '$translate', '$location', 'Clipboard', '$timeout' , function($scope, $translate, $location, Clipboard, $timeout){
@@ -73,6 +97,58 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           hide: true,
           message: ''
         };
+
+        $scope.chartVisible = false;
+        $scope.chartOptions = {
+          chart: {
+            type: 'lineChart',
+            height: 350,
+            margin: {
+              'top': 20,
+              'right': 20,
+              'bottom': 30,
+              'left': 40
+            },
+            x: function(d) { if (d) { return d.x; } },
+            y: function(d) { if (d) { return d.y; } },
+            useInteractiveGuideline: true,
+            transitionDuration: 0,
+            showXAxis: false,
+            yAxis: {
+              ticks: 8,
+              axisLabelDistance: 0,
+              showMaxMin: false
+            },
+            showLegend: true,
+            interactiveLayer:{
+              tooltip:{
+                contentGenerator: function(e){
+                  if (e == null) { return ''; }
+                  
+                  var data = $scope.formatted_rows[e.index];
+                  if (data == null) { return ''; }
+
+                  var rows = '';
+                  $scope.resultHeaders.forEach(function (column, index) {
+                    var series = e.series.find(function (series) { return series.key === column; });
+                    rows += '<tr>' +
+                      '<td class="legend-color-guide"><div style="background-color:' + (series == null ? '#fff' : series.color) + '"></div></td>' +
+                      '<td class="key">' + column + '</td>' +
+                      '<td class="value">' +
+                        ($scope.formatResults ? ChartService.formatValue(data[index].value, $scope.resultHeaderDataTypes[index]) : data[index].value) +
+                      '</td>' + 
+                    '</tr>';
+                  });
+
+                  return '<table>' +
+                    '<tbody>' + rows + '</tbody>' +
+                  '</table>';
+                }
+              }
+            }
+          }
+        };
+        $scope.chartData = []
 
         $scope.pageSize = 50;
         $scope.startIndex = 0;
@@ -209,6 +285,9 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
         $scope.toggleOptions = function toggleOptions(){
           $scope.showOptions = !$scope.showOptions;
         };
+        $scope.toggleChart = function toggleChart(){
+          $scope.chartVisible = !$scope.chartVisible;
+        };
 
         $scope.clearLocalStorage = function() {
           $translate(['CONSOLE.CLEAR_HISTORY_MSG', 'CONSOLE.CLEAR_HISTORY_MSG_PLURAL']).then(function(i18n) {
@@ -298,6 +377,30 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           $scope.paginated_formatted_rows = $scope.formatted_rows.slice($scope.startIndex, $scope.endIndex);
         }
 
+        function buildChart(){
+          $scope.chartData.length = 0;
+
+          $scope.resultHeaders.forEach(function(column, i) {
+            var type = $scope.resultHeaderDataTypes[i]
+
+            if (type === 'number') {
+              var seriesData = {
+                key: column,
+                color: ChartService.getNextColor(),
+                values: $scope.formatted_rows.map(function(row, j){
+                  return {
+                    x: j + 1,
+                    y: row[i].value
+                  };
+                }),
+                disabled: false
+              };
+  
+              $scope.chartData.push(seriesData);
+            }
+          })
+        }
+
         self.execute = function(sql) {
           $scope.startIndex = 0;
           $scope.page = 1;
@@ -339,12 +442,18 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
                 $scope.resultHeaderTypes.push(response.col_types[i]);
               }
 
+              $scope.resultHeaderDataTypes = [];
+              for (i = 0; i < response.cols.length; i++) {
+                $scope.resultHeaderDataTypes.push(getDataType(response.cols[i], response.col_types[i]));
+              }
+
               $scope.rows = response.rows;
               $scope.limitToAmount = 0;
               $scope.status = response.status();
               $scope.statement = stmt + ';';
               inputScope.updateInput($scope.statement);
               formatData();
+              buildChart();
               $scope.paginated_rows = $scope.rows.slice($scope.startIndex, $scope.endIndex);
               $scope.numberOfPages = Math.ceil($scope.rows.length / $scope.pageSize);
               //refresh cluster state
@@ -353,6 +462,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
               $scope.loading = false;
               $scope.error.hide = false;
               $scope.renderTable = false;
+              $scope.chartVisible = false;
               $scope.error = response.error;
 
               if (!$scope.showErrorTrace && !displayedErrorTraceHint) {
