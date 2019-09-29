@@ -132,7 +132,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
                   $scope.resultHeaders.forEach(function (column, index) {
                     var series = e.series.find(function (series) { return series.key === column; });
                     rows += '<tr>' +
-                      '<td class="legend-color-guide"><div style="background-color:' + (series == null ? '#fff' : series.color) + '"></div></td>' +
+                      '<td class="legend-color-guide">' + (series != null ? ('<div style="background-color:' + series.color + '"></div>') : '') + '</td>' +
                       '<td class="key">' + column + '</td>' +
                       '<td class="value">' +
                         ($scope.formatResults ? ChartService.formatValue(data[index].value, $scope.resultHeaderDataTypes[index]) : data[index].value) +
