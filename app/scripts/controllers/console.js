@@ -116,8 +116,8 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
               $scope.startIndex = $scope.startIndex - $scope.pageSize;
             } else {
               $scope.startIndex = $scope.startIndex - $scope.pageSize;
-              $scope.endIndex = $scope.endIndex - $scope.pageSize;
-              if ($scope.startIndex < 0) {
+              $scope.endIndex = $scope.startIndex + $scope.pageSize;
+              if ($scope.startIndex <= 0) {
                 $scope.startIndex = 0;
                 $scope.endIndex = $scope.startIndex + $scope.pageSize;
               }

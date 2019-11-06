@@ -5,6 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Fixes
+-----
+
+- Fixed an issue that caused the pagination ``Previous`` button to not display the 
+  whole list of results for that page in the Console view.
+
 2019/09/26 1.15.3
 =================
 
