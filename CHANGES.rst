@@ -2,8 +2,8 @@
 Changes for Crate Admin Interface
 =================================
 
-Unreleased
-==========
+2019/11/06 1.15.4
+=================
 
 Fixes
 -----
