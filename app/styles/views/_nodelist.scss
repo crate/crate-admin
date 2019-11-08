@@ -30,6 +30,8 @@
 	margin: 0 0 3px 0;
 	font-size: $font-size-small;
 	font-weight: bold;
+	word-break: break-all;
+	max-width: 190px;
 }
 
 .node-list__element__cell {

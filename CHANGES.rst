@@ -2,6 +2,12 @@
 Changes for Crate Admin Interface
 =================================
 
+Fixes
+-----
+
+- Fixed an issue that caused the node health to not be displayed in the Cluster 
+  View when the node name was too large.
+
 2019/11/06 1.15.4
 =================
 
