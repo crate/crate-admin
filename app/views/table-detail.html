@@ -160,7 +160,7 @@
           <tr ng-repeat="item in ptCtlr.data|orderBy:ptCtlr.sort.col:ptCtlr.sort.desc track by $index">
             <td class="{{ item.health_cell_class }}">{{ item.health }}</td>
             <td>{{ item.partition_ident }}</td>
-            <td ng-repeat="col in table.partitioned_by track by $index">{{ item.partition_values[col] ? item.partition_values[col] : 'NULL' }}</td>
+            <td ng-repeat="col in table.partitioned_by track by $index">{{ item.partition_values[col] === null ? 'NULL' : item.partition_values[col] }}</td>
 
             <td>{{ item.replicas_configured }}</td>
 

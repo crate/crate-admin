@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Fixes
 -----
 
+- Fixed an issue that caused a ``0`` value for the partitioned by column of a
+  table to be displayed as ``NULL`` instead.
+
 - Fixed an issue that caused the node health to not be displayed in the Cluster 
   View when the node name was too large.
 
