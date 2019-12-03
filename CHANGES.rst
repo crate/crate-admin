@@ -2,6 +2,11 @@
 Changes for Crate Admin Interface
 =================================
 
+Fixes
+-----
+
+- Fixed capitalization of ``Shards`` tab label
+
 2019/11/22 1.15.5
 =================
 
