@@ -7,6 +7,12 @@ Fixes
 
 - Fixed capitalization of ``Shards`` tab label
 
+- Updated keywords list so that they are recognised and painted in red.
+
+- Upgraded ``node-sass``'s minor version, which introduces no changes
+  for the end user, but improves maintenance. See release notes here
+  node_sass_release_notes_.
+
 2019/11/22 1.15.5
 =================
 
@@ -16,7 +22,7 @@ Fixes
 - Fixed an issue that caused a ``0`` value for the partitioned by column of a
   table to be displayed as ``NULL`` instead.
 
-- Fixed an issue that caused the node health to not be displayed in the Cluster 
+- Fixed an issue that caused the node health to not be displayed in the Cluster
   View when the node name was too large.
 
 2019/11/06 1.15.4
@@ -1347,3 +1353,6 @@ Fixes
 ================
 
  - initial project setup.
+
+
+.. _node_sass_release_notes: https://github.com/sass/node-sass/releases/tag/v4.13.0
