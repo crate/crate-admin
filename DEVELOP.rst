@@ -141,6 +141,10 @@ Then build the documentation by running::
 The docs are automatically built from Git by `Read the Docs`_ and there is
 nothing special you need to do to get the live docs to update.
 
+To make changes to the RTD configuration (e.g., to activate or deactivate a
+release version), please contact the `@crate/docs`_ team.
+
+.. _@crate/docs: https://github.com/orgs/crate/teams/docs
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _Read the Docs: http://readthedocs.org
