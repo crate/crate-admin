@@ -207,8 +207,7 @@ WHERE
                   var shardInfoForPartition = shardResult.filter(filterByIdent(ident));
                   var confInfoForPartition = partitionResult.filter(filterByIdent(ident));
                   if (confInfoForPartition.length === 1) {
-                    var info = new TableInfo(shardInfoForPartition,
-                      confInfoForPartition[0].number_of_shards);
+                    var info = new TableInfo(shardInfoForPartition, confInfoForPartition[0].number_of_shards);
                     var o = info.asObject();
                     o.partition_values = confInfoForPartition[0].values;
                     o.partition_ident = ident;

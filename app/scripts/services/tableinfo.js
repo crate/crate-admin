@@ -7,9 +7,16 @@ const tableinfo = angular.module('tableinfo', ['sql'])
     var isActiveShard = function(shard) {
       return ACTIVE_SHARDS.indexOf(shard.routing_state) > -1;
     };
+
+    var dotNotationToSubscript = function (column) {
+      return column.replace(/\.([a-zA-Z]+)/g, function(match, p1, offset, str) {
+        return `['` + p1 + `']`; 
+      });
+    };
+
     return function(arg1, arg2, arg3, arg4) {
       var shards = arg1 ? angular.copy(arg1) : [];
-      var partitionedBy = arg3 ? angular.copy(arg3) : [];
+      var partitionedBy = arg3 ? angular.copy(arg3).map(dotNotationToSubscript) : [];
       var partitioned = partitionedBy.length > 0;
       var numShardsConfigured = arg2 || 0;
       var recovery = arg4 || [];
