@@ -1,12 +1,45 @@
-language: node_js
-node_js:
-  - '8.9.0'
-before_install:
-- pip install --user codecov
-before_script:
-  - "npm install"
-script:
-  - npm run travis
-branches:
-  except:
-    - /.*\/.*/
+notifications:
+  email: false
+
+code: &code
+  stage: "Code"
+  language: node_js
+  before_install:
+  - pip install --user codecov
+  before_script:
+    - "npm install"
+  script:
+    - npm run travis
+  branches:
+    except:
+      - /.*\/.*/
+
+
+docs: &docs
+  stage: "Documentation"
+  language: generic
+  script:
+    - cd docs && make check
+
+matrix:
+  include:
+
+    - <<: *code
+      name: "Node 8.9.0"
+      node_js:
+      - '8.9.0'
+
+    - <<: *docs
+      name: "Python 3.7"
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+          packages:
+            - python3.7-dev
+            - python3.7-venv
+    - <<: *docs
+      name: "Python 3.7"
+      os: osx
+      osx_image: xcode10.2

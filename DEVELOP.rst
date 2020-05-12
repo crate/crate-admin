@@ -2,10 +2,12 @@
 Developer Guide
 ===============
 
+
 Prerequisites
 =============
 
 You will need Python 3.5 installed.
+
 
 Setup
 =====
@@ -22,6 +24,7 @@ Install the package dependencies::
     $ env/bin/npm install node-sass
     $ env/bin/npm install
 
+
 Building the App
 ================
 
@@ -32,6 +35,7 @@ Build the app like so::
 To run the admin UI as a standalone app, open the ``build/index.html`` file in
 your browser.
 
+
 Running the App for Development
 ===============================
 
@@ -40,6 +44,7 @@ Start the development server on port ``9000``::
     $ env/bin/npm start
 
 You should now be able to access the app at: http://localhost:9000/
+
 
 Connecting to CrateDB
 =====================
@@ -56,6 +61,7 @@ node, like so::
     http://localhost:9000/?base_uri=http://localhost:4200
 
 This  ``base_uri`` parameter is intended for development use only.
+
 
 Adding New Dependencies
 =======================
@@ -74,11 +80,13 @@ Dev dependencies should be added as follow::
 
     $ env/bin/npm install [dependency] --save-dev
 
+
 Adding New Components
 =====================
 
 When a new component is created (a module or a service or a controller),
 it should be imported to ``./app/app.components.js``.
+
 
 Adding New Stylesheets
 ======================
@@ -89,12 +97,14 @@ When a new stylesheet is created it should be imported to
 Vendor styles should also be imported to ``./styles/styles.scss``
 and ``./styles/styles-enterprise.scss``
 
+
 Running Tests
 =============
 
 You can run the tests like so::
 
     $ env/bin/npm test
+
 
 Plugins
 =======
@@ -103,6 +113,7 @@ On startup, the ``conf/plugins.json`` file is read and plugins
 (Angular modules) are loaded.
 
 The `tutorial plugin`_ is loaded by the default configuration.
+
 
 Preparing a Release
 ===================
@@ -123,31 +134,83 @@ To create a new release, you must:
 
 - Run the ``crate-admin_release`` job in Jenkins
 
-Writing Documentation
-=====================
 
-The docs live under the ``docs`` directory.
+Documentation
+=============
 
-The docs are written with ReStructuredText_ and processed with Sphinx_.
+The documentation is written using `Sphinx`_ and `ReStructuredText`_.
 
-First, install the additional dependencies by running::
 
-    $ env/bin/pip install -Ur requirements-docs.txt
+Working on the documentation
+----------------------------
 
-Then build the documentation by running::
+Python 3.7 is required.
 
-    $ env/bin/sphinx-autobuild docs out
+Change into the ``docs`` directory:
 
-The docs are automatically built from Git by `Read the Docs`_ and there is
-nothing special you need to do to get the live docs to update.
+.. code-block:: console
+
+    $ cd docs
+
+For help, run:
+
+.. code-block:: console
+
+    $ make
+
+    Crate Docs Utils
+
+    Run `make <TARGET>`, where <TARGET> is one of:
+
+      dev     Run a Sphinx development server that builds and lints the
+              documentation as you edit the source files
+
+      html    Build the static HTML output
+
+      check   Build, test, and lint the documentation
+
+      delint  Remove any `*.lint` files
+
+      reset   Reset the build cache
+
+You must install `fswatch`_ to use the ``dev`` target.
+
+
+Continuous integration and deployment
+-------------------------------------
+
+|utils| |travis| |rtd|
+
+Travis CI is `configured`_ to run ``make check`` from the ``docs`` directory.
+Please do not merge pull requests until the tests pass.
+
+`Read the Docs`_ (RTD) automatically deploys the documentation whenever a
+configured branch is updated.
 
 To make changes to the RTD configuration (e.g., to activate or deactivate a
 release version), please contact the `@crate/docs`_ team.
 
+
 .. _@crate/docs: https://github.com/orgs/crate/teams/docs
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
+.. _configured: https://github.com/crate/crate-admin/blob/master/.travis.yml
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
+.. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
 .. _tutorial plugin: app/plugins/tutorial
+
+
+.. |utils| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-admin%2Fmaster%2Fdocs%2Futils.json
+    :alt: Utils version
+    :target: https://github.com/crate/crate-admin/blob/master/docs/utils.json
+
+.. |travis| image:: https://img.shields.io/travis/crate/crate-admin.svg?style=flat
+    :alt: Travis CI status
+    :target: https://travis-ci.org/crate/crate-admin
+
+.. |rtd| image:: https://readthedocs.org/projects/crate-admin-ui/badge/?version=latest
+    :alt: Read The Docs status
+    :target: https://readthedocs.org/projects/crate-admin-ui
+
