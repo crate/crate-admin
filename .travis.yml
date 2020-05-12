@@ -5,7 +5,7 @@ code: &code
   stage: "Code"
   language: node_js
   before_install:
-  - pip install --user codecov
+    - pip install --user codecov
   before_script:
     - "npm install"
   script:
@@ -13,7 +13,6 @@ code: &code
   branches:
     except:
       - /.*\/.*/
-
 
 docs: &docs
   stage: "Documentation"
