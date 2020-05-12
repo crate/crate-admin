@@ -1,8 +1,14 @@
+.build
+.DS_Store
+.env
 .idea/
 .installed.cfg
 .tmp/
+.utils
+.venv/
 *.DS_Store
 *.egg-info
+*.lint
 *.pyc
 *.pyo
 app/tests/coverage/
@@ -13,9 +19,7 @@ coverage/
 develop-eggs/
 dist/
 eggs/
+env/
 node_modules/
 out/
 parts/
-.venv/
-env/
-out/

@@ -2,7 +2,7 @@
 CrateDB Admin UI
 ================
 
-|build-status| |docs|
+|build-status|
 
 An admin user interface (UI) for `CrateDB`_.
 
@@ -12,7 +12,7 @@ to install it separately unless you are contributing to the project.
 Contributing
 ============
 
-This project is primarily maintained by Crate.io_, but we welcome community
+This project is primarily maintained by `Crate.io`_, but we welcome community
 contributions!
 
 See the `developer docs`_ and the `contribution docs`_ for more information.
@@ -37,8 +37,3 @@ Looking for more help?
     :alt: Build status
     :scale: 100%
     :target: https://travis-ci.org/crate/crate-admin
-
-.. |docs| image:: https://img.shields.io/badge/docs-latest-brightgreen.svg
-    :alt: Docs
-    :scale: 100%
-    :target: https://crate.io/docs/clients/admin-ui/en/latest/

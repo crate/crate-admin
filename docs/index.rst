@@ -76,7 +76,7 @@ Along the top of the screen, from left to right, the status bar has:
   - Data status:
 
     :Green: All data is replicated and available
-    :Yellow: There are unreplicated records
+    :Yellow: Some records are unreplicated
     :Red: Some data is unavailable
 
   - Cluster status:
