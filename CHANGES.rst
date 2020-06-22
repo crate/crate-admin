@@ -2,6 +2,16 @@
 Changes for Crate Admin Interface
 =================================
 
+Unreleased
+==========
+
+Fixes
+-----
+
+- Fixed an issue where a nested column with a space in it would not be
+  identified as one, resulting in an incorrect query when using the
+  'Query Table' feature.
+
 2020/01/29 1.15.6
 =================
 

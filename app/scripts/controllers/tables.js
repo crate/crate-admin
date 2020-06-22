@@ -141,7 +141,7 @@ WHERE
         };
 
         var isNestedColumn = function (column) {
-          var re = /([^\s]+)(\[\'([^\s]+)\'])+/i;
+          var re = /([^\s]+)(\[\'(.+)\'])+/i;
           return column.match(re);
         };
 
