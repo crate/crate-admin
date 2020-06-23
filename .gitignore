@@ -5,6 +5,7 @@
 .installed.cfg
 .tmp/
 .utils
+.clone
 .venv/
 *.DS_Store
 *.egg-info
