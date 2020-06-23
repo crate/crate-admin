@@ -197,7 +197,7 @@ release version), please contact the `@crate/tech-writing`_ team.
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
-.. _ReStructuredText: http://docbuild.sourceforge.net/rst.html
+.. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
 .. _tutorial plugin: app/plugins/tutorial
 
