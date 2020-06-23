@@ -3,7 +3,7 @@
 const datatypechecks = angular.module('datatypechecks', [])
   .factory('ColumnTypeCheck', function() {
     var ColumnTypeCheck = {};
-    var formattedDataTypes = [11, 13, 14, 12];
+    var formattedDataTypes = [11, 13, 14, 12, 20];
 
     ColumnTypeCheck.isGeopoint = function(dataType) {
       return dataType == 13;
@@ -19,6 +19,10 @@ const datatypechecks = angular.module('datatypechecks', [])
 
     ColumnTypeCheck.requiresJSONFormatting = function(dataType) {
       return dataType == 12;
+    };
+
+    ColumnTypeCheck.isTimeWithTimezone = function(dataType) {
+      return dataType == 20;
     };
 
     ColumnTypeCheck.requiresArrayFormatting = function(dataType) {

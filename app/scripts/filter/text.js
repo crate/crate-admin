@@ -77,9 +77,42 @@ const filters_text = angular.module('filters_text', [])
     return function(timestamp) {
       var is_valid = timestamp == 0 || (new Date(timestamp)).getTime() > 0;
       if (!is_valid) {
-        return "Invalid Timestamp";
+        return 'Invalid Timestamp';
       }
       return new Date(timestamp).toISOString();
+    };
+  })
+  .filter('formatTimeWithTimezone', function() {
+    function formatTimeElement(element) {
+      if (element < 10) {
+        return '0' + Math.floor(element);
+      } else {
+        return String(Math.floor(element));
+      }
+    }
+    function formatMicrosecondsSinceMidnight(microseconds) {
+      const ms_in_second = 1000000;
+      const ms_in_minute = 60*ms_in_second;
+      const ms_in_hour = 60*ms_in_minute;
+
+      var hours = formatTimeElement(microseconds / ms_in_hour);
+      var remainder = microseconds % ms_in_hour;
+      var minutes = formatTimeElement(remainder / ms_in_minute);
+      remainder = remainder % ms_in_minute;
+      var seconds = formatTimeElement(remainder / ms_in_second);
+      remainder = remainder % ms_in_second;
+      return `${hours}:${minutes}:${seconds}.${remainder}`;
+    }
+    function formatTimezone(seconds_from_utc) {
+      var sign = seconds_from_utc < 0 ? '-' : '+';
+      var hours = formatTimeElement(Math.abs(seconds_from_utc)/(60*60));
+      var mins = formatTimeElement(Math.abs(seconds_from_utc)%(60*60)/60);
+      return `${sign}${hours}:${mins}`;
+    }
+    return function([microseconds_since_midnight, seconds_from_utc]) {
+      var time = formatMicrosecondsSinceMidnight(microseconds_since_midnight);
+      var timezone = formatTimezone(seconds_from_utc);
+      return `${time}${timezone}`;
     };
   });
 

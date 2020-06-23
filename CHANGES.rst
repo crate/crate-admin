@@ -5,6 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Changes
+-------
+
+- Added console results formatting for the new Time with timezone data type.
+
 Fixes
 -----
 

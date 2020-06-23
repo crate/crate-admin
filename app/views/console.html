@@ -98,6 +98,8 @@
 
                   <pre class="query-result string" ng-switch-when="timestamp">{{ column.value }} <span class="formatted-timestamp">({{ column.value | formatTimestamp }})</span></pre>
 
+                  <pre class="query-result string" ng-switch-when="time with timezone">{{ column.value | formatTimeWithTimezone }}</span></pre>
+
                   <pre class="query-result" ng-switch-when="array" ><formatted-array array="column.value" typesarray="{{resultHeaderTypes[$index]}}" expand="false"></formatted-array></pre>
 
                   <pre class="query-result" ng-switch-when="object"><formatted-object object="column.value" expand="false"></formatted-object></pre>

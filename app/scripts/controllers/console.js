@@ -271,6 +271,8 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
                 // Geoshape
             case 14:
               return 'geo_shape';
+            case 20:
+              return 'time with timezone';
             }
           }
 
