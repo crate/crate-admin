@@ -30,6 +30,11 @@ describe('ColumnTypeCheck', function() {
     }));
 
     it('should return true', inject(function() {
+      var datatypecheck = mockColumnTypeChecksService.isTimeWithTimezone(20);
+      expect(datatypecheck).toEqual(true);
+    }));
+
+    it('should return true', inject(function() {
       var datatypecheck = mockColumnTypeChecksService.requiresJSONFormatting(12);
       expect(datatypecheck).toEqual(true);
     }));

@@ -100,3 +100,36 @@ describe('formatTimestamp', function() {
 	});
 });
 
+describe('formatTimeWithTimezone', function () {
+        'use strict';
+
+	var $filter;
+
+	beforeEach(function() {
+		angular.mock.module('crate');
+		angular.mock.module('common');
+	});
+
+	beforeEach(function() {
+		inject(function(_$filter_) {
+			$filter = _$filter_;
+		});
+	});
+
+        it('should return 10:43:55.953299+00:00', function() {
+		var formatTimeWithTimezone;
+		formatTimeWithTimezone = $filter('formatTimeWithTimezone');
+		expect(formatTimeWithTimezone([38635953299, 0])).toBe('10:43:55.953299+00:00');
+	});
+
+        it('should return 13:59:59.999999+02:00', function() {
+		var formatTimeWithTimezone;
+		formatTimeWithTimezone = $filter('formatTimeWithTimezone');
+		expect(formatTimeWithTimezone([50399999999, 7200])).toBe('13:59:59.999999+02:00');
+	});
+        it('should return 11:00:00.999999-04:00', function() {
+		var formatTimeWithTimezone;
+		formatTimeWithTimezone = $filter('formatTimeWithTimezone');
+		expect(formatTimeWithTimezone([39600999999, -14400])).toBe('11:00:00.999999-04:00');
+	});
+});
