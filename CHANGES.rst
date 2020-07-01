@@ -2,8 +2,8 @@
 Changes for Crate Admin Interface
 =================================
 
-Unreleased
-==========
+2020-07-01 1.16.0
+=================
 
 Changes
 -------
