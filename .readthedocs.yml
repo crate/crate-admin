@@ -4,9 +4,6 @@ sphinx:
   configuration: docs/conf.py
   fail_on_warning: true
 
-formats:
-  - pdf
-
 python:
   version: 3.7
   install:
