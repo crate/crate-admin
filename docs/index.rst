@@ -4,15 +4,14 @@
 The CrateDB Admin UI
 ====================
 
-CrateDB ships with a web administration user interface (UI), or *admin UI* for
-short.
+CrateDB ships with a web administration user interface (or *admin UI*).
 
-The CrateDB admin UI runs on every CrateDB node, and you can use it to inspect
+The CrateDB admin UI runs on every CrateDB node. You can use it to inspect
 and interact with the whole CrateDB cluster in a number of ways.
 
 .. SEEALSO::
 
-   The CrateDB admin UI is an open source project and is `hosted on GitHub`_.
+   The CrateDB admin UI is an open-source project `hosted on GitHub`_.
 
 .. rubric:: Table of contents
 
@@ -22,50 +21,45 @@ and interact with the whole CrateDB cluster in a number of ways.
 Connecting
 ==========
 
-The admin UI is accessible via HTTP at port ``4200``, at a URL like so::
+You can access the admin UI via HTTP on port ``4200``::
 
   http://HOSTNAME:4200/
 
-Here, replace ``HOSTNAME`` with the hostname of the CrateDB node. If CrateDB
-is running locally, this will be ``localhost``.
+Replace ``HOSTNAME`` with the hostname of the CrateDB node. If CrateDB is
+running locally, this will be ``localhost``.
+
+Navigate to this URL in a web browser.
 
 .. TIP::
 
-    If port ``4200`` is accessed via a client library or command line tool like
-    ``curl`` or ``wget``, the request will be handled by `the CrateDB Rest
-    API`_, and the response will be JSON.
+    If you access port ``4200`` via a client library or command-line tool 
+    like ``curl`` or ``wget``, the request will be handled by the `CrateDB
+    Rest API`_, and the response will be in JSON.
 
-.. _the CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 
-Overview screen
-===============
+Navigating
+==========
 
-Here's what the admin UI will look like when it first loads:
+This is what the admin UI looks like when it first loads:
 
 .. image:: admin-ui.png
 
 .. NOTE::
 
-   This is the standard theme. The `community edition`_ of CrateDB uses a
+   This is the standard theme. The `Community Edition`_ of CrateDB uses a
    lighter theme.
 
-.. _Enterprise version: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
 
-The navigation is split into two parts:
-
-- The `status bar`_ (along the top)
-
-- The `tabs`_ (down the left-hand side)
+Take note of the  `status bar`_ (at the top) and the `tabs`_ (down the left side).
 
 .. _status-bar:
 
 Status bar
 ----------
 
-Along the top of the screen, from left to right, the status bar has:
+Along the top of the screen, from left to right, the status bar shows:
 
-- `Cluster name
-  <https://crate.io/docs/reference/configuration.html#cluster-name>`_
+- `Cluster name`_
 
 - CrateDB version
 
@@ -85,7 +79,7 @@ Along the top of the screen, from left to right, the status bar has:
     :Yellow: Some configuration warnings
     :Red: Some configuration errors
 
-- Average cluster load (for the past minute, 5 minutes, and 15 minutes)
+- Average cluster load (for the past 1 minute, 5 minutes, and 15 minutes)
 
 - Settings and notifications menu
 
@@ -103,24 +97,29 @@ Tabs
    privileges
    help
 
-Running down the left-hand side, from top to bottom, the tabs are:
+On the left-hand side, from top to bottom, the tabs are:
 
-- `Overview screen`_
+- Overview screen
 
 - :ref:`SQL console <sql-console>`
 
 - :ref:`Tables browser <tables-browser>`
 
-- :ref:`Shards browser <shards-browser>` (`enterprise only`_)
+- :ref:`Shards browser <shards-browser>` *
 
 - :ref:`Cluster browser <cluster-browser>`
 
-- :ref:`Monitoring overview <monitoring-overview>` (`enterprise only`_)
+- :ref:`Monitoring overview <monitoring-overview>` *
 
-- :ref:`Privileges browser <privileges-browser>` (`enterprise only`_)
+- :ref:`Privileges browser <privileges-browser>` *
 
 - :ref:`Help screen <help-screen>`
 
-.. _community edition: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
-.. _enterprise only: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
+  `*` *only available in the* `enterprise version`_ 
+
+
+.. _Cluster name: https://crate.io/docs/crate/reference/en/latest/config/node.html#basics
+.. _Community Edition: https://crate.io/docs/crate/reference/en/latest/editions.html#cratedb-community-edition
+.. _CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
+.. _enterprise version: https://crate.io/docs/crate/reference/en/latest/editions.html#cratedb
 .. _hosted on GitHub: https://github.com/crate/crate-admin
