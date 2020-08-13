@@ -4,14 +4,14 @@
 The CrateDB Admin UI
 ====================
 
-CrateDB ships with a web administration user interface (or *admin UI*).
+CrateDB ships with a web administration user interface (or *Admin UI*).
 
-The CrateDB admin UI runs on every CrateDB node. You can use it to inspect
+The CrateDB Admin UI runs on every CrateDB node. You can use it to inspect
 and interact with the whole CrateDB cluster in a number of ways.
 
 .. SEEALSO::
 
-   The CrateDB admin UI is an open source project and is `hosted on GitHub`_.
+   The CrateDB Admin UI is an open source project and is `hosted on GitHub`_.
 
 .. rubric:: Table of contents
 
@@ -21,7 +21,7 @@ and interact with the whole CrateDB cluster in a number of ways.
 Connecting
 ==========
 
-You can access the admin UI via HTTP on port ``4200``::
+You can access the Admin UI via HTTP on port ``4200``::
 
   http://HOSTNAME:4200/
 
@@ -40,7 +40,7 @@ Navigate to this URL in a web browser.
 Navigating
 ==========
 
-This is what the admin UI looks like when it first loads:
+This is what the Admin UI looks like when it first loads:
 
 .. image:: admin-ui.png
 
