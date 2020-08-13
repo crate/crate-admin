@@ -11,7 +11,7 @@ and interact with the whole CrateDB cluster in a number of ways.
 
 .. SEEALSO::
 
-   The CrateDB admin UI is an open-source project `hosted on GitHub`_.
+   The CrateDB admin UI is an open source project and is `hosted on GitHub`_.
 
 .. rubric:: Table of contents
 
