@@ -27,7 +27,7 @@ const filters_numbers = angular.module('filters_numbers', [])
     };
   })
   .filter('bytes', function($sce) {
-    var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    var units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
     return function(bytes, precision) {
       if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) {
         return '-';

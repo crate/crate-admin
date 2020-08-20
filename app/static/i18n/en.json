@@ -142,6 +142,8 @@
         "DOCUMENTATION_TITLE": "CrateDB Documentation",
         "DOCUMENTATION_MSG": "Read the CrateDB documentation.",
         "ENTERPRISE_TITLE": "Enterprise Support",
-        "ENTERPRISE_MSG": "For enterprise support, please check our pricing page."
+        "ENTERPRISE_MSG": "For enterprise support, please check our pricing page.",
+        "CALCULATOR_TITLE": "Sharding Calculator",
+        "CALCULATOR_MSG": "Get some help on how to split your table into shards."
     }
 }
