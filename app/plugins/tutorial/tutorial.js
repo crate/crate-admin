@@ -15,20 +15,20 @@ angular.module('tutorial', ['sql', 'translation'])
     var Twitter = function() {
 
       var createStmt = 'create table if not exists tweets ( ' +
-        '  id string primary key, ' +
-        '  created_at timestamp, ' +
-        '  text string INDEX using fulltext, ' +
-        '  source string INDEX using fulltext, ' +
+        '  id text primary key, ' +
+        '  created_at timestamp with time zone, ' +
+        '  text text INDEX using fulltext, ' +
+        '  source text INDEX using fulltext, ' +
         '  retweeted boolean, ' +
         '  account_user object(strict) as ( ' +
-        '    created_at timestamp, ' +
+        '    created_at timestamp with time zone, ' +
         '    verified boolean, ' +
         '    followers_count integer, ' +
-        '    id string, ' +
+        '    id text, ' +
         '    statuses_count integer, ' +
-        '    description string INDEX using fulltext, ' +
+        '    description text INDEX using fulltext, ' +
         '    friends_count integer, ' +
-        '    location string INDEX using fulltext ' +
+        '    location text INDEX using fulltext ' +
         '  ) ' +
         ') with (number_of_replicas = \'0-all\')';
       var insertStmt = 'insert into tweets ' +

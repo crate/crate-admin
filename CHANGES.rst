@@ -2,6 +2,14 @@
 Changes for Crate Admin Interface
 =================================
 
+Unreleased
+==========
+
+Changes
+-------
+
+- Updated the Tweet tutorial table to no longer use deprecated column types.
+
 2020-07-01 1.16.0
 =================
 
