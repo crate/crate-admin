@@ -4,167 +4,167 @@
 Tables browser
 ==============
 
-The CrateDB admin UI comes with a *tables browser* that allows you to inspect
-and query regular `document tables`_ as well as `BLOB tables`_.
+The :ref:`CrateDB Admin UI <index>` comes with a *tables browser* that allows
+you to inspect and query regular `document tables`_ as well as `BLOB tables`_.
 
 .. rubric:: Table of contents
 
 .. contents::
    :local:
 
+
+
+.. _tables-screenshots:
+
 Screenshots
 ===========
 
-Document tables
----------------
-
 Here's what a simple document table looks like:
 
-.. image:: tables-simple-1.png
+.. image:: _assets/img/tables.png
 
-Here you can see a number of :ref:`table-level datapoints and settings are
-<table-level-info>` listed.
+The top section on this screen shows you a basic :ref:`overview
+<tables-overview>`. If you select *QUERY TABLE* you can query the table using
+the :ref:`SQL console <sql-console>`.
 
-Below this, you will find information about the table :ref:`schema
-<schema-info>`:
-
-.. image:: tables-simple-2.png
-
-BLOB tables
------------
+Below this, you will find the :ref:`schema information <tables-schema>`:
 
 If you have BLOB tables, you can access them by selecting the *Blob Tables* menu
-item on the left-hand sub-navigation menu:
+item on the left-hand sub-navigation menu.
 
-.. image:: tables-blobs-1.png
-
-Like document tables, a number of :ref:`table-level datapoints and settings
-<table-level-info>` are listed first, and then below that, you will find
-information about the table :ref:`schema <schema-info>`:
-
-.. image:: tables-blobs-2.png
+.. _tables-features:
 
 Features
 ========
 
-.. |nbsp| unicode:: 0xA0
-   :trim:
 
-.. _table-level-info:
+.. _tables-overview:
 
-Table-level information
------------------------
+Overview section
+----------------
 
-The table overview displays the following table-level information:
+This section displays the following table-level information:
 
-:Name:
+.. _tables-name:
 
+**Name**:
   The name of the table.
 
-:Health:
+.. _tables-health:
 
+**Health**:
   The health of the table.
 
   Each table `shard`_ has a corresponding health status. The table-level health
   status always reflects the worst shard status. (Similarly, the
-  :ref:`cluster-level status <status-bar>` always reflects the worst
+  :ref:`cluster-level status <index-status-bar>` always reflects the worst
   table-level status.)
 
   Shards can be one of the following:
 
-  :Green:
-
+  **Green**:
     The primary shard and all replica shards are allocated to a node.
 
-  :Yellow:
-
+  **Yellow**:
     The primary shard is allocated, but not all replica shards are allocated to
     a node.
 
-  :Red:
-
+  **Red**:
     This specific shard is not allocated to a node.
 
-:Configured Replicas:
+.. _tables-configured-replicas:
 
+**Configured Replicas**:
   The number of configured `replicas`_.
 
-:Configured Shards:
+.. _tables-configured-shards:
 
+**Configured Shards**:
   The `number of configured shards`_
 
-:Started Shards:
+.. _tables-started-shards:
 
+**Started Shards**:
   The number of started shards allocated to a node and available for querying.
 
-:Missing Shards:
+.. _tables-missing-shards:
 
+**Missing Shards**:
   The total number of known shards that are missing on disk.
 
-:Underrepl. Shards:
+.. _tables-underrepl-shards:
 
+**Underrepl. Shards**:
   The total number of configured replica shards that are currently missing
   (i.e. not created or re-created yet).
 
-:Total Records:
+.. _tables-total-records:
 
+**Total Records**:
   The total number of records (i.e. rows) the table has.
 
-:Unavailable Records:
+.. _tables-unavailable-records:
 
+**Unavailable Records**:
   The total number of records that should exist in missing shards.
 
-:Underrepl. Records:
+.. _tables-underrepl-records:
 
+**Underrepl. Records**:
   The total number of records that do not have the required number of replica
   copies.
 
-:Size:
+.. _tables-size:
 
+**Size**:
   The total size on disk used by all primary shards.
 
-:Recovery:
+.. _tables-recovery:
 
+**Recovery**:
   The percentage of the recovery process that is complete (i.e. when re-starting
   a cluster).
 
-.. _schema-info:
 
-Schema information
-------------------
+.. _tables-schema:
 
-The table schema section displays information about each table column:
+Schema section
+--------------
 
-:Name:
+This section section displays information about each table column:
 
+.. _tables-column-name:
+
+**Name**:
   The name of the table column.
 
-:Type:
+.. _tables-column-type:
 
+**Type**:
   The column `data type`_.
+
+
+.. _tables-other-features:
 
 Other features
 --------------
 
-:Table |nbsp| type |nbsp| toggle:
+.. _tables-display-toggle:
 
-  Document tables and BLOB tables can be shown or hidden by toggling the
+**Display toggle**:
+  Different groups of tables can be shown or hidden by toggling the
   corresponding arrow button on the left-hand sub-navigation menu.
 
-:Table |nbsp| filter:
+.. _tables-table-filter:
 
+**Table filter**:
   The displayed list of tables can be filtered by entering text to match
   against the table name in the *Filter tables* text input.
 
-:Table |nbsp| querying:
 
-  Each table can be queried directly by selecting the *QUERY TABLE* button.
-  This will take you through to the :ref:`sql-console` and pre-populate a basic
-  query against the table. The query is not executed automatically.
-
-.. _document tables: https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html
 .. _BLOB tables: https://crate.io/docs/crate/reference/en/latest/general/blobs.html
-.. _replicas: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
-.. _number of configured shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html#number-of-shards
 .. _data type: https://crate.io/docs/crate/reference/en/latest/general/ddl/data-types.html
+.. _document tables: https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html
+.. _number of configured shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html#number-of-shards
+.. _replicas: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
 .. _shard: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html

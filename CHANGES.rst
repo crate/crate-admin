@@ -647,7 +647,7 @@ Fixes
  - Fixed a console results issue that caused the results table not to be
    displayed after horizontal scrolling.
 
- - Fixed an issue that caused the admin UI to load only one plugin.
+ - Fixed an issue that caused the Admin UI to load only one plugin.
 
  - Display warning in the console view when the query result contains an unsafe
    integer.

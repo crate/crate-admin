@@ -9,6 +9,9 @@ An admin user interface (UI) for `CrateDB`_.
 The admin interface is bundled with every CrateDB distribution. There is no need
 to install it separately unless you are contributing to the project.
 
+.. image:: docs/_assets/img/admin-ui.png
+
+
 Contributing
 ============
 
@@ -17,6 +20,7 @@ contributions!
 
 See the `developer docs`_ and the `contribution docs`_ for more information.
 
+
 Help
 ====
 
@@ -24,6 +28,7 @@ Looking for more help?
 
 - Read the `project docs`_
 - Check out our `support channels`_
+
 
 .. _Bower: http://bower.io
 .. _contribution docs: CONTRIBUTING.rst
