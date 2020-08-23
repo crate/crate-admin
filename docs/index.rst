@@ -38,23 +38,25 @@ Navigate to this URL in a web browser.
     Rest API`_, and the response will be in JSON.
 
 
+.. _index-navigating:
+
 Navigating
 ==========
 
 This is what the Admin UI looks like when it first loads:
 
-.. image:: admin-ui.png
+.. image:: _assets/img/admin-ui.png
 
 .. NOTE::
 
    This is the standard theme. The `Community Edition`_ of CrateDB uses a
    lighter theme.
 
+Take note of the `status bar`_ (at the top) and the `tabs`_ (down the left
+side).
 
-Take note of the  `status bar`_ (at the top) and the `tabs`_ (down the left side).
 
-
-.. _status-bar:
+.. _index-status-bar:
 
 Status bar
 ----------
@@ -69,22 +71,28 @@ Along the top of the screen, from left to right, the status bar shows:
 
 - Health checks
 
-  - Data status:
+  - Data status
 
-    :Green: All data is replicated and available
-    :Yellow: Some records are unreplicated
-    :Red: Some data is unavailable
+    - **Green** -- All data is replicated and available
+
+    - **Yellow** -- Some records are unreplicated
+
+    - **Red** -- Some data is unavailable
 
   - Cluster status:
 
-    :Green: Good configuration
-    :Yellow: Some configuration warnings
-    :Red: Some configuration errors
+    - **Green** -- Good configuration
+
+    - **Yellow** -- Some configuration warnings
+
+    - **Red** -- Some configuration errors
 
 - Average cluster load (for the past 1 minute, 5 minutes, and 15 minutes)
 
 - Settings and notifications menu
 
+
+.. _index-tabs:
 
 Tabs
 ----
@@ -94,6 +102,7 @@ Tabs
 
    console
    tables
+   views
    shards
    cluster
    monitoring
@@ -105,24 +114,17 @@ On the left-hand side, from top to bottom, the tabs are:
 - Overview screen
 
 - :ref:`SQL console <sql-console>`
-
 - :ref:`Tables browser <tables-browser>`
-
-- :ref:`Shards browser <shards-browser>` *
-
+- :ref:`Views browser <views-browser>`
+- :ref:`Shards browser <shards-browser>` (`enterprise feature`_)
 - :ref:`Cluster browser <cluster-browser>`
-
-- :ref:`Monitoring overview <monitoring-overview>` *
-
-- :ref:`Privileges browser <privileges-browser>` *
-
+- :ref:`Monitoring overview <monitoring-overview>` (`enterprise feature`_)
+- :ref:`Privileges browser <privileges-browser>` (`enterprise feature`_)
 - :ref:`Help screen <help-screen>`
-
-  `*` *only available in the* `enterprise version`_
 
 
 .. _Cluster name: https://crate.io/docs/crate/reference/en/latest/config/node.html#basics
 .. _Community Edition: https://crate.io/docs/crate/reference/en/latest/editions.html#cratedb-community-edition
 .. _CrateDB Rest API: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
-.. _enterprise version: https://crate.io/docs/crate/reference/en/latest/editions.html#cratedb
+.. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/editions.html#cratedb
 .. _hosted on GitHub: https://github.com/crate/crate-admin

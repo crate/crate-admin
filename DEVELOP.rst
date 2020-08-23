@@ -32,7 +32,7 @@ Build the app like so::
 
     $ env/bin/npm run-script build
 
-To run the admin UI as a standalone app, open the ``build/index.html`` file in
+To run the Admin UI as a standalone app, open the ``build/index.html`` file in
 your browser.
 
 
@@ -49,8 +49,8 @@ You should now be able to access the app at: http://localhost:9000/
 Connecting to CrateDB
 =====================
 
-You will need to enable *Cross-Origin Resource Sharing* in your
-`CrateDB configuration`_ to test the admin UI against it::
+You will need to enable *Cross-Origin Resource Sharing* in your `CrateDB
+configuration`_ to test the Admin UI against it::
 
     http.cors.enabled: true
     http.cors.allow-origin: "*"

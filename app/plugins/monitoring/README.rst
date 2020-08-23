@@ -2,7 +2,7 @@
 CrateDB Admin UI Monitoring Plugin
 ==================================
 
-The CrateDB admin UI monitoring plugin allows you to monitor the average number
+The CrateDB Admin UI monitoring plugin allows you to monitor the average number
 and speed of ``SELECT``, ``INSERT``, ``UPDATE``, and ``DELETE`` queries.
 
 Installation

@@ -4,8 +4,8 @@
 Privileges browser
 ==================
 
-The CrateDB admin UI comes with a *privileges browser* screen that allows you
-to inspect `users`_ and `privileges`_.
+The :ref:`CrateDB Admin UI <index>` comes with a *privileges browser* that
+allows you to inspect `users`_ and `privileges`_.
 
 .. NOTE::
 
@@ -16,38 +16,21 @@ to inspect `users`_ and `privileges`_.
 .. contents::
    :local:
 
-Screenshot
-==========
+
+.. _privileges-screenshots:
+
+Screenshots
+===========
 
 When you first visit the privileges browser, the ``crate`` superuser will be
 selected:
 
-.. image:: privileges-superuser.png
+.. image:: _assets/img/privileges-superuser.png
 
 By selecting a user from the list of all users in left-hand sub-navigation
 menu, you can view the `privileges`_ that have been assigned to that `user`_:
 
-.. image:: privileges-user.png
-
-Features
-========
-
-.. |nbsp| unicode:: 0xA0
-   :trim:
-
-:User list:
-
-  The left-hand sub-navigation menu lists all users.
-
-:User filtering:
-
-  You can enter text into the *Filter users* text input to only show users with
-  a username that matches the entered text.
-
-:Permission filtering:
-
-  You can enter text into the *Filter privileges* text input to only show
-  privileges with an column value that matches the entered text.
+.. image:: _assets/img/privileges-user.png
 
 .. NOTE::
 
@@ -55,8 +38,31 @@ Features
 
    For the time being, `user administration`_ must be done manually.
 
-.. _users: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
-.. _privileges: https://crate.io/docs/crate/reference/en/latest/admin/privileges.html
+.. _privileges-features:
+
+Features
+========
+
+.. _privileges-user-list:
+
+**User list**:
+  The left-hand sub-navigation menu lists all users.
+
+.. _privileges-user-filtering:
+
+**User filtering**:
+  You can enter text into the *Filter users* text input to only show users with
+  a username that matches the entered text.
+
+.. _privileges-permission-filtering:
+
+**Permission filtering**:
+  You can enter text into the *Filter privileges* text input to only show
+  privileges with an column value that matches the entered text.
+
+
 .. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
-.. _user: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
+.. _privileges: https://crate.io/docs/crate/reference/en/latest/admin/privileges.html
 .. _user administration: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
+.. _user: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
+.. _users: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
