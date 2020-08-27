@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /
 
-Sitemap: https://crate.io/docs/crate/admin-ui/en/latest/sitemap.xml
+Sitemap: https://crate.io/docs/crate/admin-ui/en/latest/site.xml
