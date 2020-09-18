@@ -8,7 +8,7 @@ Unreleased
 Changes
 -------
 
-- Updated the Tweet tutorial table to no longer use deprecated column types.
+- Removed the Tweet tutorial.
 
 2020-07-01 1.16.0
 =================
@@ -60,7 +60,7 @@ Fixes
 Fixes
 -----
 
-- Fixed an issue that caused the pagination ``Previous`` button to not display the 
+- Fixed an issue that caused the pagination ``Previous`` button to not display the
   whole list of results for that page in the Console view.
 
 2019/09/26 1.15.3
