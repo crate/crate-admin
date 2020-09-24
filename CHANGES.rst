@@ -5,6 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+Fixes
+-----
+
+- Fixed uppercase spelling of 'HTTP Endpoint' in cluster view.
+
 Changes
 -------
 
