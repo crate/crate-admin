@@ -110,7 +110,7 @@
         "HOSTNAME": "Hostname",
         "CRATE_VERSION": "CrateDB Version",
         "SNAPSHOT": "snapshot",
-        "HTTP_ENDPOINT": "HTTP endpoint",
+        "HTTP_ENDPOINT": "HTTP Endpoint",
         "CPU_USAGE": "CPU Usage",
         "HEAP_USAGE": "Heap Usage",
         "DISK_USAGE": "Disk Usage",
