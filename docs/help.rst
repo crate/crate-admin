@@ -1,3 +1,6 @@
+.. meta::
+     :reviewed: 2020-07-29
+
 .. _help-screen:
 
 ===========
