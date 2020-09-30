@@ -1,3 +1,6 @@
+.. meta::
+     :reviewed: 2020-08-14
+
 .. _index:
 
 ====================
@@ -32,7 +35,7 @@ Navigate to this URL in a web browser.
 
 .. TIP::
 
-    If you access port ``4200`` via a client library or command-line tool 
+    If you access port ``4200`` via a client library or command-line tool
     like ``curl`` or ``wget``, the request will be handled by the `CrateDB
     Rest API`_, and the response will be in JSON.
 
@@ -115,7 +118,7 @@ On the left-hand side, from top to bottom, the tabs are:
 
 - :ref:`Help screen <help-screen>`
 
-  `*` *only available in the* `enterprise version`_ 
+  `*` *only available in the* `enterprise version`_
 
 
 .. _Cluster name: https://crate.io/docs/crate/reference/en/latest/config/node.html#basics
