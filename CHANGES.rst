@@ -2,8 +2,8 @@
 Changes for Crate Admin Interface
 =================================
 
-Unreleased
-==========
+2020-10-12 0.17.0
+=================
 
 Fixes
 -----
