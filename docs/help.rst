@@ -1,6 +1,3 @@
-.. meta::
-     :reviewed: 2020-07-29
-
 .. _help-screen:
 
 ===========
@@ -12,10 +9,12 @@ Help screen
 .. contents::
    :local:
 
+
 Screenshot
 ==========
 
 .. image:: help-default.png
+
 
 Features
 ========

@@ -1,6 +1,3 @@
-.. meta::
-     :reviewed: 2020-08-14
-
 .. _index:
 
 ====================
@@ -20,6 +17,7 @@ and interact with the whole CrateDB cluster in a number of ways.
 
 .. contents::
    :local:
+
 
 Connecting
 ==========
@@ -55,6 +53,7 @@ This is what the Admin UI looks like when it first loads:
 
 Take note of the  `status bar`_ (at the top) and the `tabs`_ (down the left side).
 
+
 .. _status-bar:
 
 Status bar
@@ -85,6 +84,7 @@ Along the top of the screen, from left to right, the status bar shows:
 - Average cluster load (for the past 1 minute, 5 minutes, and 15 minutes)
 
 - Settings and notifications menu
+
 
 Tabs
 ----
