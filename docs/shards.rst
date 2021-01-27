@@ -7,10 +7,6 @@ Shards browser
 The :ref:`CrateDB Admin UI <index>` comes with a *shards browser* that
 provides you with a visual overview of all the `shards`_ in your cluster.
 
-.. NOTE::
-
-   The shards browser is an `enterprise feature`_.
-
 .. rubric:: Table of contents
 
 .. contents::
@@ -95,6 +91,5 @@ Features
 
 .. _BLOB tables: https://crate.io/docs/crate/reference/en/latest/general/blobs.html
 .. _document tables: https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html
-.. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
 .. _replica: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
 .. _shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
