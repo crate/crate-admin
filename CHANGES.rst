@@ -2,6 +2,15 @@
 Changes for Crate Admin Interface
 =================================
 
+2020-10-12 1.17.1
+=================
+
+Changes
+-------
+
+- Updated the Stack Overflow tag to "cratedb".
+
+
 2020-10-12 1.17.0
 =================
 
