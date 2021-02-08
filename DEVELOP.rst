@@ -6,7 +6,7 @@ Developer Guide
 Prerequisites
 =============
 
-You will need Python 3.5 installed.
+You will need Python 3.
 
 
 Setup
@@ -14,15 +14,15 @@ Setup
 
 Installing node locally::
 
-    $ python3 -m venv env
-    $ env/bin/pip install -U pip
-    $ env/bin/pip install nodeenv
-    $ env/bin/nodeenv --node=10.16.0 -p
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -U pip
+    pip install nodeenv
+    nodeenv --python-virtualenv --node=14.15.4
 
 Install the package dependencies::
 
-    $ env/bin/npm install node-sass
-    $ env/bin/npm install
+    npm install
 
 
 Building the App
@@ -30,7 +30,7 @@ Building the App
 
 Build the app like so::
 
-    $ env/bin/npm run-script build
+    npm run build
 
 To run the Admin UI as a standalone app, open the ``build/index.html`` file in
 your browser.
@@ -41,9 +41,17 @@ Running the App for Development
 
 Start the development server on port ``9000``::
 
-    $ env/bin/npm start
+    npm start
 
 You should now be able to access the app at: http://localhost:9000/
+
+
+Running CrateDB
+===============
+
+The quickest way to spin up an instance is probably to use Docker::
+
+    docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*
 
 
 Connecting to CrateDB
@@ -68,7 +76,7 @@ Adding New Dependencies
 
 Application dependencies should be added as follow::
 
-    $ env/bin/npm install [dependency] --save
+    npm install [dependency] --save
 
 This dependency should then be imported in ``./app/vendor.module.js``,
 for the application to load correctly.
@@ -78,7 +86,7 @@ in ``./app/app.module.js``
 
 Dev dependencies should be added as follow::
 
-    $ env/bin/npm install [dependency] --save-dev
+    npm install [dependency] --save-dev
 
 
 Adding New Components
@@ -103,7 +111,7 @@ Running Tests
 
 You can run the tests like so::
 
-    $ env/bin/npm test
+    npm test
 
 
 Plugins
@@ -211,4 +219,3 @@ release version), please contact the `@crate/tech-writing`_ team.
 .. |rtd| image:: https://readthedocs.org/projects/crate-admin-ui/badge/?version=latest
     :alt: Read The Docs status
     :target: https://readthedocs.org/projects/crate-admin-ui
-
