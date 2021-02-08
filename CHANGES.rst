@@ -2,6 +2,14 @@
 Changes for Crate Admin Interface
 =================================
 
+
+Unreleased
+==========
+
+- Fixed translations. French now works again.
+- Fixed missing whitespace.
+
+
 2020-10-12 1.17.0
 =================
 
