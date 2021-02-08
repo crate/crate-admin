@@ -69,7 +69,6 @@
   },
   "peerDependencies": {},
   "scripts": {
-    "travis": "npm test && codecov < app/tests/coverage/cobertura/cobertura-coverage.xml",
     "start": "webpack-dev-server --config webpack.dev.config.js --progress --open",
     "build": "webpack --config webpack.prod.config.js --progress",
     "test": "karma start"

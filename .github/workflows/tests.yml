@@ -1,0 +1,57 @@
+name: Tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  tests:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ] #, macos-latest, windows-latest ]
+        node-version: [ '14' ]
+
+    name: Node.js ${{ matrix.node-version }} on OS ${{ matrix.os }}
+    steps:
+
+      - name: Acquire sources
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # https://github.com/actions/setup-node
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/main/examples.md#node---npm
+      - name: Apply caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          # Note: While it is not recommended to cache `node_modules`, as it can
+          #       break across Node versions and won't work with `npm ci`, we
+          #       still do it because it will yield tremendous speed improvements.
+          #       By adding the `node-version` to the cache key, it should work.
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install package
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      # https://github.com/codecov/codecov-action
+      - name: Upload coverage results to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          files: app/tests/coverage/cobertura/cobertura-coverage.xml
+          fail_ci_if_error: false
+          verbose: false

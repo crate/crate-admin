@@ -2,7 +2,7 @@
 CrateDB Admin UI
 ================
 
-|build-status|
+|test-status| |test-coverage| |rtd|
 
 An admin user interface (UI) for `CrateDB`_.
 
@@ -38,7 +38,15 @@ Looking for more help?
 .. _project docs: https://crate.io/docs/connect/admin_ui/
 .. _support channels: https://crate.io/support/
 
-.. |build-status| image:: https://travis-ci.org/crate/crate-admin.svg?branch=master
-    :alt: Build status
-    :scale: 100%
-    :target: https://travis-ci.org/crate/crate-admin
+
+.. |test-status| image:: https://github.com/crate/crate-admin/workflows/Tests/badge.svg
+    :alt: Test status
+    :target: https://github.com/crate/crate-admin/actions?workflow=Tests
+
+.. |test-coverage| image:: https://codecov.io/gh/crate/crate-admin/branch/master/graph/badge.svg
+    :alt: Test coverage
+    :target: https://codecov.io/gh/crate/crate-admin
+
+.. |rtd| image:: https://readthedocs.org/projects/crate-admin-ui/badge/?version=latest
+    :alt: Read The Docs status
+    :target: https://readthedocs.org/projects/crate-admin-ui

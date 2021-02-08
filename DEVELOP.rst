@@ -185,10 +185,10 @@ You must install `fswatch`_ to use the ``dev`` target.
 Continuous integration and deployment
 -------------------------------------
 
-|build| |travis| |rtd|
+|docs-version|
 
-Travis CI is `configured`_ to run ``make check`` from the ``docs`` directory.
-Please do not merge pull requests until the tests pass.
+GitHub Actions is configured to run ``make check`` from the ``docs``
+directory. Please do not merge pull requests until the tests pass.
 
 `Read the Docs`_ (RTD) automatically deploys the documentation whenever a
 configured branch is updated.
@@ -196,26 +196,15 @@ configured branch is updated.
 To make changes to the RTD configuration (e.g., to activate or deactivate a
 release version), please contact the `@crate/tech-writing`_ team.
 
+.. |docs-version| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-admin%2Fmaster%2Fdocs%2Fbuild.json
+    :alt: Documentation version
+    :target: https://github.com/crate/crate-admin/blob/master/docs/build.json
 
 .. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
-.. _configured: https://github.com/crate/crate-admin/blob/master/.travis.yml
 .. _CrateDB configuration: https://crate.io/docs/reference/configuration.html
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
 .. _tutorial plugin: app/plugins/tutorial
-
-
-.. |build| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-admin%2Fmaster%2Fdocs%2Fbuild.json
-    :alt: Build version
-    :target: https://github.com/crate/crate-admin/blob/master/docs/build.json
-
-.. |travis| image:: https://img.shields.io/travis/crate/crate-admin.svg?style=flat
-    :alt: Travis CI status
-    :target: https://travis-ci.org/crate/crate-admin
-
-.. |rtd| image:: https://readthedocs.org/projects/crate-admin-ui/badge/?version=latest
-    :alt: Read The Docs status
-    :target: https://readthedocs.org/projects/crate-admin-ui
