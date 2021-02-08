@@ -235,10 +235,11 @@ $.get('static/conf/plugins.json', function (plugins) {
           urlTemplate: '{part}/static/i18n/{lang}.json'
         })
 
-        .registerAvailableLanguageKeys(['en', 'de', 'es'], {
+        .registerAvailableLanguageKeys(['en', 'de', 'es', 'fr'], {
             'en_*': 'en',
             'de_*': 'de',
             'es_*': 'es',
+            'fr_*': 'fr',
             '*': 'en'
           })
           // Check local language automatically
