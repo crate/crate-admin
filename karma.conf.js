@@ -26,7 +26,8 @@ module.exports = function (config) {
           'app/tests/**/**.test.js',
         ],
     preprocessors: {
-      './app/**/**.js': ['webpack'],
+      './app/*.js': [ 'coverage' ],
+      './app/**/**.js': [ 'webpack', 'coverage' ],
       './app/tests/**/**.test.js': ['webpack'],
     },
     webpack: {
