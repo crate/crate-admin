@@ -24,7 +24,8 @@
         "CONSOLE": "Console",
         "TABLE": "Tables",
         "VIEW": "Vues",
-        "CLUSTER": "Cluster"
+        "CLUSTER": "Cluster",
+        "SHARDS": "Silos"
     },
     "OVERVIEW": {
         "HEALTH": "Santé",

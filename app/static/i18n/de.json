@@ -24,7 +24,8 @@
         "CONSOLE": "Konsole",
         "TABLE": "Tabellen",
         "VIEW": "Views",
-        "CLUSTER": "Cluster"
+        "CLUSTER": "Cluster",
+        "SHARDS": "Shards"
     },
     "OVERVIEW": {
         "HEALTH": "Status",
