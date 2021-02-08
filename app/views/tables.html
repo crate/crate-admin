@@ -3,8 +3,10 @@
   	<div class="page-container" ng-if="empty">
       <h1 class="cr-page-header">{{ 'TABLE.TITLE' | translate }}</h1>
       <div class="cr-panel-block">
-        <p><b>There are no tables created yet.</b></p>
-        <p>Use the <a href="https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html">CREATE TABLE</a> statement to create new tables.</p>
+        <p>
+            <b>There are no tables created yet.</b>
+            Use the <a href="https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html">CREATE TABLE</a> statement to create new tables.
+        </p>
       </div>
     </div>
     <table-list ng-if="!empty"></table-list>

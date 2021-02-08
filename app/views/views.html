@@ -3,8 +3,10 @@
     <div class="page-container" ng-if="empty">
       <h1 class="cr-page-header">{{ 'VIEW.TITLE' | translate }}</h1>
       <div class="cr-panel-block">
-        <p><b>There are no views created yet.</b></p>
-        <p>Use the <a href="https://crate.io/docs/crate/reference/en/latest/general/ddl/views.html">CREATE VIEW</a> statement to create new views.</p>
+        <p>
+          <b>There are no views created yet.</b>
+          Use the <a href="https://crate.io/docs/crate/reference/en/latest/general/ddl/views.html">CREATE VIEW</a> statement to create new views.
+        </p>
       </div>
     </div>
     <view-list ng-if="!empty"></view-list>
