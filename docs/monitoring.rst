@@ -7,10 +7,6 @@ Monitoring overview
 The :ref:`CrateDB Admin UI <index>` comes with a *monitoring overview* screen
 that allows you to monitor key operational statistics.
 
-.. NOTE::
-
-   The monitoring overview is an `enterprise feature`_.
-
 .. rubric:: Table of contents
 
 .. contents::
@@ -70,7 +66,6 @@ The monitoring page has two live charts:
 
 
 .. _DELETE: https://crate.io/docs/crate/reference/en/latest/sql/statements/delete.html
-.. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
 .. _INSERT: https://crate.io/docs/crate/reference/en/latest/sql/statements/insert.html
 .. _SELECT: https://crate.io/docs/crate/reference/en/latest/sql/statements/select.html
 .. _UPDATE: https://crate.io/docs/crate/reference/en/latest/sql/statements/update.html

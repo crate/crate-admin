@@ -15,7 +15,6 @@ module.exports = {
   entry: {
     'vendor': './app/vendor.module.js',
     'app': './app/app.module.js',
-    'enterprise': './app/enterprise.module.js'
   },
   output: {
     filename: 'static/libs/[name].bundle.js',
@@ -30,7 +29,6 @@ module.exports = {
       template: './app/index.tpl.html',
       inject: 'head',
       filename: 'index.html',
-      excludeAssets: [/enterprise.css/]
     }),
     new CopyWebpackPlugin([
       {

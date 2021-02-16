@@ -21,7 +21,11 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 ========= Loading Customize Styles ==========
 =============================================*/
 // loading variables
-@import 'vars/light-theme-variables';
+
+// TODO: Add a switch for selecting light vs. dark theme.
+// @import 'vars/light-theme-variables';
+@import 'vars/dark-theme-variables';
+
 @import 'vars/path';
 
 // loading views
