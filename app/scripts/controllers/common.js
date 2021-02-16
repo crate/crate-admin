@@ -2,50 +2,14 @@
 
 const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   .provider('Settings', function () {
-    var enterprise;
-    var license_issued_to = '';
-    var license_max_nodes = 1;
-    var license_expiry_date = '';
     var user = '';
-    if (localStorage.getItem('crate_setting_enterprise')) {
-      enterprise = localStorage.getItem('crate_setting_enterprise');
-    } else {
-      enterprise = false;
-    }
 
     return {
-      setEnterprise: function(value) {
-        enterprise = value;
-        try {
-          localStorage.setItem('crate_setting_enterprise', value);
-        } catch (error) {
-          console.log('localStorage cannot be set in Safari private mode', error);
-        }
-      },
-      setLicenseIssuedTo: function(value) {
-        license_issued_to = value;
-      },
-      setLicenseMaxNodes: function(value) {
-        license_max_nodes = value;
-      },
-      setLicenseExpiryDate: function(value) {
-        if (!value) {
-          license_expiry_date = '∞';
-        } else {
-          license_expiry_date = new Date(value).toUTCString();
-        }
-      },
       setUser: function(value) {
         user = value;
       },
       $get: function() {
         return {
-          enterprise: enterprise,
-          license: {
-            issued_to: license_issued_to,
-            expiry_date: license_expiry_date,
-            max_nodes: license_max_nodes
-          },
           user: user
         };
       }
@@ -56,16 +20,14 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
     ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler,
     SQLQuery, queryResultToObjects) {
 
-    //query for current_user (Enterprise Feature)
-    if (Settings.enterprise) {
-      var userStmt = 'SELECT CURRENT_USER';
-      SQLQuery.execute(userStmt, {}, false, false, false)
-        .then(function(query) {
-          var result = queryResultToObjects(query, ['user']);
-          Settings.user = result[0].user;
-          $scope.userName = Settings.user;
-        });
-    }
+    // Query for current user.
+    var userStmt = 'SELECT CURRENT_USER';
+    SQLQuery.execute(userStmt, {}, false, false, false)
+      .then(function(query) {
+        var result = queryResultToObjects(query, ['user']);
+        Settings.user = result[0].user;
+        $scope.userName = Settings.user;
+      });
 
     var HEALTH = ['good', 'warning', 'critical', '--'];
     var LABELS = ['cr-bubble--success', 'cr-bubble--warning', 'cr-bubble--danger', 'cr-bubble--danger'];
@@ -89,9 +51,6 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
       $location.path(path).search('user=' + Settings.user);
     };
     var showSideNav = false;
-
-    $scope.enterprise = Settings.enterprise;
-    $scope.license = Settings.license;
 
     $scope.toggleSideNav = function() {
       showSideNav = !showSideNav;

@@ -7,10 +7,6 @@ Privileges browser
 The :ref:`CrateDB Admin UI <index>` comes with a *privileges browser* that
 allows you to inspect `users`_ and `privileges`_.
 
-.. NOTE::
-
-   The privileges browser is an `enterprise feature`_.
-
 .. rubric:: Table of contents
 
 .. contents::
@@ -61,7 +57,6 @@ Features
   privileges with an column value that matches the entered text.
 
 
-.. _enterprise feature: https://crate.io/docs/crate/reference/en/latest/enterprise/index.html
 .. _privileges: https://crate.io/docs/crate/reference/en/latest/admin/privileges.html
 .. _user administration: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html
 .. _user: https://crate.io/docs/crate/reference/en/latest/admin/user-management.html

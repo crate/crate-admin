@@ -100,10 +100,7 @@ Adding New Stylesheets
 ======================
 
 When a new stylesheet is created it should be imported to
-``./styles/styles.scss`` and/or ``./styles/styles-enterprise.scss``
-
-Vendor styles should also be imported to ``./styles/styles.scss``
-and ``./styles/styles-enterprise.scss``
+``./styles/styles.scss``, this applies to both vanilla and vendor stylesheets.
 
 
 Running Tests

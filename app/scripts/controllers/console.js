@@ -448,7 +448,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
            'integer_value', 'intersect', 'intersection', 'interval', 'into',
            'ip', 'is', 'isolation', 'iterate', 'join', 'key', 'kill', 'language',
            'large', 'last', 'last_value', 'lateral', 'lead', 'leading',
-           'leave', 'left', 'level', 'license', 'like', 'like_regex', 'limit',
+           'leave', 'left', 'level', 'like', 'like_regex', 'limit',
            'llt', 'ln', 'local', 'localtime', 'localtimestamp', 'locator',
            'logical', 'long', 'loop', 'lower', 'lt', 'lte', 'map', 'match',
            'materialized', 'max', 'member', 'merge', 'method', 'min', 'minus',

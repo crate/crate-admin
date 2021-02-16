@@ -14,10 +14,10 @@ contains the following:
 .. code-block:: json
 
     {
-      "name": "monitoring",
+      "enabled": true,
+      "name":   "monitoring",
       "uri": "plugins/monitoring/monitoring.js",
       "stylesheet": "plugins/monitoring/monitoring.css",
-      "enterprise": true,
       "routing": {
         "/monitoring": {
           "templateUrl": "plugins/monitoring/monitoring.html",

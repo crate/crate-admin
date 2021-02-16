@@ -1,7 +1,6 @@
 [{
   "name": "tutorial",
   "uri": "static/plugins/tutorial/tutorial.js",
-  "enterprise": false,
   "routing": {
     "/help": {
       "name": "tutorial",
@@ -14,7 +13,6 @@
   "name": "monitoring",
   "uri": "static/plugins/monitoring/monitoring.js",
   "stylesheet": "static/plugins/monitoring/monitoring.css",
-  "enterprise": true,
   "routing": {
     "/monitoring": {
       "name": "monitoring",
@@ -27,7 +25,6 @@
   "name": "privileges",
   "uri": "static/plugins/privileges/privileges.js",
   "stylesheet": "static/plugins/privileges/privileges.css",
-  "enterprise": true,
   "routing": {
     "/privileges": {
       "name": "privileges",
@@ -44,7 +41,6 @@
   "name": "shards",
   "uri": "static/plugins/shards/shards.js",
   "stylesheet": "static/plugins/shards/shards.css",
-  "enterprise": true,
   "routing": {
     "/shards": {
       "name": "shards",
