@@ -6,7 +6,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Align with license change. Enterprise features are now available to everyone.
+- Removed misguided redirects which may lose queries currently being typed.
+
+- Aligned with license change. Enterprise features are now available to everyone.
 
 - Fixed translations. French now works again.
 
