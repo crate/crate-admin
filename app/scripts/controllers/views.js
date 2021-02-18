@@ -119,12 +119,6 @@ angular.module('views', ['stats', 'sql', 'common', 'viewinfo', 'events'])
             $scope.view = current;
             $scope.view.label = current.schema + '.' + current.name;
 
-            // redirect to URL of first view in list
-            // if URL does not match expected view nURL
-            var expectedUrl = '/views/' + current.schema + '/' + current.name;
-            if ($location.$$url !== expectedUrl) {
-              $location.url(expectedUrl);
-            }
           } else {
             $scope.view = null;
             $scope.columns = [];

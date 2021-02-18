@@ -271,13 +271,6 @@ WHERE
                 fetchPartitions();
               }
 
-              // redirect to URL of first table in list
-              // if URL does not match expected table URL
-              var expectedUrl = '/tables/' + current.table_schema + '/' + current.name;
-              if ($location.$$url !== expectedUrl) {
-                $location.url(expectedUrl);
-              }
-
             } else {
               $scope.table = null;
               $scope.renderSchema = false;
