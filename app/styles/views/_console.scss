@@ -141,7 +141,8 @@
 
 }
 .query-result-container__header--next,
-.query-result-container__header--previous {
+.query-result-container__header--previous,
+.query-result-container__header--chart {
 	max-width: 70px !important;
 }
 .query-result-container__header--page {
@@ -381,4 +382,8 @@ tr > .cr-table-cell {
 
 #share-btn {
 	max-width: 70px !important;
+}
+
+.cr-chart {
+	margin-bottom: 15px;
 }
