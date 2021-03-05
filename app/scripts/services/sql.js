@@ -38,7 +38,7 @@ const sql = angular.module('sql', [])
 
     return baseURI;
   })
-  .factory('SQLQuery', function($http, $q, $log, baseURI, $location, $state) {
+  .factory('SQLQuery', function($http, $q, $log, baseURI, $location, $state, $filter) {
     function SQLQuery(stmt, response, error) {
       this.stmt = stmt;
       this.rows = [];
@@ -60,6 +60,7 @@ const sql = angular.module('sql', [])
       }
     }
 
+    var translate = $filter('translate');
     SQLQuery.prototype.status = function() {
       var status_string = '';
       var stmt_parts = this.stmt.split(' ');
@@ -71,17 +72,20 @@ const sql = angular.module('sql', [])
         cmd = cmd + ' ' + stmt_parts[1].toUpperCase();
       }
 
+      var duration = (this.duration / 1000).toFixed(3);
       if (this.failed === false) {
-        var text_row = this.rowCount === 1 ? ' row' : ' rows';
+        var subject = this.rowCount === 1 ? translate('CONSOLE.RECORD') : translate('CONSOLE.RECORDS');
+        var verb;
         if (cmd === 'SELECT') {
-           status_string = cmd + ' OK, ' + this.rowCount + text_row + ' in set (' + (this.duration / 1000).toFixed(3) + ' sec)';
+          verb = translate('CONSOLE.RETURNED');
         } else {
-          status_string = cmd + ' OK, ' + this.rowCount + text_row +' affected (' + (this.duration / 1000).toFixed(3) + ' sec)';
+          verb = translate('CONSOLE.AFFECTED');
         }
+        status_string = `${cmd} OK, ${this.rowCount} ${subject} ${verb} (${duration} ${translate('CONSOLE.SECONDS')})`;
 
         $log.info('Query status: ' + status_string);
       } else {
-        status_string = cmd + ' ERROR (' + (this.duration / 1000).toFixed(3) + ' sec)';
+        status_string = `${cmd} ${translate('CONSOLE.ERROR')} (${duration} ${translate('CONSOLE.SECONDS')})`;
         $log.warn('Query status: ' + status_string);
       }
 

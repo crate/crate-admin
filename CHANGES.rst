@@ -6,6 +6,13 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Improved usability of the "Console" page. The "submit query" button is now closer
+  to the query statement.
+
+- Made language selection sticky.
+
+- Improved translations once more.
+
 - Removed misguided redirects which may lose queries currently being typed.
 
 - Aligned with license change. Enterprise features are now available to everyone.

@@ -2,7 +2,7 @@
   <user-list ng-hide="showError" users=userList></user-list>
   <div ng-show="showError" class="page-container page-container--no-list">
 
-    <h1 class="cr-page-header">Privileges</h1>  
+    <h1 class="cr-page-header">{{ 'USER.USERS' | translate }}</h1>
 
     <div class="cr-panel-block-p">
       You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator. 

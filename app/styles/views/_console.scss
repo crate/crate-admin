@@ -39,6 +39,7 @@
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 }
 
 .cr-console-header__options{
@@ -84,7 +85,7 @@
 
 @media screen and (min-width: $max-width-xs){
 	.cr-console-header__options__item--btn{
-		max-width: 190px;
+		max-width: 200px;
 	}
 
 	.cr-console-header__options__item--hint{
@@ -96,7 +97,6 @@
 .cr-console-header__options__item--hint{
 	@extend .cr-console-header__options__item;
 	border-left: none;
-	justify-content: flex-end;
 }
 
 .cr-query-result{

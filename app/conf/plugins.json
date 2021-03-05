@@ -22,17 +22,17 @@
     }
   }
 }, {
-  "name": "privileges",
+  "name": "users",
   "uri": "static/plugins/privileges/privileges.js",
   "stylesheet": "static/plugins/privileges/privileges.css",
   "routing": {
-    "/privileges": {
-      "name": "privileges",
-      "url": "/privileges",
+    "/users": {
+      "name": "users",
+      "url": "/users",
       "template": "<privileges>"
     },
-    "/privileges/:user": {
-      "name": "privileges.privilege",
+    "/users/:user": {
+      "name": "users.user",
       "url": "/:user",
       "template": "<privileges-detail>"
     }

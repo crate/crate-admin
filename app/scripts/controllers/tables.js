@@ -346,7 +346,8 @@ WHERE
             var hasTables = tables.length > 0;
             $scope.renderSidebar = hasTables;
             if (hasTables) {
-              // use name and schema from first item
+
+              // Navigate to first table item.
               if (!$scope.tableName || !$scope.tableSchema) {
                 $scope.tableName = tables[0].name;
                 $scope.tableSchema = tables[0].table_schema;
@@ -393,7 +394,8 @@ WHERE
           }
 
         ClusterEventsHandler.register('STATE_REFRESHED', 'TableListController', updateTableList);
-        //initial call
+
+        // Initial call
         updateTableList();
 
         var render = function (tableSchema, tableName) {

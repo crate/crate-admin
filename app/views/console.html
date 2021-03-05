@@ -15,20 +15,20 @@
             <div class="cr-console-header__options" ng-class="showOptions ? 'show-console-options' : 'hide-console-options'">
               <div class="cr-console-header__options__item">
                   <input id="format-results" type="checkbox" ng-model="formatResults" ng-change="formatReturnedResults()">
-                  <label for="format-results">{{:: 'CONSOLE.FORMAT_RESULTS' | translate }}</label>
+                  <label for="format-results">{{ 'CONSOLE.FORMAT_RESULTS' | translate }}</label>
               </div>
               <div class="cr-console-header__options__item">
                   <input id="use-local-storage" type="checkbox" ng-model="useLocalStorage" ng-change="storeInLocalStorageChanged()">
-                  <label for="use-local-storage">{{:: 'CONSOLE.STORE_CONSOLE' | translate }}</label>
+                  <label for="use-local-storage">{{ 'CONSOLE.STORE_CONSOLE' | translate }}</label>
               </div>
               <div class="cr-console-header__options__item">
                 <input id="show-error-trace" type="checkbox" ng-model="showErrorTrace" ng-change="showErrorTraceChanged()">
-                <label for="show-error-trace" >{{:: 'CONSOLE.SHOW_ERROR_TRACE' | translate }} </label>
+                <label for="show-error-trace" >{{ 'CONSOLE.SHOW_ERROR_TRACE' | translate }} </label>
               </div>
 
               <div class="cr-console-header__options__item--btn cr-button" ng-click="clearLocalStorage()">
                 <i class="fa fa-trash-o"></i>
-                {{:: 'CONSOLE.CLEAR_HISTORY' | translate }}
+                {{ 'CONSOLE.CLEAR_HISTORY' | translate }}
               </div>
             </div>
           </div>
@@ -38,27 +38,29 @@
           </div>
 
           <div class="cr-console-header">
-            <div class="cr-console-header__tip" ng-class="queryStatusClass(status)"> {{ status }}</div>
 
             <div class="cr-console-header__options">
-              <div class="cr-console-header__options__item--hint">{{:: 'CONSOLE.HINT' | translate }}</div>
               <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="execute()">
-                <div ng-class="loading ? 'faded-text' : ''" translate>{{:: 'CONSOLE.EXCUTE_QUERY' }}</div>
+                <div ng-class="loading ? 'faded-text' : ''">{{ 'CONSOLE.SUBMIT_QUERY' | translate }}</div>
               </div>
-              <div id="share-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="share()" data-original-title="Copy query link to clipboard" cr-tooltip cr-tooltip-position="bottom">
+              <div id="share-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="share()" data-original-title="{{ 'CONSOLE.COPY_QUERY_LINK' | translate }}" cr-tooltip cr-tooltip-position="bottom">
                 <img src="static/assets/icon-share.svg"/>
               </div>
+              <div class="cr-console-header__options__item--hint">{{ 'CONSOLE.HINT' | translate }}</div>
             </div>
+
+            <div class="cr-console-header__tip" ng-class="queryStatusClass(status)"> {{ status }}</div>
+
           </div>
       </div>
 
       <div ng-hide="error.hide" class="cr-error-header query-status--error">
-        <p>{{:: 'CONSOLE.ERROR' | translate }}</p>
+        <p>{{ 'CONSOLE.ERROR' | translate }}</p>
         <p>{{ error.message }}</p>
       </div>
 
       <div ng-hide="error.hide || !showErrorTrace" class="cr-error-header--error-trace">
-        <h4> {{:: 'CONSOLE.ERROR_TRACE' | translate }} </h4>
+        <h4> {{ 'CONSOLE.ERROR_TRACE' | translate }} </h4>
       </div>
 
       <div ng-hide="error.hide || !showErrorTrace">
@@ -75,7 +77,7 @@
 
       <div class="query-result-container__header">
 
-      <div class="query-result-container__header--title">{{:: 'CONSOLE.RESULT_FROM_QUERY' | translate }}</div>
+      <div class="query-result-container__header--title">{{ 'CONSOLE.RESULT_FROM_QUERY' | translate }}</div>
       <div id="previous" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--previous" ng-click="previous()" ng-class="page === 1 ?  'cr-button--disabled':'' "><i class="fa fa-angle-left" aria-hidden="true"></i></div>
       <div class="query-result-container__header--page" ng-click="previous()">{{ page }} / {{ numberOfPages }}</div>
       <div id="next" class="cr-console-header__options__item--btn cr-button cr-button--console query-result-container__header--next" ng-class="page === numberOfPages ?  'cr-button--disabled':'' " ng-click="next()"><i class="fa fa-angle-right" aria-hidden="true"></i></div>

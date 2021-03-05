@@ -5,7 +5,8 @@
           <a class="cr-side-nav__item"
                 ng-class="{ 'cr-side-nav__item--active': isActive(navBarElement.urlPattern) }"
                 ng-repeat="navBarElement in navBarElements track by navBarElement.position"
-                ui-sref="{{navBarElement.state}}"
+                ui-sref="{{ navBarElement.state }}"
+                ui-sref-active="active"
                 data-original-title="{{ navBarElement.text }}"
                 cr-tooltip cr-tooltip-position="right">
             <img ng-src="{{ navBarElement.iconSrc }}">

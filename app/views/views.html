@@ -4,8 +4,8 @@
       <h1 class="cr-page-header">{{ 'VIEW.TITLE' | translate }}</h1>
       <div class="cr-panel-block">
         <p>
-          <b>There are no views created yet.</b>
-          Use the <a href="https://crate.io/docs/crate/reference/en/latest/general/ddl/views.html">CREATE VIEW</a> statement to create new views.
+          <b>{{ 'VIEW.VOID_MESSAGE' | translate }}</b>
+          <span translate="VIEW.VOID_DETAILS" translate-values="{statement: '<a target=\'_blank\' href=\'https://crate.io/docs/crate/reference/en/latest/general/ddl/views.html\'>CREATE VIEW</a>'}"></span>
         </p>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <div>
   <div class="page-container">
-      <h1 class="cr-page-header">Shards</h1>  
+      <h1 class="cr-page-header">{{ 'SHARD.SHARDS' | translate }}</h1>
 
       <div class="cr-panel-block" ng-show="empty">
         There are no shards. Shards are created and started when you create tables.
@@ -17,16 +17,16 @@
               <th class="header cr-table-cell shards-options-header" ng-show="shards"> 
                 <div class="shard-options">
                     <input id="id-option" type="checkbox" ng-model="idOption" ng-change="showShardIds()">
-                    <label for="id-option">Show Shard IDs</label>
+                    <label for="id-option">{{ 'SHARD.SHOW_SHARD_IDS' | translate }}</label>
                 </div>
               </th>
               <th class="header cr-table-cell shards-options-header" ng-show="shards"> 
                 <div class="shard-legend">
-                  <span class="shard-item cr-shard-primary cr-shard-state--green"> </span><span class="shard-item-label">Started Primary</span>
-                  <span class="shard-item cr-shard-state--green"> </span><span class="shard-item-label">Started Replica</span>
-                  <span class="shard-item cr-shard-state--yellow"> </span><span class="shard-item-label">Initializing</span>
-                  <span class="shard-item cr-shard-state--red"> </span><span class="shard-item-label">Relocating</span>
-                  <span class="shard-item cr-shard-primary cr-shard-state--grey"> </span><span class="shard-item-label">Unassigned</span>
+                  <span class="shard-item cr-shard-primary cr-shard-state--green"> </span><span class="shard-item-label">{{ 'SHARD.STARTED_PRIMARY' | translate }}</span>
+                  <span class="shard-item cr-shard-state--green"> </span><span class="shard-item-label">{{ 'SHARD.STARTED_REPLICA' | translate }}</span>
+                  <span class="shard-item cr-shard-state--yellow"> </span><span class="shard-item-label">{{ 'SHARD.INITIALIZING' | translate }}</span>
+                  <span class="shard-item cr-shard-state--red"> </span><span class="shard-item-label">{{ 'SHARD.RELOCATING' | translate }}</span>
+                  <span class="shard-item cr-shard-primary cr-shard-state--grey"> </span><span class="shard-item-label">{{ 'SHARD.UNASSIGNED' | translate }}</span>
                 </div>
               </th>
             </tr>
@@ -58,13 +58,13 @@
 
              <div ng-show="!isShard && !tooltipLoading && !tooltipError" class="node-content">
               <div class="cr-custom-tooltip-section">
-                  <div class="cr-custom-tooltip-label"> Name </div> 
+                  <div class="cr-custom-tooltip-label"> {{ 'SHARD.NODENAME' | translate }} </div>
                   <div> {{ tooltipData.name }} </div> 
                   <div class="cr-custom-tooltip-label"> ID </div> 
                   <div> {{ tooltipData.id }} </div> 
                   <div class="cr-custom-tooltip-label"> Version </div> 
                   <div> {{ tooltipData.version }} </div> 
-                  <div class="cr-custom-tooltip-label"> Host name </div> 
+                  <div class="cr-custom-tooltip-label"> {{ 'SHARD.HOSTNAME' | translate }} </div>
                   <div> {{ tooltipData.hostname }} </div> 
                   <div class="cr-custom-tooltip-label"> REST URL </div> 
                   <div> {{ tooltipData.rest_url }} </div> 
@@ -72,25 +72,25 @@
               </div>
              <div ng-show="isShard && !tooltipLoading && !tooltipError" class="shard-content">
                <div class="cr-custom-tooltip-section">  
-                    <div class="cr-custom-tooltip-label"> ID </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.ID' | translate }} </div>
                     <div> {{ tooltipData.id }}  </div> 
-                    <div class="cr-custom-tooltip-label"> Size </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.SIZE' | translate }} </div>
                     <div> {{ tooltipData.size }} </div> 
-                    <div class="cr-custom-tooltip-label"> Min Lucene Version </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.MINIMUM_LUCENE_VERSION' | translate }} </div>
                     <div> {{ tooltipData.min_lucene_version }}  </i> </div> 
-                    <div class="cr-custom-tooltip-label"> Num docs </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.NUMBER_OF_RECORDS' | translate }} </div>
                     <div> {{ tooltipData.num_docs }} </div> 
-                    <div ng-if = "tooltipData.partition_ident" class="cr-custom-tooltip-label"> Partition Ident </div> 
+                    <div ng-if = "tooltipData.partition_ident" class="cr-custom-tooltip-label"> {{ 'SHARD.PARTITION_IDENTIFIER' | translate }} </div>
                     <div ng-if = "tooltipData.partition_ident"> {{ tooltipData.partition_ident }} </div> 
                 </div>  
                 <div class="cr-custom-tooltip-section ">  
-                    <div class="cr-custom-tooltip-label"> Primary Shard </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.PRIMARY_SHARD' | translate }} </div>
                     <div> {{ tooltipData.primary }} </div> 
-                    <div class="cr-custom-tooltip-label"> Relocation Node </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.RELOCATION_NODE' | translate }} </div>
                     <div> {{ tooltipData.relocating_node || 'NULL'}}  </div> 
-                    <div class="cr-custom-tooltip-label"> Routing State </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.ROUTING_STATE' | translate }} </div>
                     <div> {{ tooltipData.routing_state }} </div> 
-                    <div class="cr-custom-tooltip-label"> State </div> 
+                    <div class="cr-custom-tooltip-label"> {{ 'SHARD.STATE' | translate }} </div>
                     <div> {{ tooltipData.state}} </div> 
                     <div ng-repeat="(key, value) in tooltipData.values">
                     <div ng-if = "tooltipData.values" class="cr-custom-tooltip-label"> {{ key }} </div> 
@@ -101,7 +101,7 @@
            </cr-custom-tooltip>
             <tr ng-repeat="(node_key, node_value) in shards track by node_key" ng-show="node_value.node_info.name != 'UNASSIGNED'">
               <td class="cr-table-cell shards-table-node" ng-click="goToUrl('nodes/' + node_key)" data-node="{{node_key}}">
-                {{ node_value.node_info.name }}
+                {{ 'SHARD.NODENAME' | translate }}: {{ node_value.node_info.name }}
               </td>
               <td class="cr-table-cell" ng-repeat="(shard_by_table_key, shard_by_table_value) in node_value.shards_by_table track by shard_by_table_key"> 
                 <shard-wrapper length="shard_by_table_value.shards.length"  class="shard-item-wrapper"> 

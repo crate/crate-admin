@@ -202,7 +202,7 @@ const tableinfo = angular.module('tableinfo', ['sql'])
 
     };
   })
-  .factory('TableList', function (TableInfo, SQLQuery, roundWithUnitFilter) {
+  .factory('TableList', function (TableInfo, SQLQuery, roundWithUnitFilter, $filter) {
 
     var fetch;
 
@@ -275,16 +275,17 @@ const tableinfo = angular.module('tableinfo', ['sql'])
           table.health_panel_class = colorMapPanel[table.health];
           table.type_display_name = table.table_schema == 'blob' ? 'TABLE.BLOBS' : 'TABLE.RECORDS';
 
-          // create summary
-          var summary = table.shards_configured + ' Shards';
-          summary += ' / ' + table.replicas_configured + ' Replicas';
+          // Create table summary
+          var translate = $filter('translate');
+          var summary = `${table.shards_configured} ${translate('TABLE.SHARDS')}`;
+          summary += ` / ${table.replicas_configured} ${translate('TABLE.REPLICAS')}`;
           if (table.records_unavailable) {
-            summary = roundWithUnitFilter(table.records_unavailable, 1) + ' Unavailable Records / ' + summary;
+            summary = `${roundWithUnitFilter(table.records_unavailable, 1)} ${translate('TABLE.ROW.UNAVAIL_RECORDS')} / ${summary}`;
           } else if (table.shards_underreplicated) {
-            summary = table.shards_underreplicated + ' Underreplicated Shards / ' + summary;
+            summary = `${table.shards_underreplicated} ${translate('TABLE.ROW.UNDERREPL_SHARDS')} / ${summary}`;
           }
           if (table.records_underreplicated) {
-            summary = table.records_underreplicated + ' Underreplicated Records / ' + summary;
+            summary = `${table.records_underreplicated} ${translate('TABLE.ROW.UNDERREPL_RECORDS')} / ${summary}`;
           }
           table.summary = summary;
         }

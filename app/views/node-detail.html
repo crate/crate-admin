@@ -203,7 +203,7 @@
       <div class="node-detail__subsection__detail cr-panel-block">
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{ 'NODE.READ' | translate }}
+            {{ 'NODE.READ_OPS' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rps > -1">
             {{ node.iostats.rps|number:1 }}
@@ -215,7 +215,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{ 'NODE.WRITE' | translate }}
+            {{ 'NODE.WRITE_OPS' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wps > -1">
             {{ node.iostats.wps|number:1 }}
@@ -227,7 +227,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{ 'NODE.READS' | translate }}
+            {{ 'NODE.READ_RATE' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.rbps > -1">
             {{ node.iostats.rbps|bytes }}/s
@@ -239,7 +239,7 @@
 
         <div class="node-detail__subsection__cell">
           <p class="cr-panel-block__item__header">
-            {{ 'NODE.WRITES' | translate }}
+            {{ 'NODE.WRITE_RATE' | translate }}
           </p>
           <p class="cr-panel-block__item__content--full-width cr-panel--default" ng-show="node.iostats.wbps > -1">
             {{ node.iostats.wbps|bytes }}/s

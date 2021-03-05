@@ -1,19 +1,19 @@
 <div ng-class="{'page-container--no-list': !$root.showSideList || showError }" class="page-container page-container-padded">
 
-    <h1 class="cr-page-header">Privileges</h1>
-    <h3 ng-hide="showError">User : {{currentUser.name}}</h3>
+    <h1 class="cr-page-header">{{ 'USER.USERS' | translate }}</h1>
+    <h3 ng-hide="showError">{{ 'USER.USER' | translate }}: {{currentUser.name}}</h3>
 
     <div class="cr-panel-block-p" ng-if="showError">
-      You need to have access to `sys.privileges` and `sys.users` to use this feature. Please contact your system administrator.
+      {{ 'USER.ACCESS_REQUIRED' | translate }}
     </div>
 
     <div class="cr-panel-block-p" ng-if="currentUser.superuser">
-      The superuser has access to the whole cluster. It is not possible to perform GRANT / DENY or REVOKE statements on the superuser.
+      {{ 'USER.SUPERUSER_LIMITED' | translate }}
     </div>
 
 
     <div class="table-search__wrapper" ng-show="!currentUser.superuser && !showError">
-      <input id="tableSearch" ng-model="search.$" placeholder="Filter privileges ..." type="text" focus="true">
+      <input id="tableSearch" ng-model="search.$" placeholder="{{ 'USER.FILTER_PRIVILEGES' | translate }}..." type="text" focus="true">
       <span ng-if="search.$" class="cr-clear-privileges-search" ng-click="search.$ = '' ">
           <i class="fa fa-times-circle" aria-hidden="true"></i>
       </span>

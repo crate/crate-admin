@@ -278,7 +278,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
       $scope.showDropDown = !$scope.showDropDown;
     };
 
-    $scope.selectedLanguage = 'auto';
+    $scope.selectedLanguage = $translate.use() || 'auto';
 
     $scope.changeLanguage = function(langKey) {
       // Check if AutoDetect is chosen, if yes, set langKey as preferredLanguage.

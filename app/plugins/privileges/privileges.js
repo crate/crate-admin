@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('privileges', ['sql'])
+angular.module('users', ['sql'])
   .factory('UserListService', function (SQLQuery, queryResultToObjects, $q) {
     var UserListService = {
       deferred: $q.defer()
@@ -70,7 +70,7 @@ angular.module('privileges', ['sql'])
           //update selectedUser in Parent 
           $scope.$parent.selectedUser = user;
           $location.search('user', user.name);
-          $state.go('privileges.privilege', {
+          $state.go('users.user', {
             user: $scope.currentUser.name
           });
         };
@@ -129,7 +129,7 @@ angular.module('privileges', ['sql'])
             $scope.userList = response;
             if ($scope.userList.length > 0) {
               $scope.selectedUser = getDefaultUser($scope.userList);
-              $state.go('privileges.privilege', {
+              $state.go('users.user', {
                 user: $scope.selectedUser.name
               });
             }
@@ -151,14 +151,14 @@ angular.module('privileges', ['sql'])
     $translatePartialLoader.addPart('./static/plugins/privileges');
     $translate.refresh();
     var iconSrc = 'static/plugins/privileges/static/icons/icon-user.svg';
-    var url = '/privileges';
+    var url = '/users';
     var position = 52;
 
-    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.PRIVILEGES'), url, position, "privileges");
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.USERS'), url, position, "users");
 
     // Update Navbar Elements if Language Changes
     $rootScope.$on('$translateChangeSuccess', function () {
-      $translate('NAVIGATION.PRIVILEGES').then(function (translation) {
+      $translate('NAVIGATION.USERS').then(function (translation) {
         NavigationService.updateNavBarElement(url, translation);
       });
     });
