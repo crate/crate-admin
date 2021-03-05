@@ -6,8 +6,8 @@ CrateDB Admin UI
 
 An admin user interface (UI) for `CrateDB`_.
 
-The admin interface is bundled with every CrateDB distribution. There is no need
-to install it separately unless you are contributing to the project.
+The admin interface is bundled with every CrateDB distribution. Unless you are
+contributing to the project, there is no need to install it separately.
 
 .. image:: docs/_assets/img/admin-ui.png
 
