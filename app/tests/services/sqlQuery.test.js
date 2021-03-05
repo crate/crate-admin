@@ -39,7 +39,7 @@ describe('SQLQuery', function() {
       ]);
 
       var status = query.status();
-      expect(status).toEqual('SELECT OK, 21 rows in set (0.003 sec)');
+      expect(status).toEqual('SELECT OK, 21 CONSOLE.RECORDS CONSOLE.RETURNED (0.003 CONSOLE.SECONDS)');
 
     }));
     

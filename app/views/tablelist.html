@@ -2,7 +2,7 @@
 
     <div class="filter__wrapper">
 
-        <input id="tableFilter" ng-model="query" placeholder="Filter tables ..." type="text">
+        <input id="tableFilter" ng-model="query" placeholder="{{ 'TABLE.FILTER_TABLES' | translate }}..." type="text">
         <a ng-if="query" class="cr-clear-filters" ng-click="clearFilter()">
             <i class="fa fa-times-circle" aria-hidden="true"></i>
         </a>

@@ -11,12 +11,14 @@ describe('Feed', function() {
   });
 
   describe('QueryStringAppender', function() {
-    var url = 'https://crate.io/';
     it('should append ?', inject(function() {
+      var url = 'https://crate.io/';
       url = QueryStringAppender.append(url, 'foo', 'bar');
       expect(url).toEqual('https://crate.io/?foo=bar');
     }));
     it('should append &', inject(function() {
+      var url = 'https://crate.io/';
+      url = QueryStringAppender.append(url, 'foo', 'bar');
       url = QueryStringAppender.append(url, 'bar', 'baz');
       expect(url).toEqual('https://crate.io/?foo=bar&bar=baz');
     }));

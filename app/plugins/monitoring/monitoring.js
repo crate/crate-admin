@@ -224,7 +224,7 @@ angular.module('monitoring', ['events'])
     var statsCheckingServiceInterval, monitoringPollInterval;
     $scope.qps = [];
     $scope.duration = [];
-    $scope.user_has_access = false;
+    $scope.user_has_access = null;
 
     $scope.toggle_qps_query_type = function(e, idx) {
       $('#qps-query-type-' + idx).toggleClass('faded-text');
@@ -367,5 +367,13 @@ angular.module('monitoring', ['events'])
     var url = '/monitoring';
     var position = 51;
 
-    NavigationService.addNavBarElement(iconSrc, 'Monitoring', url, position, "monitoring");
+    NavigationService.addNavBarElement(iconSrc, $filter('translate', 'NAVIGATION.MONITORING'), url, position, "monitoring");
+
+    // Update Navbar Elements if Language Changes
+    $rootScope.$on('$translateChangeSuccess', function () {
+      $translate('NAVIGATION.MONITORING').then(function (translation) {
+        NavigationService.updateNavBarElement(url, translation);
+      });
+    });
+
   });

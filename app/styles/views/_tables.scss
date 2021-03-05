@@ -15,8 +15,8 @@
 .query-table__panel {
 	@extend .cr-panel-block;
 	padding: 0px;
-	align-items: flex-end !important;
-	justify-content: flex-end !important;
+	align-items: flex-start !important;
+	justify-content: flex-start !important;
 	border: 1px solid $block-border;
 	margin-top: 0px !important;
 }

@@ -38,7 +38,7 @@ describe('tableinfo TableList', function() {
           shards_started: 4,
           shards_underreplicated: 4,
           size: 3578,
-          summary: "1 Underreplicated Records / 4 Underreplicated Shards / 4 Shards / 1 Replicas",
+          summary: "1 TABLE.ROW.UNDERREPL_RECORDS / 4 TABLE.ROW.UNDERREPL_SHARDS / 4 TABLE.SHARDS / 1 TABLE.REPLICAS",
           table_schema: "doc",
           type_display_name: "TABLE.RECORDS"
         }, {
@@ -60,7 +60,7 @@ describe('tableinfo TableList', function() {
           shards_started: 4,
           shards_underreplicated: 4,
           size: 636,
-          summary: "4 Underreplicated Shards / 4 Shards / 1 Replicas",
+          summary: "4 TABLE.ROW.UNDERREPL_SHARDS / 4 TABLE.SHARDS / 1 TABLE.REPLICAS",
           table_schema: "doc",
           type_display_name: "TABLE.RECORDS"
         }], [{
@@ -160,7 +160,7 @@ describe('tableinfo TableList', function() {
           shards_started: 4,
           shards_underreplicated: 4,
           size: 3578,
-          summary: '1 Underreplicated Records / 4 Underreplicated Shards / 4 Shards / 1 Replicas',
+          summary: '1 TABLE.ROW.UNDERREPL_RECORDS / 4 TABLE.ROW.UNDERREPL_SHARDS / 4 TABLE.SHARDS / 1 TABLE.REPLICAS',
           table_schema: 'doc',
           type_display_name: 'TABLE.RECORDS'
         }), Object({
@@ -182,7 +182,7 @@ describe('tableinfo TableList', function() {
           shards_started: 4,
           shards_underreplicated: 4,
           size: 636,
-          summary: '4 Underreplicated Shards / 4 Shards / 1 Replicas',
+          summary: '4 TABLE.ROW.UNDERREPL_SHARDS / 4 TABLE.SHARDS / 1 TABLE.REPLICAS',
           table_schema: 'doc',
           type_display_name: 'TABLE.RECORDS'
         })]
