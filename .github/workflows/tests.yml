@@ -39,8 +39,6 @@ jobs:
           #       still do it because it will yield tremendous speed improvements.
           #       By adding the `node-version` to the cache key, it should work.
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Install package
         run: npm install

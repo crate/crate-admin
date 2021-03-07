@@ -112,7 +112,7 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
 
         const COLUMN_QUERY = `
 SELECT
-    column_name,
+    quote_ident(column_name) as column_name,
     upper(data_type) AS data_type,
     is_generated = 'ALWAYS' as is_generated,
     generation_expression
@@ -156,11 +156,11 @@ WHERE
             var filtered_columns = rows.filter(function (row) {
               return !isNestedColumn(row.column_name);
             }).map(function (row) {
-              return '"' + row.column_name + '"';
+              return row.column_name;
             });
-
-            query += filtered_columns.join(',');
-            query += ' FROM "' + tableSchema + '"."' + tableName + '" LIMIT 100;';
+            
+            query += filtered_columns.join(', ');
+            query += '\nFROM "'+ tableSchema + '"."' + tableName + '"\nLIMIT 100;';
             return query;
           };
 

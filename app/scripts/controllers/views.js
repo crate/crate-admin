@@ -54,7 +54,7 @@ angular.module('views', ['stats', 'sql', 'common', 'viewinfo', 'events'])
         ClusterEventsHandler, ClusterState) {
 
         const NESTED_COL_REGEX = /([^\s]+)(\[\'([^\s]+)\'])+/i;
-        const COLUMNS_QUERY = 'SELECT column_name, upper(data_type) AS column_type ' +
+        const COLUMNS_QUERY = 'SELECT quote_ident(column_name) as column_name, upper(data_type) AS column_type ' +
           'FROM information_schema.columns ' +
           'WHERE table_schema = ? AND table_name = ?';
 

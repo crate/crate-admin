@@ -21,6 +21,10 @@ Unreleased
 
 - Fixed missing whitespace.
 
+- When navigating from table view to console, apply server-side ``quote_ident``
+  function to get better usability for column names within the manifested SQL
+  statement. Also, added appropriate newlines.
+
 
 2020-10-12 1.17.0
 =================
