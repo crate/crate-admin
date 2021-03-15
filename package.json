@@ -68,7 +68,8 @@
     "popper.js": "^1.14"
   },
   "scripts": {
-    "start": "webpack-dev-server --progress --config=webpack.dev.config.js --open-page=http://localhost:9000/?base_uri=http://localhost:4200#!/",
+    "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
+    "develop": "webpack-dev-server --progress --config=webpack.dev.config.js --open-page=http://localhost:9000/?base_uri=http://localhost:4200#!/",
     "build": "webpack --config webpack.prod.config.js --progress",
     "test": "karma start",
     "postinstall": "node node_modules/phantomjs-prebuilt/install.js"
