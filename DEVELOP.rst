@@ -1,67 +1,71 @@
-===============
-Developer Guide
-===============
+###############
+Developer guide
+###############
 
 
-Prerequisites
-=============
-
-You will need Python 3.
-
-
+*****
 Setup
-=====
+*****
 
-Installing node locally::
+Install Node.js locally::
 
     python3 -m venv .venv
     source .venv/bin/activate
     pip install -U pip
     pip install nodeenv
-    nodeenv --python-virtualenv --node=14.15.4
+    nodeenv --python-virtualenv --node=15.10.0
 
 Install the package dependencies::
 
     npm install
 
 
-Building the App
-================
+*****
+Tests
+*****
 
-Build the app like so::
+To run the tests, use the following commands::
 
-    npm run build
-
-To run the Admin UI as a standalone app, open the ``build/index.html`` file in
-your browser.
+    npm test
 
 
-Running the App for Development
-===============================
+
+***********************
+Development environment
+***********************
+
+Quickstart
+==========
+
+Start CrateDB::
+
+    npm run cratedb
 
 Start the development server on port ``9000``::
 
-    npm start
+    npm run develop
+
+After the application has been compiled and the Webpack development server has
+started, the process should automatically open a browser tab.
+
+
+Description
+===========
 
 You should now be able to access the app at: http://localhost:9000/
 
-
-Running CrateDB
-===============
-
-The quickest way to spin up an instance is probably to use Docker::
-
-    docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*
-
-
 Connecting to CrateDB
-=====================
+---------------------
 
 You will need to enable *Cross-Origin Resource Sharing* in your `CrateDB
 configuration`_ to test the Admin UI against it::
 
     http.cors.enabled: true
     http.cors.allow-origin: "*"
+
+A quick way to spin up an instance of this is to use Docker::
+
+    docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*
 
 You can then use the ``base_uri`` parameter to specify the URL of your CrateDB
 node, like so::
@@ -71,10 +75,14 @@ node, like so::
 This  ``base_uri`` parameter is intended for development use only.
 
 
-Adding New Dependencies
+**********************
+Development operations
+**********************
+
+Adding new dependencies
 =======================
 
-Application dependencies should be added as follow::
+To add application dependencies, invoke::
 
     npm install [dependency] --save
 
@@ -84,31 +92,23 @@ for the application to load correctly.
 If the dependency is an angular module, it should also be included in ``MODULES``
 in ``./app/app.module.js``
 
-Dev dependencies should be added as follow::
+To add development dependencies, invoke::
 
     npm install [dependency] --save-dev
 
 
-Adding New Components
+Adding new components
 =====================
 
 When a new component is created (a module or a service or a controller),
 it should be imported to ``./app/app.components.js``.
 
 
-Adding New Stylesheets
+Adding new stylesheets
 ======================
 
 When a new stylesheet is created it should be imported to
 ``./styles/styles.scss``, this applies to both vanilla and vendor stylesheets.
-
-
-Running Tests
-=============
-
-You can run the tests like so::
-
-    npm test
 
 
 Plugins
@@ -120,7 +120,23 @@ On startup, the ``conf/plugins.json`` file is read and plugins
 The `tutorial plugin`_ is loaded by the default configuration.
 
 
-Preparing a Release
+********
+Building
+********
+
+To compile the app without development mode, invoke::
+
+    npm run build
+
+To run the Admin UI as a standalone app, open the ``build/index.html`` file in
+your browser.
+
+
+*********
+Releasing
+*********
+
+Preparing a release
 ===================
 
 Before releasing, run through the `Admin UI Release Preflight`_.
@@ -140,16 +156,17 @@ To create a new release, you must:
 - Run the ``crate-admin_release`` job in Jenkins
 
 
+*************
 Documentation
-=============
+*************
 
 The documentation is written using `Sphinx`_ and `ReStructuredText`_.
 
 
 Working on the documentation
-----------------------------
+============================
 
-Python 3.7 is required.
+Python >= 3.7 is required.
 
 Change into the ``docs`` directory:
 
@@ -180,7 +197,7 @@ You must install `fswatch`_ to use the ``dev`` target.
 
 
 Continuous integration and deployment
--------------------------------------
+=====================================
 
 |docs-version|
 
