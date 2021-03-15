@@ -280,12 +280,12 @@ const tableinfo = angular.module('tableinfo', ['sql'])
           var summary = `${table.shards_configured} ${translate('TABLE.SHARDS')}`;
           summary += ` / ${table.replicas_configured} ${translate('TABLE.REPLICAS')}`;
           if (table.records_unavailable) {
-            summary = `${roundWithUnitFilter(table.records_unavailable, 1)} ${translate('TABLE.ROW.UNAVAIL_RECORDS')} / ${summary}`;
+            summary = `${roundWithUnitFilter(table.records_unavailable, 1)} ${translate('TABLE.RECORDS_UNAVAILABLE')} / ${summary}`;
           } else if (table.shards_underreplicated) {
-            summary = `${table.shards_underreplicated} ${translate('TABLE.ROW.UNDERREPL_SHARDS')} / ${summary}`;
+            summary = `${table.shards_underreplicated} ${translate('TABLE.SHARDS_UNDERREPLICATED')} / ${summary}`;
           }
           if (table.records_underreplicated) {
-            summary = `${table.records_underreplicated} ${translate('TABLE.ROW.UNDERREPL_RECORDS')} / ${summary}`;
+            summary = `${table.records_underreplicated} ${translate('TABLE.RECORDS_UNDERREPLICATED')} / ${summary}`;
           }
           table.summary = summary;
         }
