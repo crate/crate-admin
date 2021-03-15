@@ -26,7 +26,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.CONFIG_REPLICAS' | translate }}
+          {{ 'TABLE.REPLICAS_CONFIGURED' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.replicas_configured}}
@@ -34,7 +34,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.CONFIG_SHARDS' | translate }}
+          {{ 'TABLE.SHARDS_CONFIGURED' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_configured}}
@@ -45,7 +45,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.STARTED_SHARDS' | translate }}
+          {{ 'TABLE.SHARDS_STARTED' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_started}}
@@ -53,7 +53,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.MISSING_SHARDS' | translate }}
+          {{ 'TABLE.SHARDS_MISSING' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_missing}}
@@ -64,7 +64,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.UNDERREPL_SHARDS' | translate }}
+          {{ 'TABLE.SHARDS_UNDERREPLICATED' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default">
           {{table.shards_underreplicated}}
@@ -72,7 +72,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.TOTAL' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.RECORDS_TOTAL' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_total | number:0}}">
           {{table.records_total | roundWithUnit:1}}
@@ -83,7 +83,7 @@
     <div class="table-detail__row">
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.UNAVAILABLE' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.RECORDS_UNAVAILABLE' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_unavailable | number:0}}">
           {{table.records_unavailable | roundWithUnit:1}}
@@ -91,7 +91,7 @@
       </div>
       <div class="table-detail__cell">
         <div class="cr-panel-block__item__header">
-          {{ 'TABLE.UNDERREPL' | translate }} {{ table.type_display_name | translate }}
+          {{ 'TABLE.RECORDS_UNDERREPLICATED' | translate }}
         </div>
         <p class="cr-panel-block__item__content--full-width cr-panel--default" data-toggle="tooltip" rel="tooltip" data-original-title="{{table.records_underreplicated | number:0}}">
           {{table.records_underreplicated | roundWithUnit:1}}
@@ -121,7 +121,7 @@
 
   <div class="query-table__panel">
     <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="executeQuery(query)">
-      <div> QUERY TABLE </div>
+      <div>{{ 'TABLE.QUERY_TABLE' | translate }}</div>
     </div>
   </div>
 
@@ -140,17 +140,17 @@
         <thead>
           <tr>
             <th rowspan="2" ng-click="ptCtlr.sortByColumn('health')">{{ 'TABLE.HEALTH' | translate }} <i ng-class="ptCtlr.selected('health')"></i></th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('partition_ident')">{{ 'TABLE.ROW.IDENT' | translate }} <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
-            <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">{{ 'TABLE.ROW.PARTITION_VALUES' | translate }}</th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('replicas_configured')">{{ 'TABLE.ROW.CONF_REPLICAS' | translate }}<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('shards_configured')">{{ 'TABLE.ROW.CONF_SHARDS' | translate }}<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
-            <th rowspan="2" class="header">{{ 'TABLE.ROW.STARTED_SHARDS' | translate }}</th>
-            <th rowspan="2" class="header">{{ 'TABLE.ROW.MISSING_SHARDS' | translate }}</th>
-            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_SHARDS' | translate }}</th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('records_total')">{{ 'TABLE.ROW.TOTAL_RECORDS' | translate }}<i ng-class="ptCtlr.selected('records_total')"></i></th>
-            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNAVAIL_RECORDS' | translate }}</th>
-            <th rowspan="2" class="header">{{ 'TABLE.ROW.UNDERREPL_RECORDS' | translate }}</th>
-            <th rowspan="2" ng-click="ptCtlr.sortByColumn('size')">{{ 'TABLE.ROW.SIZE' | translate }}<i ng-class="ptCtlr.selected('size')"></i></th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('partition_ident')">{{ 'TABLE.PARTITION_IDENTIFIER' | translate }} <i ng-class="ptCtlr.selected('partition_ident')"></i></th>
+            <th colspan="{{ table.partitioned_by.length }}" class="header header-colspan">{{ 'TABLE.PARTITION_VALUES' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('replicas_configured')">{{ 'TABLE.REPLICAS_CONFIGURED' | translate }}<i ng-class="ptCtlr.selected('replicas_configured')"></i></th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('shards_configured')">{{ 'TABLE.SHARDS_CONFIGURED' | translate }}<i ng-class="ptCtlr.selected('shards_configured')"></i></th>
+            <th rowspan="2" class="header">{{ 'TABLE.SHARDS_STARTED' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.SHARDS_MISSING' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.SHARDS_UNDERREPLICATED' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('records_total')">{{ 'TABLE.RECORDS_TOTAL' | translate }}<i ng-class="ptCtlr.selected('records_total')"></i></th>
+            <th rowspan="2" class="header">{{ 'TABLE.RECORDS_UNAVAILABLE' | translate }}</th>
+            <th rowspan="2" class="header">{{ 'TABLE.RECORDS_UNDERREPLICATED' | translate }}</th>
+            <th rowspan="2" ng-click="ptCtlr.sortByColumn('size')">{{ 'TABLE.SIZE' | translate }}<i ng-class="ptCtlr.selected('size')"></i></th>
           </tr>
             <th ng-repeat="col in table.partitioned_by track by $index">{{ col }}</th>
           <tr>
