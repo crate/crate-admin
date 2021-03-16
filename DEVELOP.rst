@@ -41,7 +41,7 @@ Start CrateDB::
 
     npm run cratedb
 
-Start the development server on port ``9000``::
+Start the development server on ``http://localhost:9000/``::
 
     npm run develop
 
@@ -52,27 +52,17 @@ started, the process should automatically open a browser tab.
 Description
 ===========
 
-You should now be able to access the app at: http://localhost:9000/
+There is a ``base_uri`` parameter intended for development use only. You can
+use it to specify the URL of your CrateDB instance, like::
 
-Connecting to CrateDB
----------------------
+    http://localhost:9000/?base_uri=http://localhost:4200
 
-You will need to enable *Cross-Origin Resource Sharing* in your `CrateDB
-configuration`_ to test the Admin UI against it::
+When running CrateDB by other means, please make sure to enable *Cross-Origin
+Resource Sharing* in your `CrateDB configuration`_, like::
 
     http.cors.enabled: true
     http.cors.allow-origin: "*"
 
-A quick way to spin up an instance of this is to use Docker::
-
-    docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*
-
-You can then use the ``base_uri`` parameter to specify the URL of your CrateDB
-node, like so::
-
-    http://localhost:9000/?base_uri=http://localhost:4200
-
-This  ``base_uri`` parameter is intended for development use only.
 
 
 **********************
