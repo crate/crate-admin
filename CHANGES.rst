@@ -6,20 +6,29 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Improved usability of the "Console" page. The "submit query" button is now closer
-  to the query statement.
+2021-03-19 1.18.0
+=================
 
-- Made language selection sticky.
-
-- Improved translations once more.
+Fixes
+-----
 
 - Removed misguided redirects which may lose queries currently being typed.
 
-- Aligned with license change. Enterprise features are now available to everyone.
+- Made language selection sticky.
 
 - Fixed translations. French now works again.
 
 - Fixed missing whitespace.
+
+Changes
+-------
+
+- Improved usability of the "Console" page. The "submit query" button is now closer
+  to the query statement.
+
+- Improved translations once more.
+
+- Aligned with license change. Enterprise features are now available to everyone.
 
 - When navigating from table view to console, apply server-side ``quote_ident``
   function to get better usability for column names within the manifested SQL
