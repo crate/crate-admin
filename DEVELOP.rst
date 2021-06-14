@@ -34,6 +34,20 @@ To run the tests, use the following commands::
 Development environment
 ***********************
 
+
+Setup Node.js
+=============
+
+Because the version of `node-sass` used as transitive dependency is apparently
+not compatible with Node 16 yet, let's use Node 15:
+
+```shell
+brew install nodeenv
+nodeenv --node=15.14.0 .nenv
+source .nenv/bin/activate
+```
+
+
 Quickstart
 ==========
 
