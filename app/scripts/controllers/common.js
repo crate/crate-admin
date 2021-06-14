@@ -1,6 +1,6 @@
 'use strict';
 
-const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
+const commons = angular.module('common', ['stats', 'events', 'sql'])
   .provider('Settings', function () {
     var user = '';
 
@@ -17,7 +17,7 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
   })
   .controller('UnauthorizedCtrl', [function () {}])
   .controller('StatusBarController', function ($scope, $rootScope, $log, $location, $translate, $sce, $window,
-    ClusterState, ChecksService, UidLoader, UdcSettings, Settings, Clipboard, ClusterEventsHandler,
+    ClusterState, ChecksService, Settings, Clipboard, ClusterEventsHandler,
     SQLQuery, queryResultToObjects) {
 
     // Query for current user.
@@ -132,52 +132,10 @@ const commons = angular.module('common', ['stats', 'udc', 'events', 'sql'])
       placement: 'bottom'
     });
 
-    var verified = null;
-
     // set user
     $scope.user = {
       uid: null
     };
-
-    // 'analytics' might not be globally available if the user has an addblocker
-    if ($window.analytics) {
-      $window.analytics.load(UdcSettings.SegmentIoToken);
-      $window.analytics.ready(function () {
-        var user = $window.analytics.user();
-        verified = {
-          id: user.id(),
-          traits: user.traits()
-        };
-      });
-
-      var identify = function (userdata) {
-        if (userdata.user.uid !== null) {
-          $window.analytics.setAnonymousId(userdata.user.uid);
-          $window.analytics.identify(userdata.user.uid);
-          $window.analytics.page();
-          if ($scope.version) {
-            $window.analytics.track('visited_admin', {
-              'version': $scope.version.number,
-              'cluster_id': userdata.cluster_id
-            });
-          }
-        }
-      };
-      UdcSettings.availability.then(function (data) {
-        if (data.enabled === true) {
-          // load uid
-          UidLoader.load().then(function (uid) {
-            $scope.user.uid = uid.toString();
-            identify({
-              'user': $scope.user,
-              'cluster_id': data.cluster_id
-            });
-          },function (error) {
-            console.warn(error);
-          });
-        }
-      });
-    }
 
     $scope.$on('$destroy', function () {
       //remove call back when controller is destroyed
