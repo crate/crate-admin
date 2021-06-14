@@ -6,6 +6,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Remove all analytics (UDC, Segment) completely
+- Remove "Notifications" section in statusbar
+
 2021-03-19 1.18.0
 =================
 

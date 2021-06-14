@@ -16,8 +16,6 @@
         "CRATE_MANUAL": "Manuel de CrateDB",
         "DOC_MSG": "Lire la documentation en ligne",
         "NOTIFICATIONS": "Avis",
-        "OLD_VERSION_TIP": "Vous utilisez une ancienne version ({{ version }}) de CrateDB",
-        "UPDATE_TIP": "Merci de considérer une mise à jour vers la version {{ version }}!",
         "NO_NOTIFICATION": "Il n'y a pas encore de notification.",
         "MARK_ALL_READ": "Marquer comme lu"
     },
