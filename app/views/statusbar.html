@@ -37,8 +37,6 @@
     <div ng-controller="NotificationsController" class="status-bar__notifications">
       <div id="settings-icon" class="status-bar__content__item" ng-click="toggleSettings()" data-original-title="{{ 'STATUSBAR.SETTINGS' | translate }}" cr-tooltip cr-tooltip-position="bottom">
         <i class="fa fa-2x fa-cog"></i>
-        <i id="unread-notifications-bg" ng-if="showUpdate" class="fa fa-circle"></i>
-        <i id="unread-notifications" ng-if="showUpdate" class="fa fa-exclamation-circle"></i>
       </div>
       <div id="settings-backdrop" ng-if="showSettings" ng-click="toggleSettings()"></div>
       <div id="settings-wrapper"  class="cr-settings" ng-if="showSettings" ng-init="markAsRead('all')">
@@ -70,32 +68,6 @@
             </a>
           </div>
 
-          <div class="notifications-wrapper" ng-if="entries">
-            <div class="notifications-wrapper__header">
-              <div>{{ 'STATUSBAR.NOTIFICATIONS' | translate }}</div>
-            </div>
-
-            <div class="notification" ng-show="showUpdate">
-              <div class="notification__item" ng-click="goToUrl('https://crate.io/download/#stable')">
-                <div class="notification__status">
-                 <div class="cr-bubble cr-bubble--blue"></div>
-                </div>
-                <div class="notification__content">
-                  <p translate="STATUSBAR.OLD_VERSION_TIP" translate-value-version="{{serverVersion}}"></p>
-                  <p translate="STATUSBAR.UPDATE_TIP" translate-value-version="{{stableVersion}}"></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="no-notification" ng-if="!showUpdate">
-              <div class="notification__item">
-                <div class="notification__status"></div>
-                <div class="notification__content">
-                  {{ 'STATUSBAR.NO_NOTIFICATION' | translate }}
-                </div>
-              </div>
-            </div>
-          </div>
       </div>
     </div>
 
