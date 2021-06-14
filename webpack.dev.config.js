@@ -60,9 +60,6 @@ module.exports = {
       CodeMirror: 'CodeMirror',
     }),
     new webpack.ProvidePlugin({
-      analytics: 'analytics',
-    }),
-    new webpack.ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',
       jquery: 'jquery'

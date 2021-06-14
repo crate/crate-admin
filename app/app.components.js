@@ -11,10 +11,8 @@ import './scripts/services/shardinfo';
 import './scripts/services/viewinfo';
 import './scripts/services/nodeinfo';
 import './scripts/services/checks';
-import './scripts/services/udc';
 import './scripts/services/translation';
 import './scripts/services/datatypechecks';
-import './scripts/services/segmentio';
 
 //controllers
 import './scripts/controllers/common';

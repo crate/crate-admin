@@ -25,7 +25,6 @@ var MODULES = [
   'cluster',
   'nodeinfo',
   'checks',
-  'udc',
   'translation',
   'datatypechecks',
   'nvd3',
