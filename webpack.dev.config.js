@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 
 
 module.exports = {
@@ -24,13 +23,13 @@ module.exports = {
     runtimeChunk: 'single'
   },
   plugins: [
-    new CleanWebpackPlugin('build'),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './app/index.tpl.html',
       inject: 'head',
       filename: 'index.html',
     }),
-    new CopyWebpackPlugin([
+    new CopyWebpackPlugin({patterns: [
       {
         from: './app/static/assets',
         to: 'static/assets'
@@ -51,12 +50,12 @@ module.exports = {
         from: './app/views',
         to: 'static/views'
           }
-          ]),
+      ]}
+    ),
     new MiniCssExtractPlugin({
       filename: 'static/styles/[name].css',
       chunkFilename: 'static/styles/[name].css'
     }),
-    new HtmlWebpackExcludeAssetsPlugin(),
     new webpack.ProvidePlugin({
       CodeMirror: 'CodeMirror',
     }),
