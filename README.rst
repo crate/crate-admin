@@ -43,7 +43,7 @@ Looking for more help?
     :alt: Test status
     :target: https://github.com/crate/crate-admin/actions?workflow=Tests
 
-.. |test-coverage| image:: https://codecov.io/gh/crate/crate-admin/branch/master/graph/badge.svg
+.. |test-coverage| image:: https://codecov.io/gh/crate/crate-admin/branch/main/graph/badge.svg
     :alt: Test coverage
     :target: https://codecov.io/gh/crate/crate-admin
 
