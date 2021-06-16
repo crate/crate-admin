@@ -214,9 +214,9 @@ configured branch is updated.
 To make changes to the RTD configuration (e.g., to activate or deactivate a
 release version), please contact the `@crate/tech-writing`_ team.
 
-.. |docs-version| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-admin%2Fmaster%2Fdocs%2Fbuild.json
+.. |docs-version| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-admin%2Fmain%2Fdocs%2Fbuild.json
     :alt: Documentation version
-    :target: https://github.com/crate/crate-admin/blob/master/docs/build.json
+    :target: https://github.com/crate/crate-admin/blob/main/docs/build.json
 
 .. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
 .. _Admin UI Release Preflight: https://github.com/crate/crate-admin/wiki/Admin-UI-Release-Preflight
