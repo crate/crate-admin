@@ -496,8 +496,32 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
            'while', 'width_bucket', 'window', 'with', 'within', 'without',
            'work', 'write', 'ws', 'year', 'zone'
         ]),
+          builtin: KeywordObjectCreator.create([
+            'array', 'bigint', 'binary', 'bit', 'boolean', 'byte', 'char',
+            'character', 'date', 'decimal', 'double', 'float', 'geo_point',
+            'geo_shape', 'int', 'integer', 'interval', 'int2', 'int4', 'int8',
+            'ip', 'long', 'name','numeric', 'object', 'oid', 'oidvector',
+            'precision', 'real', 'regclass', 'regproc', 'short', 'smallint',
+            'string','text', 'timestamp', 'time', 'timetz', 'timestamptz',
+            'varbinary', 'varchar', 'varying', 'with', 'without', 'zone'
+          ]),
+          dateSQL: KeywordObjectCreator.create(['date','time','timestamp']),
+          atoms: KeywordObjectCreator.create(['false','true','null']),
           operatorChars: /^[*+\-%<>!=~]/,
+          hooks : {
+            "\"":   hookIdentifierDoublequote
+          }
         });
+
+        // Needed in order to prevent identifiers to be marked as keyword
+        // see https://github.com/codemirror/CodeMirror/blob/9b81d0fd9f64972e922bb3f27ec721a9ad6a771a/mode/sql/sql.js#L227
+        function hookIdentifierDoublequote(stream) {
+          var ch;
+          while ((ch = stream.next()) != null) {
+            if (ch == "\"" && !stream.eat("\"")) return null;
+          }
+          return null;
+        }
 
         var editor = window.CodeMirror.fromTextArea(input, {
           mode: 'text/x-cratedb',
@@ -506,7 +530,9 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           // indent using spaces
           indentWithTabs: false,
           indentUnit: 2,
-          tabSize: 2
+          tabSize: 2,
+          hint: window.CodeMirror.hint.sql,
+          showHint: true
         });
 
         // map the Tab key to insert spaces instead of a tab character
@@ -514,7 +540,8 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           Tab: function (cm) {
             var spaces = ' '.repeat(cm.getOption('indentUnit'));
             cm.replaceSelection(spaces);
-          }
+          },
+          "Ctrl-Space":"autocomplete"
         });
 
         function updateStatementOnUrlSearch() {
