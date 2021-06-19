@@ -12,6 +12,7 @@ Unreleased
 - Change syntax highlighting in console. Keywords in double quotes are now longer
   highlighted. Types are highlighted with a different color.
 - Activate codemirror code hints for keywords
+- Make Scrollbar appear more modern
 
 2021-03-19 1.18.0
 =================
