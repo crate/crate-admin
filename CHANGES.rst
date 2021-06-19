@@ -12,11 +12,8 @@ Unreleased
 - Change syntax highlighting in console. Keywords in double quotes are now longer
   highlighted. Types are highlighted with a different color.
 - Activate codemirror code hints for keywords
-<<<<<<< HEAD
 - Make Scrollbar appear more modern
-=======
 - Add length limit for varchar(n) and bit(n) types in table view
->>>>>>> 4a2ddda (Add length limit for varchar(n) and bit(n) types in table view)
 
 2021-03-19 1.18.0
 =================
