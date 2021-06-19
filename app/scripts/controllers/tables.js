@@ -111,16 +111,23 @@ angular.module('tables', ['stats', 'sql', 'common', 'tableinfo', 'events'])
           'WHERE table_schema = ? AND table_name = ? AND closed = false';
 
         const COLUMN_QUERY = `
-SELECT
-    quote_ident(column_name) as column_name,
-    upper(data_type) AS data_type,
-    is_generated = 'ALWAYS' as is_generated,
-    generation_expression
-FROM
-    information_schema.columns
-WHERE
-    table_schema = ?
-    AND table_name = ?`;
+        SELECT
+            quote_ident(column_name) as column_name,
+            CASE
+              WHEN character_maximum_length IS NOT NULL THEN
+                CASE 
+                  WHEN data_type = 'text' THEN 'VARCHAR(' || character_maximum_length || ')'
+                  ELSE upper(data_type) || '(' || character_maximum_length || ')'
+                END
+              ELSE upper(data_type) 
+            END as data_type,
+            is_generated = 'ALWAYS' as is_generated,
+            generation_expression
+        FROM
+            information_schema.columns
+        WHERE
+            table_schema = ?
+            AND table_name = ?`;
 
         var requestId = function () {
           return 'r-' + new Date().getTime() + '-' + Math.floor(Math.random() * 1000);
