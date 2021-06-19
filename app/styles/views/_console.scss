@@ -178,7 +178,6 @@ tr > .cr-table-cell {
 }
 .cr-table-cell--max-width {
 	max-width: 400px;
-	min-width: 300px;
 	word-wrap: break-word !important;
 	display: block;
 	overflow-wrap: break-word !important;
@@ -239,7 +238,26 @@ tr > .cr-table-cell {
 	border-right: 1px solid $block-border;
 }
 
+.CodeMirror-hints {
+	background-color: $block-bg;
+	color: $text-color;
+	font-size: 100%;
+}
+
+.CodeMirror-hint {
+	color:  $text-color;
+}
+
+li.CodeMirror-hint-active {
+	color: $link-hover-color;
+	background-color: $block-bg;
+}  
+
 .cm-keyword {
+	text-transform: uppercase;
+}
+
+.cm-builtin {
 	text-transform: uppercase;
 }
 

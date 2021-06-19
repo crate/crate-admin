@@ -8,6 +8,10 @@ Unreleased
 
 - Remove all analytics (UDC, Segment) completely
 - Remove "Notifications" section in statusbar
+- Remove min-width for columns in console to reduce scrolling
+- Change syntax highlighting in console. Keywords in double quotes are now longer
+  highlighted. Types are highlighted with a different color.
+- Activate codemirror code hints for keywords
 
 2021-03-19 1.18.0
 =================

@@ -9,6 +9,9 @@ window.$ = $;
 
 // import 'CodeMirror';
 import CodeMirror from 'codemirror/lib/codemirror.js';
+import 'codemirror/mode/sql/sql';
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/sql-hint';
 window.CodeMirror = CodeMirror;
 import 'bootstrap/dist/js/bootstrap.min.js';
 
