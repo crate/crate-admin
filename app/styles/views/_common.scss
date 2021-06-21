@@ -722,13 +722,21 @@ label:hover:before {
 //
 // Scrollbar
 // -----------------------------------
-::-webkit-scrollbar {
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
 }
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
 	background: $body-bg;
 }
-::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
 	background: $block-border;
 }
+
+/* Works on Firefox */
+* {
+	scrollbar-width: thin;          /* "auto" or "thin" */
+	scrollbar-color: $block-border $body-bg;   /* scroll thumb and track */
+  }
