@@ -3,17 +3,27 @@ Changes for Crate Admin Interface
 =================================
 
 
-Unreleased
-==========
+2021-07-13 1.19.0
+=================
 
-- Remove all analytics (UDC, Segment) completely
-- Remove "Notifications" section in statusbar
-- Remove min-width for columns in console to reduce scrolling
-- Change syntax highlighting in console. Keywords in double quotes are now longer
+Changes
+-------
+
+- Removed all analytics (UDC, Segment)
+
+- Removed the "Notifications" section in the statusbar
+
+- Removed min-width for columns in console to reduce scrolling
+
+- Changed syntax highlighting in console. Keywords in double quotes are now longer
   highlighted. Types are highlighted with a different color.
-- Activate codemirror code hints for keywords
-- Make Scrollbar appear more modern
-- Add length limit for varchar(n) and bit(n) types in table view
+
+- Activated codemirror code hints for keywords.
+
+- Changed the look of the Scrollbar to appear more modern.
+
+- Added length limit for ``varchar(n)`` and ``bit(n)`` types in table view.
+
 
 2021-03-19 1.18.0
 =================
