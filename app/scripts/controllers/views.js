@@ -83,10 +83,10 @@ angular.module('views', ['stats', 'sql', 'common', 'viewinfo', 'events'])
           var query = 'SELECT ';
           var cols = rows
             .filter((row) => !isNestedColumn(row.column_name))
-            .map((row) => '"' + row.column_name + '"');
+            .map((row) => row.column_name );
 
           query += cols.join(', ');
-          query += ' FROM "' + schema + '"."' + name + '" LIMIT 100;';
+          query += '\nFROM "' + schema + '"."' + name + '"\nLIMIT 100;';
           return query;
         };
 
