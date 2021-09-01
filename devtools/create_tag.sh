@@ -71,8 +71,8 @@ then
    exit -1
 fi
 
-REV_NOTE=`grep "[0-9/]\{10\} $VERSION" CHANGES.rst`
 # Check if VERSION is in head of CHANGES.rst
+REV_NOTE=`grep "[0-9/-]\{10\} $VERSION" CHANGES.rst`
 if [ -z "$REV_NOTE" ]
 then
     echo "No notes for revision $VERSION found in CHANGES.rst"
