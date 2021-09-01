@@ -5,10 +5,14 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2021-09-01 1.19.1
+=================
+
 - Use correct binary prefixes (e.g. KiB, MiB, GiB) for units of data in UI.
   No change in calculation.
 
 - Fix generated queries for views containing identifiers that need to be quoted
+
 
 2021-07-13 1.19.0
 =================
