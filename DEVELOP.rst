@@ -149,15 +149,15 @@ To create a new release, you must:
 
 - Add the new version to ``package.json``
 
-- Add a section for the new version in the ``CHANGES.txt`` file
+- Invoke ``npm install --package-lock-only`` in order to update ``package-lock.json``
 
-- Commit your changes with a message like "prepare release x.y.z"
+- Add a section for the new version in the ``CHANGES.rst`` file
 
-- Push to origin
+- Commit your changes with a message like "Release x.y.z"
 
-- Create a tag by running ``./devtools/create_tag.sh``
+- Push to origin and create a tag by invoking ``./devtools/create_tag.sh``
 
-- Run the ``crate-admin_release`` job in Jenkins
+- Run the ``crate_admin_release`` job in Jenkins
 
 
 *************

@@ -34,7 +34,7 @@ then
    exit -1
 fi
 
-echo "Fetching origin..."
+echo "Fetching origin"
 git fetch origin > /dev/null
 
 ## check if current branch is master
@@ -59,7 +59,7 @@ git fetch origin > /dev/null
 
 # get the version
 VERSION=`less package.json | grep "\"version\":" | cut -d : -f 2 | tr -d ' ",'`
-echo "found version $VERSION in package.json"
+echo "Found version $VERSION in package.json"
 
 # check if tag to create has already been created
 EXISTS=`git tag | grep $VERSION`
@@ -71,8 +71,8 @@ then
    exit -1
 fi
 
-# check if VERSION is in head of CHANGES.rst
 REV_NOTE=`grep "[0-9/]\{10\} $VERSION" CHANGES.rst`
+# Check if VERSION is in head of CHANGES.rst
 if [ -z "$REV_NOTE" ]
 then
     echo "No notes for revision $VERSION found in CHANGES.rst"
@@ -80,7 +80,7 @@ then
     exit -1
 fi
 
-echo "Creating tag $VERSION..."
+echo "Creating tag '$VERSION'"
 git tag -a "$VERSION" -m "Tag release for revision $VERSION"
-git push --tags
+git push && git push --tags
 echo "Done."
