@@ -31,7 +31,8 @@ describe('monitoring', function() {
         }
       );
     });
-    angular.mock.module('monitoring');
+    angular.mock.module('crate');
+    angular.mock.module('overview');
     angular.mock.inject(function($injector) {
       $q = $injector.get('$q');
       MonitoringQueryService = $injector.get('MonitoringQueryService');
@@ -44,29 +45,13 @@ describe('monitoring', function() {
       stmt = MonitoringQueryService.get_statement();
 
       expect(stmt).toEqual('SELECT CURRENT_TIMESTAMP AS last_timestamp, ' +
-        'DATE_TRUNC(\'second\', ended) AS ended_time, ' +
-        'COUNT(*) AS qps, ' +
-        'AVG(ended - started) AS duration, ' +
-        'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
-        'FROM sys.jobs_log ' +
-        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN CURRENT_TIMESTAMP - 180000::timestamp' +
-        ' - 20000::timestamp AND CURRENT_TIMESTAMP - 20000::timestamp ' +
-        'GROUP BY 1, 2, 5 ORDER BY ended_time ASC');
-    }));
-
-    it('should return statement with last_timestamp = 1485251382', inject(function() {
-      var stmt;
-      stmt = MonitoringQueryService.get_statement(1485251382);
-
-      expect(stmt).toEqual('SELECT CURRENT_TIMESTAMP AS last_timestamp, ' +
-        'DATE_TRUNC(\'second\', ended) AS ended_time, ' +
-        'COUNT(*) AS qps, ' +
-        'AVG(ended - started) AS duration, ' +
-        'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
-        'FROM sys.jobs_log ' +
-        'WHERE DATE_TRUNC(\'second\', ended) BETWEEN 1485251382 - 20000::timestamp ' +
-        'AND CURRENT_TIMESTAMP - 20000::timestamp ' +
-        'GROUP BY 1, 2, 5 ORDER BY ended_time ASC');
+      '(ended / 10000) * 10000 + 5000 AS ended_time, ' +
+      'COUNT(*) / 10.0 AS qps, ' +
+      'AVG(ended - started) AS duration, ' +
+      'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
+      'FROM sys.jobs_log ' +
+      'WHERE ended > now() - (\'15 minutes\')::interval ' +
+      'GROUP BY 1, 2, 5 ORDER BY ended_time ASC');
     }));
   });
 });

@@ -1,6 +1,6 @@
-describe('NullOverAllSeries', function() {
+describe('NullSerie', function() {
   'use strict';
-  var mockNullOverAllSeries;
+  var mockNullSerie;
 
   beforeEach(function() {
     angular.mock.module(function($provide) {
@@ -30,18 +30,17 @@ describe('NullOverAllSeries', function() {
         }
       );
     });
-    angular.mock.module('monitoring');
+    angular.mock.module('overview');
     angular.mock.inject(function($injector) {
-      mockNullOverAllSeries = $injector.get('NullOverAllSeries');
+      mockNullSerie = $injector.get('NullSerie');
     });
   });
 
-  describe('NullOverAllSeries test', function() {
-    it('should create null serie object', inject(function(NullOverAllSeries) { //jshint ignore:line
-      var output =  mockNullOverAllSeries.create(50);
-      var keys = Object.keys(output);
-
-      expect(output[keys[0]]).toEqual(null);
+  describe('NullSerie test', function() {
+    it('should create null serie array', inject(function(NullSerie) { //jshint ignore:line
+      var output =  mockNullSerie.create(50);
+      expect(output.length).toEqual(50);
+      expect(output[0].y).toEqual(null);
     }));
   });
 

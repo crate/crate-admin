@@ -17,11 +17,18 @@
 	margin: 0px -7px;
 }
 
+.cr-panel-block--monitoring{
+	@extend .cr-panel-block;
+	background-color: $body-bg !important;
+	border: 1px solid $block-border !important;
+}
+
 .cr-panel-block__item--load,
 .cr-panel-block__item--checks{
 	flex-grow: 1;
-	flex-basis: 300px;
+	flex-basis: 160px;
 	margin: 5px;
+	border: 1px solid $block-border;
 }
 
 .cr-panel-block__item--load{
@@ -30,21 +37,23 @@
 
 .cr-panel-block__chart {
 	background-color: $block-bg--colored !important;
-	border: 1px solid $block-border;
-	border-top: none;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
+
 .cr-panel-block__item__header--load{
+	@extend .cr-panel-block__item__header;
 	flex-wrap: wrap;
-	padding: 0px !important;
 	background-color: $block-bg--colored !important;
+	padding: 0px !important;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
 }
 
 .cr-panel-block__item__header--load > h2 {
-	flex: 3 1 270px;
-	border: 1px solid $block-border;
+	flex: 3 1 250px;
 	width: 100%;
 	padding: 15px 10px;
 	margin: 0px;
@@ -61,13 +70,7 @@
 	padding-bottom: 0px;
 }
 
-.cr-panel-block__item__header--load{
-	@extend .cr-panel-block__item__header;
-	padding-left: 10px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
+
 
 .cr-panel-block__item__header--checks h2 {
 	width: 100%;
@@ -75,7 +78,6 @@
 }
 
 .cr-panel-block__item__header__icon {
-	border-left: 1px solid $block-border;
 	cursor: pointer;
 	color: $cr-panel-block__item__header__icon--checks--color;
 }
@@ -90,10 +92,8 @@
 .cr-panel-block__item__header__icon--load {
 	@extend .cr-panel-block__item__header__icon;
 	display: inline-block;
-	flex: 1 0 110px;
+	flex-basis: 110px;
 	padding: 18px 10px;
-	border: 1px solid $block-border;
-	border-left:none;
 	display: flex;
 	align-items: center;
 	background-color: $block-bg--colored !important;
@@ -129,7 +129,7 @@
 
 .cr-severity-header__btn,
 .cr-severity-header__btn:hover,
-.cr-severity-header__btn:focus,{
+.cr-severity-header__btn:focus {
 	color: $text-color;
 	text-decoration: underline
 }
@@ -150,7 +150,7 @@
 
 .cr-severity-list__item__header__btn,
 .cr-severity-list__item__header__btn:hover,
-.cr-severity-list__item__header__btn:focus,{
+.cr-severity-list__item__header__btn:focus {
 	color: $text-color;
 	text-decoration: underline
 }
@@ -196,4 +196,24 @@
 .checks {
 	border-bottom: 5px solid $body-bg;
 	background-color: $block-bg--colored !important;
+}
+
+.cr-radio-button__monitoring__toggle--overall {
+	background-color: #00ff9b;
+}
+
+.cr-radio-button__monitoring__toggle--select {
+	background-color: #5987ff;
+}
+
+.cr-radio-button__monitoring__toggle--insert {
+	background-color: #55d4f5;
+}
+
+.cr-radio-button__monitoring__toggle--update {
+	background-color: #e0d838;
+}
+
+.cr-radio-button__monitoring__toggle--delete {
+	background-color: #ff99a7;
 }

@@ -30,7 +30,8 @@ describe('MonitoringPollService', function() {
         }
       );
     });
-    angular.mock.module('monitoring');
+    angular.mock.module('crate');
+    angular.mock.module('overview');
     angular.mock.inject(function($injector) {
       mockPollService = $injector.get('MonitoringPollService');
     });
@@ -52,8 +53,8 @@ describe('MonitoringPollService', function() {
         query_type: 'UPDATE'
       }];
       mockPollService.formatData(mockPollService.data, response);
-      expect(mockPollService.data.qps[0].values.length).toEqual(60);
-      expect(mockPollService.data.qps[0].values[59]).toEqual({
+      expect(mockPollService.data.qps[0].values.length).toEqual(1);
+      expect(mockPollService.data.qps[0].values[0]).toEqual({
         x: 1485341754000,
         y: 6
       });
@@ -64,14 +65,14 @@ describe('MonitoringPollService', function() {
         y: 1
       });
 
-      expect(mockPollService.data.qps[4].values.length).toEqual(60);
-      expect(mockPollService.data.qps[4].values[59]).toEqual({
+      expect(mockPollService.data.qps[4].values.length).toEqual(1);
+      expect(mockPollService.data.qps[4].values[0]).toEqual({
         x: 1485341754000,
         y: 7
       });
 
-      expect(mockPollService.data.duration[0].values.length).toEqual(60);
-      expect(mockPollService.data.duration[0].values[59]).toEqual({
+      expect(mockPollService.data.duration[0].values.length).toEqual(1);
+      expect(mockPollService.data.duration[0].values[0]).toEqual({
         x: 1485341754000,
         y: 0.3333333333333333
       });
@@ -82,8 +83,8 @@ describe('MonitoringPollService', function() {
         y: 1.3
       });
 
-      expect(mockPollService.data.duration[4].values.length).toEqual(60);
-      expect(mockPollService.data.duration[4].values[59]).toEqual({
+      expect(mockPollService.data.duration[4].values.length).toEqual(1);
+      expect(mockPollService.data.duration[4].values[0]).toEqual({
         x: 1485341754000,
         y: 1.6333333333333333
       });

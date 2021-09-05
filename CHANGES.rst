@@ -10,6 +10,11 @@ Unreleased
 
 - Added ability to correctly display nested arrays in OBJECT(IGNORED) columns
 
+- Move Monitoring to Overview and remove dedicated section. Monitoring now 
+  always show last 15 minutes of QPS and query duration in 10 sec intervals.
+  Slighty adjusted appearance of graphs.
+
+
 2021-09-01 1.19.1
 =================
 

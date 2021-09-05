@@ -43,7 +43,9 @@
         "AFFECTED_NODES": "Nodos afectados",
         "INFO": "INFO",
         "WARNING": "WARNING",
-        "CRITICAL": "CRITICAL"
+        "CRITICAL": "CRITICAL",
+        "QUERIES_PER_SECOND": "Consultas Por Segundo",
+        "QUERY_SPEED": "Velocidad De Consulta (ms)"
     },
     "CONSOLE": {
         "TIP": "Consultar CrateDB con SQL",
