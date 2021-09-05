@@ -17,15 +17,29 @@
 	cursor: pointer;
 
 	width: 100%;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 18px;
+	padding-bottom: 18px;
 	text-align: center;
+}
+
+.cr-side-nav__item:hover {
+	background-color:$link-hover-color;
 }
 
 .cr-side-nav__item > img {
 	opacity: 0.4;
 
 }
+
+.cr-side-nav__item:hover > img{
+	opacity: 1.0;
+}
+
+.cr-side-nav__item--active  {
+	border-left: 3px solid $link-hover-color;
+	border-right: 3px solid transparent;
+}
+
 .cr-side-nav__item--active > img {
 	opacity: 1;
 }
