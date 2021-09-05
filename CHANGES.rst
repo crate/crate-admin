@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Side-Navigation: Adjusted size sligthly, added hover-effect on selected item,
+  added border on active item and fixed monitoring icon
+
 2021-09-01 1.19.1
 =================
 
