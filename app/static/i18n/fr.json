@@ -43,7 +43,9 @@
         "AFFECTED_NODES": "Nœuds affectés",
         "INFO": "INFO",
         "WARNING": "ALERTE",
-        "CRITICAL": "CRITIQUE"
+        "CRITICAL": "CRITIQUE",
+        "QUERIES_PER_SECOND": "Requêtes par seconde",
+        "QUERY_SPEED": "Vitesse d'interrogation (ms)"
     },
     "CONSOLE": {
         "TIP": "Entrez une instruction SQL pour interroger CrateDB",

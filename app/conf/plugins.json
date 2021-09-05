@@ -10,18 +10,6 @@
     }
   }
 }, {
-  "name": "monitoring",
-  "uri": "static/plugins/monitoring/monitoring.js",
-  "stylesheet": "static/plugins/monitoring/monitoring.css",
-  "routing": {
-    "/monitoring": {
-      "name": "monitoring",
-      "url": "/monitoring",
-      "templateUrl": "static/plugins/monitoring/monitoring.html",
-      "controller": "MonitoringController"
-    }
-  }
-}, {
   "name": "users",
   "uri": "static/plugins/privileges/privileges.js",
   "stylesheet": "static/plugins/privileges/privileges.css",

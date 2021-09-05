@@ -1,9 +1,0 @@
-{
-  "NAVIGATION": {
-    "MONITORING": "Supervisión"
-  },
-  "MONITORING": {
-    "QUERIES_PER_SECOND": "Consultas Por Segundo",
-    "QUERY_SPEED": "Velocidad De Consulta (ms)"
-  }
-}

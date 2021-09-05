@@ -43,7 +43,9 @@
         "AFFECTED_NODES": "Betroffene Knoten",
         "INFO": "INFO",
         "WARNING": "WARNUNG",
-        "CRITICAL": "KRITISCH"
+        "CRITICAL": "KRITISCH",
+        "QUERIES_PER_SECOND": "Anfragen Pro Sekunde",
+        "QUERY_SPEED": "Abfragegeschwindigkeit (ms)"
     },
     "CONSOLE": {
         "TIP": "SQL-Anweisung zur Abfrage von CrateDB",
