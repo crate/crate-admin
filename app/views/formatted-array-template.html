@@ -5,6 +5,9 @@
       <span ng-if="ObjectTypeCheck.isObject(array[$index])" class="formatted-array__element">
         <div class="formatted-array__element__key">{{ formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <formatted-object object="element" expand="false"></formatted-object>
       </span>
+      <span ng-if="ObjectTypeCheck.isArray(array[$index])" class="formatted-array__element">
+        <div class="formatted-array__element__key">{{ formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <formatted-array array="element" typesarray="[100, 1]" expand="false"></formatted-array>
+      </span>
       <span ng-if="ObjectTypeCheck.isValue(array[$index])" class="formatted-array__element">
         <div class="formatted-array__element__key">{{ formatArrayindex($index) }}</div> <div class="formatted-array__element__seperator">:</div> <div ng-class="ObjectTypeCheck.getArrayBaseType(array, typesarray)">{{ element !== null ? element : 'NULL'  }}</div>
       </span>
