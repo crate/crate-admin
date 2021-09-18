@@ -8,6 +8,8 @@ Unreleased
 - Side-Navigation: Adjusted size sligthly, added hover-effect on selected item,
   added border on active item and fixed monitoring icon
 
+- Added ability to correctly display nested arrays in OBJECT(IGNORED) columns
+
 2021-09-01 1.19.1
 =================
 
