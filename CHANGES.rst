@@ -5,14 +5,18 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Side-Navigation: Adjusted size sligthly, added hover-effect on selected item,
+
+2021-09-27 1.20.0
+=================
+
+- Side-Navigation: Adjusted size slightly, added hover-effect on selected item,
   added border on active item and fixed monitoring icon
 
-- Added ability to correctly display nested arrays in OBJECT(IGNORED) columns
+- Move Monitoring to Overview and remove dedicated section. Monitoring now
+  always shows last 15 minutes of QPS and query duration in 10 sec intervals.
+  Slightly adjusted appearance of graphs.
 
-- Move Monitoring to Overview and remove dedicated section. Monitoring now 
-  always show last 15 minutes of QPS and query duration in 10 sec intervals.
-  Slighty adjusted appearance of graphs.
+- Fix: Added ability to correctly display nested arrays in OBJECT(IGNORED) columns
 
 
 2021-09-01 1.19.1
