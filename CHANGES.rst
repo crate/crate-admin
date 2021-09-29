@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+
+2021-09-29 1.19.2
+=================
+
 - Added ability to correctly display nested arrays in OBJECT(IGNORED) columns
 
 
