@@ -13,7 +13,7 @@ Install Node.js locally::
     source .venv/bin/activate
     pip install -U pip
     pip install nodeenv
-    nodeenv --python-virtualenv --node=15.10.0
+    nodeenv --python-virtualenv --node=14.18.0
 
 Install the package dependencies::
 
@@ -33,19 +33,6 @@ To run the tests, use the following commands::
 ***********************
 Development environment
 ***********************
-
-
-Setup Node.js
-=============
-
-Because the version of `node-sass` used as transitive dependency is apparently
-not compatible with Node 16 yet, let's use Node 15:
-
-```shell
-brew install nodeenv
-nodeenv --node=15.14.0 .nenv
-source .nenv/bin/activate
-```
 
 
 Quickstart
