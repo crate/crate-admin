@@ -58,7 +58,7 @@
     "angular-translate-loader-static-files": "^2.18",
     "angular-translate-storage-cookie": "^2.18",
     "bootstrap": "^4.3",
-    "bootstrap-sass": "^3.3",
+    "bootstrap-sass": "^3.4",
     "codemirror": "^5.61",
     "font-awesome": "^4.7",
     "jquery": "^3.2",
