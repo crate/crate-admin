@@ -103,8 +103,17 @@ module.exports = {
     ]
   },
   devServer: {
+    host: 'localhost',
     port: 9000,
-    contentBase: [path.join(__dirname, 'app')],
+    static: [
+      {
+        directory: path.join(__dirname, 'app'),
+        serveIndex: true,
+        watch: true,
+      }
+    ],
     historyApiFallback: true,
+    compress: false,
+    hot: true,
   },
 };

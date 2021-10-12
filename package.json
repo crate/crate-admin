@@ -27,7 +27,7 @@
     "html-webpack-plugin": "^4.5",
     "jasmine-core": "^2.9.1",
     "jshint": "^2.9.5",
-    "karma": "^6.1",
+    "karma": "^6.3",
     "karma-babel-preprocessor": "^8.0.1",
     "karma-chrome-launcher": "^3.1",
     "karma-coverage": "^2.0",
@@ -45,7 +45,7 @@
     "url-loader": "^4.1",
     "webpack": "^4.46",
     "webpack-cli": "^4.7",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.3"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.29",
@@ -58,17 +58,17 @@
     "angular-translate-loader-static-files": "^2.18",
     "angular-translate-storage-cookie": "^2.18",
     "bootstrap": "^4.3",
-    "bootstrap-sass": "^3.3",
+    "bootstrap-sass": "^3.4",
     "codemirror": "^5.61",
     "font-awesome": "^4.7",
     "jquery": "^3.2",
     "json3": "^3.3",
     "oclazyload": "^1.1",
-    "popper.js": "^1.14"
+    "popper.js": "^1.14.7"
   },
   "scripts": {
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
-    "develop": "webpack serve --progress --config=webpack.dev.config.js --open-page=http://localhost:9000/?base_uri=http://localhost:4200#!/",
+    "develop": "webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",
     "build": "webpack --config webpack.prod.config.js --progress",
     "test": "karma start",
     "postinstall": "node node_modules/phantomjs-prebuilt/install.js"
