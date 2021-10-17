@@ -23,6 +23,7 @@
         "OVERVIEW": "Overview",
         "CONSOLE": "Console",
         "TABLE": "Tables",
+        "UDF": "User Defined Functions",
         "VIEW": "Views",
         "SHARDS": "Shards",
         "CLUSTER": "Cluster",
@@ -100,6 +101,20 @@
         "PARTITIONS": "Partitions",
         "SCHEMA": "Schema",
         "TYPE": "Type"
+    },
+    "UDF": {
+        "TITLE": "UDFs",
+        "VOID_MESSAGE": "There are no udfs created yet.",
+        "VOID_DETAILS": "Use the {{ statement }} statement to create new udfs.",
+        "QUERY_UDF": "Query udf",
+        "REPLACE_UDF": "Replace UDF",
+        "PARAMETERS": "Parameters",
+        "RETURN_TYPE": "Return Type",
+        "LANGUAGE": "Language",
+        "NAME": "Name",
+        "TYPE": "Type",
+        "DEFINITION": "Definition",
+        "COLUMNS": "Columns"
     },
     "VIEW": {
         "TITLE": "Views",

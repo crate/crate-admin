@@ -8,7 +8,7 @@ import './clusterEventsHandler';
 
 const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo', 'events'])
   .factory('ClusterState', function ($http, $interval, $timeout, $log, $q, $rootScope,
-    baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, ViewInfo, ViewList, ClusterEventsHandler) {
+    baseURI, SQLQuery, queryResultToObjects, TableList, Health, ShardInfo, NodeInfo, UdfInfo, UdfList, ViewInfo, ViewList, ClusterEventsHandler) {
     var reachabilityInterval,
       ClusterStateInterval;
 
@@ -20,6 +20,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
     var data = {
       online: true,
       tables: [],
+      udfs: [],
       views: [],
       shards: [],
       partitions: [],
@@ -166,6 +167,7 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
       ShardInfo.executeRecoveryStmt(),
       NodeInfo.executeClusterQuery(),
       NodeInfo.executeNodeQuery(),
+      UdfInfo.executeUdfStmt(),
       ViewInfo.executeViewStmt()
     ]).then(function (values) {
 
@@ -213,7 +215,10 @@ const stats = angular.module('stats', ['sql', 'health', 'tableinfo', 'nodeinfo',
           data.tables = tableinfo.data.tables;
         }
 
-        var viewInfo = ViewList.execute(values[6]);
+        var udfInfo = UdfList.execute(values[6]);
+        data.udfs = udfInfo.data.udfs;
+
+        var viewInfo = ViewList.execute(values[7]);
         data.views = viewInfo.data.views;
 
         ClusterEventsHandler.trigger('STATE_REFRESHED');

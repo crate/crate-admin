@@ -1,0 +1,15 @@
+<div>
+  <div ng-class="$root.showSideList ? '' : 'hide-sidebar-list'">
+    <div class="page-container" ng-if="empty">
+      <h1 class="cr-page-header">{{ 'UDF.TITLE' | translate }}</h1>
+      <div class="cr-panel-block">
+        <p>
+          <b>{{ 'UDF.VOID_MESSAGE' | translate }}</b>
+          <span translate="UDF.VOID_DETAILS" translate-values="{statement: '<a target=\'_blank\' href=\'https://crate.io/docs/crate/reference/en/latest/general/ddl/views.html\'>CREATE UDF</a>'}"></span>
+        </p>
+      </div>
+    </div>
+    <udf-list ng-if="!empty"></udf-list>
+  </div>
+  <ui-view></ui-view>
+</div>

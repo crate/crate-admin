@@ -19,6 +19,8 @@ var MODULES = [
   'console',
   'tables',
   'tableinfo',
+  'udfs',
+  'udfinfo',
   'views',
   'viewinfo',
   'shardinfo',
@@ -52,6 +54,16 @@ var ROUTING = {
     'name': 'tables.table',
     'url': '/:table_schema/:table_name',
     'template': '<table-detail>',
+  },
+  '/udfs': {
+    'name': 'udfs',
+    'url': '/udfs',
+    'template': '<udfs>',
+  },
+  '/udfs/:schema/:name': {
+    'name': 'udfs.udf',
+    'url': '/:schema/:name',
+    'template': '<udf-detail>',
   },
   '/views': {
     'name': 'views',

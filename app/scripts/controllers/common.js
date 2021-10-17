@@ -314,15 +314,17 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
   NavigationService.addNavBarElement('static/assets/icon-console.svg', $filter('translate', 'NAVIGATION.CONSOLE'), '/console', 20, "console");
   NavigationService.addNavBarElement('static/assets/icon-table.svg', $filter('translate', 'NAVIGATION.TABLE'), '/tables', 30, "tables");
   NavigationService.addNavBarElement('static/assets/icon-view.svg', $filter('translate', 'NAVIGATION.VIEW'), '/views', 40, "views");
-  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 50, "nodes");
+  NavigationService.addNavBarElement('static/assets/icon-monitoring.svg', $filter('translate', 'NAVIGATION.UDF'), '/udfs', 50, "udfs");
+  NavigationService.addNavBarElement('static/assets/icon-cluster.svg', $filter('translate', 'NAVIGATION.CLUSTER'), '/nodes', 60, "nodes");
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
-    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.VIEW', 'NAVIGATION.CLUSTER']).then(function(i18n) {
+    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.VIEWS', 'NAVIGATION.UDF', 'NAVIGATION.CLUSTER']).then(function(i18n) {
       NavigationService.updateNavBarElement('/', i18n['NAVIGATION.OVERVIEW']);
       NavigationService.updateNavBarElement('/console', i18n['NAVIGATION.CONSOLE']);
       NavigationService.updateNavBarElement('/tables', i18n['NAVIGATION.TABLE']);
       NavigationService.updateNavBarElement('/views', i18n['NAVIGATION.VIEW']);
+      NavigationService.updateNavBarElement('/udfs', i18n['NAVIGATION.UDF']);
       NavigationService.updateNavBarElement('/nodes', i18n['NAVIGATION.CLUSTER']);
     });
   });
