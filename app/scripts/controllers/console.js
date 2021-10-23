@@ -191,7 +191,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
           if ($scope.useLocalStorage) {
             getRecentQueriesFromLocalStorage();
           }
-          if (self.recentQueries[self.recentQueries.length -1] !== stmt) {
+          if (self.recentQueries[self.recentQueries.length -1] !== stmt + ';') {
             self.recentQueries.push(stmt + ';');
           }
           if ($scope.useLocalStorage) {
