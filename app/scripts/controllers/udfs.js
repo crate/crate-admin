@@ -53,17 +53,12 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
         SQLQuery, queryResultToObjects, roundWithUnitFilter, bytesFilter, UdfList,
         ClusterEventsHandler, ClusterState) {
 
-        const NESTED_COL_REGEX = /([^\s]+)(\[\'([^\s]+)\'])+/i;
-        const COLUMNS_QUERY = 'SELECT quote_ident(column_name) as column_name, upper(data_type) AS column_type ' +
-          'FROM information_schema.columns ' +
-          'WHERE table_schema = ? AND table_name = ?';
-
         $scope.executeQuery = (query) => {
           $location.search({'query': query});
           $location.path('/console');
         };
 
-        // sidebar button handler (mobile udf)
+        // sidebar button handler (mobile view)
         $scope.toggleSidebar = function () {
           $('#page-viewport')
             .toggleClass('show-sidebar');
@@ -77,43 +72,36 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
           placement: 'top'
         });
 
-        var isNestedColumn = (col) => col.match(NESTED_COL_REGEX);
-
-        var constructQuery = (schema, name, rows) => {
-          var query = 'CREATE OR REPLACE FUNCTION "' + schema + '"."' + name + '"';
-          query += '\nRETURNS ';
-          query += '\nLANGUAGE ' + 'JAVASCRIPT';
+        var constructQuery = (schema, name, language) => {
+          var query = 'CREATE OR REPLACE FUNCTION "' + $scope.udf.schema + '"."' + $scope.udf.name + '"(' + $scope.udf.input_types +')';
+          query += '\nRETURNS ' + $scope.udf.return_type;
+          query += '\nLANGUAGE ' + $scope.udf.language;
           query += '\nAS ';
-          query += '\n\'' + 'function';
+          query += '\n\'' + $scope.udf.definition;
           query += '\n\';';
           return query;
         };
 
-        var render = (schema, name) => {
+        var render = (schema, name, input_types) => {
           $scope.nothingSelected = false;
           $scope.renderSiderbar = true;
 
           if (schema && name) {
-            SQLQuery.execute(COLUMNS_QUERY, [schema, name], false, false, false, false)
-              .then((q) => {
-                $scope.columns = queryResultToObjects(q, q.cols);
-                $scope.query = constructQuery(schema, name, $scope.columns);
-              }, () => {
-                $scope.columns = [];
-              });
+            $scope.query = constructQuery(schema, name, input_types);
           }
         };
 
         var updateUDF = () => {
           var name = $state.params.name;
           var schema = $state.params.schema;
+          var input_types = $state.params.input_types;
           var udfs = ClusterState.data.udfs;
 
           var hasUdfs = udfs.length > 0;
           $scope.renderSidebar = hasUdfs;
           $scope.nothingSelected = !hasUdfs;
           if (hasUdfs) {
-            var current = udfs.filter((o) => o.name == name && o.schema == schema);
+            var current = udfs.filter((o) => o.name == name && o.schema == schema && o.input_types == input_types);
             current = current.length ? current[0] : udfs[0];
             $scope.udf = current;
             $scope.udf.label = current.schema + '.' + current.name;
@@ -133,7 +121,7 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
         });
 
         updateUDF();
-        render($state.params.schema, $state.params.name);
+        render($state.params.schema, $state.params.name, $state.params.input_types);
       }
     };
   })
@@ -155,8 +143,8 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
             $scope.search = '';
           };
 
-        $scope.isActive = (schema, name) => {
-          return name === $state.params.name && schema === $state.params.schema;
+        $scope.isActive = (schema, name, input_types) => {
+          return name === $state.params.name && schema === $state.params.schema && input_types === $state.params.input_types;
         };
 
         var toggleClasses = (i) => {
@@ -206,9 +194,11 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
             if (!$scope.name || !$scope.schema) {
               $scope.schema = udfs[0].schema;
               $scope.name = udfs[0].name;
+              $scope.input_types = udfs[0].input_types;
               $state.go('udfs.udf', {
                 schema: $scope.schema,
-                name: $scope.name
+                name: $scope.name,
+                input_types: $scope.input_types
               });
             }
 
@@ -233,15 +223,17 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
               $scope.udfs.push({
                 display_name: name,
                 udfs: udfs.filter(filterBySchemaName(name)),
-                schema: name
+                schema: name,
+                input_types : input_types
               });
             }
           }
         };
 
-        var render = (schema, name) => {
+        var render = (schema, name, input_types) => {
           $scope.name = name;
           $scope.schema = schema;
+          $scope.input_types = input_types;
           $scope.renderSidebar = true;
         };
 
@@ -254,7 +246,7 @@ angular.module('udfs', ['stats', 'sql', 'common', 'udfinfo', 'events'])
         });
 
         updateUdfList();
-        render($state.params.schema, $state.params.name);
+        render($state.params.schema, $state.params.name, $state.params.input_types);
       }
     };
   });

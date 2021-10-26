@@ -1,7 +1,7 @@
 <div class="side-bar table-side-bar" ng-show="renderSidebar">
 
   <div class="filter__wrapper">
-    <input id="tableFilter" ng-model="search" placeholder="Filter udfs ..." type="text" focus="true" />
+    <input id="tableFilter" ng-model="search" placeholder="Filter UDFs ..." type="text" focus="true" />
     <a ng-if="search" class="cr-clear-filters" ng-click="clearFilter()">
       <i class="fa fa-times-circle" aria-hidden="true"></i>
     </a>
@@ -31,7 +31,7 @@
            ng-class="{ 'active': isActive(udf.schema, udf.name)}"
            ng-if="renderSidebar"
            ng-repeat="udf in type.udfs | filter:udfFilter track by $index"
-           href="#!/udfs/{{ udf.schema }}/{{ udf.name }}">
+           href="#!/udfs/{{ udf.schema }}/{{ udf.name }}/{{udf.input_types}}">
            <div class="table-name-row">
             <div class="table-name">
               <h3>{{ udf.name }}</h3>

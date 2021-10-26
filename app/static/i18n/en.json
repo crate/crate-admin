@@ -104,9 +104,8 @@
     },
     "UDF": {
         "TITLE": "UDFs",
-        "VOID_MESSAGE": "There are no udfs created yet.",
-        "VOID_DETAILS": "Use the {{ statement }} statement to create new udfs.",
-        "QUERY_UDF": "Query udf",
+        "VOID_MESSAGE": "There are no UDFs created yet.",
+        "VOID_DETAILS": "Use the {{ statement }} statement to create new UDFs.",
         "REPLACE_UDF": "Replace UDF",
         "PARAMETERS": "Parameters",
         "RETURN_TYPE": "Return Type",

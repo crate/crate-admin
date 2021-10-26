@@ -60,9 +60,9 @@ var ROUTING = {
     'url': '/udfs',
     'template': '<udfs>',
   },
-  '/udfs/:schema/:name': {
+  '/udfs/:schema/:name/:input_types': {
     'name': 'udfs.udf',
-    'url': '/:schema/:name',
+    'url': '/:schema/:name/:input_types',
     'template': '<udf-detail>',
   },
   '/views': {
