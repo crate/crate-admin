@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed duplicate entries in query history.
+
+
 
 2021-09-27 1.20.0
 =================
@@ -15,8 +18,6 @@ Unreleased
 - Move Monitoring to Overview and remove dedicated section. Monitoring now
   always shows last 15 minutes of QPS and query duration in 10 sec intervals.
   Slightly adjusted appearance of graphs.
-
-- Fixed duplicate entries in query history.
 
 
 2021-09-29 1.19.2
