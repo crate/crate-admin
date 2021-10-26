@@ -319,7 +319,7 @@ commons.run(function(NavigationService, $translate, $filter, $rootScope) {
 
   // Update Navbar Elements if Language is Changed
   $rootScope.$on('$translateChangeSuccess', function() {
-    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.VIEWS', 'NAVIGATION.UDF', 'NAVIGATION.CLUSTER']).then(function(i18n) {
+    $translate(['NAVIGATION.OVERVIEW', 'NAVIGATION.CONSOLE', 'NAVIGATION.TABLE', 'NAVIGATION.VIEW', 'NAVIGATION.UDF', 'NAVIGATION.CLUSTER']).then(function(i18n) {
       NavigationService.updateNavBarElement('/', i18n['NAVIGATION.OVERVIEW']);
       NavigationService.updateNavBarElement('/console', i18n['NAVIGATION.CONSOLE']);
       NavigationService.updateNavBarElement('/tables', i18n['NAVIGATION.TABLE']);
