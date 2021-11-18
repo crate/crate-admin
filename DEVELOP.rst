@@ -117,7 +117,7 @@ Building
 
 To compile the app without development mode, invoke::
 
-    source .nenv/bin/activate
+    source .venv/bin/activate
     npm run build
 
 To run the Admin UI as a standalone app, open the ``build/index.html`` file in
