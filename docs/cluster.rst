@@ -196,7 +196,7 @@ Disk operations
 
 .. _cluster: https://crate.io/docs/crate/guide/en/latest/architecture/shared-nothing.html
 .. _deprecated: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#fs
-.. _heap: https://en.wikipedia.org/wiki/Java_virtual_machine#Generational_heap
+.. _heap: https://en.wikipedia.org/wiki/Java_(software_platform)#Generational_heap
 .. _HTTP endpoint: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 .. _load: https://en.wikipedia.org/wiki/Load_(computing)
 .. _master node: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
