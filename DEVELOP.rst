@@ -13,7 +13,8 @@ Install Node.js locally::
     source .venv/bin/activate
     pip install -U pip
     pip install nodeenv
-    nodeenv --python-virtualenv --node=14.18.0
+    nodeenv --python-virtualenv --node=14.18.3  # does not work: --npm=8.3.0
+    npm install -g npm@8.3.0
 
 Install the package dependencies::
 
