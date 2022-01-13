@@ -66,6 +66,18 @@
     "oclazyload": "^1.1",
     "popper.js": "^1.14.7"
   },
+  "overrides": {
+    "ansi-regex": "^5.0.1",
+    "chokidar": {
+      "glob-parent": "^5.1.2"
+    },
+    "meow": {
+      "trim-newlines": "^3.0.1"
+    },
+    "node-gyp": {
+      "tar": "^4.4"
+    }
+  },
   "scripts": {
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
     "develop": "webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",

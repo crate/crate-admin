@@ -40,6 +40,9 @@ jobs:
           #       By adding the `node-version` to the cache key, it should work.
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Use more recent npm
+        run: npm install -g npm@8.3.0
+
       - name: Install package
         run: npm install
 
