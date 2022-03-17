@@ -67,16 +67,15 @@
     "popper.js": "^1.14.7"
   },
   "overrides": {
-    "ansi-regex": "^5.0.1",
+    "ansi-regex": "^6.0.1",
     "chokidar": {
       "glob-parent": "^5.1.2"
     },
     "meow": {
       "trim-newlines": "^3.0.1"
     },
-    "node-gyp": {
-      "tar": "^4.4"
-    }
+    "strip-ansi": "7.0.1",
+    "tar": "^6.1.11"
   },
   "scripts": {
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
