@@ -5,8 +5,11 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Fixed duplicate entries in query history.
 
+2022-03-17 1.20.1
+=================
+
+- Fixed duplicate entries in query history.
 
 
 2021-09-27 1.20.0
