@@ -5,7 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+
+2022-04-06 1.21.0
+=================
+
 - Added various keywords and data types to console highlighting.
+
 
 2022-03-22 1.20.2
 =================
