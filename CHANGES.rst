@@ -6,6 +6,12 @@ Unreleased
 ==========
 
 
+2022-06-03 1.22.0
+=================
+
+- Update static assets with new colors and logo
+
+
 2022-04-06 1.21.0
 =================
 
