@@ -13,7 +13,7 @@ $nvd3-text-color:       $text-color;
 $chart-axis-line-opacity: 0.2;
 $block-bg--colored:     #353535 ;
 $block-border:          #545454;
-$link-hover-color:  #5bd5ff;
+$link-hover-color:  #009dc7;
 
 $font-size-xlarge:    24px;
 $font-size-large:     18px;
@@ -29,14 +29,14 @@ $font-size-h3:        $font-size-medium;
 $font-size-h4:        $font-size-base;
 $header-color:		  rgba(255,255,255, 0.8);
 
-$font-family-sans-serif:   'HelveticaNeueStd', sans-serif;
-$font-family-monospace:    SourceCodePro, Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-sans-serif: Inter, Arial, sans-serif;
+$font-family-monospace:  "Roboto Mono", "Courier New", monospace;
 
 //
 // App Colors
 // --------------------------------------------------
 
-$lightblue:         rgb(91, 213, 2545);
+$lightblue:         rgb(0, 157, 199);
 $blue:              rgb(93, 173, 255);
 $blue--faded:       rgba(93, 173, 255, 0.3);
 $darkblue:          rgb(17, 80, 151);
