@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+2022-06-21 1.22.1
+=================
+
 - Updated web fonts (removed Open Sans & SourceCodePro, added Inter & Roboto Mono)
 - Adjusted link colors
 
