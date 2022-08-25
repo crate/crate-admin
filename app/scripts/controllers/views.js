@@ -244,6 +244,7 @@ angular.module('views', ['stats', 'sql', 'common', 'viewinfo', 'events'])
           $scope.name = name;
           $scope.schema = schema;
           $scope.renderSidebar = true;
+          updateViewList();
         };
 
         ClusterEventsHandler.register('STATE_REFRESHED',

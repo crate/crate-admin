@@ -7,6 +7,10 @@ Unreleased
 
 - Updated a few JavaScript dependencies
 
+- Fixed an issue at the views tab where selecting a concrete view immediately
+  resulted in jumping back to the first view at the list.
+
+
 
 2022-06-21 1.22.1
 =================
