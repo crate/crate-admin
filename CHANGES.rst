@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+
+2022-08-25 1.22.2
+=================
+
 - Updated a few JavaScript dependencies
 
 - Fixed an issue at the views tab where selecting a concrete view immediately
