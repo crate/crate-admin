@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Console: Query results now fit within the view port, to make it easier to 
+  work with wide resultsets
+  
 
 2022-08-25 1.22.2
 =================
@@ -13,7 +16,6 @@ Unreleased
 
 - Fixed an issue at the views tab where selecting a concrete view immediately
   resulted in jumping back to the first view at the list.
-
 
 
 2022-06-21 1.22.1

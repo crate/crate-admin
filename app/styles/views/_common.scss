@@ -735,6 +735,10 @@ label:hover:before {
 	background: $block-border;
 }
 
+*::-webkit-scrollbar-corner {
+	background: $block-bg;
+}
+
 /* Works on Firefox */
 * {
 	scrollbar-width: thin;          /* "auto" or "thin" */

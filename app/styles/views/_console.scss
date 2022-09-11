@@ -159,9 +159,13 @@
 	border-left: 1px solid $block-border;
 	align-items: center;
 }
+
+.query-result-container .table-responsive {
+	max-height: 80vh;
+}
+
 .query-result-container .table-responsive thead,
-.query-result-container .table-responsive tbody,
-{
+.query-result-container .table-responsive tbody {
 	background: $block-bg;
 }
 
