@@ -5,8 +5,12 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
-- Console: Query results now fit within the view port, to make it easier to 
-  work with wide resultsets
+
+2022-09-14 1.23.0
+=================
+
+- Console: Query results now fit within the view port, to make it easier to
+  work with wide result sets.
   
 
 2022-08-25 1.22.2
