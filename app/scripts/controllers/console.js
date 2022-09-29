@@ -262,6 +262,7 @@ const crate_console = angular.module('console', ['sql', 'datatypechecks', 'stats
 
               // Timestamp
             case 11:
+            case 15:
               return 'timestamp';
             case 12:
               return 'object';

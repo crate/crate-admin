@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed formatting of ``TIMESTAMP WITHOUT TIME ZONE`` values in query console 
+  result table.
+
 
 2022-09-14 1.23.0
 =================
