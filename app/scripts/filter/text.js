@@ -68,6 +68,8 @@ const filters_text = angular.module('filters_text', [])
           return 'Español';
         case 'fr':
           return 'Français';
+        case 'it':
+          return 'Italiano';
         default:
           return 'Auto';
       }
