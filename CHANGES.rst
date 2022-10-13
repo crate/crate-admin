@@ -6,6 +6,9 @@ Unreleased
 ==========
 
 
+- Added Italian translation.
+
+
 2022-09-29 1.23.1
 =================
 
