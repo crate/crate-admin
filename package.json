@@ -74,6 +74,7 @@
     "meow": {
       "trim-newlines": "^3.0.1"
     },
+    "minimatch": "^3.0.6",
     "scss-tokenizer": "^0.4.3",
     "strip-ansi": "7.0.1",
     "tar": "^6.1.11"

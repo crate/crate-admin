@@ -8,6 +8,8 @@ Unreleased
 
 - Added Italian translation.
 
+- Updated a few dependency packages with critical updates.
+
 
 2022-09-29 1.23.1
 =================

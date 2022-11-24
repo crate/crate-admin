@@ -103,6 +103,20 @@ When a new stylesheet is created it should be imported to
 ``./styles/styles.scss``, this applies to both vanilla and vendor stylesheets.
 
 
+Maintaining dependencies
+========================
+
+In order to find critical updates for the packages used as dependencies, run::
+
+    npm audit
+
+Then, either run ``npm audit fix``, or edit ``package.json`` manually, also
+taking the ``overrides`` section into consideration.
+
+In order to lock the dependencies, updating ``package-lock.json`` accordingly,
+run ``npm install --package-lock-only``.
+
+
 Plugins
 =======
 
