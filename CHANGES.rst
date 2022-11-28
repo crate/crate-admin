@@ -6,6 +6,9 @@ Unreleased
 ==========
 
 
+2022-11-29 1.24.0
+=================
+
 - Added Italian translation.
 
 - Updated a few dependency packages with critical updates.
