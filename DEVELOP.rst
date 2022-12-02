@@ -13,11 +13,18 @@ Install Node.js locally::
     source .venv/bin/activate
     pip install -U pip
     pip install nodeenv
-    nodeenv --python-virtualenv --node=16.18.1
+    nodeenv --python-virtualenv --node=18.12.1
 
 Install the package dependencies::
 
     npm install
+
+Workaround::
+
+    # Mitigate `Error: error:0308010C:digital envelope routines::unsupported` on Node.js 18
+    # https://stackoverflow.com/a/69699772
+    # https://github.com/webpack/webpack/issues/14532#issuecomment-947012063
+    export NODE_OPTIONS=--openssl-legacy-provider
 
 
 *****
