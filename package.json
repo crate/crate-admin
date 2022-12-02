@@ -71,6 +71,7 @@
     "chokidar": {
       "glob-parent": "^5.1.2"
     },
+    "decode-uri-component": "^0.2.2",
     "meow": {
       "trim-newlines": "^3.0.1"
     },
