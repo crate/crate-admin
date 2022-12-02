@@ -17,31 +17,17 @@ jobs:
     steps:
 
       - name: Acquire sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       # https://github.com/actions/setup-node
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      # https://github.com/actions/cache/blob/main/examples.md#node---npm
-      - name: Apply caching
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          # Note: While it is not recommended to cache `node_modules`, as it can
-          #       break across Node versions and won't work with `npm ci`, we
-          #       still do it because it will yield tremendous speed improvements.
-          #       By adding the `node-version` to the cache key, it should work.
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Use more recent npm
-        run: npm install --global npm@8.5.5
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
       - name: Install package
         run: npm install
@@ -51,7 +37,7 @@ jobs:
 
       # https://github.com/codecov/codecov-action
       - name: Upload coverage results to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: app/tests/coverage/cobertura/cobertura-coverage.xml
           fail_ci_if_error: false
