@@ -70,16 +70,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: ['babel-loader']
+        loader: 'babel-loader',
+        options: {}
       },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          'style-loader',
-           MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+          { loader: 'style-loader' },
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader', options: {} },
+          { loader: 'sass-loader', options: {} },
+        ]
       },
       // for fixing of loading bootstrap icon files
       {
@@ -98,7 +99,8 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
+        loader: 'html-loader',
+        options: {}
       }
     ]
   },
