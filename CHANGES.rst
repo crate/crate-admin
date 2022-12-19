@@ -6,6 +6,13 @@ Unreleased
 ==========
 
 
+2022-12-19 1.24.1
+=================
+
+- Maintenance release with dependency package updates, and updated
+  toolchain.
+
+
 2022-11-29 1.24.0
 =================
 
