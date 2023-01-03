@@ -85,9 +85,10 @@ module.exports = {
       // for fixing of loading bootstrap icon files
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        loader: 'url-loader?limit=10000',
+        loader: 'url-loader',
         options: {
-          name: './static/fonts/[name].[ext]'
+          name: './static/fonts/[name].[ext]',
+          limit: 10000
         }
       },
       {
