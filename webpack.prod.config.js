@@ -76,7 +76,7 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         use: [
           { loader: 'style-loader' },
-          { loader: MiniCssExtractPlugin.loader },
+          { loader: MiniCssExtractPlugin.loader, options: { esModule: false } },
           { loader: 'css-loader', options: {} },
           { loader: 'sass-loader', options: {} },
         ]
