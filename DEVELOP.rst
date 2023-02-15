@@ -150,7 +150,7 @@ To create a new release, you must:
 
 - Push to origin and create a tag by invoking ``./devtools/create_tag.sh``
 
-- Run the ``crate_admin_release`` job in Jenkins
+- Run the ``admin_ui_release`` job on Jenkins
 
 
 *************
