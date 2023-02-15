@@ -47,7 +47,7 @@ describe('monitoring', function() {
       expect(stmt).toEqual('SELECT CURRENT_TIMESTAMP AS last_timestamp, ' +
       '(ended / 10000) * 10000 + 5000 AS ended_time, ' +
       'COUNT(*) / 10.0 AS qps, ' +
-      'AVG(ended - started) AS duration, ' +
+      'AVG(ended::bigint - started::bigint) AS duration, ' +
       'UPPER(regexp_matches(stmt,\'^\\s*(\\w+).*\')[1]) AS query_type ' +
       'FROM sys.jobs_log ' +
       'WHERE ended > now() - (\'15 minutes\')::interval ' +
