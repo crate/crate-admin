@@ -5,6 +5,10 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+
+2023-02-15 1.24.2
+=================
+
 - Added new keywords for functions added in CrateDB 5.2
 
 
