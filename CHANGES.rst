@@ -5,6 +5,9 @@ Changes for Crate Admin Interface
 Unreleased
 ==========
 
+- Fixed monitoring statement for compatibility with CrateDB 5.2,
+  ``AVG(ended - started)`` becomes ``AVG(ended::bigint - started::bigint)``.
+
 
 2023-02-15 1.24.2
 =================
