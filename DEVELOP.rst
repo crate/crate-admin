@@ -152,6 +152,9 @@ To create a new release, you must:
 
 - Run the ``admin_ui_release`` job on Jenkins
 
+- Submit a patch to upgrade Admin UI in CrateDB like
+  https://github.com/crate/crate/pull/13390
+
 
 *************
 Documentation
