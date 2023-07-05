@@ -6,6 +6,12 @@ Unreleased
 ==========
 
 
+2023-07-05 1.24.4
+=================
+
+- Update versions of engine.io, socket.io, and socket.io-parser.
+
+
 2023-02-15 1.24.3
 =================
 
