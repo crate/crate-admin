@@ -13,8 +13,7 @@
     <div class="status-bar__content__item hide-m">{{ 'STATUSBAR.VERSION' | translate }}:
       <div ng-if="version_warning " class="cr-bubble cr-bubble--danger"></div>
       <span ng-show="version" data-original-title="{{ versions.join('\n') }}" rel="tooltip">
-        {{ version.number }}
-        <span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span>
+        {{ version.number }}<span ng-show="version.snapshot">-{{ 'STATUSBAR.SNAPSHOT' | translate }}-{{ version.hash.substr(0,7) }}</span>
       </span>
     </div>
 
