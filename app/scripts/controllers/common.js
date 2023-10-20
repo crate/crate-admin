@@ -36,7 +36,7 @@ const commons = angular.module('common', ['stats', 'events', 'sql'])
       return memo;
     }, {});
 
-    var DOCS_BASE_URL = 'https://crate.io/docs';
+    var DOCS_BASE_URL = 'https://cratedb.com/docs';
     var getMajorMinorVersion = function getMajorMinorVersion(version) {
       var SHORT_VERSION_RE = new RegExp(/(\d+\.\d+)\.\d+.*/);
       return version ? version.number.match(SHORT_VERSION_RE)[1] : null;
