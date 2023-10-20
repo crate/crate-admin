@@ -12,15 +12,15 @@ describe('Feed', function() {
 
   describe('QueryStringAppender', function() {
     it('should append ?', inject(function() {
-      var url = 'https://crate.io/';
+      var url = 'https://cratedb.com/';
       url = QueryStringAppender.append(url, 'foo', 'bar');
-      expect(url).toEqual('https://crate.io/?foo=bar');
+      expect(url).toEqual('https://cratedb.com/?foo=bar');
     }));
     it('should append &', inject(function() {
-      var url = 'https://crate.io/';
+      var url = 'https://cratedb.com/';
       url = QueryStringAppender.append(url, 'foo', 'bar');
       url = QueryStringAppender.append(url, 'bar', 'baz');
-      expect(url).toEqual('https://crate.io/?foo=bar&bar=baz');
+      expect(url).toEqual('https://cratedb.com/?foo=bar&bar=baz');
     }));
   });
 

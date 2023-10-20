@@ -32,11 +32,11 @@ Looking for more help?
 
 .. _Bower: http://bower.io
 .. _contribution docs: CONTRIBUTING.rst
-.. _Crate.io: http://crate.io/
+.. _Crate.io: http://cratedb.com/
 .. _CrateDB: https://github.com/crate/crate
 .. _developer docs: DEVELOP.rst
-.. _project docs: https://crate.io/docs/connect/admin_ui/
-.. _support channels: https://crate.io/support/
+.. _project docs: https://cratedb.com/docs/connect/admin_ui/
+.. _support channels: https://cratedb.com/support/
 
 
 .. |test-status| image:: https://github.com/crate/crate-admin/workflows/Tests/badge.svg
