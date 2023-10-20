@@ -16,7 +16,7 @@
 # under the License.
 #
 # However, if you have executed another commercial license agreement
-# with Crate these terms will supersede the license and you may use the
+# with CrateDB these terms will supersede the license and you may use the
 # software solely pursuant to the terms of the relevant commercial agreement.
 
 import os
@@ -43,15 +43,15 @@ def read(path: str) -> str:
 
 setup(name='crate-admin',
       version=version,
-      description='Crate Admin UI',
-      long_description='Crate Admin UI',
+      description='CrateDB Admin UI',
+      long_description='CrateDB Admin UI',
       classifiers=[
           "Programming Language :: JavaScript",
       ],
       author='CRATE Technology',
       author_email='office@crate.io',
       url='https://github.com/crate/crate-admin',
-      keywords='crate admin ui',
+      keywords='cratedb admin user interface ui sql',
       license='apache license 2.0',
       packages=find_packages(),
       namespace_packages=[],

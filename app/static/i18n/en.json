@@ -174,7 +174,7 @@
         "STACK_OVERFLOW_TITLE": "Stack Overflow",
         "STACK_OVERFLOW_MSG": "Check Stack Overflow for common problems.",
         "DISCOURSE_TITLE": "Discourse",
-        "DISCOURSE_MSG": "Ask Crate.io engineers in our Discourse community.",
+        "DISCOURSE_MSG": "Ask CrateDB engineers in our Discourse community.",
         "GITHUB_TITLE": "GitHub",
         "GITHUB_MSG": "Code with us on GitHub.",
         "DOCUMENTATION_TITLE": "CrateDB documentation",
@@ -182,6 +182,6 @@
         "ENTERPRISE_TITLE": "Enterprise support",
         "ENTERPRISE_MSG": "For enterprise support, please check our pricing page."
     },
-    "Schedule a 1-ON-1 demo with a Crate engineer": "Schedule a call with a Crate.io engineer",
+    "Schedule a 1-ON-1 demo with a CrateDB engineer": "Schedule a call with a CrateDB engineer",
     "More": "More"
 }
