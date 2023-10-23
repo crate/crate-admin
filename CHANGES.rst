@@ -5,6 +5,10 @@ Changes for CrateDB Admin Interface
 Unreleased
 ==========
 
+
+2023-10-23 1.24.5
+=================
+
 - Removed a superfluous whitespace shown for CrateDB snapshot versions
 
 
