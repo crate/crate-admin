@@ -174,13 +174,13 @@
         "STACK_OVERFLOW_TITLE": "Stack Overflow",
         "STACK_OVERFLOW_MSG": "Frage auf Stack Overflow.",
         "DISCOURSE_TITLE": "Discourse",
-        "DISCOURSE_MSG": "Tausch dich mit CrateDB Ingenieuren und anderen Benutzern in unserer Discourse Community aus.",
+        "DISCOURSE_MSG": "Tausche Dich mit Nutzern und Entwicklern von CrateDB aus, um Antworten zu Deinen Fragen zu erhalten.",
         "GITHUB_TITLE": "GitHub",
         "GITHUB_MSG": "Das CrateDB Repository auf Github.",
         "DOCUMENTATION_TITLE": "CrateDB Dokumentation",
         "DOCUMENTATION_MSG": "Die CrateDB Online Dokumentation.",
-        "ENTERPRISE_TITLE": "Enterprise Support",
-        "ENTERPRISE_MSG": "Mehr über den CrateDB Enterprise Support."
+        "ENTERPRISE_TITLE": "Support-Angebot",
+        "ENTERPRISE_MSG": "Alles zum professionellen Support durch unser Technik-Team."
     },
     "Schedule a 1-ON-1 demo with a CrateDB engineer": "Planen Sie einen Anruf mit einem CrateDB Ingenieur",
     "More": "Mehr"
