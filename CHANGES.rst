@@ -9,7 +9,7 @@ Unreleased
 2024-01-12 1.24.7
 =================
 
-- Fixed grammar in ES version of ``DISCOURSE_MSG``. Thanks, @hlcianfagna.
+- Fixed minor grammar issue on the Spanish version of the Help page. Thanks, @hlcianfagna.
 - Optimized images with ``oxipng``. Thanks, @matkuliak.
 - Updated build-time dependencies.
 
