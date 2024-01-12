@@ -1,9 +1,16 @@
 name: Tests
 on:
+  pull_request: ~
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+
+  # Allow job to be triggered manually.
+  workflow_dispatch:
+
+  # Run job each night after CrateDB nightly has been published.
+  schedule:
+    - cron: '0 3 * * *'
+
 jobs:
   tests:
 
