@@ -6,6 +6,14 @@ Unreleased
 ==========
 
 
+2024-01-12 1.24.7
+=================
+
+- Fixed grammar in ES version of ``DISCOURSE_MSG``. Thanks, @hlcianfagna.
+- Optimized images with ``oxipng``. Thanks, @matkuliak.
+- Updated build-time dependencies.
+
+
 2023-11-24 1.24.6
 =================
 
