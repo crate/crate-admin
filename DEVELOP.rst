@@ -150,10 +150,16 @@ To create a new release, you must:
 
 - Push to origin and create a tag by invoking ``./devtools/create_tag.sh``
 
-- Run the ``admin_ui_release`` job on Jenkins
+- Run the ``admin_ui_release`` job on Jenkins, using the relevant
+  tag of the new release version
 
-- Submit a patch to upgrade Admin UI in CrateDB like
-  https://github.com/crate/crate/pull/13390
+- Find out about the SHA256 checksum of the release tarball::
+
+    wget https://cdn.crate.io/downloads/releases/crate-admin-1.24.7.tar.gz
+    sha256sum crate-admin-1.24.7.tar.gz
+
+- Submit a patch to update Admin UI in CrateDB, like
+  https://github.com/crate/crate/pull/15337
 
 
 *************
