@@ -6,6 +6,15 @@ Unreleased
 ==========
 
 
+2024-01-12 1.24.7
+=================
+
+- Fixed minor grammar issue on the Spanish version of the Help page.
+  Thanks, @hlcianfagna.
+- Optimized images with ``oxipng``. Thanks, @matkuliak.
+- Updated build-time dependencies.
+
+
 2023-11-24 1.24.6
 =================
 
