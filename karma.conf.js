@@ -12,7 +12,7 @@ module.exports = function (config) {
     plugins: [
       karmaWebpack,
       'karma-jasmine',
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-coverage',
       'karma-mocha-reporter',
       'codecov'
@@ -61,7 +61,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     concurrency: Infinity
   })

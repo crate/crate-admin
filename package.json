@@ -29,16 +29,16 @@
     "jshint": "^2.9.5",
     "karma": "^6.3",
     "karma-babel-preprocessor": "^8",
-    "karma-chrome-launcher": "^3.1",
+    "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.0",
     "karma-jasmine": "^4.0",
     "karma-mocha-reporter": "^2.2",
-    "karma-phantomjs-launcher": "^1.0",
     "karma-webpack": "^4.0",
     "matchdep": "^2.0.0",
     "mini-css-extract-plugin": "^1.6",
     "node-sass": "^8.0.0",
     "null-loader": "^0.1.1",
+    "puppeteer": "^21.7.0",
     "sass": "^1.33",
     "sass-loader": "^10.2",
     "serve-static": "^1.14",
@@ -75,7 +75,6 @@
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
     "develop": "NODE_OPTIONS=--openssl-legacy-provider webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",
     "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.prod.config.js --progress",
-    "test": "NODE_OPTIONS=--openssl-legacy-provider karma start",
-    "postinstall": "node node_modules/phantomjs-prebuilt/install.js"
+    "test": "NODE_OPTIONS=--openssl-legacy-provider karma start"
   }
 }
