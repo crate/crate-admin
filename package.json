@@ -35,7 +35,7 @@
     "karma-mocha-reporter": "^2.2",
     "karma-webpack": "^5.0",
     "matchdep": "^2.0.0",
-    "mini-css-extract-plugin": "^1.6",
+    "mini-css-extract-plugin": "^2.7",
     "node-sass": "^8.0.0",
     "null-loader": "^0.1.1",
     "puppeteer": "^21.7.0",
