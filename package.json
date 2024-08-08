@@ -73,8 +73,8 @@
   },
   "scripts": {
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
-    "develop": "NODE_OPTIONS=--openssl-legacy-provider webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.prod.config.js --progress",
-    "test": "NODE_OPTIONS=--openssl-legacy-provider karma start"
+    "develop": "webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",
+    "build": "webpack --config webpack.prod.config.js --progress",
+    "test": "karma start"
   }
 }
