@@ -41,7 +41,7 @@
     "puppeteer": "^21.7.0",
     "sass": "^1.33",
     "sass-loader": "^10.2",
-    "serve-static": "^1.14",
+    "serve-static": "^1.16",
     "style-loader": "^3.3",
     "url-loader": "^4.1",
     "webpack": "^5.75",
