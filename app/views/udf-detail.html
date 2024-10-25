@@ -1,0 +1,61 @@
+<div class="page-container" ng-class="{'page-container-padded': renderSidebar, 'page-container--no-list': !$root.showSideList}">
+  <div ng-show="udf">
+
+    <h1>{{ 'NAVIGATION.UDF' | translate }}</h1>
+
+    <div class="udf-detail cr-panel-block">
+      <div class="udf-detail__row">
+        <div class="udf-detail__cell">
+          <div class="cr-panel-block__item__header">
+            {{ 'UDF.NAME' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default">
+            {{ udf.label }}
+          </p>
+        </div>
+        <div class="udf-detail__cell">
+          <div class="cr-panel-block__item__header">
+            {{ 'UDF.PARAMETERS' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default">
+            {{ udf.input_types }}
+          </p>
+        </div>
+      </div>
+
+      <div class="udf-detail__row">
+        <div class="udf-detail__cell">
+          <div class="cr-panel-block__item__header">
+            {{ 'UDF.RETURN_TYPE' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default">
+            {{ udf.return_type }}
+          </p>
+        </div>
+        <div class="udf-detail__cell">
+          <div class="cr-panel-block__item__header">
+            {{ 'UDF.LANGUAGE' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--default">
+            {{ udf.language }}
+          </p>
+        </div>
+      </div>
+      <div class="udf-detail__fullrow">
+        <div class="udf-detail__fullcell">
+          <div class="cr-panel-block__item__header">
+            {{ 'UDF.DEFINITION' | translate }}
+          </div>
+          <p class="cr-panel-block__item__content--full-width cr-panel--code">{{ udf.definition }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="query-table__panel">
+      <div id="execute-btn" class="cr-console-header__options__item--btn cr-button cr-button--console" ng-click="executeQuery(query)">
+        <div>{{ 'UDF.REPLACE_UDF' | translate }}</div>
+      </div>
+    </div>
+
+  </div>
+</div>
