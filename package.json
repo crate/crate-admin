@@ -36,7 +36,7 @@
     "karma-webpack": "^5.0",
     "matchdep": "^2.0.0",
     "mini-css-extract-plugin": "^2.7",
-    "null-loader": "^0.1.1",
+    "null-loader": "^4.0.1",
     "puppeteer": "^21.7.0",
     "sass": "1.77.6",
     "sass-loader": "^16.0",
