@@ -6,6 +6,13 @@ Unreleased
 ==========
 
 
+2024-10-28 1.24.8
+=================
+
+- Maintenance release, after updating a few runtime and build-time
+  dependencies.
+
+
 2024-01-12 1.24.7
 =================
 
