@@ -59,7 +59,7 @@
     "angular-translate-storage-cookie": "^2.19",
     "bootstrap": "^5.3",
     "bootstrap-sass": "^3.4",
-    "codemirror": "^5.61",
+    "codemirror": "^6.0",
     "font-awesome": "^4.7",
     "jquery": "^3.2",
     "json3": "^3.3",
