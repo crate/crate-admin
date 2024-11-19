@@ -149,9 +149,9 @@ $.get('static/conf/plugins.json', function (plugins) {
       }
     ]);
 
-    appModule.config(function($sceDelegateProvider) {
+    appModule.config(['$sceDelegateProvider', function($sceDelegateProvider) {
       $sceDelegateProvider.resourceUrlWhitelist(['**']);
-    });
+    }]);
     // Configuration of i18n Internationalization
     appModule.config(['$translateProvider', '$translatePartialLoaderProvider',
       function ($translateProvider, $translatePartialLoaderProvider) {
