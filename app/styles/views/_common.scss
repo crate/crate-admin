@@ -331,6 +331,8 @@ label:hover:before {
 	border-radius: 3px;
 	background: $cr-panel-default-background !important;
 	font-family: $font-family-monospace;
+	white-space: pre;
+	word-break: normal;
 }
 
 .cr-cell--success{
