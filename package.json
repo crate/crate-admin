@@ -45,7 +45,7 @@
     "url-loader": "^4.1",
     "webpack": "^5.75",
     "webpack-cli": "^4.7",
-    "webpack-dev-server": "^4.3"
+    "webpack-dev-server": "^5.1"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.29",
