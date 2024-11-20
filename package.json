@@ -68,7 +68,8 @@
   },
   "overrides": {
     "glob-parent": "^5",
-    "scss-tokenizer": "^0.4"
+    "scss-tokenizer": "^0.4",
+    "ws": "^8.18"
   },
   "scripts": {
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
