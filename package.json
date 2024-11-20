@@ -76,6 +76,7 @@
     "cratedb": "docker run -it --rm --publish 4200:4200 crate/crate:nightly -Chttp.cors.enabled=true -Chttp.cors.allow-origin=*",
     "develop": "webpack serve --progress --config=webpack.dev.config.js --open-target=http://localhost:9000/?base_uri=http://localhost:4200#!/",
     "build": "webpack --config webpack.prod.config.js --progress",
+    "serve": "cd build && python3 -m http.server",
     "test": "karma start"
   }
 }

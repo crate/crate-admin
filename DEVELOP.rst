@@ -41,6 +41,19 @@ After the application has been compiled and the Webpack development server has
 started, the process should automatically open a browser tab.
 
 
+Working with production builds locally
+======================================
+
+You need to build for production::
+
+    npm run build
+
+Then, you can start a local server to serve the production build::
+
+    npm run serve
+
+This will start a server on ``http://localhost:8000/``.
+
 Description
 ===========
 

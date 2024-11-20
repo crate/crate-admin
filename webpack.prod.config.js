@@ -18,8 +18,9 @@ module.exports = {
     filename: 'static/libs/[name].bundle.js',
     path: path.resolve(__dirname, 'build')
   },
-    optimization: {
-    runtimeChunk: 'single'
+  optimization: {
+    runtimeChunk: 'single',
+    minimize: false,
   },
   plugins: [
     new CleanWebpackPlugin(),
