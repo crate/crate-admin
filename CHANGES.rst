@@ -5,6 +5,10 @@ Changes for CrateDB Admin Interface
 Unreleased
 ==========
 
+
+2024-11-20 1.24.9
+=================
+
 - Worked around an issue with Webpack and Angular 1.8.x that caused the
   Admin UI to not load correctly.
 
