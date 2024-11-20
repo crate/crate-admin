@@ -1,29 +1,27 @@
----
 queue_rules:
   - name: default
-    conditions:
-      - check-success~=Node.js 14 on OS ubuntu-latest
-      - check-success~=^Build docs on ubuntu-latest
-      - check-success~=^Build docs on macos-latest
-      - check-success~=docs/readthedocs.org
-
-pull_request_rules:
-
-  - name: automatic merge
-    conditions:
+    queue_conditions:
       - label=ready-to-merge
       - '#approved-reviews-by>=1'
       - status-success~=Node.js 14 on OS ubuntu-latest
       - status-success~=Build docs on ubuntu-latest
       - status-success~=Build docs on macos-latest
       - status-success~=docs/readthedocs.org
-    actions:
-      queue:
-        method: rebase
-        name: default
+    merge_conditions:
+      - check-success~=Node.js 14 on OS ubuntu-latest
+      - check-success~=^Build docs on ubuntu-latest
+      - check-success~=^Build docs on macos-latest
+      - check-success~=docs/readthedocs.org
+    merge_method: rebase
+
+pull_request_rules:
 
   - name: Delete branch after merge
     actions:
       delete_head_branch: {}
     conditions:
       - merged
+  - name: refactored queue action rule
+    conditions: []
+    actions:
+      queue:
