@@ -67,6 +67,7 @@
     "popper.js": "^1.14.7"
   },
   "overrides": {
+    "braces": "^3.0",
     "glob-parent": "^5",
     "scss-tokenizer": "^0.4",
     "ws": "^8.18"
