@@ -21,12 +21,6 @@ running locally, this will be ``localhost``.
 
 Navigate to this URL in a web browser.
 
-.. TIP::
-
-    If you access port ``4200`` via a client library or command-line tool
-    like ``curl`` or ``wget``, the request will be handled by the `CrateDB
-    Rest API`_, and the response will be in JSON.
-
 
 .. _index-navigating:
 
