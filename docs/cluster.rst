@@ -7,24 +7,11 @@ Cluster browser
 The :ref:`CrateDB Admin UI <index>` comes with a *cluster browser* that allows
 you to inspect all of the nodes that are in your `cluster`_.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-.. _cluster-screenshots:
-
-Screenshots
-===========
-
-Here's what a single node cluster looks like:
-
 .. image:: _assets/img/cluster.png
 
-In this example, there is one node named *Monte Civetta*. When selected from
-the left-hand sub-navigation menu, information about a node is displayed.
-
+In this single node cluster example, there is one node named *Monte Civetta*.
+When selected from the left-hand sub-navigation menu, information about a node
+is displayed.
 
 .. _cluster-features:
 

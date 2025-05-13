@@ -7,22 +7,12 @@ SQL console
 The :ref:`CrateDB Admin UI <index>` comes with an *SQL console* so that you can
 execute queries against your cluster directly from your web browser.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-.. _console-screenshots:
-
-Screenshots
-===========
-
 When you first load the console, it will look like this:
 
 .. image:: _assets/img/console-default.png
 
-And here's what the console looks like after executing a query:
+You can enter any SQL statement with autocompletion and syntax highlighting
+and see the result below:
 
 .. image:: _assets/img/console-query.png
 
@@ -31,16 +21,6 @@ And here's what the console looks like after executing a query:
 
 Features
 ========
-
-.. _console-syntax-highlighting:
-
-**Syntax highlighting**:
-  CrateDB SQL syntax highlighted as you type.
-
-.. _console-auto-completion:
-
-**Auto-completion**:
-  CrateDB SQL auto-completion makes suggestions as you type.
 
 .. _console-results-formatting:
 
