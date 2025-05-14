@@ -7,21 +7,9 @@ Shards browser
 The :ref:`CrateDB Admin UI <index>` comes with a *shards browser* that
 provides you with a visual overview of all the `shards`_ in your cluster.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-.. _shards-screenshots:
-
-Screenshots
-===========
-
-Here's what a simple database might look like:
-
 .. image:: _assets/img/shards.png
 
-In this example, there is one primary column:
+In the example above, there is one primary column:
 
  - The *blob* column holds `BLOB tables`_
 

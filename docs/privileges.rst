@@ -7,17 +7,6 @@ Privileges browser
 The :ref:`CrateDB Admin UI <index>` comes with a *privileges browser* that
 allows you to inspect `users`_ and `privileges`_.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-.. _privileges-screenshots:
-
-Screenshots
-===========
-
 When you first visit the privileges browser, the ``crate`` superuser will be
 selected:
 
