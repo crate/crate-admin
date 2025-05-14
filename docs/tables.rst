@@ -7,20 +7,6 @@ Tables browser
 The :ref:`CrateDB Admin UI <index>` comes with a *tables browser* that allows
 you to inspect and query regular `document tables`_ as well as `BLOB tables`_.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-
-.. _tables-screenshots:
-
-Screenshots
-===========
-
-Here's what a simple document table looks like:
-
 .. image:: _assets/img/tables.png
 
 The top section on this screen shows you a basic :ref:`overview

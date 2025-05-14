@@ -7,17 +7,6 @@ Monitoring overview
 The :ref:`CrateDB Admin UI <index>` comes with a *monitoring overview* screen
 that allows you to monitor key operational statistics.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-.. _monitoring-screenshots:
-
-Screenshots
-===========
-
 .. image:: _assets/img/monitoring.png
 
 The monitoring page has two live charts:

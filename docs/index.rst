@@ -9,16 +9,6 @@ CrateDB ships with a web administration user interface (or *Admin UI*).
 The CrateDB Admin UI runs on every CrateDB node. You can use it to inspect
 and interact with the whole CrateDB cluster in a number of ways.
 
-.. SEEALSO::
-
-   The CrateDB Admin UI is an open source project and is `hosted on GitHub`_.
-
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
 Connecting
 ==========
 
@@ -30,12 +20,6 @@ Replace ``HOSTNAME`` with the hostname of the CrateDB node. If CrateDB is
 running locally, this will be ``localhost``.
 
 Navigate to this URL in a web browser.
-
-.. TIP::
-
-    If you access port ``4200`` via a client library or command-line tool
-    like ``curl`` or ``wget``, the request will be handled by the `CrateDB
-    Rest API`_, and the response will be in JSON.
 
 
 .. _index-navigating:
@@ -116,6 +100,11 @@ On the left-hand side, from top to bottom, the tabs are:
 - :ref:`Monitoring overview <monitoring-overview>`
 - :ref:`Privileges browser <privileges-browser>`
 - :ref:`Help screen <help-screen>`
+
+
+.. SEEALSO::
+
+   The CrateDB Admin UI is an open source project and is `hosted on GitHub`_.
 
 
 .. _Cluster name: https://crate.io/docs/crate/reference/en/latest/config/node.html#basics
