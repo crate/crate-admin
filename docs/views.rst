@@ -7,19 +7,6 @@ Views browser
 The :ref:`CrateDB Admin UI <index>` comes with a *views browser* that allows
 you to inspect and query stored `views`_.
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-.. _views-screenshots:
-
-Screenshots
-===========
-
-Here's what a simple view looks like:
-
 .. image:: _assets/img/views.png
 
 The top section on this screen shows you a basic :ref:`overview
