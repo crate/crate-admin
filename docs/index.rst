@@ -86,7 +86,6 @@ Tabs
    cluster
    monitoring
    privileges
-   help
 
 On the left-hand side, from top to bottom, the tabs are:
 
@@ -99,7 +98,6 @@ On the left-hand side, from top to bottom, the tabs are:
 - :ref:`Cluster browser <cluster-browser>`
 - :ref:`Monitoring overview <monitoring-overview>`
 - :ref:`Privileges browser <privileges-browser>`
-- :ref:`Help screen <help-screen>`
 
 
 .. SEEALSO::
