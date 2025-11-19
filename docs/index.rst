@@ -8,11 +8,12 @@ CrateDB ships with a web administration user interface (aka *Admin UI*)
 that you can use to inspect and interact with any CrateDB cluster. 
 
 .. NOTE::
-The tool is primarily intended for self-hosted clusters and
-mirrors the relevant features of the CreateDB Cloud Console. Cloud
-users can also benefit from the Admin UI by using it to view
-:ref:`shards <shards-browser>` or to provide console access to users
-without full admin access to the Cloud Console.
+
+   The tool is primarily intended for self-hosted clusters and
+   mirrors the relevant features of the CreateDB Cloud Console. Cloud
+   users can also benefit from the Admin UI by using it to view
+   :ref:`shards <shards-browser>` or to provide console access to users
+   without full admin access to the Cloud Console.
 
 Connecting
 ==========
