@@ -16,11 +16,6 @@ queue_rules:
 
 pull_request_rules:
 
-  - name: Delete branch after merge
-    actions:
-      delete_head_branch: {}
-    conditions:
-      - merged
   - name: refactored queue action rule
     conditions: []
     actions:
